@@ -17,6 +17,7 @@ require (
 	github.com/IBM/keyprotect-go-client v0.6.0
 	github.com/IBM/networking-go-sdk v0.13.0
 	github.com/IBM/vpc-go-sdk v0.4.1
+	github.com/Jeffail/gabs v1.4.0 // indirect
 	github.com/OctopusDeploy/go-octopusdeploy v1.6.0
 	github.com/PaloAltoNetworks/pango v0.5.2-0.20210514062125-b809b85eb51c
 	github.com/aliyun/alibaba-cloud-sdk-go v1.60.295
