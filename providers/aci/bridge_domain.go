@@ -43,7 +43,6 @@ func (a *BridgeDomainGenerator) InitResources() error {
 				"optimize_band_width",
 				"arp_flood",
 				"ep_clear",
-				"ep_move_detect_mode",
 				"host_based_routing",
 				"intersite_bum_traffic_allow",
 				"intersite_l2_stretch",
