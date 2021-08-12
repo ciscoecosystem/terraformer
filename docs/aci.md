@@ -6,7 +6,7 @@ Example:
 ```
 terraformer import aci --resources=tenant,application_profile --username=Cisco_APIC_username --password=Cisco_APIC_password --base-url=Cisco_APIC_url
 terraformer import aci --resources=* --excludes=application_profile --username=Cisco_APIC_username --password=Cisco_APIC_password --base-url=Cisco_APIC_url
-terraformer import aci --resources=tenant --filter=tenant_dn1:tenant_dn2 --username=Cisco_APIC_username --password=Cisco_APIC_password --base-url=Cisco_APIC_url
+terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 --username=Cisco_APIC_username --password=Cisco_APIC_password --base-url=Cisco_APIC_url
 ```
 
 #### Supported services
@@ -15,11 +15,11 @@ terraformer import aci --resources=tenant --filter=tenant_dn1:tenant_dn2 --usern
     * `application_profile`
         * `application_epg`
     * `bridge_domain` 
+        * `subnet`
     * `contract`
         * `contract_subject`
     * `filter`
-        * `filter_entry`
-    * `subnet`   
+        * `filter_entry`   
 * `vpc_explicit_protection_group`
 
 #### Attribute filters
