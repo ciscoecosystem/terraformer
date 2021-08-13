@@ -38,7 +38,7 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 			"tenant": []string{"tenant_dn", "id"},
 		},
 		"subnet": {
-			"tenant": []string{"tenant_dn", "id"},
+			"bridge_domain": []string{"parent_dn", "id"},
 		},
 	}
 }
