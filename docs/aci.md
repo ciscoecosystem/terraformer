@@ -35,12 +35,11 @@ terraformer import aci --resources=tenant,application_profile --filter="Type=ten
 ```
 Will work as same as example above with a change the filter will be applicable only to `tenant` resources.
 
-## NOTE
+###### NOTE 
 There is an exception to --filter tag in which the parameter has `:` (colon) in its value, cannot be filtered using that Particular Parameter. 
 The list of resources and its parameter are as follows: 
     * `application_profile` : `annotation` 
-    * `bridge_domain` : `mac` 
-###### NOTE 
+    * `bridge_domain` : `mac`  
 
 #### Building the terraformer provider:
 
