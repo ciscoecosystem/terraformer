@@ -41,7 +41,7 @@ The list of resources and its parameter are as follows:
     * `application_profile` : `annotation` 
     * `bridge_domain` : `mac`  
 
-#### Building the terraformer provider:
+#### Building the terraformer provider
 
 From source:
 1.  Run `git clone <terraformer repo>`
