@@ -35,5 +35,47 @@ terraformer import aci --resources=tenant,application_profile --filter="Type=ten
 ```
 Will work as same as example above with a change the filter will be applicable only to `tenant` resources.
 
+#### NOTE 
 
+Steps to build the terraformer build:
 
+From source:
+1.  Run `git clone <terraformer repo>`
+2.  Run `go mod download`
+3.  Run `go run build/main.go aci` for creating build ACI terraformer for the Local OS.
+4.  Run `go run build/multi-build/main.go aci` to create build for multiple OS. 
+5.  Run ```terraform init``` against an ```versions.tf``` file to install the plugins required for your platform. For example, if you need plugins for the ACI provider, ```versions.tf``` should contain:
+
+```
+terraform {
+  required_providers {
+    aci = {
+      source = "ciscodevnet/aci"
+    }
+  }
+  required_version = ">= 0.13"
+}
+```
+Or alternatively
+
+*  Copy your Terraform provider's plugin(s) to folder
+    `~/.terraform.d/plugins/{darwin,linux}_amd64/`, as appropriate.
+
+From Releases:
+
+* Linux
+
+```
+export PROVIDER={all,google,aws,kubernetes}
+curl -LO https://github.com/GoogleCloudPlatform/terraformer/releases/download/$(curl -s https://api.github.com/repos/GoogleCloudPlatform/terraformer/releases/latest | grep tag_name | cut -d '"' -f 4)/terraformer-${PROVIDER}-linux-amd64
+chmod +x terraformer-${PROVIDER}-linux-amd64
+sudo mv terraformer-${PROVIDER}-linux-amd64 /usr/local/bin/terraformer
+```
+* MacOS
+
+```
+export PROVIDER={all,google,aws,kubernetes}
+curl -LO https://github.com/GoogleCloudPlatform/terraformer/releases/download/$(curl -s https://api.github.com/repos/GoogleCloudPlatform/terraformer/releases/latest | grep tag_name | cut -d '"' -f 4)/terraformer-${PROVIDER}-darwin-amd64
+chmod +x terraformer-${PROVIDER}-darwin-amd64
+sudo mv terraformer-${PROVIDER}-darwin-amd64 /usr/local/bin/terraformer
+```
