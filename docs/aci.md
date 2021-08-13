@@ -35,9 +35,9 @@ terraformer import aci --resources=tenant,application_profile --filter="Type=ten
 ```
 Will work as same as example above with a change the filter will be applicable only to `tenant` resources.
 
-#### NOTE 
+###### NOTE 
 
-Steps to build the terraformer build:
+#### Building the terraformer provider:
 
 From source:
 1.  Run `git clone <terraformer repo>`
