@@ -46,6 +46,15 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"l3_outside": {
 			"tenant": []string{"tenant_dn", "id"},
 		},
+		"ospf_interface_policy": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"logical_node_profile": {
+			"l3_outside": []string{"l3_outside_dn", "id"},
+		},
+		"logical_interface_profile": {
+			"logical_node_profile": []string{"logical_node_profile_dn", "id"},
+		},
 	}
 }
 
@@ -107,5 +116,8 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"vpc_explicit_protection_group": &VPCExplicitProtectionGroupGenerator{},
 		"vrf":                           &VRFGenerator{},
 		"l3_outside":                    &L3OutsideGenerator{},
+		"ospf_interface_policy":         &ospfInterfacePolicyGenerator{},
+		"logical_node_profile":          &LogicalNodeProfileGenerator{},
+		"logical_interface_profile":     &LogicalInterfaceProfileGenerator{},
 	}
 }
