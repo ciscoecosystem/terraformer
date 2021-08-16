@@ -9,11 +9,11 @@ import (
 
 const ExtNetInsProClass = "l3extInstP"
 
-type ExtNetInsPro struct {
+type ExtNetInsProGenerator struct {
 	ACIService
 }
 
-func (a *ExtNetInsPro) InitResources() error {
+func (a *ExtNetInsProGenerator) InitResources() error {
 	client, err := a.createClient()
 
 	if err != nil {
