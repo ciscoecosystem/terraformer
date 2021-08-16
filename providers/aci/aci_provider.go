@@ -55,6 +55,9 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"logical_interface_profile": {
 			"logical_node_profile": []string{"logical_node_profile_dn", "id"},
 		},
+		"dhcp_option_policy": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
 	}
 }
 
@@ -119,5 +122,6 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"ospf_interface_policy":         &ospfInterfacePolicyGenerator{},
 		"logical_node_profile":          &LogicalNodeProfileGenerator{},
 		"logical_interface_profile":     &LogicalInterfaceProfileGenerator{},
+		"dhcp_option_policy":            &DhcpOptionPolicyGenerator{},
 	}
 }
