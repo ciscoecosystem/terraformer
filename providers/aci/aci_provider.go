@@ -58,6 +58,9 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"dhcp_option_policy": {
 			"tenant": []string{"tenant_dn", "id"},
 		},
+		"external_network_instance_profile": {
+			"l3_outside": []string{"l3_outside_dn", "id"},
+		},
 	}
 }
 
@@ -107,21 +110,22 @@ func (p *ACIProvider) InitService(serviceName string, verbose bool) error {
 func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGenerator {
 	return map[string]terraformutils.ServiceGenerator{
 		// "members":               &MembersGenerator{},
-		"tenant":                        &TenantGenerator{},
-		"application_profile":           &ApplicationProfileGenerator{},
-		"application_epg":               &ApplicationEPGGenerator{},
-		"bridge_domain":                 &BridgeDomainGenerator{},
-		"contract":                      &ContractGenerator{},
-		"contract_subject":              &ContractSubjectGenerator{},
-		"subnet":                        &SubnetGenerator{},
-		"filter":                        &FilterGenerator{},
-		"filter_entry":                  &FilterEntryGenerator{},
-		"vpc_explicit_protection_group": &VPCExplicitProtectionGroupGenerator{},
-		"vrf":                           &VRFGenerator{},
-		"l3_outside":                    &L3OutsideGenerator{},
-		"ospf_interface_policy":         &ospfInterfacePolicyGenerator{},
-		"logical_node_profile":          &LogicalNodeProfileGenerator{},
-		"logical_interface_profile":     &LogicalInterfaceProfileGenerator{},
-		"dhcp_option_policy":            &DhcpOptionPolicyGenerator{},
+		"tenant":                            &TenantGenerator{},
+		"application_profile":               &ApplicationProfileGenerator{},
+		"application_epg":                   &ApplicationEPGGenerator{},
+		"bridge_domain":                     &BridgeDomainGenerator{},
+		"contract":                          &ContractGenerator{},
+		"contract_subject":                  &ContractSubjectGenerator{},
+		"subnet":                            &SubnetGenerator{},
+		"filter":                            &FilterGenerator{},
+		"filter_entry":                      &FilterEntryGenerator{},
+		"vpc_explicit_protection_group":     &VPCExplicitProtectionGroupGenerator{},
+		"vrf":                               &VRFGenerator{},
+		"l3_outside":                        &L3OutsideGenerator{},
+		"ospf_interface_policy":             &ospfInterfacePolicyGenerator{},
+		"logical_node_profile":              &LogicalNodeProfileGenerator{},
+		"logical_interface_profile":         &LogicalInterfaceProfileGenerator{},
+		"dhcp_option_policy":                &DhcpOptionPolicyGenerator{},
+		"external_network_instance_profile": &ExtNetInsProGenerator{},
 	}
 }
