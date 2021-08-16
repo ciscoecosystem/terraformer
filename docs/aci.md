@@ -14,6 +14,8 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
 * `tenant`
     * `application_profile`
         * `application_epg`
+    * `vrf`
+    * `l3_outside`
     * `bridge_domain` 
         * `subnet`
     * `contract`

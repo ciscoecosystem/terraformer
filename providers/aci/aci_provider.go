@@ -40,6 +40,12 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"subnet": {
 			"bridge_domain": []string{"parent_dn", "id"},
 		},
+		"vrf": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"l3_outside": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
 	}
 }
 
@@ -99,5 +105,7 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"filter":                        &FilterGenerator{},
 		"filter_entry":                  &FilterEntryGenerator{},
 		"vpc_explicit_protection_group": &VPCExplicitProtectionGroupGenerator{},
+		"vrf":                           &VRFGenerator{},
+		"l3_outside":                    &L3OutsideGenerator{},
 	}
 }
