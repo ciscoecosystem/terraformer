@@ -16,10 +16,14 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
         * `application_epg`
     * `vrf`
     * `l3_outside`
+        * `l3out_ospf_external_policy`
         * `external_network_instance_profile`
             * `l3_ext_subnet`
         * `logical_node_profile`
             * `logical_interface_profile`
+                * `l3out_ospf_interface_profile`
+                * `l3out_path_attachment`
+                    * `l3out_path_attachment_secondary_ip`
         * `l3out_bgp_external_policy`
     * `bridge_domain` 
         * `subnet`
