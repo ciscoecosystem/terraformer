@@ -73,6 +73,18 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"l3out_bgp_external_policy": {
 			"l3_outside": []string{"l3_outside_dn", "id"},
 		},
+		"l3out_ospf_external_policy": {
+			"l3_outside": []string{"l3_outside_dn", "id"},
+		},
+		"l3out_ospf_interface_profile": {
+			"logical_interface_profile": []string{"logical_interface_profile_dn", "id"},
+		},
+		"l3out_path_attachment": {
+			"logical_interface_profile": []string{"logical_interface_profile_dn", "id"},
+		},
+		"l3out_path_attachment_secondary_ip": {
+			"l3out_path_attachment": []string{"l3out_path_attachment_dn", "id"},
+		},
 	}
 }
 
@@ -122,27 +134,31 @@ func (p *ACIProvider) InitService(serviceName string, verbose bool) error {
 func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGenerator {
 	return map[string]terraformutils.ServiceGenerator{
 		// "members":               &MembersGenerator{},
-		"tenant":                            &TenantGenerator{},
-		"application_profile":               &ApplicationProfileGenerator{},
-		"application_epg":                   &ApplicationEPGGenerator{},
-		"bridge_domain":                     &BridgeDomainGenerator{},
-		"contract":                          &ContractGenerator{},
-		"contract_subject":                  &ContractSubjectGenerator{},
-		"subnet":                            &SubnetGenerator{},
-		"filter":                            &FilterGenerator{},
-		"filter_entry":                      &FilterEntryGenerator{},
-		"vpc_explicit_protection_group":     &VPCExplicitProtectionGroupGenerator{},
-		"vrf":                               &VRFGenerator{},
-		"l3_outside":                        &L3OutsideGenerator{},
-		"ospf_interface_policy":             &ospfInterfacePolicyGenerator{},
-		"logical_node_profile":              &LogicalNodeProfileGenerator{},
-		"logical_interface_profile":         &LogicalInterfaceProfileGenerator{},
-		"dhcp_option_policy":                &DhcpOptionPolicyGenerator{},
-		"external_network_instance_profile": &ExtNetInsProGenerator{},
-		"dhcp_relay_policy":                 &DHCPRelayPolicyGenerator{},
-		"bd_dhcp_label":                     &BDDHCPLabelGenerator{},
-		"l3_ext_subnet":                     &L3ExtSubnetGenerator{},
-		"l3out_bgp_external_policy":         &L3OutBGPExtPolGenerator{},
-		"l3out_loopback_interface_profile":  &L3OutLoopbackInterfaceProGenerator{},
+		"tenant":                             &TenantGenerator{},
+		"application_profile":                &ApplicationProfileGenerator{},
+		"application_epg":                    &ApplicationEPGGenerator{},
+		"bridge_domain":                      &BridgeDomainGenerator{},
+		"contract":                           &ContractGenerator{},
+		"contract_subject":                   &ContractSubjectGenerator{},
+		"subnet":                             &SubnetGenerator{},
+		"filter":                             &FilterGenerator{},
+		"filter_entry":                       &FilterEntryGenerator{},
+		"vpc_explicit_protection_group":      &VPCExplicitProtectionGroupGenerator{},
+		"vrf":                                &VRFGenerator{},
+		"l3_outside":                         &L3OutsideGenerator{},
+		"ospf_interface_policy":              &ospfInterfacePolicyGenerator{},
+		"logical_node_profile":               &LogicalNodeProfileGenerator{},
+		"logical_interface_profile":          &LogicalInterfaceProfileGenerator{},
+		"dhcp_option_policy":                 &DhcpOptionPolicyGenerator{},
+		"external_network_instance_profile":  &ExtNetInsProGenerator{},
+		"dhcp_relay_policy":                  &DHCPRelayPolicyGenerator{},
+		"bd_dhcp_label":                      &BDDHCPLabelGenerator{},
+		"l3_ext_subnet":                      &L3ExtSubnetGenerator{},
+		"l3out_bgp_external_policy":          &L3OutBGPExtPolGenerator{},
+		"l3out_loopback_interface_profile":   &L3OutLoopbackInterfaceProGenerator{},
+		"l3out_ospf_external_policy":         &L3outOspfExternalPolicyGenerator{},
+		"l3out_ospf_interface_profile":       &L3outOspfInterfaceProfileGenerator{},
+		"l3out_path_attachment":              &L3outPathAttachmentGenerator{},
+		"l3out_path_attachment_secondary_ip": &L3outPathAttachmentSecondaryIPGenerator{},
 	}
 }
