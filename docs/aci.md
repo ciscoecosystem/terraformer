@@ -20,16 +20,19 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
             * `l3_ext_subnet`
         * `logical_node_profile`
             * `logical_interface_profile`
+        * `l3out_bgp_external_policy`
     * `bridge_domain` 
         * `subnet`
+        * `bd_dhcp_label`
     * `contract`
         * `contract_subject`
     * `filter`
         * `filter_entry`
     * `ospf_inteface_policy`
     * `dhcp_option_policy`
-
+    * `dhcp_relay_policy`
 * `vpc_explicit_protection_group`
+* `l3out_loopback_interface_profile`
 
 
 #### Attribute filters
