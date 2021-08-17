@@ -42,7 +42,8 @@ func (a *DhcpOptionPolicyGenerator) InitResources() error {
 			[]string{
 				"name_alias",
 				"dhcp_option",
-				"dhcp_option_ids",
+				"annotation",
+				"description",
 			},
 		)
 		resource.SlowQueryRequired = true
