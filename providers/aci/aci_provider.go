@@ -61,6 +61,18 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"external_network_instance_profile": {
 			"l3_outside": []string{"l3_outside_dn", "id"},
 		},
+		"dhcp_relay_policy": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"bd_dhcp_label": {
+			"bridge_domain": []string{"bridge_domain_dn", "id"},
+		},
+		"l3_ext_subnet": {
+			"external_network_instance_profile": []string{"external_network_instance_profile_dn", "id"},
+		},
+		"l3out_bgp_external_policy": {
+			"l3_outside": []string{"l3_outside_dn", "id"},
+		},
 	}
 }
 
@@ -127,5 +139,10 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"logical_interface_profile":         &LogicalInterfaceProfileGenerator{},
 		"dhcp_option_policy":                &DhcpOptionPolicyGenerator{},
 		"external_network_instance_profile": &ExtNetInsProGenerator{},
+		"dhcp_relay_policy":                 &DHCPRelayPolicyGenerator{},
+		"bd_dhcp_label":                     &BDDHCPLabelGenerator{},
+		"l3_ext_subnet":                     &L3ExtSubnetGenerator{},
+		"l3out_bgp_external_policy":         &L3OutBGPExtPolGenerator{},
+		"l3out_loopback_interface_profile":  &L3OutLoopbackInterfaceProGenerator{},
 	}
 }
