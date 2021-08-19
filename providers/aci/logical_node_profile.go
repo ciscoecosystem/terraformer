@@ -44,6 +44,8 @@ func (a *LogicalNodeProfileGenerator) InitResources() error {
 				"config_issues",
 				"tag",
 				"target_dscp",
+				"annotation",
+				"description",
 			},
 		)
 		resource.SlowQueryRequired = true

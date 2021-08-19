@@ -45,6 +45,8 @@ func (a *ApplicationProfileGenerator) InitResources() error {
 				"name_alias",
 				"prio",
 				"relation_fv_rs_ap_mon_pol",
+				"annotation",
+				"description",
 			},
 		)
 		resource.SlowQueryRequired = true

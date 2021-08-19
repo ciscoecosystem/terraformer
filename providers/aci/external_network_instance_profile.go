@@ -59,6 +59,8 @@ func (a *ExtNetInsProGenerator) InitResources() error {
 				"relation_fv_rs_cons",
 				"relation_fv_rs_prot_by",
 				"relation_fv_rs_intra_epg",
+				"annotation",
+				"description",
 			},
 		)
 		resource.SlowQueryRequired = true

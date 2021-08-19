@@ -69,6 +69,8 @@ func (a *ApplicationEPGGenerator) InitResources() error {
 				"relation_fv_rs_prot_by",
 				"relation_fv_rs_aepg_mon_pol",
 				"relation_fv_rs_intra_epg",
+				"annotation",
+				"description",
 			},
 		)
 		resource.SlowQueryRequired = true
