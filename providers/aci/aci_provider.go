@@ -85,6 +85,18 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"l3out_path_attachment_secondary_ip": {
 			"l3out_path_attachment": []string{"l3out_path_attachment_dn", "id"},
 		},
+		"bgp_route_summarization": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"bgp_peer_prefix": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"bgp_peer_connectivity_profile": {
+			"logical_node_profile": []string{"parent_dn", "id"},
+		},
+		"ospf_route_summarization": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
 	}
 }
 
@@ -160,5 +172,9 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"l3out_ospf_interface_profile":       &L3outOspfInterfaceProfileGenerator{},
 		"l3out_path_attachment":              &L3outPathAttachmentGenerator{},
 		"l3out_path_attachment_secondary_ip": &L3outPathAttachmentSecondaryIPGenerator{},
+		"bgp_route_summarization":            &BGPRouteSumGenerator{},
+		"bgp_peer_prefix":                    &BGPPeerPrefixGenerator{},
+		"bgp_peer_connectivity_profile":      &BGPPeerConnectivityProGenerator{},
+		"ospf_route_summarization":           &OSPFRouteSumGenerator{},
 	}
 }
