@@ -24,7 +24,8 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
                 * `l3out_ospf_interface_profile`
                 * `l3out_path_attachment`
                     * `l3out_path_attachment_secondary_ip`
-        * `l3out_bgp_external_policy`
+            * `bgp_peer_connectivity_profile`
+        * `l3out_bgp_external_policy`   
     * `bridge_domain` 
         * `subnet`
         * `bd_dhcp_label`
@@ -35,6 +36,9 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
     * `ospf_inteface_policy`
     * `dhcp_option_policy`
     * `dhcp_relay_policy`
+    * `bgp_route_summarization`
+    * `bgp_peer_prefix`
+    * `ospf_route_summarization`
 * `vpc_explicit_protection_group`
 * `l3out_loopback_interface_profile`
 
