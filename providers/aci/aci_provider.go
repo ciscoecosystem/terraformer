@@ -92,7 +92,7 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 			"tenant": []string{"tenant_dn", "id"},
 		},
 		"bgp_peer_connectivity_profile": {
-			"logical_node_profile": []string{"parent_dn", "id"},
+			"l3out_path_attachment": []string{"parent_dn", "id"},
 		},
 		"ospf_route_summarization": {
 			"tenant": []string{"tenant_dn", "id"},
