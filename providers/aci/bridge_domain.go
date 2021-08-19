@@ -72,6 +72,8 @@ func (a *BridgeDomainGenerator) InitResources() error {
 				"relation_fv_rs_igmpsn",
 				"relation_fv_rs_bd_to_ep_ret",
 				"relation_fv_rs_bd_to_out",
+				"annotation",
+				"description",
 			},
 		)
 		resource.SlowQueryRequired = true

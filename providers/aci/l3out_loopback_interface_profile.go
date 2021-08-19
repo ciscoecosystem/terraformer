@@ -44,6 +44,8 @@ func (a *L3OutLoopbackInterfaceProGenerator) InitResources() error {
 			"aci",
 			[]string{
 				"name_alias",
+				"annotation",
+				"description",
 			},
 		)
 		resource.SlowQueryRequired = true

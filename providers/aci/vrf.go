@@ -58,6 +58,8 @@ func (a *VRFGenerator) InitResources() error {
 				"relation_fv_rs_ctx_mon_pol",
 				"relation_fv_rs_ctx_to_ext_route_tag_pol",
 				"relation_fv_rs_ctx_to_bgp_ctx_af_pol",
+				"annotation",
+				"description",
 			},
 		)
 		resource.SlowQueryRequired = true

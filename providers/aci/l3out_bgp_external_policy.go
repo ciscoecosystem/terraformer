@@ -42,6 +42,8 @@ func (a *L3OutBGPExtPolGenerator) InitResources() error {
 			"aci",
 			[]string{
 				"name_alias",
+				"annotation",
+				"description",
 			},
 		)
 		resource.SlowQueryRequired = true

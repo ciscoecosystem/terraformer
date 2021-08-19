@@ -44,6 +44,8 @@ func (a *FilterGenerator) InitResources() error {
 				"relation_vz_rs_filt_graph_att",
 				"relation_vz_rs_fwd_r_flt_p_att",
 				"relation_vz_rs_rev_r_flt_p_att",
+				"annotation",
+				"description",
 			},
 		)
 		resource.SlowQueryRequired = true

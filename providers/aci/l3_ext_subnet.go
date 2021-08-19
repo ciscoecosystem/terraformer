@@ -47,6 +47,8 @@ func (a *L3ExtSubnetGenerator) InitResources() error {
 				"scope",
 				"relation_l3ext_rs_subnet_to_profile",
 				"relation_l3ext_rs_subnet_to_rt_summ",
+				"annotation",
+				"description",
 			},
 		)
 		resource.SlowQueryRequired = true

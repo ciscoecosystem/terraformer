@@ -54,6 +54,8 @@ func (a *FilterEntryGenerator) InitResources() error {
 				"s_to_port",
 				"stateful",
 				"tcp_rules",
+				"annotation",
+				"description",
 			},
 		)
 		resource.SlowQueryRequired = true

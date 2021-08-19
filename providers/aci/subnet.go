@@ -48,6 +48,8 @@ func (a *SubnetGenerator) InitResources() error {
 				"relation_fv_rs_bd_subnet_to_out",
 				"relation_fv_rs_nd_pfx_pol",
 				"relation_fv_rs_bd_subnet_to_profile",
+				"annotation",
+				"description",
 			},
 		)
 		resource.SlowQueryRequired = true

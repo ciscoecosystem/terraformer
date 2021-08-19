@@ -50,6 +50,8 @@ func (a *ContractSubjectGenerator) InitResources() error {
 				"relation_vz_rs_subj_graph_att",
 				"relation_vz_rs_sdwan_pol",
 				"relation_vz_rs_subj_filt_att",
+				"annotation",
+				"description",
 			},
 		)
 		resource.SlowQueryRequired = true

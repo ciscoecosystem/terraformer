@@ -97,6 +97,18 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"ospf_route_summarization": {
 			"tenant": []string{"tenant_dn", "id"},
 		},
+		"bgp_timers": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"bgp_address_family_context": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"bgp_best_path_policy": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"bgp_route_control_profile": {
+			"l3_outside": []string{"parent_dn", "id"},
+		},
 	}
 }
 
@@ -176,5 +188,9 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"bgp_peer_prefix":                    &BGPPeerPrefixGenerator{},
 		"bgp_peer_connectivity_profile":      &BGPPeerConnectivityProGenerator{},
 		"ospf_route_summarization":           &OSPFRouteSumGenerator{},
+		"bgp_timers":                         &BgpTimersGenerator{},
+		"bgp_address_family_context":         &BgpAddressFamilyContextGenerator{},
+		"bgp_best_path_policy":               &BgpBestPathPolicyGenerator{},
+		"bgp_route_control_profile":          &BgpRouteControlProfileGenerator{},
 	}
 }

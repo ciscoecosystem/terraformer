@@ -50,6 +50,8 @@ func (a *ospfInterfacePolicyGenerator) InitResources() error {
 				"prio",
 				"rexmit_intvl",
 				"xmit_delay",
+				"annotation",
+				"description",
 			},
 		)
 		resource.SlowQueryRequired = true

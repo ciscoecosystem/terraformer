@@ -9,7 +9,7 @@ import (
 
 const BDDHCPLabelClass = "dhcpLbl"
 
-type BDDHCPLabelGenerator struct{
+type BDDHCPLabelGenerator struct {
 	ACIService
 }
 
@@ -24,19 +24,19 @@ func (a *BDDHCPLabelGenerator) InitResources() error {
 	baseURL := "/api/node/class"
 	dnURL := fmt.Sprintf("%s/%s.json", baseURL, BDDHCPLabelClass)
 
-	BDDHCPLblCont,err:=client.GetViaURL(dnURL)
+	BDDHCPLblCont, err := client.GetViaURL(dnURL)
 	if err != nil {
 		return err
 	}
 
-	BDDHCPLblCount,err:=strconv.Atoi(stripQuotes(BDDHCPLblCont.S("totalCount").String()))
+	BDDHCPLblCount, err := strconv.Atoi(stripQuotes(BDDHCPLblCont.S("totalCount").String()))
 	if err != nil {
 		return err
 	}
 
-	for i:=0;i<BDDHCPLblCount;i++{
-		BDDHCPLblDN:=stripQuotes(BDDHCPLblCont.S("imdata").Index(i).S(BDDHCPLabelClass, "attributes", "dn").String())
-		resource:=terraformutils.NewSimpleResource(
+	for i := 0; i < BDDHCPLblCount; i++ {
+		BDDHCPLblDN := stripQuotes(BDDHCPLblCont.S("imdata").Index(i).S(BDDHCPLabelClass, "attributes", "dn").String())
+		resource := terraformutils.NewSimpleResource(
 			BDDHCPLblDN,
 			BDDHCPLblDN,
 			"aci_bd_dhcp_label",
@@ -46,10 +46,12 @@ func (a *BDDHCPLabelGenerator) InitResources() error {
 				"owner",
 				"tag",
 				"relation_dhcp_rs_dhcp_option_pol",
+				"annotation",
+				"description",
 			},
 		)
-		resource.SlowQueryRequired=true
-		a.Resources=append(a.Resources, resource)
+		resource.SlowQueryRequired = true
+		a.Resources = append(a.Resources, resource)
 	}
 	return nil
 }

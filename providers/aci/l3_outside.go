@@ -51,6 +51,8 @@ func (a *L3OutsideGenerator) InitResources() error {
 				"relation_l3ext_rs_out_to_bd_public_subnet_holder",
 				"relation_l3ext_rs_interleak_pol",
 				"relation_l3ext_rs_l3_dom_att",
+				"annotation",
+				"description",
 			},
 		)
 		resource.SlowQueryRequired = true

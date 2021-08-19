@@ -49,6 +49,8 @@ func (a *LogicalInterfaceProfileGenerator) InitResources() error {
 				"relation_l3ext_rs_l_if_p_cust_qos_pol",
 				"relation_l3ext_rs_arp_if_pol",
 				"relation_l3ext_rs_nd_if_pol",
+				"annotation",
+				"description",
 			},
 		)
 		resource.SlowQueryRequired = true

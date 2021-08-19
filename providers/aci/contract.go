@@ -49,6 +49,8 @@ func (a *ContractGenerator) InitResources() error {
 				"filter",
 				"filter_ids",
 				"filter_entry_ids",
+				"annotation",
+				"description",
 			},
 		)
 		resource.SlowQueryRequired = true
