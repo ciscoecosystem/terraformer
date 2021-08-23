@@ -118,8 +118,17 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"hsrp_interface_policy": {
 			"tenant": []string{"tenant_dn", "id"},
 		},
-		"l3out_bfd_interface_profile":{
+		"l3out_bfd_interface_profile": {
 			"logical_interface_profile": []string{"logical_interface_profile_dn", "id"},
+		},
+		"hsrp_group_policy": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"l3out_floating_svi": {
+			"logical_interface_profile": []string{"logical_interface_profile_dn", "id"},
+		},
+		"l3out_bgp_protocol_profile": {
+			"logical_node_profile": []string{"logical_node_profile_dn", "id"},
 		},
 	}
 }
@@ -208,5 +217,9 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"l3out_route_tag_policy":             &L3OutRouteTagPolicyGenerator{},
 		"hsrp_interface_policy":              &HSRPInterfacePolicyGenerator{},
 		"l3out_bfd_interface_profile":        &L3OutBFDInterfaceProfileGenerator{},
+		"hsrp_group_policy":                  &HSRPGroupPolicyGenerator{},
+		"l3out_floating_svi":                 &L3OutFloatingSviGenerator{},
+		"l3out_hsrp_seconday_vip":            &L3OutHSRPSecondaryVipGenerator{},
+		"l3out_bgp_protocol_profile":         &L3OutBGPProtocolProfileGenerator{},
 	}
 }
