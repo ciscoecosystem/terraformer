@@ -14,12 +14,14 @@ type L3OutLoopbackInterfaceProGenerator struct {
 }
 
 func (a *L3OutLoopbackInterfaceProGenerator) InitResources() error {
-	client, err := a.createClient()
-
-	if err != nil {
-		return err
+	if clientImpl == nil {
+		_, err := a.createClient()
+		if err != nil {
+			return err
+		}
 	}
 
+	client := clientImpl
 	baseURL := "/api/node/class"
 	dnURL := fmt.Sprintf("%s/%s.json", baseURL, L3OutLoopbackInterfaceProClass)
 
