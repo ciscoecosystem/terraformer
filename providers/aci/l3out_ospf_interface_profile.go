@@ -15,10 +15,14 @@ type L3outOspfInterfaceProfileGenerator struct {
 
 func (a *L3outOspfInterfaceProfileGenerator) InitResources() error {
 
-	client, err := a.createClient()
-	if err != nil {
-		return err
+	if clientImpl == nil {
+		_, err := a.createClient()
+		if err != nil {
+			return err
+		}
 	}
+
+	client:= clientImpl
 
 	baseURL := "/api/node/class"
 	dnURL := fmt.Sprintf("%s/%s.json", baseURL, L3outOspfInterfaceProfileClass)
