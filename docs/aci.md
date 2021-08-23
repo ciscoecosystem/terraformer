@@ -45,6 +45,7 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
     * `bgp_timers`
     * `ospf_timers`
     * `l3out_route_tag_policy`
+    * `hsrp_interface_policy`
 * `vpc_explicit_protection_group`
 * `l3out_loopback_interface_profile`
 

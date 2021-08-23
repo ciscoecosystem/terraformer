@@ -115,6 +115,9 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"l3out_route_tag_policy": {
 			"tenant": []string{"tenant_dn", "id"},
 		},
+		"hsrp_interface_policy":{
+			"tenant": []string{"tenant_dn", "id"},
+		},
 	}
 }
 
@@ -200,5 +203,6 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"bgp_route_control_profile":          &BgpRouteControlProfileGenerator{},
 		"ospf_timers":                        &OSPFTimersGenerator{},
 		"l3out_route_tag_policy":             &L3OutRouteTagPolicyGenerator{},
+		"hsrp_interface_policy":              &HSRPInterfacePolicyGenerator{},
 	}
 }
