@@ -22,7 +22,7 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
         * `logical_node_profile`
             * `l3out_bgp_protocol_profile`
             * `logical_interface_profile`
-                * `l3out_hsrp_seconday_vip`
+                * `l3out_hsrp_secondary_vip`
                 * `l3out_ospf_interface_profile`
                 * `l3out_floating_svi`
                 * `l3out_path_attachment`
@@ -67,12 +67,10 @@ Will import tenants and application_profiles having attribute `name` which has v
 terraformer import aci --resources=tenant,application_profile --filter="Type=tenant;Name=name;Value=val1:val2" --username=Cisco_APIC_username --password=Cisco_APIC_password --base-url=Cisco_APIC_url
 ```
 Will work as same as example above with a change the filter will be applicable only to `tenant` resources.
-
-###### NOTE 
-There is an exception to --filter tag in which the parameter has `:` (colon) in its value, cannot be filtered using that Particular Parameter. 
-The list of resources and its parameter are as follows: 
-    * `application_profile` : `annotation` 
-    * `bridge_domain` : `mac`  
+```
+terraformer import aci --resources=application_profile --filter="Name=annotation;Value='orchestrator:terraform':'tag'" --password=Cisco_APIC_password --username=Cisco_APIC_username --base-url=Cisco_APIC_url
+```
+If the value of the attribute has `: (colon)` in its value, then to pass this value inside --filter tag user needs to pass the entire value in `'' (single quotes)` like the above mentioned example. 
 
 #### Building the terraformer provider
 
