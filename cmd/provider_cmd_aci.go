@@ -24,10 +24,10 @@ func newCmdACIImporter(options ImportOptions) *cobra.Command {
 		},
 	}
 	cmd.AddCommand(listCmd(newACIProvider()))
-	baseProviderFlags(cmd.PersistentFlags(), &options, "tenant", "tenant=id1:id2:id4")
+	baseProviderFlags(cmd.PersistentFlags(), &options, "tenant,vrf,subnet", "tenant=id1:id2:id4")
 	cmd.PersistentFlags().StringVarP(&username, "username", "", "", "YOUR_ACI_USERNAME or env param ACI_USERNAME")
 	cmd.PersistentFlags().StringVarP(&password, "password", "", "", "YOUR_ACI_PASSWORD or env param ACI_PASSWORD")
-	cmd.PersistentFlags().StringVarP(&baseURL, "base-url", "", "", "")
+	cmd.PersistentFlags().StringVarP(&baseURL, "base-url", "", "", "YOUR_ACI_URL or env param ACI_URL")
 
 	return cmd
 }
