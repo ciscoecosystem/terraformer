@@ -47,7 +47,6 @@ func (a *BgpAddressFamilyContextGenerator) InitResources() error {
 				"name_alias",
 				"annotation",
 				"description",
-				"ctrl",
 				"e_dist",
 				"i_dist",
 				"local_dist",
