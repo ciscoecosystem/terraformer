@@ -14,10 +14,14 @@ type FilterGenerator struct {
 }
 
 func (a *FilterGenerator) InitResources() error {
-	client, err := a.createClient()
-	if err != nil {
-		return err
+	if clientImpl == nil {
+		_, err := a.createClient()
+		if err != nil {
+			return err
+		}
 	}
+
+	client:= clientImpl
 
 	baseURL := "/api/node/class"
 	dnURL := fmt.Sprintf("%s/%s.json", baseURL, filterClassName)
@@ -44,6 +48,8 @@ func (a *FilterGenerator) InitResources() error {
 				"relation_vz_rs_filt_graph_att",
 				"relation_vz_rs_fwd_r_flt_p_att",
 				"relation_vz_rs_rev_r_flt_p_att",
+				"annotation",
+				"description",
 			},
 		)
 		resource.SlowQueryRequired = true

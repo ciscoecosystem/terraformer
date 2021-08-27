@@ -15,10 +15,14 @@ type ApplicationProfileGenerator struct {
 
 func (a *ApplicationProfileGenerator) InitResources() error {
 
-	client, err := a.createClient()
-	if err != nil {
-		return err
+	if clientImpl == nil {
+		_, err := a.createClient()
+		if err != nil {
+			return err
+		}
 	}
+
+	client := clientImpl
 
 	baseURL := "/api/node/class"
 	dnURL := fmt.Sprintf("%s/%s.json", baseURL, applicationProfileClass)
@@ -45,6 +49,8 @@ func (a *ApplicationProfileGenerator) InitResources() error {
 				"name_alias",
 				"prio",
 				"relation_fv_rs_ap_mon_pol",
+				"annotation",
+				"description",
 			},
 		)
 		resource.SlowQueryRequired = true

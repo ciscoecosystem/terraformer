@@ -40,6 +40,96 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"subnet": {
 			"bridge_domain": []string{"parent_dn", "id"},
 		},
+		"vrf": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"l3_outside": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"ospf_interface_policy": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"logical_node_profile": {
+			"l3_outside": []string{"l3_outside_dn", "id"},
+		},
+		"logical_interface_profile": {
+			"logical_node_profile": []string{"logical_node_profile_dn", "id"},
+		},
+		"dhcp_option_policy": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"external_network_instance_profile": {
+			"l3_outside": []string{"l3_outside_dn", "id"},
+		},
+		"dhcp_relay_policy": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"bd_dhcp_label": {
+			"bridge_domain": []string{"bridge_domain_dn", "id"},
+		},
+		"l3_ext_subnet": {
+			"external_network_instance_profile": []string{"external_network_instance_profile_dn", "id"},
+		},
+		"l3out_bgp_external_policy": {
+			"l3_outside": []string{"l3_outside_dn", "id"},
+		},
+		"l3out_ospf_external_policy": {
+			"l3_outside": []string{"l3_outside_dn", "id"},
+		},
+		"l3out_ospf_interface_profile": {
+			"logical_interface_profile": []string{"logical_interface_profile_dn", "id"},
+		},
+		"l3out_path_attachment": {
+			"logical_interface_profile": []string{"logical_interface_profile_dn", "id"},
+		},
+		"l3out_path_attachment_secondary_ip": {
+			"l3out_path_attachment": []string{"l3out_path_attachment_dn", "id"},
+		},
+		"bgp_route_summarization": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"bgp_peer_prefix": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"bgp_peer_connectivity_profile": {
+			"l3out_path_attachment": []string{"parent_dn", "id"},
+		},
+		"ospf_route_summarization": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"bgp_timers": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"bgp_address_family_context": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"bgp_best_path_policy": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"bgp_route_control_profile": {
+			"l3_outside": []string{"parent_dn", "id"},
+		},
+		"ospf_timers": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"l3out_route_tag_policy": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"hsrp_interface_policy": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"l3out_bfd_interface_profile": {
+			"logical_interface_profile": []string{"logical_interface_profile_dn", "id"},
+		},
+		"hsrp_group_policy": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"l3out_floating_svi": {
+			"logical_interface_profile": []string{"logical_interface_profile_dn", "id"},
+		},
+		"l3out_bgp_protocol_profile": {
+			"logical_node_profile": []string{"logical_node_profile_dn", "id"},
+		},
 	}
 }
 
@@ -89,15 +179,47 @@ func (p *ACIProvider) InitService(serviceName string, verbose bool) error {
 func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGenerator {
 	return map[string]terraformutils.ServiceGenerator{
 		// "members":               &MembersGenerator{},
-		"tenant":                        &TenantGenerator{},
-		"application_profile":           &ApplicationProfileGenerator{},
-		"application_epg":               &ApplicationEPGGenerator{},
-		"bridge_domain":                 &BridgeDomainGenerator{},
-		"contract":                      &ContractGenerator{},
-		"contract_subject":              &ContractSubjectGenerator{},
-		"subnet":                        &SubnetGenerator{},
-		"filter":                        &FilterGenerator{},
-		"filter_entry":                  &FilterEntryGenerator{},
-		"vpc_explicit_protection_group": &VPCExplicitProtectionGroupGenerator{},
+		"tenant":                             &TenantGenerator{},
+		"application_profile":                &ApplicationProfileGenerator{},
+		"application_epg":                    &ApplicationEPGGenerator{},
+		"bridge_domain":                      &BridgeDomainGenerator{},
+		"contract":                           &ContractGenerator{},
+		"contract_subject":                   &ContractSubjectGenerator{},
+		"subnet":                             &SubnetGenerator{},
+		"filter":                             &FilterGenerator{},
+		"filter_entry":                       &FilterEntryGenerator{},
+		"vpc_explicit_protection_group":      &VPCExplicitProtectionGroupGenerator{},
+		"vrf":                                &VRFGenerator{},
+		"l3_outside":                         &L3OutsideGenerator{},
+		"ospf_interface_policy":              &ospfInterfacePolicyGenerator{},
+		"logical_node_profile":               &LogicalNodeProfileGenerator{},
+		"logical_interface_profile":          &LogicalInterfaceProfileGenerator{},
+		"dhcp_option_policy":                 &DhcpOptionPolicyGenerator{},
+		"external_network_instance_profile":  &ExtNetInsProGenerator{},
+		"dhcp_relay_policy":                  &DHCPRelayPolicyGenerator{},
+		"bd_dhcp_label":                      &BDDHCPLabelGenerator{},
+		"l3_ext_subnet":                      &L3ExtSubnetGenerator{},
+		"l3out_bgp_external_policy":          &L3OutBGPExtPolGenerator{},
+		"l3out_loopback_interface_profile":   &L3OutLoopbackInterfaceProGenerator{},
+		"l3out_ospf_external_policy":         &L3outOspfExternalPolicyGenerator{},
+		"l3out_ospf_interface_profile":       &L3outOspfInterfaceProfileGenerator{},
+		"l3out_path_attachment":              &L3outPathAttachmentGenerator{},
+		"l3out_path_attachment_secondary_ip": &L3outPathAttachmentSecondaryIPGenerator{},
+		"bgp_route_summarization":            &BGPRouteSumGenerator{},
+		"bgp_peer_prefix":                    &BGPPeerPrefixGenerator{},
+		"bgp_peer_connectivity_profile":      &BGPPeerConnectivityProGenerator{},
+		"ospf_route_summarization":           &OSPFRouteSumGenerator{},
+		"bgp_timers":                         &BgpTimersGenerator{},
+		"bgp_address_family_context":         &BgpAddressFamilyContextGenerator{},
+		"bgp_best_path_policy":               &BgpBestPathPolicyGenerator{},
+		"bgp_route_control_profile":          &BgpRouteControlProfileGenerator{},
+		"ospf_timers":                        &OSPFTimersGenerator{},
+		"l3out_route_tag_policy":             &L3OutRouteTagPolicyGenerator{},
+		"hsrp_interface_policy":              &HSRPInterfacePolicyGenerator{},
+		"l3out_bfd_interface_profile":        &L3OutBFDInterfaceProfileGenerator{},
+		"hsrp_group_policy":                  &HSRPGroupPolicyGenerator{},
+		"l3out_floating_svi":                 &L3OutFloatingSviGenerator{},
+		"l3out_hsrp_secondary_vip":           &L3OutHSRPSecondaryVipGenerator{},
+		"l3out_bgp_protocol_profile":         &L3OutBGPProtocolProfileGenerator{},
 	}
 }
