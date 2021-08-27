@@ -86,14 +86,11 @@ Terraformer uses Terraform providers and is designed to easily support newly add
 To upgrade resources with new fields, all you need to do is upgrade the relevant Terraform providers.
 ```
 Import current state to Terraform configuration from a provider
-
 Usage:
    import [provider] [flags]
    import [provider] [command]
-
 Available Commands:
   list        List supported resources for a provider
-
 Flags:
   -b, --bucket string         gs://terraform-state
   -c, --connect                (default true)
@@ -111,7 +108,6 @@ Flags:
   -v, --verbose               verbose mode
   -n, --retry-number          number of retries to perform if refresh fails
   -m, --retry-sleep-ms        time in ms to sleep between retries
-
 Use " import [provider] [command] --help" for more information about a command.
 ```
 #### Permissions
@@ -178,7 +174,6 @@ The rest of subcommands and parameters are identical to the `import` command.
 ```
 $ terraformer plan google --resources=networks,firewall --projects=my-project --regions=europe-west1-d
 (snip)
-
 Saving planfile to generated/google/my-project/terraformer/plan.json
 ```
 

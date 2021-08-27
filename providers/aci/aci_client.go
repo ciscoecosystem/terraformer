@@ -172,23 +172,23 @@ func initClient(clientUrl, username string, options ...Option) *ACIClient {
 	return client
 }
 
-// // GetClient returns a singleton
-// func GetClient(clientUrl, username string, options ...Option) *ACIClient {
-// 	if clientImpl == nil {
-// 		clientImpl = initClient(clientUrl, username, options...)
-// 	} else {
-// 		// making sure it is the same client
-// 		bUrl, err := url.Parse(clientUrl)
-// 		if err != nil {
-// 			// cannot move forward if url is undefined
-// 			log.Fatal(err)
-// 		}
-// 		if bUrl != clientImpl.BaseURL {
-// 			clientImpl = initClient(clientUrl, username, options...)
-// 		}
-// 	}
-// 	return clientImpl
-// }
+// GetClient returns a singleton
+func GetClient(clientUrl, username string, options ...Option) *ACIClient {
+	if clientImpl == nil {
+		clientImpl = initClient(clientUrl, username, options...)
+	} else {
+		// making sure it is the same client
+		bUrl, err := url.Parse(clientUrl)
+		if err != nil {
+			// cannot move forward if url is undefined
+			log.Fatal(err)
+		}
+		if bUrl != clientImpl.BaseURL {
+			clientImpl = initClient(clientUrl, username, options...)
+		}
+	}
+	return clientImpl
+}
 
 // NewClient returns a new Instance of the client - allowing for simultaneous connections to the same APIC
 func NewClient(clientUrl, username string, options ...Option) *ACIClient {
@@ -201,9 +201,9 @@ func NewClient(clientUrl, username string, options ...Option) *ACIClient {
 
 	// initClient always returns a new struct, so always create a new pointer to allow for
 	// multiple object instances
-	newClientImpl := initClient(clientUrl, username, options...)
+	clientImpl = initClient(clientUrl, username, options...)
 
-	return newClientImpl
+	return clientImpl
 }
 
 func (c *ACIClient) configProxy(transport *http.Transport) *http.Transport {
