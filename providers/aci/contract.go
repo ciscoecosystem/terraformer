@@ -14,10 +14,14 @@ type ContractGenerator struct {
 }
 
 func (a *ContractGenerator) InitResources() error {
-	client, err := a.createClient()
-	if err != nil {
-		return err
+	if clientImpl == nil {
+		_, err := a.createClient()
+		if err != nil {
+			return err
+		}
 	}
+
+	client:= clientImpl
 
 	baseURL := "/api/node/class"
 	dnURL := fmt.Sprintf("%s/%s.json", baseURL, contractClassName)
@@ -49,6 +53,8 @@ func (a *ContractGenerator) InitResources() error {
 				"filter",
 				"filter_ids",
 				"filter_entry_ids",
+				"annotation",
+				"description",
 			},
 		)
 		resource.SlowQueryRequired = true

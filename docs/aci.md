@@ -14,32 +14,62 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
 * `tenant`
     * `application_profile`
         * `application_epg`
+    * `vrf`
+    * `l3_outside`
+        * `l3out_ospf_external_policy`
+        * `external_network_instance_profile`
+            * `l3_ext_subnet`
+        * `logical_node_profile`
+            * `l3out_bgp_protocol_profile`
+            * `logical_interface_profile`
+                * `l3out_hsrp_secondary_vip`
+                * `l3out_ospf_interface_profile`
+                * `l3out_floating_svi`
+                * `l3out_path_attachment`
+                    * `l3out_path_attachment_secondary_ip`
+                    * `bgp_peer_connectivity_profile`
+                * `l3out_bfd_interface_profile`
+        * `l3out_bgp_external_policy`
+        * `bgp_route_control_profile`   
     * `bridge_domain` 
         * `subnet`
+        * `bd_dhcp_label`
     * `contract`
         * `contract_subject`
     * `filter`
-        * `filter_entry`   
+        * `filter_entry`
+    * `ospf_inteface_policy`
+    * `dhcp_option_policy`
+    * `dhcp_relay_policy`
+    * `bgp_route_summarization`
+    * `bgp_peer_prefix`
+    * `ospf_route_summarization`
+    * `bgp_address_family_context`
+    * `bgp_best_path_policy`
+    * `bgp_timers`
+    * `ospf_timers`
+    * `l3out_route_tag_policy`
+    * `hsrp_interface_policy`
+    * `hsrp_group_policy`
 * `vpc_explicit_protection_group`
+* `l3out_loopback_interface_profile`
 
 #### Attribute filters
 
-Attribute filters allow filtering across different resource types by its attributes.
+Attribute filters allow filtering across different resource types by their attributes.
 
 ```
 terraformer import aci --resources=tenant,application_profile --filter="Name=name;Value=val1:val2" --username=Cisco_APIC_username --password=Cisco_APIC_password --base-url=Cisco_APIC_url
 ```
-Will import tenants and application_profiles having attribute `name` which has value either `val1` or `val2`. Attribute filters are by default applicable to all resource types although it's possible to specify to what resource type a given filter should be applicable to by providing `Type=<type>` parameter. For example:
+Will import tenants and application_profiles having attribute `name` which has value either `val1` or `val2`. Attribute filters are by default applicable to all resource types although it's possible to specify to what resource type a given filter should be applied by providing `Type=<type>` parameter. For example:
 ```
 terraformer import aci --resources=tenant,application_profile --filter="Type=tenant;Name=name;Value=val1:val2" --username=Cisco_APIC_username --password=Cisco_APIC_password --base-url=Cisco_APIC_url
 ```
-Will work as same as example above with a change the filter will be applicable only to `tenant` resources.
-
-###### NOTE 
-There is an exception to --filter tag in which the parameter has `:` (colon) in its value, cannot be filtered using that Particular Parameter. 
-The list of resources and its parameter are as follows: 
-    * `application_profile` : `annotation` 
-    * `bridge_domain` : `mac`  
+It Will work as same as the example above with a change the filter will apply only to `tenant` resources.
+```
+terraformer import aci --resources=application_profile --filter="Name=annotation;Value='orchestrator:terraform':'tag'" --password=Cisco_APIC_password --username=Cisco_APIC_username --base-url=Cisco_APIC_url
+```
+If the value of the attribute has `: (colon)` in its value, then to pass this value inside --filter tag user needs to pass the entire value in `'' (single quotes)` like the above mentioned example. 
 
 #### Building the terraformer provider
 
