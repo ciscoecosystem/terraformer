@@ -38,20 +38,22 @@ func (a *L3OutHSRPSecondaryVipGenerator) InitResources() error {
 
 	for i := 0; i < L3OutHSRPSecondaryVipCount; i++ {
 		L3OutHSRPSecondaryVipDN := stripQuotes(L3OutHSRPSecondaryVipCont.S("imdata").Index(i).S(L3OutHSRPSecondaryVipClassName, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			L3OutHSRPSecondaryVipDN,
-			L3OutHSRPSecondaryVipDN,
-			"aci_l3out_hsrp_secondary_vip",
-			"aci",
-			[]string{
-				"config_issues",
-				"name_alias",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(L3OutHSRPSecondaryVipDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				L3OutHSRPSecondaryVipDN,
+				L3OutHSRPSecondaryVipDN,
+				"aci_l3out_hsrp_secondary_vip",
+				"aci",
+				[]string{
+					"config_issues",
+					"name_alias",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

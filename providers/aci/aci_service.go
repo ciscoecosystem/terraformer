@@ -17,6 +17,7 @@ func (a *ACIService) createClient() (*ACIClient, error) {
 	password := a.GetArgs()["password"].(string)
 	baseUrl := a.GetArgs()["base_url"].(string)
 	insecure := a.GetArgs()["insecure"].(bool)
+	parentResource := a.GetArgs()["parent_resource"].(string)
 
-	return NewClient(baseUrl, username, Password(password), Insecure(insecure)), nil
+	return NewClient(baseUrl, username, Password(password), Insecure(insecure), ParentResource(parentResource)), nil
 }

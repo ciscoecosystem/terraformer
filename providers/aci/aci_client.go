@@ -48,6 +48,7 @@ type ACIClient struct {
 	username           string
 	password           string
 	privatekey         string
+	parentResource     string
 	adminCert          string
 	insecure           bool
 	reqTimeoutSet      bool
@@ -67,6 +68,11 @@ type Option func(*ACIClient)
 func Insecure(insecure bool) Option {
 	return func(client *ACIClient) {
 		client.insecure = insecure
+	}
+}
+func ParentResource(parentResource string) Option {
+	return func(client *ACIClient) {
+		client.parentResource = parentResource
 	}
 }
 
@@ -411,7 +417,7 @@ func (c *ACIClient) Authenticate() error {
 	c.AuthToken.apicCreatedAt = time.Unix(creationTimeInt, 0)
 	c.AuthToken.realCreatedAt = time.Now()
 	c.AuthToken.CalculateExpiry(refreshTimeInt)
-	c.AuthToken.CaclulateOffset()
+	c.AuthToken.CalculateOffset()
 
 	return nil
 }

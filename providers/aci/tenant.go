@@ -21,7 +21,7 @@ func (a *TenantGenerator) InitResources() error {
 		}
 	}
 
-	client:= clientImpl
+	client := clientImpl
 
 	baseURL := "/api/node/class"
 	dnURL := fmt.Sprintf("%s/%s.json", baseURL, tenantClassName)
@@ -37,23 +37,24 @@ func (a *TenantGenerator) InitResources() error {
 	}
 
 	for i := 0; i < tenantCount; i++ {
-		tenantDN := tenantsCont.S("imdata").Index(i).S(tenantClassName, "attributes", "dn").String()
-
-		resource := terraformutils.NewSimpleResource(
-			stripQuotes(tenantDN),
-			GetMOName(tenantDN),
-			"aci_tenant",
-			"aci",
-			[]string{
-				"name_alias",
-				"relation_fv_rs_tn_deny_rule",
-				"relation_fv_rs_tenant_mon_pol",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		tenantDN := stripQuotes(tenantsCont.S("imdata").Index(i).S(tenantClassName, "attributes", "dn").String())
+		if filterChildrenDn(tenantDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				stripQuotes(tenantDN),
+				GetMOName(tenantDN),
+				"aci_tenant",
+				"aci",
+				[]string{
+					"name_alias",
+					"relation_fv_rs_tn_deny_rule",
+					"relation_fv_rs_tenant_mon_pol",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

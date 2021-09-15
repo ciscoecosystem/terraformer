@@ -22,7 +22,7 @@ func (a *L3OutsideGenerator) InitResources() error {
 		}
 	}
 
-	client:= clientImpl
+	client := clientImpl
 
 	baseURL := "/api/node/class"
 	dnURL := fmt.Sprintf("%s/%s.json", baseURL, L3OutsideClass)
@@ -41,26 +41,28 @@ func (a *L3OutsideGenerator) InitResources() error {
 
 	for i := 0; i < l3OutCount; i++ {
 		l3OutDN := stripQuotes(l3OutCont.S("imdata").Index(i).S(L3OutsideClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			l3OutDN,
-			l3OutDN,
-			"aci_l3_outside",
-			"aci",
-			[]string{
-				"enforce_rtctrl",
-				"name_alias",
-				"target_dscp",
-				"relation_l3ext_rs_dampening_pol",
-				"relation_l3ext_rs_ectx",
-				"relation_l3ext_rs_out_to_bd_public_subnet_holder",
-				"relation_l3ext_rs_interleak_pol",
-				"relation_l3ext_rs_l3_dom_att",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(l3OutDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				l3OutDN,
+				l3OutDN,
+				"aci_l3_outside",
+				"aci",
+				[]string{
+					"enforce_rtctrl",
+					"name_alias",
+					"target_dscp",
+					"relation_l3ext_rs_dampening_pol",
+					"relation_l3ext_rs_ectx",
+					"relation_l3ext_rs_out_to_bd_public_subnet_holder",
+					"relation_l3ext_rs_interleak_pol",
+					"relation_l3ext_rs_l3_dom_att",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

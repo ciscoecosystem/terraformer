@@ -21,7 +21,7 @@ func (a *LogicalNodeProfileGenerator) InitResources() error {
 		}
 	}
 
-	client:= clientImpl
+	client := clientImpl
 
 	baseURL := "/api/node/class"
 	dnURL := fmt.Sprintf("%s/%s.json", baseURL, logicalNodeProfileClassName)
@@ -37,23 +37,25 @@ func (a *LogicalNodeProfileGenerator) InitResources() error {
 	}
 
 	for i := 0; i < LogicalNodeProfileCount; i++ {
-		LogicalNodeProfileDN := LogicalNodeProfilesCont.S("imdata").Index(i).S(logicalNodeProfileClassName, "attributes", "dn").String()
-		resource := terraformutils.NewSimpleResource(
-			stripQuotes(LogicalNodeProfileDN),
-			stripQuotes(LogicalNodeProfileDN),
-			"aci_logical_node_profile",
-			"aci",
-			[]string{
-				"name_alias",
-				"config_issues",
-				"tag",
-				"target_dscp",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		LogicalNodeProfileDN := stripQuotes(LogicalNodeProfilesCont.S("imdata").Index(i).S(logicalNodeProfileClassName, "attributes", "dn").String())
+		if filterChildrenDn(LogicalNodeProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				LogicalNodeProfileDN,
+				LogicalNodeProfileDN,
+				"aci_logical_node_profile",
+				"aci",
+				[]string{
+					"name_alias",
+					"config_issues",
+					"tag",
+					"target_dscp",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

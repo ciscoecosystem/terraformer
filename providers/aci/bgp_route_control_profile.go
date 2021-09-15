@@ -21,7 +21,7 @@ func (a *BgpRouteControlProfileGenerator) InitResources() error {
 		}
 	}
 
-	client:= clientImpl
+	client := clientImpl
 
 	baseURL := "/api/node/class"
 	dnURL := fmt.Sprintf("%s/%s.json", baseURL, BgpRouteControlProfileClass)
@@ -38,20 +38,22 @@ func (a *BgpRouteControlProfileGenerator) InitResources() error {
 
 	for i := 0; i < BgpRouteControlProfileCount; i++ {
 		BgpRouteControlProfileDN := stripQuotes(BgpRouteControlProfileCont.S("imdata").Index(i).S(BgpRouteControlProfileClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			BgpRouteControlProfileDN,
-			BgpRouteControlProfileDN,
-			"aci_bgp_route_control_profile",
-			"aci",
-			[]string{
-				"name_alias",
-				"annotation",
-				"description",
-				"route_control_profile_type",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(BgpRouteControlProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				BgpRouteControlProfileDN,
+				BgpRouteControlProfileDN,
+				"aci_bgp_route_control_profile",
+				"aci",
+				[]string{
+					"name_alias",
+					"annotation",
+					"description",
+					"route_control_profile_type",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

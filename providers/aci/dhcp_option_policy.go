@@ -21,7 +21,7 @@ func (a *DhcpOptionPolicyGenerator) InitResources() error {
 		}
 	}
 
-	client:= clientImpl
+	client := clientImpl
 
 	baseURL := "/api/node/class"
 	dnURL := fmt.Sprintf("%s/%s.json", baseURL, dhcpOptionPolicyClassName)
@@ -38,20 +38,22 @@ func (a *DhcpOptionPolicyGenerator) InitResources() error {
 
 	for i := 0; i < DhcpOptionPolicyCount; i++ {
 		DhcpOptionPolicyDN := DhcpOptionPoliciesCont.S("imdata").Index(i).S(dhcpOptionPolicyClassName, "attributes", "dn").String()
-		resource := terraformutils.NewSimpleResource(
-			stripQuotes(DhcpOptionPolicyDN),
-			stripQuotes(DhcpOptionPolicyDN),
-			"aci_dhcp_option_policy",
-			"aci",
-			[]string{
-				"name_alias",
-				"dhcp_option",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(DhcpOptionPolicyDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				stripQuotes(DhcpOptionPolicyDN),
+				stripQuotes(DhcpOptionPolicyDN),
+				"aci_dhcp_option_policy",
+				"aci",
+				[]string{
+					"name_alias",
+					"dhcp_option",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

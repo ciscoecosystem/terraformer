@@ -38,20 +38,22 @@ func (a *L3OutRouteTagPolicyGenerator) InitResources() error {
 
 	for i := 0; i < L3OutRouteTagPolicyCount; i++ {
 		L3OutRouteTagPolicyDN := stripQuotes(L3OutRouteTagPolicyCont.S("imdata").Index(i).S(L3OutRouteTagPolicyClassName, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			L3OutRouteTagPolicyDN,
-			L3OutRouteTagPolicyDN,
-			"aci_l3out_route_tag_policy",
-			"aci",
-			[]string{
-				"name_alias",
-				"tag",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(L3OutRouteTagPolicyDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				L3OutRouteTagPolicyDN,
+				L3OutRouteTagPolicyDN,
+				"aci_l3out_route_tag_policy",
+				"aci",
+				[]string{
+					"name_alias",
+					"tag",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

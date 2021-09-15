@@ -21,7 +21,7 @@ func (a *FilterGenerator) InitResources() error {
 		}
 	}
 
-	client:= clientImpl
+	client := clientImpl
 
 	baseURL := "/api/node/class"
 	dnURL := fmt.Sprintf("%s/%s.json", baseURL, filterClassName)
@@ -37,23 +37,25 @@ func (a *FilterGenerator) InitResources() error {
 	}
 
 	for i := 0; i < FilterCount; i++ {
-		FilterDN := FiltersCont.S("imdata").Index(i).S(filterClassName, "attributes", "dn").String()
-		resource := terraformutils.NewSimpleResource(
-			stripQuotes(FilterDN),
-			stripQuotes(FilterDN),
-			"aci_filter",
-			"aci",
-			[]string{
-				"name_alias",
-				"relation_vz_rs_filt_graph_att",
-				"relation_vz_rs_fwd_r_flt_p_att",
-				"relation_vz_rs_rev_r_flt_p_att",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		FilterDN := stripQuotes(FiltersCont.S("imdata").Index(i).S(filterClassName, "attributes", "dn").String())
+		if filterChildrenDn(FilterDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				FilterDN,
+				FilterDN,
+				"aci_filter",
+				"aci",
+				[]string{
+					"name_alias",
+					"relation_vz_rs_filt_graph_att",
+					"relation_vz_rs_fwd_r_flt_p_att",
+					"relation_vz_rs_rev_r_flt_p_att",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

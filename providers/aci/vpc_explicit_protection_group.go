@@ -21,7 +21,7 @@ func (a *VPCExplicitProtectionGroupGenerator) InitResources() error {
 		}
 	}
 
-	client:= clientImpl
+	client := clientImpl
 	baseURL := "/api/node/class"
 	dnURL := fmt.Sprintf("%s/%s.json", baseURL, vpcExplicitProtectionGroupClassName)
 
@@ -36,20 +36,22 @@ func (a *VPCExplicitProtectionGroupGenerator) InitResources() error {
 	}
 
 	for i := 0; i < VPCExplicitProtectionGroupCount; i++ {
-		VPCExplicitProtectionGroupDN := VPCExplicitProtectionGroupsCont.S("imdata").Index(i).S(vpcExplicitProtectionGroupClassName, "attributes", "dn").String()
-		resource := terraformutils.NewSimpleResource(
-			stripQuotes(VPCExplicitProtectionGroupDN),
-			stripQuotes(VPCExplicitProtectionGroupDN),
-			"aci_vpc_explicit_protection_group",
-			"aci",
-			[]string{
-				"vpc_domain_policy",
-				"annotation",
-				"vpc_explicit_protection_group_id",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		VPCExplicitProtectionGroupDN := stripQuotes(VPCExplicitProtectionGroupsCont.S("imdata").Index(i).S(vpcExplicitProtectionGroupClassName, "attributes", "dn").String())
+		if filterChildrenDn(VPCExplicitProtectionGroupDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				VPCExplicitProtectionGroupDN,
+				VPCExplicitProtectionGroupDN,
+				"aci_vpc_explicit_protection_group",
+				"aci",
+				[]string{
+					"vpc_domain_policy",
+					"annotation",
+					"vpc_explicit_protection_group_id",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }
