@@ -95,6 +95,13 @@ Or alternatively
 *  Copy your Terraform provider's plugin(s) to folder
     `~/.terraform.d/plugins/{darwin,linux}_amd64/`, as appropriate.
 
+6. Set following environment variables
+```
+   ACI_USERNAME = Cisco_APIC_username
+   ACI_PASSWORD = Cisco_APIC_password
+   ACI_URL = Cisco_APIC_url
+```
+
 From Releases:
 
 * Linux
