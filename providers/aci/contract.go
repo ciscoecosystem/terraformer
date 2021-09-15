@@ -21,7 +21,7 @@ func (a *ContractGenerator) InitResources() error {
 		}
 	}
 
-	client:= clientImpl
+	client := clientImpl
 
 	baseURL := "/api/node/class"
 	dnURL := fmt.Sprintf("%s/%s.json", baseURL, contractClassName)
@@ -38,28 +38,28 @@ func (a *ContractGenerator) InitResources() error {
 
 	for i := 0; i < contractCount; i++ {
 		contractDN := stripQuotes(contractCont.S("imdata").Index(i).S(contractClassName, "attributes", "dn").String())
-
-		resource := terraformutils.NewSimpleResource(
-			contractDN,
-			contractDN,
-			"aci_contract",
-			"aci",
-			[]string{
-				"name_alias",
-				"prio",
-				"scope",
-				"target_dscp",
-				"relation_vz_rs_graph_att",
-				"filter",
-				"filter_ids",
-				"filter_entry_ids",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(contractDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				contractDN,
+				contractDN,
+				"aci_contract",
+				"aci",
+				[]string{
+					"name_alias",
+					"prio",
+					"scope",
+					"target_dscp",
+					"relation_vz_rs_graph_att",
+					"filter",
+					"filter_ids",
+					"filter_entry_ids",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
-
 	return nil
 }

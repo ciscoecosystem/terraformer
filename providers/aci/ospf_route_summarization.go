@@ -21,7 +21,7 @@ func (a *OSPFRouteSumGenerator) InitResources() error {
 		}
 	}
 
-	client:= clientImpl
+	client := clientImpl
 
 	baseURL := "api/node/class"
 	dnURL := fmt.Sprintf("%s/%s.json", baseURL, OSPFRouteSumClass)
@@ -38,22 +38,24 @@ func (a *OSPFRouteSumGenerator) InitResources() error {
 
 	for i := 0; i < OSPFRouteSumConut; i++ {
 		OSPFRouteSumDN := stripQuotes(OSPFRouteSumCont.S("imdata").Index(i).S(OSPFRouteSumClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			OSPFRouteSumDN,
-			OSPFRouteSumDN,
-			"aci_ospf_route_summarization",
-			"aci",
-			[]string{
-				"description",
-				"annotation",
-				"cost",
-				"inter_area_enabled",
-				"name_alias",
-				"tag",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(OSPFRouteSumDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				OSPFRouteSumDN,
+				OSPFRouteSumDN,
+				"aci_ospf_route_summarization",
+				"aci",
+				[]string{
+					"description",
+					"annotation",
+					"cost",
+					"inter_area_enabled",
+					"name_alias",
+					"tag",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

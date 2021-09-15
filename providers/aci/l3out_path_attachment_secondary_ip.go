@@ -22,7 +22,7 @@ func (a *L3outPathAttachmentSecondaryIPGenerator) InitResources() error {
 		}
 	}
 
-	client:= clientImpl
+	client := clientImpl
 
 	baseURL := "/api/node/class"
 	dnURL := fmt.Sprintf("%s/%s.json", baseURL, L3outPathAttachmentSecondaryIPClass)
@@ -40,20 +40,22 @@ func (a *L3outPathAttachmentSecondaryIPGenerator) InitResources() error {
 
 	for i := 0; i < L3outPathAttachmentSecondaryIPsCount; i++ {
 		L3outPathAttachmentSecondaryIPDN := stripQuotes(L3outPathAttachmentSecondaryIPCont.S("imdata").Index(i).S(L3outPathAttachmentSecondaryIPClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			L3outPathAttachmentSecondaryIPDN,
-			L3outPathAttachmentSecondaryIPDN,
-			"aci_l3out_path_attachment_secondary_ip",
-			"aci",
-			[]string{
-				"name_alias",
-				"ipv6_dad",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(L3outPathAttachmentSecondaryIPDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				L3outPathAttachmentSecondaryIPDN,
+				L3outPathAttachmentSecondaryIPDN,
+				"aci_l3out_path_attachment_secondary_ip",
+				"aci",
+				[]string{
+					"name_alias",
+					"ipv6_dad",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

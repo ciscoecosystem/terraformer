@@ -39,23 +39,25 @@ func (a *L3OutBFDInterfaceProfileGenerator) InitResources() error {
 
 	for i := 0; i < L3OutBFDInterfaceProfileCount; i++ {
 		L3OutBFDInterfaceProfileDN := stripQuotes(L3OutBFDInterfaceProfileCont.S("imdata").Index(i).S(L3OutBFDInterfaceProfileClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			L3OutBFDInterfaceProfileDN,
-			L3OutBFDInterfaceProfileDN,
-			"aci_l3out_bfd_interface_profile",
-			"aci",
-			[]string{
-				"key",
-				"key_id",
-				"name_alias",
-				"interface_profile_type",
-				"relation_bfd_rs_if_pol",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(L3OutBFDInterfaceProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				L3OutBFDInterfaceProfileDN,
+				L3OutBFDInterfaceProfileDN,
+				"aci_l3out_bfd_interface_profile",
+				"aci",
+				[]string{
+					"key",
+					"key_id",
+					"name_alias",
+					"interface_profile_type",
+					"relation_bfd_rs_if_pol",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

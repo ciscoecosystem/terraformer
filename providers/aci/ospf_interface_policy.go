@@ -21,7 +21,7 @@ func (a *ospfInterfacePolicyGenerator) InitResources() error {
 		}
 	}
 
-	client:= clientImpl
+	client := clientImpl
 	baseURL := "/api/node/class"
 	dnURL := fmt.Sprintf("%s/%s.json", baseURL, ospfInterfacePolicyClassName)
 
@@ -36,29 +36,31 @@ func (a *ospfInterfacePolicyGenerator) InitResources() error {
 	}
 
 	for i := 0; i < ospfInterfacePolicyCount; i++ {
-		ospfInterfacePolicyDN := ospfInterfacePoliciesCont.S("imdata").Index(i).S(ospfInterfacePolicyClassName, "attributes", "dn").String()
-		resource := terraformutils.NewSimpleResource(
-			stripQuotes(ospfInterfacePolicyDN),
-			stripQuotes(ospfInterfacePolicyDN),
-			"aci_ospf_interface_policy",
-			"aci",
-			[]string{
-				"cost",
-				"ctrl",
-				"dead_intvl",
-				"hello_intvl",
-				"name_alias",
-				"nw_t",
-				"pfx_suppress",
-				"prio",
-				"rexmit_intvl",
-				"xmit_delay",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		ospfInterfacePolicyDN := stripQuotes(ospfInterfacePoliciesCont.S("imdata").Index(i).S(ospfInterfacePolicyClassName, "attributes", "dn").String())
+		if filterChildrenDn(ospfInterfacePolicyDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				ospfInterfacePolicyDN,
+				ospfInterfacePolicyDN,
+				"aci_ospf_interface_policy",
+				"aci",
+				[]string{
+					"cost",
+					"ctrl",
+					"dead_intvl",
+					"hello_intvl",
+					"name_alias",
+					"nw_t",
+					"pfx_suppress",
+					"prio",
+					"rexmit_intvl",
+					"xmit_delay",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

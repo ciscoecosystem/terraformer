@@ -38,29 +38,31 @@ func (a *L3OutFloatingSviGenerator) InitResources() error {
 
 	for i := 0; i < L3OutFloatingSviCount; i++ {
 		L3OutFloatingSviDN := stripQuotes(L3OutFloatingSviCont.S("imdata").Index(i).S(L3OutFloatingSviClassName, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			L3OutFloatingSviDN,
-			L3OutFloatingSviDN,
-			"aci_l3out_floating_svi",
-			"aci",
-			[]string{
-				"addr",
-				"autostate",
-				"encap_scope",
-				"if_inst_t",
-				"ipv6_dad",
-				"ll_addr",
-				"mac",
-				"mode",
-				"mtu",
-				"target_dscp",
-				"relation_l3ext_rs_dyn_path_att",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(L3OutFloatingSviDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				L3OutFloatingSviDN,
+				L3OutFloatingSviDN,
+				"aci_l3out_floating_svi",
+				"aci",
+				[]string{
+					"addr",
+					"autostate",
+					"encap_scope",
+					"if_inst_t",
+					"ipv6_dad",
+					"ll_addr",
+					"mac",
+					"mode",
+					"mtu",
+					"target_dscp",
+					"relation_l3ext_rs_dyn_path_att",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

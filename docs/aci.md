@@ -12,14 +12,28 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
 #### Supported services
 
 * `tenant`
+    * `cloud_applicationcontainer`
+        * `cloud_epg`
     * `application_profile`
+        * `endpoint_security_group_selector`
+        * `endpoint_security_group`
         * `application_epg`
+            * `epg_to_contract`
+            * `epg_to_domain`
+            * `epg_to_static_path`
     * `vrf`
+        * `cloud_context_profile`
+            * `cloud_cidr_pool`
+                * `cloud_subnet`
+        * `any`
     * `l3_outside`
         * `l3out_ospf_external_policy`
         * `external_network_instance_profile`
             * `l3_ext_subnet`
         * `logical_node_profile`
+            *`logical_node_to_fabric_profile`
+                * `l3out_static_route`
+                    * `l3out_static_route_next_hop`
             * `l3out_bgp_protocol_profile`
             * `logical_interface_profile`
                 * `l3out_hsrp_secondary_vip`
@@ -28,6 +42,7 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
                 * `l3out_path_attachment`
                     * `l3out_path_attachment_secondary_ip`
                     * `bgp_peer_connectivity_profile`
+                    * `l3out_vpc_member`
                 * `l3out_bfd_interface_profile`
         * `l3out_bgp_external_policy`
         * `bgp_route_control_profile`   
@@ -51,9 +66,57 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
     * `l3out_route_tag_policy`
     * `hsrp_interface_policy`
     * `hsrp_group_policy`
+    * `imported_contract`
+    * `cloud_applicationcontainer`
+    * `cloud_aws_provider`
+    * `taboo_contract`
+    * `l2_outside`
 * `vpc_explicit_protection_group`
 * `l3out_loopback_interface_profile`
-
+* `l3out_hsrp_interface_group`
+* `l3out_hsrp_interface_profile`
+* `l3_domain_profile`
+* `logical_node_to_fabric_node`
+* `cloud_cidr_pool`
+* `cloud_endpoint_selectorfor_external_epgs`
+* `cloud_endpoint_selector`
+* `cloud_external_epg`
+* `cloud_vpn_gateway`
+* `vmm_domain`
+* `vmm_controller`
+* `vmm_credential`
+* `vswitch_policy`
+* `cloud_domain_profile`
+* `cloud_vpn_gateway`
+* `aci_attachable_access_entity_profile`
+* `aci_epgs_using_function`
+* `aci_leaf_interface_profile`
+* `lldp_interface_policy`
+* `lacp_policy`
+* `cdp_interface_policy`
+* `vlan_encapsulationfor_vxlan_traffic`
+* `vlan_pool`
+    * `ranges`
+* `physical_domain`    
+* `miscabling_protocol_interface_policy`
+* `l2_interface_policy`
+* `port_security_policy`
+* `end_point_retention_policy`
+* `spine_port_selector`
+* `spine_interface_profile`
+* `spine_port_policy_group`
+* `fabric_if_pol`
+* `node_mgmt_epg`
+    * `static_node_mgmt_address`
+* `local_user`
+* `trigger_scheduler`
+* `span_destination_group`
+* `span_source_group`
+    * `span_sourcedestination_group_match_label`
+* `maintenance_policy`
+* `maintenance_group_node`
+* `node_block_firmware`
+* `configuration_export_policy`
 #### Attribute filters
 
 Attribute filters allow filtering across different resource types by their attributes.
@@ -94,6 +157,13 @@ Or alternatively
 
 *  Copy your Terraform provider's plugin(s) to folder
     `~/.terraform.d/plugins/{darwin,linux}_amd64/`, as appropriate.
+
+6. Set following environment variables
+```
+   ACI_USERNAME = Cisco_APIC_username
+   ACI_PASSWORD = Cisco_APIC_password
+   ACI_URL = Cisco_APIC_url
+```
 
 From Releases:
 

@@ -40,22 +40,24 @@ func (a *DHCPRelayPolicyGenerator) InitResources() error {
 
 	for i := 0; i < DHCPRelayPolicyCount; i++ {
 		DHCPRelayPolicyDN := stripQuotes(DHCPRelayPolicyCont.S("imdata").Index(i).S(DHCPRelayPolicyClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			DHCPRelayPolicyDN,
-			DHCPRelayPolicyDN,
-			"aci_dhcp_relay_policy",
-			"aci",
-			[]string{
-				"annotation",
-				"mode",
-				"name_alias",
-				"owner",
-				"relation_dhcp_rs_prov",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(DHCPRelayPolicyDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				DHCPRelayPolicyDN,
+				DHCPRelayPolicyDN,
+				"aci_dhcp_relay_policy",
+				"aci",
+				[]string{
+					"annotation",
+					"mode",
+					"name_alias",
+					"owner",
+					"relation_dhcp_rs_prov",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

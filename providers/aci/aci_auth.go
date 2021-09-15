@@ -36,7 +36,7 @@ func (au *ACIAuth) IsValid() bool {
 func (t *ACIAuth) CalculateExpiry(willExpire int64) {
 	t.Expiry = time.Unix((t.apicCreatedAt.Unix() + willExpire), 0)
 }
-func (t *ACIAuth) CaclulateOffset() {
+func (t *ACIAuth) CalculateOffset() {
 	t.offset = t.apicCreatedAt.Unix() - t.realCreatedAt.Unix()
 }
 

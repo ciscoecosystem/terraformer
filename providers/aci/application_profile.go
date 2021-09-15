@@ -40,21 +40,23 @@ func (a *ApplicationProfileGenerator) InitResources() error {
 
 	for i := 0; i < apCount; i++ {
 		apDN := stripQuotes(apCont.S("imdata").Index(i).S(applicationProfileClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			apDN,
-			apDN,
-			"aci_application_profile",
-			"aci",
-			[]string{
-				"name_alias",
-				"prio",
-				"relation_fv_rs_ap_mon_pol",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(apDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				apDN,
+				apDN,
+				"aci_application_profile",
+				"aci",
+				[]string{
+					"name_alias",
+					"prio",
+					"relation_fv_rs_ap_mon_pol",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }
