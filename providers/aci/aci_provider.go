@@ -130,6 +130,12 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"l3out_bgp_protocol_profile": {
 			"logical_node_profile": []string{"logical_node_profile_dn", "id"},
 		},
+		"epg_to_contract": {
+			"application_epg": []string{"application_epg_dn", "id"},
+		},
+		"epg_to_domain": {
+			"application_epg": []string{"application_epg_dn", "id"},
+		},
 		"epg_to_static_path": {
 			"application_epg": []string{"application_epg_dn", "id"},
 		},
@@ -225,5 +231,7 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"l3out_hsrp_secondary_vip":           &L3OutHSRPSecondaryVipGenerator{},
 		"l3out_bgp_protocol_profile":         &L3OutBGPProtocolProfileGenerator{},
 		"epg_to_static_path":                 &EPGToStaticPathGenerator{},
+		"epg_to_contract":                    &EPGToContractGenerator{},
+		"epg_to_domain":                      &EPGToDomainGenerator{},
 	}
 }
