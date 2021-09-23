@@ -43,7 +43,7 @@ func (a *ApplicationEndpointSecurityGroupSelectorGenerator) InitResources() erro
 		resource := terraformutils.NewSimpleResource(
 			endpointSecurityGroupSelectorProfileDN,
 			endpointSecurityGroupSelectorProfileDN,
-			"aci_application_endpoint_security_group_selector",
+			"aci_endpoint_security_group_selector",
 			"aci",
 			[]string{
 				"name",
