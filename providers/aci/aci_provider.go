@@ -233,5 +233,6 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"epg_to_static_path":                 &EPGToStaticPathGenerator{},
 		"epg_to_contract":                    &EPGToContractGenerator{},
 		"epg_to_domain":                      &EPGToDomainGenerator{},
+		"endpoint_security_group":			  &ApplicationEndpointSecurityGroupGenerator{},
 	}
 }
