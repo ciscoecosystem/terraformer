@@ -224,6 +224,6 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"l3out_floating_svi":                 &L3OutFloatingSviGenerator{},
 		"l3out_hsrp_secondary_vip":           &L3OutHSRPSecondaryVipGenerator{},
 		"l3out_bgp_protocol_profile":         &L3OutBGPProtocolProfileGenerator{},
-		"any.go":							  &AnyGenerator{},
+		"any":							  	  &AnyGenerator{},
 	}
 }
