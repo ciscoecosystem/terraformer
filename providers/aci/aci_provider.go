@@ -130,6 +130,12 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"l3out_bgp_protocol_profile": {
 			"logical_node_profile": []string{"logical_node_profile_dn", "id"},
 		},
+		"endpoint_security_group_selector": {
+			"endpoint_security_group": []string{"endpoint_security_group", "id"},
+		},
+		"endpoint_security_group": {
+			"application_profile": []string{"application_profile", "id"},
+		},
 		"epg_to_contract": {
 			"application_epg": []string{"application_epg_dn", "id"},
 		},
@@ -141,6 +147,9 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		},
 		"imported_contract": {
 			"tenant": []string{"tenant_dn", "id"},
+		},
+		"any": {
+			"vrf": []string{"vrf_dn", "id"},
 		},
 	}
 }
@@ -233,11 +242,14 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"l3out_floating_svi":                 &L3OutFloatingSviGenerator{},
 		"l3out_hsrp_secondary_vip":           &L3OutHSRPSecondaryVipGenerator{},
 		"l3out_bgp_protocol_profile":         &L3OutBGPProtocolProfileGenerator{},
+		"any":                                &AnyGenerator{},
+		"endpoint_security_group_selector":   &ApplicationEndpointSecurityGroupSelectorGenerator{},
 		"epg_to_static_path":                 &EPGToStaticPathGenerator{},
 		"epg_to_contract":                    &EPGToContractGenerator{},
 		"epg_to_domain":                      &EPGToDomainGenerator{},
 		"imported_contract":                  &ImportedContractGenerator{},
 		"l3out_hsrp_interface_group":         &L3OutHSRPInterfaceGroupGenerator{},
 		"l3out_hsrp_interface_profile":       &L3OutHSRPInterfaceProfileGenerator{},
+		"endpoint_security_group":            &ApplicationEndpointSecurityGroupGenerator{},
 	}
 }
