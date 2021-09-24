@@ -139,6 +139,9 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"epg_to_static_path": {
 			"application_epg": []string{"application_epg_dn", "id"},
 		},
+		"imported_contract": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
 	}
 }
 
@@ -233,5 +236,8 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"epg_to_static_path":                 &EPGToStaticPathGenerator{},
 		"epg_to_contract":                    &EPGToContractGenerator{},
 		"epg_to_domain":                      &EPGToDomainGenerator{},
+		"imported_contract":                  &ImportedContractGenerator{},
+		"l3out_hsrp_interface_group":         &L3OutHSRPInterfaceGroupGenerator{},
+		"l3out_hsrp_interface_profile":       &L3OutHSRPInterfaceProfileGenerator{},
 	}
 }
