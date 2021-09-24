@@ -13,8 +13,14 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
 
 * `tenant`
     * `application_profile`
+        * `endpoint_security_group_selector`
+        * `endpoint_security_group`
         * `application_epg`
+            * `epg_to_contract`
+            * `epg_to_domain`
+            * `epg_to_static_path`
     * `vrf`
+        * `any`
     * `l3_outside`
         * `l3out_ospf_external_policy`
         * `external_network_instance_profile`
