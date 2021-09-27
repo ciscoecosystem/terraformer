@@ -128,7 +128,7 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 			"logical_interface_profile": []string{"logical_interface_profile_dn", "id"},
 		},
 		"l3out_bgp_protocol_profile": {
-			"logical_node_profile": []string{"logical_node_profile_dn", "id"},	
+			"logical_node_profile": []string{"logical_node_profile_dn", "id"},
 		},
 		"endpoint_security_group_selector": {
 			"endpoint_security_group": []string{"endpoint_security_group", "id"},
@@ -145,8 +145,11 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"epg_to_static_path": {
 			"application_epg": []string{"application_epg_dn", "id"},
 		},
-		"any":{
+		"any": {
 			"vrf": []string{"vrf_dn", "id"},
+		},
+		"cloud_applicationcontainer": {
+			"tenant": []string{"tenant_dn", "id"},
 		},
 	}
 }
@@ -239,11 +242,14 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"l3out_floating_svi":                 &L3OutFloatingSviGenerator{},
 		"l3out_hsrp_secondary_vip":           &L3OutHSRPSecondaryVipGenerator{},
 		"l3out_bgp_protocol_profile":         &L3OutBGPProtocolProfileGenerator{},
-		"any":							  	              &AnyGenerator{},
+		"any":                                &AnyGenerator{},
 		"endpoint_security_group_selector":   &ApplicationEndpointSecurityGroupSelectorGenerator{},
 		"epg_to_static_path":                 &EPGToStaticPathGenerator{},
 		"epg_to_contract":                    &EPGToContractGenerator{},
 		"epg_to_domain":                      &EPGToDomainGenerator{},
-		"endpoint_security_group":			      &ApplicationEndpointSecurityGroupGenerator{},
+		"endpoint_security_group":            &ApplicationEndpointSecurityGroupGenerator{},
+		"logical_node_to_fabric_node":        &LogicalNodeToFabricNodeGenerator{},
+		"cloud_applicationcontainer":         &CloudApplicationContainerGenerator{},
+		"cloud_cidr_pool":                    &CloudCidrPoolGenerator{},
 	}
 }
