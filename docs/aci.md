@@ -57,8 +57,11 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
     * `l3out_route_tag_policy`
     * `hsrp_interface_policy`
     * `hsrp_group_policy`
+    * `cloud_applicationcontainer`
 * `vpc_explicit_protection_group`
 * `l3out_loopback_interface_profile`
+* `logical_node_to_fabric_node`
+* `cloud_cidr_pool`
 
 #### Attribute filters
 
