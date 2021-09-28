@@ -55,6 +55,15 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"logical_interface_profile": {
 			"logical_node_profile": []string{"logical_node_profile_dn", "id"},
 		},
+		"logical_node_to_fabric_node_profile": {
+			"logical_node_profile": []string{"logical_node_profile_dn", "id"},
+		},
+		"l3out_static_route": {
+			"logical_node_to_fabric_node_profile": []string{"logical_node_to_fabric_node_profile_dn", "id"},
+		},
+		"l3out_static_route_next_hop": {
+			"l3out_static_route": []string{"l3out_static_route_dn", "id"},
+		},
 		"dhcp_option_policy": {
 			"tenant": []string{"tenant_dn", "id"},
 		},
@@ -83,6 +92,9 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 			"logical_interface_profile": []string{"logical_interface_profile_dn", "id"},
 		},
 		"l3out_path_attachment_secondary_ip": {
+			"l3out_path_attachment": []string{"l3out_path_attachment_dn", "id"},
+		},
+		"l3out_vpc_member": {
 			"l3out_path_attachment": []string{"l3out_path_attachment_dn", "id"},
 		},
 		"bgp_route_summarization": {
@@ -251,5 +263,8 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"logical_node_to_fabric_node":        &LogicalNodeToFabricNodeGenerator{},
 		"cloud_applicationcontainer":         &CloudApplicationContainerGenerator{},
 		"cloud_cidr_pool":                    &CloudCidrPoolGenerator{},
+		"l3out_static_route":				  &L3OutStaticRouteGenerator{},
+		"l3out_static_route_next_hop":		  &L3OutStaticRouteNextHopGenerator{},
+		"l3out_vpc_member":                   &L3OutVPCMemberGenerator{},
 	}
 }
