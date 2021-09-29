@@ -64,10 +64,13 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
     * `l3out_route_tag_policy`
     * `hsrp_interface_policy`
     * `hsrp_group_policy`
+    * `imported_contract`
     * `cloud_applicationcontainer`
     * `cloud_aws_provider`
 * `vpc_explicit_protection_group`
 * `l3out_loopback_interface_profile`
+* `l3out_hsrp_interface_group`
+* `l3out_hsrp_interface_profile`
 * `logical_node_to_fabric_node`
 * `cloud_cidr_pool`
 * `cloud_endpoint_selectorfor_external_epgs`
