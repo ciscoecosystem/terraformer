@@ -12,6 +12,8 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
 #### Supported services
 
 * `tenant`
+    * `cloud_applicationcontainer`
+        * `cloud_epg`
     * `application_profile`
         * `endpoint_security_group_selector`
         * `endpoint_security_group`
@@ -20,6 +22,7 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
             * `epg_to_domain`
             * `epg_to_static_path`
     * `vrf`
+        * `cloud_context_profile`
         * `any`
     * `l3_outside`
         * `l3out_ospf_external_policy`
@@ -74,6 +77,9 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
 * `vmm_controller`
 * `vmm_credential`
 * `vswitch_policy`
+* `cloud_domain_profile`
+* `cloud_vpn_gateway`
+
 #### Attribute filters
 
 Attribute filters allow filtering across different resource types by their attributes.
