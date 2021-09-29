@@ -163,6 +163,13 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"cloud_applicationcontainer": {
 			"tenant": []string{"tenant_dn", "id"},
 		},
+		"cloud_context_profile": {
+			"tenant": []string{"tenant_dn", "id"},
+			"vrf": []string{"vrf_dn", "id"},
+		},
+		"cloud_epg": {
+			"cloud_applicationcontainer": []string{"cloud_applicationcontainer_dn", "id"},
+		},
 	}
 }
 
@@ -270,5 +277,8 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"cloud_endpoint_selectorfor_external_epgs": &CloudEndpointSelectorForExternalEpgsGenerator{},
 		"cloud_endpoint_selector":                  &CloudEndpointSelectorGenerator{},
 		"cloud_external_epg":                       &CloudExternalEPGGenerator{},
+		"cloud_domain_profile":						&CloudDomainPGenerator{},
+		"cloud_context_profile":					&CloudContextPGenerator{},
+		"cloud_epg":								&CloudEPGGenerator{},
 	}
 }
