@@ -275,5 +275,8 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"cloud_external_epg":                       &CloudExternalEPGGenerator{},
 		"cloud_vpn_gateway":                        &CloudVPNGatewayGenerator{},
 		"cloud_aws_provider":                       &CloudAWSProviderGenerator{},
+		"vmm_controller":                           &VmmControllerGenerator{},
+		"vmm_credential":                           &VmmCredentialGenerator{},
+		"vswitch_policy":                           &VswitchPolicyGenerator{},
 	}
 }
