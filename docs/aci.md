@@ -73,6 +73,10 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
 * `cloud_endpoint_selectorfor_external_epgs`
 * `cloud_endpoint_selector`
 * `cloud_external_epg`
+* `cloud_vpn_gateway`
+* `vmm_controller`
+* `vmm_credential`
+* `vswitch_policy`
 * `cloud_domain_profile`
 * `cloud_vpn_gateway`
 
