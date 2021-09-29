@@ -168,11 +168,11 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		},
 		"cloud_context_profile": {
 			"tenant": []string{"tenant_dn", "id"},
-			"vrf": []string{"vrf_dn", "id"},
+			"vrf":    []string{"vrf_dn", "id"},
 		},
 		"cloud_epg": {
 			"cloud_applicationcontainer": []string{"cloud_applicationcontainer_dn", "id"},
-		}
+		},
 	}
 }
 
@@ -284,10 +284,9 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"vmm_controller":                           &VmmControllerGenerator{},
 		"vmm_credential":                           &VmmCredentialGenerator{},
 		"vswitch_policy":                           &VswitchPolicyGenerator{},
-		"cloud_domain_profile":					    &CloudDomainPGenerator{},
-		"cloud_context_profile":					&CloudContextPGenerator{},
-		"cloud_epg":								&CloudEPGGenerator{},
+		"cloud_domain_profile":                     &CloudDomainPGenerator{},
+		"cloud_context_profile":                    &CloudContextPGenerator{},
+		"cloud_epg":                                &CloudEPGGenerator{},
 		"cloud_aws_provider":                       &CloudAWSProviderGenerator{},
-
 	}
 }
