@@ -12,6 +12,8 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
 #### Supported services
 
 * `tenant`
+    * `cloud_applicationcontainer`
+        * `cloud_epg`
     * `application_profile`
         * `endpoint_security_group_selector`
         * `endpoint_security_group`
@@ -20,12 +22,16 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
             * `epg_to_domain`
             * `epg_to_static_path`
     * `vrf`
+        * `cloud_context_profile`
         * `any`
     * `l3_outside`
         * `l3out_ospf_external_policy`
         * `external_network_instance_profile`
             * `l3_ext_subnet`
         * `logical_node_profile`
+            *`logical_node_to_fabric_profile`
+                * `l3out_static_route`
+                    * `l3out_static_route_next_hop`
             * `l3out_bgp_protocol_profile`
             * `logical_interface_profile`
                 * `l3out_hsrp_secondary_vip`
@@ -34,6 +40,7 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
                 * `l3out_path_attachment`
                     * `l3out_path_attachment_secondary_ip`
                     * `bgp_peer_connectivity_profile`
+                    * `l3out_vpc_member`
                 * `l3out_bfd_interface_profile`
         * `l3out_bgp_external_policy`
         * `bgp_route_control_profile`   
@@ -58,10 +65,23 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
     * `hsrp_interface_policy`
     * `hsrp_group_policy`
     * `imported_contract`
+    * `cloud_applicationcontainer`
+    * `cloud_aws_provider`
 * `vpc_explicit_protection_group`
 * `l3out_loopback_interface_profile`
 * `l3out_hsrp_interface_group`
 * `l3out_hsrp_interface_profile`
+* `logical_node_to_fabric_node`
+* `cloud_cidr_pool`
+* `cloud_endpoint_selectorfor_external_epgs`
+* `cloud_endpoint_selector`
+* `cloud_external_epg`
+* `cloud_vpn_gateway`
+* `vmm_controller`
+* `vmm_credential`
+* `vswitch_policy`
+* `cloud_domain_profile`
+* `cloud_vpn_gateway`
 
 #### Attribute filters
 
