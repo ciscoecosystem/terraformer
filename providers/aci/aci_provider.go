@@ -176,6 +176,12 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"cloud_epg": {
 			"cloud_applicationcontainer": []string{"cloud_applicationcontainer_dn", "id"},
 		},
+		"cloud_subnet": {
+			"cloud_cidr_pool": []string{"cloud_cidr_pool_dn", "id"},
+		},
+		"cloud_cidr_pool": {
+			"cloud_context_profile": []string{"cloud_context_profile_dn", "id"},
+		},
 	}
 }
 
@@ -294,5 +300,6 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"imported_contract":                        &ImportedContractGenerator{},
 		"l3out_hsrp_interface_group":               &L3OutHSRPInterfaceGroupGenerator{},
 		"l3out_hsrp_interface_profile":             &L3OutHSRPInterfaceProfileGenerator{},
+		"cloud_subnet":								&CloudSubnetGenerator{},
 	}
 }

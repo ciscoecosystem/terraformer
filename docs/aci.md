@@ -23,6 +23,8 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
             * `epg_to_static_path`
     * `vrf`
         * `cloud_context_profile`
+            * `cloud_cidr_pool`
+                * `cloud_subnet`
         * `any`
     * `l3_outside`
         * `l3out_ospf_external_policy`
