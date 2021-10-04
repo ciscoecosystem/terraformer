@@ -82,6 +82,9 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
 * `vswitch_policy`
 * `cloud_domain_profile`
 * `cloud_vpn_gateway`
+* `aci_attachable_access_entity_profile`
+* `aci_epgs_using_function`
+* `aci_leaf_interface_profile`
 
 #### Attribute filters
 

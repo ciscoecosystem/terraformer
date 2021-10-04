@@ -294,5 +294,8 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"imported_contract":                        &ImportedContractGenerator{},
 		"l3out_hsrp_interface_group":               &L3OutHSRPInterfaceGroupGenerator{},
 		"l3out_hsrp_interface_profile":             &L3OutHSRPInterfaceProfileGenerator{},
+		"attachable_access_entity_profile":         &AttachableAccessEntityProfileGenerator{},
+		"epgs_using_function":                      &EPGUsingFunctionGenerator{},
+		"leaf_interface_profile":                   &LeafInterfaceProfileGenerator{},
 	}
 }
