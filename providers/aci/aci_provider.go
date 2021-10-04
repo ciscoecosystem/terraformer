@@ -176,6 +176,12 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"cloud_epg": {
 			"cloud_applicationcontainer": []string{"cloud_applicationcontainer_dn", "id"},
 		},
+		"cloud_subnet": {
+			"cloud_cidr_pool": []string{"cloud_cidr_pool_dn", "id"},
+		},
+		"cloud_cidr_pool": {
+			"cloud_context_profile": []string{"cloud_context_profile_dn", "id"},
+		},
 	}
 }
 
@@ -297,5 +303,6 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"attachable_access_entity_profile":         &AttachableAccessEntityProfileGenerator{},
 		"epgs_using_function":                      &EPGUsingFunctionGenerator{},
 		"leaf_interface_profile":                   &LeafInterfaceProfileGenerator{},
+		"cloud_subnet":                             &CloudSubnetGenerator{},
 	}
 }
