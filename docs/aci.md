@@ -87,6 +87,10 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
 * `aci_attachable_access_entity_profile`
 * `aci_epgs_using_function`
 * `aci_leaf_interface_profile`
+* `lldp_interface_policy`
+* `lacp_policy`
+* `cdp_interface_policy`
+* `vlan_encapsulationfor_vxlan_traffic`
 
 #### Attribute filters
 
