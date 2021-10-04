@@ -304,5 +304,9 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"epgs_using_function":                      &EPGUsingFunctionGenerator{},
 		"leaf_interface_profile":                   &LeafInterfaceProfileGenerator{},
 		"cloud_subnet":                             &CloudSubnetGenerator{},
+		"lldp_interface_policy":                    &LLDPInterfacePolicyGenerator{},
+		"lacp_policy":                              &LacpPolicyGenerator{},
+		"cdp_interface_policy":                     &CDPInterfacePolicyGenerator{},
+		"vlan_encapsulationfor_vxlan_traffic":      &VlanVxlanTrafficGenerator{},
 	}
 }
