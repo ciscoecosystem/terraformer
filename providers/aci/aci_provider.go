@@ -182,6 +182,9 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"cloud_cidr_pool": {
 			"cloud_context_profile": []string{"cloud_context_profile_dn", "id"},
 		},
+		"taboo_contract": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
 	}
 }
 
@@ -308,9 +311,12 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"lacp_policy":                              &LacpPolicyGenerator{},
 		"cdp_interface_policy":                     &CDPInterfacePolicyGenerator{},
 		"vlan_encapsulationfor_vxlan_traffic":      &VlanVxlanTrafficGenerator{},
+		"taboo_contract":			    &TabooContractGenerator{},
+		"vmm_domain":				    &VmmDomGenerator{},
 		"miscabling_protocol_interface_policy":     &MiscablingProtocolInterfacePolicyGenerator{},
 		"l2_interface_policy":                      &L2InterfacePolicyGenerator{},
 		"port_security_policy":                     &PortSecurityPolicyGenerator{},
 		"end_point_retention_policy":               &EndpointRetentionPolicyGenerator{},
+
 	}
 }
