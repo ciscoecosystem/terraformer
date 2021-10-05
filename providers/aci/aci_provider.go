@@ -308,5 +308,9 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"lacp_policy":                              &LacpPolicyGenerator{},
 		"cdp_interface_policy":                     &CDPInterfacePolicyGenerator{},
 		"vlan_encapsulationfor_vxlan_traffic":      &VlanVxlanTrafficGenerator{},
+		"miscabling_protocol_interface_policy":     &MiscablingProtocolInterfacePolicyGenerator{},
+		"l2_interface_policy":                      &L2InterfacePolicyGenerator{},
+		"port_security_policy":                     &PortSecurityPolicyGenerator{},
+		"end_point_retention_policy":               &EndpointRetentionPolicyGenerator{},
 	}
 }
