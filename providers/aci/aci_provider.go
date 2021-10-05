@@ -311,12 +311,15 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"lacp_policy":                              &LacpPolicyGenerator{},
 		"cdp_interface_policy":                     &CDPInterfacePolicyGenerator{},
 		"vlan_encapsulationfor_vxlan_traffic":      &VlanVxlanTrafficGenerator{},
-		"taboo_contract":			    &TabooContractGenerator{},
-		"vmm_domain":				    &VmmDomGenerator{},
+		"taboo_contract":                           &TabooContractGenerator{},
+		"vmm_domain":                               &VmmDomGenerator{},
 		"miscabling_protocol_interface_policy":     &MiscablingProtocolInterfacePolicyGenerator{},
 		"l2_interface_policy":                      &L2InterfacePolicyGenerator{},
 		"port_security_policy":                     &PortSecurityPolicyGenerator{},
 		"end_point_retention_policy":               &EndpointRetentionPolicyGenerator{},
-
+		"spine_port_selector":                      &SpinePortSelectorGenerator{},
+		"spine_interface_profile":                  &SpineInterfaceProfileGenerator{},
+		"spine_port_policy_group":                  &SpinePortPolicyGroupGenerator{},
+		"fabric_if_pol":                            &FabricIfPolGenerator{},
 	}
 }
