@@ -13,7 +13,6 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
 
 * `tenant`
     * `cloud_applicationcontainer`
-    * `taboo_contract`
         * `cloud_epg`
     * `application_profile`
         * `endpoint_security_group_selector`
@@ -70,6 +69,7 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
     * `imported_contract`
     * `cloud_applicationcontainer`
     * `cloud_aws_provider`
+    * `taboo_contract`
 * `vpc_explicit_protection_group`
 * `l3out_loopback_interface_profile`
 * `l3out_hsrp_interface_group`
