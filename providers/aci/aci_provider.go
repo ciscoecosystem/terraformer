@@ -185,6 +185,12 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"taboo_contract": {
 			"tenant": []string{"tenant_dn", "id"},
 		},
+		"l2_outside": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"static_node_mgmt_address": {
+			"node_mgmt_epg": []string{"management_epg_dn", "id"},
+		},
 	}
 }
 
@@ -311,12 +317,15 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"lacp_policy":                              &LacpPolicyGenerator{},
 		"cdp_interface_policy":                     &CDPInterfacePolicyGenerator{},
 		"vlan_encapsulationfor_vxlan_traffic":      &VlanVxlanTrafficGenerator{},
-		"taboo_contract":			    &TabooContractGenerator{},
-		"vmm_domain":				    &VmmDomGenerator{},
+		"taboo_contract":                           &TabooContractGenerator{},
+		"vmm_domain":                               &VmmDomGenerator{},
 		"miscabling_protocol_interface_policy":     &MiscablingProtocolInterfacePolicyGenerator{},
 		"l2_interface_policy":                      &L2InterfacePolicyGenerator{},
 		"port_security_policy":                     &PortSecurityPolicyGenerator{},
 		"end_point_retention_policy":               &EndpointRetentionPolicyGenerator{},
-
+		"l2_outside":                               &L2OutsideGenerator{},
+		"node_mgmt_epg":                            &NodeMgmtEPGGenerator{},
+		"static_node_mgmt_address":                 &StaticNodeMgmtAddressGenerator{},
+		"local_user":                               &LocalUserGenerator{},
 	}
 }
