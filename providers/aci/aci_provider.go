@@ -143,7 +143,7 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 			"logical_node_profile": []string{"logical_node_profile_dn", "id"},
 		},
 		"endpoint_security_group_selector": {
-			"endpoint_security_group": []string{"endpoint_security_group", "id"},
+			"endpoint_security_group": []string{"endpoint_security_group_dn", "id"},
 		},
 		"endpoint_security_group": {
 			"application_profile": []string{"application_profile", "id"},
@@ -311,12 +311,11 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"lacp_policy":                              &LacpPolicyGenerator{},
 		"cdp_interface_policy":                     &CDPInterfacePolicyGenerator{},
 		"vlan_encapsulationfor_vxlan_traffic":      &VlanVxlanTrafficGenerator{},
-		"taboo_contract":			    &TabooContractGenerator{},
-		"vmm_domain":				    &VmmDomGenerator{},
+		"taboo_contract":                           &TabooContractGenerator{},
+		"vmm_domain":                               &VmmDomGenerator{},
 		"miscabling_protocol_interface_policy":     &MiscablingProtocolInterfacePolicyGenerator{},
 		"l2_interface_policy":                      &L2InterfacePolicyGenerator{},
 		"port_security_policy":                     &PortSecurityPolicyGenerator{},
 		"end_point_retention_policy":               &EndpointRetentionPolicyGenerator{},
-
 	}
 }
