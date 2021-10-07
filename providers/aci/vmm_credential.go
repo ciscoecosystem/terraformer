@@ -43,6 +43,7 @@ func (a *VmmCredentialGenerator) InitResources() error {
 			"aci",
 			[]string{
 				"pwd",
+				"name_alias",
 				"usr",
 				"annotation",
 				"description",

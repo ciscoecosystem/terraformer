@@ -143,7 +143,7 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 			"logical_node_profile": []string{"logical_node_profile_dn", "id"},
 		},
 		"endpoint_security_group_selector": {
-			"endpoint_security_group": []string{"endpoint_security_group", "id"},
+			"endpoint_security_group": []string{"endpoint_security_group_dn", "id"},
 		},
 		"endpoint_security_group": {
 			"application_profile": []string{"application_profile", "id"},
