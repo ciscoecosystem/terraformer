@@ -334,5 +334,9 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"span_destination_group":                   &SpanDestinationGroupGenerator{},
 		"span_source_group":                        &SpanSourceGroupGenerator{},
 		"span_sourcedestination_group_match_label": &SpanSourceDestGroupMatchGenerator{},
+		"maintenance_policy":                       &MaintenancePolicyGenerator{},
+		"maintenance_group_node":                   &MaintenanceGroupNodeGenerator{},
+		"node_block_firmware":                      &NodeBlockFirmWareGenerator{},
+		"configuration_export_policy":              &ConfigExportPolicyGenerator{},
 	}
 }
