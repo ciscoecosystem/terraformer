@@ -185,6 +185,15 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"taboo_contract": {
 			"tenant": []string{"tenant_dn", "id"},
 		},
+		"l2_outside": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"static_node_mgmt_address": {
+			"node_mgmt_epg": []string{"management_epg_dn", "id"},
+		},
+		"span_sourcedestination_group_match_label": {
+			"span_source_group": []string{"span_source_group_dn", "id"},
+		},
 	}
 }
 
@@ -317,5 +326,21 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"l2_interface_policy":                      &L2InterfacePolicyGenerator{},
 		"port_security_policy":                     &PortSecurityPolicyGenerator{},
 		"end_point_retention_policy":               &EndpointRetentionPolicyGenerator{},
+		"spine_port_selector":                      &SpinePortSelectorGenerator{},
+		"spine_interface_profile":                  &SpineInterfaceProfileGenerator{},
+		"spine_port_policy_group":                  &SpinePortPolicyGroupGenerator{},
+		"fabric_if_pol":                            &FabricIfPolGenerator{},
+		"l2_outside":                               &L2OutsideGenerator{},
+		"node_mgmt_epg":                            &NodeMgmtEPGGenerator{},
+		"static_node_mgmt_address":                 &StaticNodeMgmtAddressGenerator{},
+		"local_user":                               &LocalUserGenerator{},
+		"trigger_scheduler":                        &TriggerSchedulerGenerator{},
+		"span_destination_group":                   &SpanDestinationGroupGenerator{},
+		"span_source_group":                        &SpanSourceGroupGenerator{},
+		"span_sourcedestination_group_match_label": &SpanSourceDestGroupMatchGenerator{},
+		"maintenance_policy":                       &MaintenancePolicyGenerator{},
+		"maintenance_group_node":                   &MaintenanceGroupNodeGenerator{},
+		"node_block_firmware":                      &NodeBlockFirmWareGenerator{},
+		"configuration_export_policy":              &ConfigExportPolicyGenerator{},
 	}
 }
