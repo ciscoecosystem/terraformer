@@ -191,6 +191,9 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"static_node_mgmt_address": {
 			"node_mgmt_epg": []string{"management_epg_dn", "id"},
 		},
+		"span_sourcedestination_group_match_label": {
+			"span_source_group": []string{"span_source_group_dn", "id"},
+		},
 	}
 }
 
@@ -327,5 +330,9 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"node_mgmt_epg":                            &NodeMgmtEPGGenerator{},
 		"static_node_mgmt_address":                 &StaticNodeMgmtAddressGenerator{},
 		"local_user":                               &LocalUserGenerator{},
+		"trigger_scheduler":                        &TriggerSchedulerGenerator{},
+		"span_destination_group":                   &SpanDestinationGroupGenerator{},
+		"span_source_group":                        &SpanSourceGroupGenerator{},
+		"span_sourcedestination_group_match_label": &SpanSourceDestGroupMatchGenerator{},
 	}
 }
