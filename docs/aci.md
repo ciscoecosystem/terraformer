@@ -98,6 +98,10 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
 * `l2_interface_policy`
 * `port_security_policy`
 * `end_point_retention_policy`
+* `spine_port_selector`
+* `spine_interface_profile`
+* `spine_port_policy_group`
+* `fabric_if_pol`
 * `node_mgmt_epg`
     * `static_node_mgmt_address`
 * `local_user`
