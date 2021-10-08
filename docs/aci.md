@@ -75,6 +75,7 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
 * `l3out_loopback_interface_profile`
 * `l3out_hsrp_interface_group`
 * `l3out_hsrp_interface_profile`
+* `l3_domain_profile`
 * `logical_node_to_fabric_node`
 * `cloud_cidr_pool`
 * `cloud_endpoint_selectorfor_external_epgs`
@@ -94,6 +95,9 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
 * `lacp_policy`
 * `cdp_interface_policy`
 * `vlan_encapsulationfor_vxlan_traffic`
+* `vlan_pool`
+    * `ranges`
+* `physical_domain`    
 * `miscabling_protocol_interface_policy`
 * `l2_interface_policy`
 * `port_security_policy`
