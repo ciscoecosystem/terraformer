@@ -21,7 +21,7 @@ func (a *AnyGenerator) InitResources() error {
 		}
 	}
 
-	client:= clientImpl
+	client := clientImpl
 
 	baseURL := "/api/node/class"
 	dnURL := fmt.Sprintf("%s/%s.json", baseURL, anyClassName)
@@ -51,6 +51,7 @@ func (a *AnyGenerator) InitResources() error {
 				"realtion_vz_rs_any_to_cons_if",
 				"realtion_vz_rs_any_to_prov",
 				"description",
+				"annotation",
 			},
 		)
 		resource.SlowQueryRequired = true

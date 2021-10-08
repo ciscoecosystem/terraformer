@@ -143,7 +143,7 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 			"logical_node_profile": []string{"logical_node_profile_dn", "id"},
 		},
 		"endpoint_security_group_selector": {
-			"endpoint_security_group": []string{"endpoint_security_group", "id"},
+			"endpoint_security_group": []string{"endpoint_security_group_dn", "id"},
 		},
 		"endpoint_security_group": {
 			"application_profile": []string{"application_profile", "id"},
@@ -184,6 +184,15 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		},
 		"taboo_contract": {
 			"tenant": []string{"tenant_dn", "id"},
+		},
+		"l2_outside": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"static_node_mgmt_address": {
+			"node_mgmt_epg": []string{"management_epg_dn", "id"},
+		},
+		"span_sourcedestination_group_match_label": {
+			"span_source_group": []string{"span_source_group_dn", "id"},
 		},
 	}
 }
@@ -311,16 +320,31 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"lacp_policy":                              &LacpPolicyGenerator{},
 		"cdp_interface_policy":                     &CDPInterfacePolicyGenerator{},
 		"vlan_encapsulationfor_vxlan_traffic":      &VlanVxlanTrafficGenerator{},
-		"taboo_contract":			    &TabooContractGenerator{},
-		"vmm_domain":				    &VmmDomGenerator{},
+		"taboo_contract":                           &TabooContractGenerator{},
+		"vmm_domain":                               &VmmDomGenerator{},
 		"miscabling_protocol_interface_policy":     &MiscablingProtocolInterfacePolicyGenerator{},
 		"l2_interface_policy":                      &L2InterfacePolicyGenerator{},
 		"port_security_policy":                     &PortSecurityPolicyGenerator{},
 		"end_point_retention_policy":               &EndpointRetentionPolicyGenerator{},
-		"vlan_pool":				    &VlanPoolGenerator{},
-		"ranges":				    &RangesGenerator{},
-		"physical_domain":			    &PhysicalDomGenerator{},
-		"l3_domain_profile":			    &L3DomPGenerator{},
-
+		"vlan_pool":				                        &VlanPoolGenerator{},
+		"ranges":				                            &RangesGenerator{},
+		"physical_domain":	                		    &PhysicalDomGenerator{},
+		"l3_domain_profile":			                  &L3DomPGenerator{},
+		"spine_port_selector":                      &SpinePortSelectorGenerator{},
+		"spine_interface_profile":                  &SpineInterfaceProfileGenerator{},
+		"spine_port_policy_group":                  &SpinePortPolicyGroupGenerator{},
+		"fabric_if_pol":                            &FabricIfPolGenerator{},
+		"l2_outside":                               &L2OutsideGenerator{},
+		"node_mgmt_epg":                            &NodeMgmtEPGGenerator{},
+		"static_node_mgmt_address":                 &StaticNodeMgmtAddressGenerator{},
+		"local_user":                               &LocalUserGenerator{},
+		"trigger_scheduler":                        &TriggerSchedulerGenerator{},
+		"span_destination_group":                   &SpanDestinationGroupGenerator{},
+		"span_source_group":                        &SpanSourceGroupGenerator{},
+		"span_sourcedestination_group_match_label": &SpanSourceDestGroupMatchGenerator{},
+		"maintenance_policy":                       &MaintenancePolicyGenerator{},
+		"maintenance_group_node":                   &MaintenanceGroupNodeGenerator{},
+		"node_block_firmware":                      &NodeBlockFirmWareGenerator{},
+		"configuration_export_policy":              &ConfigExportPolicyGenerator{},
 	}
 }
