@@ -43,7 +43,7 @@ func (a *CloudApplicationContainerGenerator) InitResources() error {
 		if filterChildrenDn(CloudApplicationContainerDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				CloudApplicationContainerDN,
-				CloudApplicationContainerDN,
+				resourceNamefromDn(CloudApplicationContainerClass, (CloudApplicationContainerDN), i),
 				"aci_cloud_applicationcontainer",
 				"aci",
 				[]string{

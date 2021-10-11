@@ -36,19 +36,27 @@ func (a *SpinePortSelectorGenerator) InitResources() error {
 	}
 
 	for i := 0; i < SpinePortSelectorCount; i++ {
-		SpinePortSelectorDN := SpinePortSelectorCont.S("imdata").Index(i).S(SpinePortSelectorClassName, "attributes", "dn").String()
-		resource := terraformutils.NewSimpleResource(
-			stripQuotes(SpinePortSelectorDN),
-			stripQuotes(SpinePortSelectorDN),
-			"aci_spine_port_selector",
-			"aci",
-			[]string{
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		SpinePortSelectorDN := stripQuotes(SpinePortSelectorCont.S("imdata").Index(i).S(SpinePortSelectorClassName, "attributes", "dn").String())
+		SpinePortSelectorAttr := SpinePortSelectorCont.S("imdata").Index(i).S(SpinePortSelectorClassName, "attributes")
+		SpinePortSelectortDn := G(SpinePortSelectorAttr, "tDn")
+		if filterChildrenDn(SpinePortSelectorDN, client.parentResource) != "" {
+			resource := terraformutils.NewResource(
+				SpinePortSelectorDN,
+				resourceNamefromDn(SpinePortSelectorClassName, (SpinePortSelectorDN), i),
+				"aci_spine_port_selector",
+				"aci",
+				map[string]string{
+					"spine_profile_dn": GetParentDn(SpinePortSelectorDN, fmt.Sprintf("/rsspAccPortP-[%s]", SpinePortSelectortDn)),
+				},
+				[]string{
+					"annotation",
+					"description",
+				},
+				map[string]interface{}{},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

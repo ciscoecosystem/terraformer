@@ -39,7 +39,7 @@ func (a *VmmCredentialGenerator) InitResources() error {
 		if filterChildrenDn(VmmCredentialDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				VmmCredentialDN,
-				VmmCredentialDN,
+				resourceNamefromDn(VmmCredentialClass, (VmmCredentialDN), i),
 				"aci_vmm_credential",
 				"aci",
 				[]string{

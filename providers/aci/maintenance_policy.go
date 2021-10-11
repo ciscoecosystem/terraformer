@@ -37,31 +37,33 @@ func (a *MaintenancePolicyGenerator) InitResources() error {
 	}
 
 	for i := 0; i < MaintenancePolicyCount; i++ {
-		MaintenancePolicyDN := MaintenancePolicysCont.S("imdata").Index(i).S(MaintenancePolicyClassName, "attributes", "dn").String()
-		resource := terraformutils.NewSimpleResource(
-			stripQuotes(MaintenancePolicyDN),
-			stripQuotes(MaintenancePolicyDN),
-			"aci_maintenance_policy",
-			"aci",
-			[]string{
-				"admin_st",
-				"graceful",
-				"ignore_compat",
-				"internal_label",
-				"notif_cond",
-				"run_mode",
-				"version",
-				"version_check_override",
-				"relation_maint_rs_pol_scheduler",
-				"relation_maint_rs_pol_notif",
-				"relation_trig_rs_triggerable",
-				"name_alias",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		MaintenancePolicyDN := stripQuotes(MaintenancePolicysCont.S("imdata").Index(i).S(MaintenancePolicyClassName, "attributes", "dn").String())
+		if filterChildrenDn(MaintenancePolicyDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				MaintenancePolicyDN,
+				resourceNamefromDn(MaintenancePolicyClassName, (MaintenancePolicyDN), i),
+				"aci_maintenance_policy",
+				"aci",
+				[]string{
+					"admin_st",
+					"graceful",
+					"ignore_compat",
+					"internal_label",
+					"notif_cond",
+					"run_mode",
+					"version",
+					"version_check_override",
+					"relation_maint_rs_pol_scheduler",
+					"relation_maint_rs_pol_notif",
+					"relation_trig_rs_triggerable",
+					"name_alias",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

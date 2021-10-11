@@ -35,21 +35,29 @@ func (a *SpanSourceDestGroupMatchGenerator) InitResources() error {
 		return err
 	}
 	for i := 0; i < SpanSourceDestGroupMatchCount; i++ {
-		SpanSourceDestGroupMatchDN := SpanSourceDestGroupMatchCont.S("imdata").Index(i).S(SpanSourceDestGroupMatchClass, "attributes", "dn").String()
-		resource := terraformutils.NewSimpleResource(
-			stripQuotes(SpanSourceDestGroupMatchDN),
-			stripQuotes(SpanSourceDestGroupMatchDN),
-			"aci_span_sourcedestination_group_match_label",
-			"aci",
-			[]string{
-				"tag",
-				"name_alias",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		SpanSourceDestGroupMatchDN := stripQuotes(SpanSourceDestGroupMatchCont.S("imdata").Index(i).S(SpanSourceDestGroupMatchClass, "attributes", "dn").String())
+		SpanSourceDestGroupMatchAttr := SpanSourceDestGroupMatchCont.S("imdata").Index(i).S(SpanSourceDestGroupMatchClass, "attributes")
+		SpanSourceDestGroupMatchName := G(SpanSourceDestGroupMatchAttr, "name")
+		if filterChildrenDn(SpanSourceDestGroupMatchDN, client.parentResource) != "" {
+			resource := terraformutils.NewResource(
+				SpanSourceDestGroupMatchDN,
+				resourceNamefromDn(SpanSourceDestGroupMatchClass, (SpanSourceDestGroupMatchDN), i),
+				"aci_span_sourcedestination_group_match_label",
+				"aci",
+				map[string]string{
+					"span_source_group_dn": GetParentDn(SpanSourceDestGroupMatchDN, fmt.Sprintf("/spanlbl-%s", SpanSourceDestGroupMatchName)),
+				},
+				[]string{
+					"tag",
+					"name_alias",
+					"annotation",
+					"description",
+				},
+				map[string]interface{}{},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

@@ -43,7 +43,7 @@ func (a *L3outPathAttachmentSecondaryIPGenerator) InitResources() error {
 		if filterChildrenDn(L3outPathAttachmentSecondaryIPDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				L3outPathAttachmentSecondaryIPDN,
-				L3outPathAttachmentSecondaryIPDN,
+				resourceNamefromDn(L3outPathAttachmentSecondaryIPClass, (L3outPathAttachmentSecondaryIPDN), i),
 				"aci_l3out_path_attachment_secondary_ip",
 				"aci",
 				[]string{

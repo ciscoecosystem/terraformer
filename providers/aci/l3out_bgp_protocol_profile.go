@@ -41,7 +41,7 @@ func (a *L3OutBGPProtocolProfileGenerator) InitResources() error {
 		if filterChildrenDn(L3OutBGPProtocolProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				L3OutBGPProtocolProfileDN,
-				L3OutBGPProtocolProfileDN,
+				resourceNamefromDn(L3OutBGPProtocolProfileClassName, (L3OutBGPProtocolProfileDN), i),
 				"aci_l3out_bgp_protocol_profile",
 				"aci",
 				[]string{

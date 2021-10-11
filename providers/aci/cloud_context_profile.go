@@ -49,7 +49,7 @@ func (a *CloudContextPGenerator) InitResources() error {
 		if filterChildrenDn(cloudContextPProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				cloudContextPProfileDN,
-				cloudContextPProfileDN,
+				resourceNamefromDn(cloudContextPClass, (cloudContextPProfileDN), i),
 				"aci_cloud_context_profile",
 				"aci",
 				[]string{

@@ -36,20 +36,22 @@ func (a *SpineInterfaceProfileGenerator) InitResources() error {
 	}
 
 	for i := 0; i < SpineInterfaceProfileCount; i++ {
-		SpineInterfaceProfileDN := SpineInterfaceProfileCont.S("imdata").Index(i).S(SpineInterfaceProfileClassName, "attributes", "dn").String()
-		resource := terraformutils.NewSimpleResource(
-			stripQuotes(SpineInterfaceProfileDN),
-			stripQuotes(SpineInterfaceProfileDN),
-			"aci_spine_interface_profile",
-			"aci",
-			[]string{
-				"name_alias",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		SpineInterfaceProfileDN := stripQuotes(SpineInterfaceProfileCont.S("imdata").Index(i).S(SpineInterfaceProfileClassName, "attributes", "dn").String())
+		if filterChildrenDn(SpineInterfaceProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				SpineInterfaceProfileDN,
+				resourceNamefromDn(SpineInterfaceProfileClassName, (SpineInterfaceProfileDN), i),
+				"aci_spine_interface_profile",
+				"aci",
+				[]string{
+					"name_alias",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

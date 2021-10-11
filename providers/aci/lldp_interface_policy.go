@@ -3,6 +3,7 @@ package aci
 import (
 	"fmt"
 	"strconv"
+	"strings"
 
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
 )
@@ -38,10 +39,11 @@ func (a *LLDPInterfacePolicyGenerator) InitResources() error {
 
 	for i := 0; i < LLDPInterfacePolicyCount; i++ {
 		LLDPInterfacePolicyDN := stripQuotes(LLDPInterfacePolicysCont.S("imdata").Index(i).S(LLDPInterfacePolicyClassName, "attributes", "dn").String())
-		if filterChildrenDn(LLDPInterfacePolicyDN, client.parentResource) != "" {
+		dnSplitted := strings.Split(LLDPInterfacePolicyDN, "/")
+		if filterChildrenDn(LLDPInterfacePolicyDN, client.parentResource) != "" && dnSplitted[1] == "infra" {
 			resource := terraformutils.NewSimpleResource(
 				LLDPInterfacePolicyDN,
-				LLDPInterfacePolicyDN,
+				resourceNamefromDn(LLDPInterfacePolicyClassName, (LLDPInterfacePolicyDN), i),
 				"aci_lldp_interface_policy",
 				"aci",
 				[]string{

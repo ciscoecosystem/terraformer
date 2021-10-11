@@ -40,7 +40,7 @@ func (a *VPCExplicitProtectionGroupGenerator) InitResources() error {
 		if filterChildrenDn(VPCExplicitProtectionGroupDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				VPCExplicitProtectionGroupDN,
-				VPCExplicitProtectionGroupDN,
+				resourceNamefromDn(vpcExplicitProtectionGroupClassName, (VPCExplicitProtectionGroupDN), i),
 				"aci_vpc_explicit_protection_group",
 				"aci",
 				[]string{

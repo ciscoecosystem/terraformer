@@ -40,7 +40,7 @@ func (a *ospfInterfacePolicyGenerator) InitResources() error {
 		if filterChildrenDn(ospfInterfacePolicyDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				ospfInterfacePolicyDN,
-				ospfInterfacePolicyDN,
+				resourceNamefromDn(ospfInterfacePolicyClassName, (ospfInterfacePolicyDN), i),
 				"aci_ospf_interface_policy",
 				"aci",
 				[]string{

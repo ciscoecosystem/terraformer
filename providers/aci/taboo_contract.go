@@ -34,7 +34,7 @@ func (a *TabooContractGenerator) InitResources() error {
 
 	totalCount := stripQuotes(tabooContractCont.S("totalCount").String())
 
-	if totalCount == "{}"{
+	if totalCount == "{}" {
 		totalCount = "0"
 	}
 
@@ -46,19 +46,21 @@ func (a *TabooContractGenerator) InitResources() error {
 
 	for i := 0; i < tabooContractCount; i++ {
 		tabooContractProfileDN := stripQuotes(tabooContractCont.S("imdata").Index(i).S(tabooContractClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			tabooContractProfileDN,
-			tabooContractProfileDN,
-			"aci_taboo_contract",
-			"aci",
-			[]string{
-				"name_alias",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(tabooContractProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				tabooContractProfileDN,
+				resourceNamefromDn(tabooContractClass, (tabooContractProfileDN), i),
+				"aci_taboo_contract",
+				"aci",
+				[]string{
+					"name_alias",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

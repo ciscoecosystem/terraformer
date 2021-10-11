@@ -43,7 +43,7 @@ func (a *L3outOspfExternalPolicyGenerator) InitResources() error {
 		if filterChildrenDn(L3outOspfExternalPolicyDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				L3outOspfExternalPolicyDN,
-				L3outOspfExternalPolicyDN,
+				resourceNamefromDn(L3outOspfExternalPolicyClass, (L3outOspfExternalPolicyDN), i),
 				"aci_l3out_ospf_external_policy",
 				"aci",
 				[]string{

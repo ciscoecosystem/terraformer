@@ -41,7 +41,7 @@ func (a *BgpAddressFamilyContextGenerator) InitResources() error {
 		if filterChildrenDn(BgpAddressFamilyContextDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				BgpAddressFamilyContextDN,
-				BgpAddressFamilyContextDN,
+				resourceNamefromDn(BgpAddressFamilyContextClass, (BgpAddressFamilyContextDN), i),
 				"aci_bgp_address_family_context",
 				"aci",
 				[]string{

@@ -40,26 +40,27 @@ func (a *EndpointRetentionPolicyGenerator) InitResources() error {
 
 	for i := 0; i < EndpointRetentionPolicysCount; i++ {
 		EndpointRetentionPolicyDN := stripQuotes(EndpointRetentionPolicyCont.S("imdata").Index(i).S(EndpointRetentionPolicyClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			EndpointRetentionPolicyDN,
-			EndpointRetentionPolicyDN,
-			"aci_end_point_retention_policy",
-			"aci",
-			[]string{
-				"bounce_age_intvl",
-				"bounce_trig",
-				"hold_intvl",
-				"local_ep_age_intvl",
-				"move_freq",
-				"remote_ep_age_intvl",
-				"name_alias",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(EndpointRetentionPolicyDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				EndpointRetentionPolicyDN,
+				resourceNamefromDn(EndpointRetentionPolicyClass, (EndpointRetentionPolicyDN), i),
+				"aci_end_point_retention_policy",
+				"aci",
+				[]string{
+					"bounce_age_intvl",
+					"bounce_trig",
+					"hold_intvl",
+					"local_ep_age_intvl",
+					"move_freq",
+					"remote_ep_age_intvl",
+					"name_alias",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
-
 	return nil
 }

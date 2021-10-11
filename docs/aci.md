@@ -1,42 +1,48 @@
 
 ### Use with ACI
 
-Example:
-
+* use `--username`, `--password` and `--base-url` options to specify server credentials for the first run. It should set respective environment variables of server credentials. Once environment variables are set there is no need to specify these options in the import command.
 ```
 terraformer import aci --resources=tenant,application_profile --username=Cisco_APIC_username --password=Cisco_APIC_password --base-url=Cisco_APIC_url
-terraformer import aci --resources=* --excludes=application_profile --username=Cisco_APIC_username --password=Cisco_APIC_password --base-url=Cisco_APIC_url
-terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 --username=Cisco_APIC_username --password=Cisco_APIC_password --base-url=Cisco_APIC_url
+terraformer import aci --resources=* --excludes=application_profile
+terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2
 ```
 
 #### Supported services
 
 * `tenant`
+    * `action_rule_profile`
+    * `monitoring_policy`
     * `cloud_applicationcontainer`
         * `cloud_epg`
+            * `cloud_endpoint_selector`
+        * `cloud_external_epg`
+            * `cloud_endpoint_selectorfor_external_epgs`
     * `application_profile`
-        * `endpoint_security_group_selector`
         * `endpoint_security_group`
+            * `endpoint_security_group_selector`
         * `application_epg`
             * `epg_to_contract`
             * `epg_to_domain`
             * `epg_to_static_path`
     * `vrf`
-        * `cloud_context_profile`
-            * `cloud_cidr_pool`
-                * `cloud_subnet`
         * `any`
+    * `bgp_route_control_profile`
+    * `cloud_context_profile`
+         * `cloud_cidr_pool`
+            * `cloud_subnet`
+         * `cloud_vpn_gateway`
     * `l3_outside`
         * `l3out_ospf_external_policy`
         * `external_network_instance_profile`
             * `l3_ext_subnet`
         * `logical_node_profile`
-            *`logical_node_to_fabric_profile`
+            * `bgp_peer_connectivity_profile`
+            * `logical_node_to_fabric_node`
                 * `l3out_static_route`
                     * `l3out_static_route_next_hop`
             * `l3out_bgp_protocol_profile`
             * `logical_interface_profile`
-                * `l3out_hsrp_secondary_vip`
                 * `l3out_ospf_interface_profile`
                 * `l3out_floating_svi`
                 * `l3out_path_attachment`
@@ -44,16 +50,22 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
                     * `bgp_peer_connectivity_profile`
                     * `l3out_vpc_member`
                 * `l3out_bfd_interface_profile`
+                * `l3out_hsrp_interface_profile`
+                    * `l3out_hsrp_interface_group`
+                      * `l3out_hsrp_secondary_vip`
+            * `logical_node_to_fabric_node`
+              * `l3out_loopback_interface_profile`
         * `l3out_bgp_external_policy`
-        * `bgp_route_control_profile`   
+        * `bgp_route_control_profile` 
     * `bridge_domain` 
         * `subnet`
         * `bd_dhcp_label`
     * `contract`
         * `contract_subject`
+        * `epg_to_contract`
     * `filter`
         * `filter_entry`
-    * `ospf_inteface_policy`
+    * `ospf_interface_policy`
     * `dhcp_option_policy`
     * `dhcp_relay_policy`
     * `bgp_route_summarization`
@@ -67,56 +79,84 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
     * `hsrp_interface_policy`
     * `hsrp_group_policy`
     * `imported_contract`
-    * `cloud_applicationcontainer`
     * `cloud_aws_provider`
     * `taboo_contract`
     * `l2_outside`
+        * `l2out_extepg`
+    * `service_redirect_policy`
+        * `destination_of_redirected_traffic`
+    * `logical_device_context`
+        * `logical_interface_context`
+    * `l4_l7_service_graph_template`
+        * `function_node`
+        * `connection`
+    * `span_destination_group`
+    * `span_source_group`
+        * `span_sourcedestination_group_match_label`
+    * `end_point_retention_policy`
 * `vpc_explicit_protection_group`
-* `l3out_loopback_interface_profile`
-* `l3out_hsrp_interface_group`
-* `l3out_hsrp_interface_profile`
 * `l3_domain_profile`
-* `logical_node_to_fabric_node`
-* `cloud_cidr_pool`
-* `cloud_endpoint_selectorfor_external_epgs`
-* `cloud_endpoint_selector`
-* `cloud_external_epg`
-* `cloud_vpn_gateway`
 * `vmm_domain`
-* `vmm_controller`
-* `vmm_credential`
-* `vswitch_policy`
+   * `vmm_controller`
+   * `vmm_credential`
+   * `vswitch_policy`
 * `cloud_domain_profile`
-* `cloud_vpn_gateway`
-* `aci_attachable_access_entity_profile`
-* `aci_epgs_using_function`
-* `aci_leaf_interface_profile`
+* `attachable_access_entity_profile`
+    * `access_generic`
+        * `epgs_using_function`
+    * `vlan_encapsulationfor_vxlan_traffic`
+* `leaf_interface_profile`
+    * `access_port_selector`
+        * `access_group`
+        * `access_port_block`
+        * `access_sub_port_block`
+* `leaf_profile`
+    * `leaf_selector`
+        * `node_block`
+* `leaf_access_bundle_policy_group`
+* `leaf_access_port_policy_group`
+* `leaf_breakout_port_group`       
 * `lldp_interface_policy`
 * `lacp_policy`
 * `cdp_interface_policy`
-* `vlan_encapsulationfor_vxlan_traffic`
+* `vxlan_pool`
 * `vlan_pool`
     * `ranges`
 * `physical_domain`    
 * `miscabling_protocol_interface_policy`
 * `l2_interface_policy`
+* `l2_domain`
 * `port_security_policy`
-* `end_point_retention_policy`
-* `spine_port_selector`
+* `spine_profile`
+    * `spine_switch_association`
+    * `spine_port_selector`
 * `spine_interface_profile`
 * `spine_port_policy_group`
 * `fabric_if_pol`
 * `node_mgmt_epg`
     * `static_node_mgmt_address`
 * `local_user`
+    * `x509_certificate`
 * `trigger_scheduler`
-* `span_destination_group`
-* `span_source_group`
-    * `span_sourcedestination_group_match_label`
+* `spanning_tree_interface_policy`
 * `maintenance_policy`
-* `maintenance_group_node`
-* `node_block_firmware`
 * `configuration_export_policy`
+* `aaa_domain`
+* `configuration_import_policy`
+* `fabric_node_member`
+* `fex_profile`
+    * `fex_bundle_group`
+* `interface_fc_policy`
+* `firmware_policy`
+* `firmware_group`
+    * `node_block_firmware`
+* `firmware_download_task`
+* `vsan_pool`
+* `fc_domain`
+* `pod_maintenance_group`
+    * `maintenance_group_node`
+
+
 #### Attribute filters
 
 Attribute filters allow filtering across different resource types by their attributes.
@@ -132,7 +172,12 @@ It Will work as same as the example above with a change the filter will apply on
 ```
 terraformer import aci --resources=application_profile --filter="Name=annotation;Value='orchestrator:terraform':'tag'" --password=Cisco_APIC_password --username=Cisco_APIC_username --base-url=Cisco_APIC_url
 ```
-If the value of the attribute has `: (colon)` in its value, then to pass this value inside --filter tag user needs to pass the entire value in `'' (single quotes)` like the above mentioned example. 
+`--parent-dn`: specify DN of parent resource. following command will import whole tree of child resources under `test` tenant.
+```
+terraformer import aci --resources=* --parent-dn="uni/tn-test" --password=Cisco_APIC_password --username=Cisco_APIC_username --base-url=Cisco_APIC_url
+```
+If the value of the attribute has `: (colon)` in its value, then to pass this value inside --filter tag user needs to pass the entire value in `'' (single quotes)` like the above mentioned example.  
+
 
 #### Building the terraformer provider
 
@@ -164,6 +209,7 @@ Or alternatively
    ACI_PASSWORD = Cisco_APIC_password
    ACI_URL = Cisco_APIC_url
 ```
+Note: If above environment variables have not been set, use `--username`, `--password` and `--base-url` options.
 
 From Releases:
 
