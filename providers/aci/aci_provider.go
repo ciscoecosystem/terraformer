@@ -194,6 +194,12 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"span_sourcedestination_group_match_label": {
 			"span_source_group": []string{"span_source_group_dn", "id"},
 		},
+		"leaf_selector": {
+			"leaf_profile": []string{"leaf_profile_dn", "id"},
+		},
+		"node_block": {
+			"leaf_selector": []string{"leaf_selector_dn", "id"},
+		},
 	}
 }
 
@@ -342,5 +348,9 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"maintenance_group_node":                   &MaintenanceGroupNodeGenerator{},
 		"node_block_firmware":                      &NodeBlockFirmWareGenerator{},
 		"configuration_export_policy":              &ConfigExportPolicyGenerator{},
+		"leaf_selector":							&LeafSelectorGenerator{},
+		"node_block":								&NodeBlockGenerator{},
+		"leaf_access_bundle_policy_group":			&LeafAccBunPolGGenerator{},
+		"leaf_access_port_policy_group":			&LeafAccPorPolGGenerator{},
 	}
 }
