@@ -33,7 +33,7 @@ func (a *EPGToContractGenerator) InitResources() error {
 	}
 
 	EPGToContractCount, err := strconv.Atoi(stripQuotes(EPGToContractCont.S("totalCount").String()))
-
+	provCount := EPGToContractCount
 	if err != nil {
 		return err
 	}
@@ -43,7 +43,7 @@ func (a *EPGToContractGenerator) InitResources() error {
 		if filterChildrenDn(EPGToContractDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
 				EPGToContractDN,
-				EPGToContractDN,
+				resourceNamefromDn(EPGToContractClass, (EPGToContractDN), i),
 				"aci_epg_to_contract",
 				"aci",
 				map[string]string{
@@ -78,24 +78,26 @@ func (a *EPGToContractGenerator) InitResources() error {
 
 	for i := 0; i < EPGToContractCount; i++ {
 		EPGToContractDN := stripQuotes(EPGToContractCont.S("imdata").Index(i).S("fvRsCons", "attributes", "dn").String())
-		resource := terraformutils.NewResource(
-			EPGToContractDN,
-			EPGToContractDN,
-			"aci_epg_to_contract",
-			"aci",
-			map[string]string{
-				"contract_type": "consumer",
-			},
-			[]string{
-				"annotation",
-				"match_t",
-				"prio",
-				"description",
-			},
-			map[string]interface{}{},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(EPGToContractDN, client.parentResource) != "" {
+			resource := terraformutils.NewResource(
+				EPGToContractDN,
+				resourceNamefromDn("fvRsCons", GetMOName(EPGToContractDN), i+provCount),
+				"aci_epg_to_contract",
+				"aci",
+				map[string]string{
+					"contract_type": "consumer",
+				},
+				[]string{
+					"annotation",
+					"match_t",
+					"prio",
+					"description",
+				},
+				map[string]interface{}{},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

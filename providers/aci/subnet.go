@@ -38,10 +38,11 @@ func (a *SubnetGenerator) InitResources() error {
 
 	for i := 0; i < SubnetCount; i++ {
 		SubnetDN := stripQuotes(SubnetsCont.S("imdata").Index(i).S(subnetClassName, "attributes", "dn").String())
+
 		if filterChildrenDn(SubnetDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
-				stripQuotes(SubnetDN),
-				stripQuotes(SubnetDN),
+				SubnetDN,
+				resourceNamefromDn(subnetClassName, SubnetDN, i),
 				"aci_subnet",
 				"aci",
 				[]string{

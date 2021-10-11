@@ -35,20 +35,22 @@ func (a *TriggerSchedulerGenerator) InitResources() error {
 		return err
 	}
 	for i := 0; i < TriggerSchedulerCount; i++ {
-		TriggerSchedulerDN := TriggerSchedulerCont.S("imdata").Index(i).S(TriggerSchedulerClass, "attributes", "dn").String()
-		resource := terraformutils.NewSimpleResource(
-			stripQuotes(TriggerSchedulerDN),
-			stripQuotes(TriggerSchedulerDN),
-			"aci_trigger_scheduler",
-			"aci",
-			[]string{
-				"name_alias",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		TriggerSchedulerDN := stripQuotes(TriggerSchedulerCont.S("imdata").Index(i).S(TriggerSchedulerClass, "attributes", "dn").String())
+		if filterChildrenDn(TriggerSchedulerDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				TriggerSchedulerDN,
+				resourceNamefromDn(TriggerSchedulerClass, (TriggerSchedulerDN), i),
+				"aci_trigger_scheduler",
+				"aci",
+				[]string{
+					"name_alias",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

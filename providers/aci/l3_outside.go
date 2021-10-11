@@ -44,7 +44,7 @@ func (a *L3OutsideGenerator) InitResources() error {
 		if filterChildrenDn(l3OutDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				l3OutDN,
-				l3OutDN,
+				resourceNamefromDn(L3OutsideClass, (l3OutDN), i),
 				"aci_l3_outside",
 				"aci",
 				[]string{

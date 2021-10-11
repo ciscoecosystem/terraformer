@@ -43,7 +43,7 @@ func (a *DHCPRelayPolicyGenerator) InitResources() error {
 		if filterChildrenDn(DHCPRelayPolicyDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				DHCPRelayPolicyDN,
-				DHCPRelayPolicyDN,
+				resourceNamefromDn(DHCPRelayPolicyClass, (DHCPRelayPolicyDN), i),
 				"aci_dhcp_relay_policy",
 				"aci",
 				[]string{

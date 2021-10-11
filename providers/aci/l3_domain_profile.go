@@ -34,7 +34,7 @@ func (a *L3DomPGenerator) InitResources() error {
 
 	totalCount := stripQuotes(l3DomPCont.S("totalCount").String())
 
-	if totalCount == "{}"{
+	if totalCount == "{}" {
 		totalCount = "0"
 	}
 
@@ -46,24 +46,26 @@ func (a *L3DomPGenerator) InitResources() error {
 
 	for i := 0; i < l3DomPCount; i++ {
 		l3DomPProfileDN := stripQuotes(l3DomPCont.S("imdata").Index(i).S(l3DomPClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			l3DomPProfileDN,
-			l3DomPProfileDN,
-			"aci_l3_domain_profile",
-			"aci",
-			[]string{
-				"name_alias",
-				"relation_infra_rs_vlan_ns",
-				"relation_infra_rs_vlan_ns_def",
-				"relation_infra_rs_vip_addr_ns",
-				"relation_extnw_rs_out",
-				"relation_infra_rs_dom_vxlan_ns_def",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(l3DomPProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				l3DomPProfileDN,
+				resourceNamefromDn(l3DomPClass, (l3DomPProfileDN), i),
+				"aci_l3_domain_profile",
+				"aci",
+				[]string{
+					"name_alias",
+					"relation_infra_rs_vlan_ns",
+					"relation_infra_rs_vlan_ns_def",
+					"relation_infra_rs_vip_addr_ns",
+					"relation_extnw_rs_out",
+					"relation_infra_rs_dom_vxlan_ns_def",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

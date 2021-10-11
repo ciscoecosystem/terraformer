@@ -46,32 +46,34 @@ func (a *CloudEPGGenerator) InitResources() error {
 
 	for i := 0; i < cloudEPGCount; i++ {
 		cloudEPGProfileDN := stripQuotes(cloudEPGCont.S("imdata").Index(i).S(cloudEPGClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			cloudEPGProfileDN,
-			cloudEPGProfileDN,
-			"aci_cloud_epg",
-			"aci",
-			[]string{
-				"exception_tag",
-				"flood_on_encap",
-				"match_t",
-				"name_alias",
-				"pref_gr_memb",
-				"prio",
-				"relation_fv_rs_sec_inherited",
-				"relation_fv_rs_prov",
-				"relation_fv_rs_cons_if",
-				"relation_fv_rs_cust_qos_pol",
-				"relation_fv_rs_cons",
-				"relation_cloud_rs_cloud_epg_ctx",
-				"relation_fv_rs_prot_by",
-				"relation_fv_rs_intra_epg",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(cloudEPGProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				cloudEPGProfileDN,
+				resourceNamefromDn(cloudEPGClass, (cloudEPGProfileDN), i),
+				"aci_cloud_epg",
+				"aci",
+				[]string{
+					"exception_tag",
+					"flood_on_encap",
+					"match_t",
+					"name_alias",
+					"pref_gr_memb",
+					"prio",
+					"relation_fv_rs_sec_inherited",
+					"relation_fv_rs_prov",
+					"relation_fv_rs_cons_if",
+					"relation_fv_rs_cust_qos_pol",
+					"relation_fv_rs_cons",
+					"relation_cloud_rs_cloud_epg_ctx",
+					"relation_fv_rs_prot_by",
+					"relation_fv_rs_intra_epg",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

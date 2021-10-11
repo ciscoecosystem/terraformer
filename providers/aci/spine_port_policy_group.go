@@ -40,23 +40,25 @@ func (a *SpinePortPolicyGroupGenerator) InitResources() error {
 
 	for i := 0; i < SpinePortPolicyGroupCount; i++ {
 		SpinePortPolicyGroupProfileDN := stripQuotes(SpinePortPolicyGroupCont.S("imdata").Index(i).S(SpinePortPolicyGroupClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			SpinePortPolicyGroupProfileDN,
-			SpinePortPolicyGroupProfileDN,
-			"aci_spine_port_policy_group",
-			"aci",
-			[]string{
-				"relation_infra_rs_h_if_pol",
-				"relation_infra_rs_cdp_if_pol",
-				"relation_infra_rs_copp_if_pol",
-				"relation_infra_rs_att_ent_p",
-				"relation_infra_rs_macsec_if_pol",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(SpinePortPolicyGroupProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				SpinePortPolicyGroupProfileDN,
+				resourceNamefromDn(SpinePortPolicyGroupClass, (SpinePortPolicyGroupProfileDN), i),
+				"aci_spine_port_policy_group",
+				"aci",
+				[]string{
+					"relation_infra_rs_h_if_pol",
+					"relation_infra_rs_cdp_if_pol",
+					"relation_infra_rs_copp_if_pol",
+					"relation_infra_rs_att_ent_p",
+					"relation_infra_rs_macsec_if_pol",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

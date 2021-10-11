@@ -42,7 +42,7 @@ func (a *L3ExtSubnetGenerator) InitResources() error {
 		if filterChildrenDn(L3ExtSubnetDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				L3ExtSubnetDN,
-				L3ExtSubnetDN,
+				resourceNamefromDn(L3ExtSubnetClass, (L3ExtSubnetDN), i),
 				"aci_l3_ext_subnet",
 				"aci",
 				[]string{

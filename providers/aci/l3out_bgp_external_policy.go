@@ -41,7 +41,7 @@ func (a *L3OutBGPExtPolGenerator) InitResources() error {
 		if filterChildrenDn(L3OutBGPExtPolDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				L3OutBGPExtPolDN,
-				L3OutBGPExtPolDN,
+				resourceNamefromDn(L3OutBGPExtPolClass, (L3OutBGPExtPolDN), i),
 				"aci_l3out_bgp_external_policy",
 				"aci",
 				[]string{

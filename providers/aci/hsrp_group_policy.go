@@ -41,7 +41,7 @@ func (a *HSRPGroupPolicyGenerator) InitResources() error {
 		if filterChildrenDn(HSRPGroupPolicyDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				HSRPGroupPolicyDN,
-				HSRPGroupPolicyDN,
+				resourceNamefromDn(HSRPGroupPolicyClassName, (HSRPGroupPolicyDN), i),
 				"aci_hsrp_group_policy",
 				"aci",
 				[]string{

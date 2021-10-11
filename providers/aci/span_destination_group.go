@@ -35,20 +35,22 @@ func (a *SpanDestinationGroupGenerator) InitResources() error {
 		return err
 	}
 	for i := 0; i < SpanDestinationGroupCount; i++ {
-		SpanDestinationGroupDN := SpanDestinationGroupCont.S("imdata").Index(i).S(SpanDestinationGroupClass, "attributes", "dn").String()
-		resource := terraformutils.NewSimpleResource(
-			stripQuotes(SpanDestinationGroupDN),
-			stripQuotes(SpanDestinationGroupDN),
-			"aci_span_destination_group",
-			"aci",
-			[]string{
-				"name_alias",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		SpanDestinationGroupDN := stripQuotes(SpanDestinationGroupCont.S("imdata").Index(i).S(SpanDestinationGroupClass, "attributes", "dn").String())
+		if filterChildrenDn(SpanDestinationGroupDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				SpanDestinationGroupDN,
+				resourceNamefromDn(SpanDestinationGroupClass, (SpanDestinationGroupDN), i),
+				"aci_span_destination_group",
+				"aci",
+				[]string{
+					"name_alias",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

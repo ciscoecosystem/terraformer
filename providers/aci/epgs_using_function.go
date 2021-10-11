@@ -36,12 +36,17 @@ func (a *EPGUsingFunctionGenerator) InitResources() error {
 	}
 	for i := 0; i < EPGUsingFunctionCount; i++ {
 		EPGUsingFunctionDN := stripQuotes(EPGUsingFunctionCont.S("imdata").Index(i).S(EPGUsingFunctionClass, "attributes", "dn").String())
+		EPGUsingFunctionAttr := EPGUsingFunctionCont.S("imdata").Index(i).S(EPGUsingFunctionClass, "attributes")
+		EPGUsingFunctiontDn := G(EPGUsingFunctionAttr, "tDn")
 		if filterChildrenDn(EPGUsingFunctionDN, client.parentResource) != "" {
-			resource := terraformutils.NewSimpleResource(
+			resource := terraformutils.NewResource(
 				EPGUsingFunctionDN,
-				EPGUsingFunctionDN,
+				resourceNamefromDn(EPGUsingFunctionClass, EPGUsingFunctionDN, i),
 				"aci_epgs_using_function",
 				"aci",
+				map[string]string{
+					"access_generic_dn": GetParentDn(EPGUsingFunctionDN, fmt.Sprintf("/rsfuncToEpg-[%s]", EPGUsingFunctiontDn)),
+				},
 				[]string{
 					"instr_imedcy",
 					"mode",
@@ -49,6 +54,7 @@ func (a *EPGUsingFunctionGenerator) InitResources() error {
 					"annotation",
 					"description",
 				},
+				map[string]interface{}{},
 			)
 			resource.SlowQueryRequired = true
 			a.Resources = append(a.Resources, resource)

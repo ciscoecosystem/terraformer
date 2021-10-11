@@ -31,7 +31,7 @@ func newCmdACIImporter(options ImportOptions) *cobra.Command {
 	cmd.PersistentFlags().StringVarP(&username, "username", "", os.Getenv("ACI_USERNAME"), "YOUR_ACI_USERNAME or env param ACI_USERNAME")
 	cmd.PersistentFlags().StringVarP(&password, "password", "", os.Getenv("ACI_PASSWORD"), "YOUR_ACI_PASSWORD or env param ACI_PASSWORD")
 	cmd.PersistentFlags().StringVarP(&baseURL, "base-url", "", os.Getenv("ACI_URL"), "YOUR_ACI_URL or env param ACI_URL")
-	cmd.PersistentFlags().StringVarP(&parentResource, "parent-resource", "", "", "YOUR_ACI_URL or env param ACI_URL")
+	cmd.PersistentFlags().StringVarP(&parentResource, "parent-dn", "", "", "import children resources of a particular DN")
 
 	return cmd
 }

@@ -41,7 +41,7 @@ func (a *LeafInterfaceProfileGenerator) InitResources() error {
 		if filterChildrenDn(LeafInterfaceProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				LeafInterfaceProfileDN,
-				LeafInterfaceProfileDN,
+				resourceNamefromDn(LeafInterfaceProfileClass, (LeafInterfaceProfileDN), i),
 				"aci_leaf_interface_profile",
 				"aci",
 				[]string{

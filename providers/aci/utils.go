@@ -1,6 +1,8 @@
 package aci
 
 import (
+	"fmt"
+	"regexp"
 	"strconv"
 	"strings"
 
@@ -42,4 +44,21 @@ func stripQuotes(word string) string {
 
 func G(cont *container.Container, key string) string {
 	return stripQuotes(cont.S(key).String())
+}
+
+func GetParentDn(dn string, rn string) string {
+	arr := strings.Split(dn, rn)
+	return arr[0]
+}
+
+func replaceSpecialCharsDn(dn string) string {
+	hyphen := regexp.MustCompile(`[/.:]`)
+	removeChars := regexp.MustCompile(`[\[\]]`)
+	res := hyphen.ReplaceAllString(dn, "-")
+	res = removeChars.ReplaceAllString(res, "")
+	return res
+}
+
+func resourceNamefromDn(className, dn string, i int) string {
+	return fmt.Sprintf("%s_%s_%d", className, replaceSpecialCharsDn(GetMOName(dn)), i)
 }
