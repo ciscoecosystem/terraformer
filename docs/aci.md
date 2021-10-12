@@ -91,6 +91,9 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
 * `aci_attachable_access_entity_profile`
 * `aci_epgs_using_function`
 * `aci_leaf_interface_profile`
+    * `access_port_selector`
+        * `access_port_block`
+        * `access_sub_port_block`
 * `aci_leaf_profile`
     * `leaf_selector`
         * `node_block`
@@ -115,6 +118,7 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
     * `static_node_mgmt_address`
 * `local_user`
 * `trigger_scheduler`
+* `spanning_tree_interface_policy`
 * `span_destination_group`
 * `span_source_group`
     * `span_sourcedestination_group_match_label`
