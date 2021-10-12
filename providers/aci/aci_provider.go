@@ -200,6 +200,15 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"node_block": {
 			"leaf_selector": []string{"leaf_selector_dn", "id"},
 		},
+		"access_port_selector": {
+			"leaf_interface_profile": []string{"leaf_interface_profile_dn", "id"},
+		},
+		"access_port_block": {
+			"access_port_selector": []string{"access_port_selector_dn", "id"},
+		},
+		"access_sub_port_block": {
+			"access_port_selector": []string{"access_port_selector_dn", "id"},
+		},
 	}
 }
 
@@ -356,5 +365,9 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"node_block":								&NodeBlockGenerator{},
 		"leaf_access_bundle_policy_group":			&LeafAccBunPolGGenerator{},
 		"leaf_access_port_policy_group":			&LeafAccPorPolGGenerator{},
+		"access_port_selector":						&AccessPortSelectorGenerator{},
+		"access_port_block":						&AccessPortBlkGenerator{},
+		"access_sub_port_block":		    &AccessSubPortBlkGenerator{},
+		"spanning_tree_interface_policy":			&SpanningTreeInterfacePolicyGenerator{},
 	}
 }
