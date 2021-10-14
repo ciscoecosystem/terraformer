@@ -89,9 +89,11 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
 * `cloud_domain_profile`
 * `cloud_vpn_gateway`
 * `aci_attachable_access_entity_profile`
+    * `aci_access_generic`
 * `aci_epgs_using_function`
 * `aci_leaf_interface_profile`
     * `access_port_selector`
+        * `access_group`
         * `access_port_block`
         * `access_sub_port_block`
 * `aci_leaf_profile`
@@ -110,6 +112,8 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
 * `l2_interface_policy`
 * `port_security_policy`
 * `end_point_retention_policy`
+* `spine_profile`
+    * `spine_switch_association`
 * `spine_port_selector`
 * `spine_interface_profile`
 * `spine_port_policy_group`

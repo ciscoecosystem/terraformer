@@ -209,6 +209,15 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"access_sub_port_block": {
 			"access_port_selector": []string{"access_port_selector_dn", "id"},
 		},
+		"access_generic": {
+			"attachable_access_entity_profile": []string{"attachable_access_entity_profile_dn", "id"},
+		},
+		"access_group": {
+			"access_port_selector": []string{"access_port_selector_dn", "id"},
+		},
+		"spine_switch_association": {
+			"spine_profile": []string{"spine_profile_dn", "id"},
+		},	
 	}
 }
 
@@ -367,7 +376,11 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"leaf_access_port_policy_group":			&LeafAccPorPolGGenerator{},
 		"access_port_selector":						&AccessPortSelectorGenerator{},
 		"access_port_block":						&AccessPortBlkGenerator{},
-		"access_sub_port_block":		    &AccessSubPortBlkGenerator{},
+		"access_sub_port_block":		    		&AccessSubPortBlkGenerator{},
 		"spanning_tree_interface_policy":			&SpanningTreeInterfacePolicyGenerator{},
+		"access_generic":							&AccessGenericGenerator{},
+		"access_group":								&AccessGroupGenerator{},
+		"spine_profile":							&SpinePGenerator{},
+		"spine_switch_association":					&SpineSwitchAssGenerator{},
 	}
 }
