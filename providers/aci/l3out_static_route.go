@@ -34,7 +34,7 @@ func (a *L3OutStaticRouteGenerator) InitResources() error {
 
 	totalCount := stripQuotes(l3StaticRouteCont.S("totalCount").String())
 
-	if totalCount == "{}"{
+	if totalCount == "{}" {
 		totalCount = "0"
 	}
 
@@ -46,7 +46,8 @@ func (a *L3OutStaticRouteGenerator) InitResources() error {
 
 	for i := 0; i < l3StaticRouteCount; i++ {
 		l3StaticRouteProfileDN := stripQuotes(l3StaticRouteCont.S("imdata").Index(i).S(l3OutStaticRouteClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
+		if filterChildrenDn(l3StaticRouteProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
 			l3StaticRouteProfileDN,
 			l3StaticRouteProfileDN,
 			"aci_l3out_static_route",
@@ -63,7 +64,7 @@ func (a *L3OutStaticRouteGenerator) InitResources() error {
 		)
 		resource.SlowQueryRequired = true
 		a.Resources = append(a.Resources, resource)
-	}
+	}}
 
 	return nil
 }

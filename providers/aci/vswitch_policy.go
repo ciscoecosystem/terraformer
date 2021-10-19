@@ -36,26 +36,28 @@ func (a *VswitchPolicyGenerator) InitResources() error {
 	}
 	for i := 0; i < VswitchPolicyCount; i++ {
 		VswitchPolicyDN := VswitchPolicyCont.S("imdata").Index(i).S(VswitchPolicyClass, "attributes", "dn").String()
-		resource := terraformutils.NewSimpleResource(
-			stripQuotes(VswitchPolicyDN),
-			stripQuotes(VswitchPolicyDN),
-			"aci_vswitch_policy",
-			"aci",
-			[]string{
-				"relation_vmm_rs_vswitch_exporter_pol",
-				"relation_vmm_rs_vswitch_override_cdp_if_pol",
-				"relation_vmm_rs_vswitch_override_fw_pol",
-				"relation_vmm_rs_vswitch_override_lacp_pol",
-				"relation_vmm_rs_vswitch_override_lldp_if_pol",
-				"relation_vmm_rs_vswitch_override_mcp_if_pol",
-				"relation_vmm_rs_vswitch_override_mtu_pol",
-				"relation_vmm_rs_vswitch_override_stp_pol",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(VswitchPolicyDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				stripQuotes(VswitchPolicyDN),
+				stripQuotes(VswitchPolicyDN),
+				"aci_vswitch_policy",
+				"aci",
+				[]string{
+					"relation_vmm_rs_vswitch_exporter_pol",
+					"relation_vmm_rs_vswitch_override_cdp_if_pol",
+					"relation_vmm_rs_vswitch_override_fw_pol",
+					"relation_vmm_rs_vswitch_override_lacp_pol",
+					"relation_vmm_rs_vswitch_override_lldp_if_pol",
+					"relation_vmm_rs_vswitch_override_mcp_if_pol",
+					"relation_vmm_rs_vswitch_override_mtu_pol",
+					"relation_vmm_rs_vswitch_override_stp_pol",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

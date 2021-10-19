@@ -40,29 +40,30 @@ func (a *CloudAWSProviderGenerator) InitResources() error {
 
 	for i := 0; i < CloudAWSProvidersCount; i++ {
 		CloudAWSProviderDN := stripQuotes(CloudAWSProviderCont.S("imdata").Index(i).S(CloudAWSProviderClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			CloudAWSProviderDN,
-			CloudAWSProviderDN,
-			"aci_cloud_aws_provider",
-			"aci",
-			[]string{
-				"access_key_id",
-				"account_id",
-				"email",
-				"http_proxy",
-				"is_account_in_org",
-				"is_trusted",
-				"name_alias",
-				"provider_id",
-				"region",
-				"secret_access_key",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(CloudAWSProviderDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				CloudAWSProviderDN,
+				CloudAWSProviderDN,
+				"aci_cloud_aws_provider",
+				"aci",
+				[]string{
+					"access_key_id",
+					"account_id",
+					"email",
+					"http_proxy",
+					"is_account_in_org",
+					"is_trusted",
+					"name_alias",
+					"provider_id",
+					"region",
+					"secret_access_key",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
-
 	return nil
 }

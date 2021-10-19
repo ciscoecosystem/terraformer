@@ -38,29 +38,31 @@ func (a *HSRPGroupPolicyGenerator) InitResources() error {
 
 	for i := 0; i < HSRPGroupPolicyCount; i++ {
 		HSRPGroupPolicyDN := stripQuotes(HSRPGroupPolicyCont.S("imdata").Index(i).S(HSRPGroupPolicyClassName, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			HSRPGroupPolicyDN,
-			HSRPGroupPolicyDN,
-			"aci_hsrp_group_policy",
-			"aci",
-			[]string{
-				"ctrl",
-				"hello_intvl",
-				"hold_intvl",
-				"key",
-				"name_alias",
-				"preempt_delay_min",
-				"preempt_delay_reload",
-				"preempt_delay_sync",
-				"prio",
-				"timeout",
-				"hsrp_group_policy_type",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(HSRPGroupPolicyDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				HSRPGroupPolicyDN,
+				HSRPGroupPolicyDN,
+				"aci_hsrp_group_policy",
+				"aci",
+				[]string{
+					"ctrl",
+					"hello_intvl",
+					"hold_intvl",
+					"key",
+					"name_alias",
+					"preempt_delay_min",
+					"preempt_delay_reload",
+					"preempt_delay_sync",
+					"prio",
+					"timeout",
+					"hsrp_group_policy_type",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

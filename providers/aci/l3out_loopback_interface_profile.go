@@ -39,19 +39,21 @@ func (a *L3OutLoopbackInterfaceProGenerator) InitResources() error {
 
 	for i := 0; i < L3OutLoopbackInterfaceProCount; i++ {
 		L3OutLoopbackInterfaceProDN := stripQuotes(L3OutLoopbackInterfaceProCont.S("imdata").Index(i).S(L3OutLoopbackInterfaceProClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			L3OutLoopbackInterfaceProDN,
-			L3OutLoopbackInterfaceProDN,
-			"aci_l3out_loopback_interface_profile",
-			"aci",
-			[]string{
-				"name_alias",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(L3OutLoopbackInterfaceProDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				L3OutLoopbackInterfaceProDN,
+				L3OutLoopbackInterfaceProDN,
+				"aci_l3out_loopback_interface_profile",
+				"aci",
+				[]string{
+					"name_alias",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

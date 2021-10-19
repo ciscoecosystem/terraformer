@@ -34,7 +34,7 @@ func (a *CloudContextPGenerator) InitResources() error {
 
 	totalCount := stripQuotes(cloudContextPCont.S("totalCount").String())
 
-	if totalCount == "{}"{
+	if totalCount == "{}" {
 		totalCount = "0"
 	}
 
@@ -46,24 +46,26 @@ func (a *CloudContextPGenerator) InitResources() error {
 
 	for i := 0; i < cloudContextPCount; i++ {
 		cloudContextPProfileDN := stripQuotes(cloudContextPCont.S("imdata").Index(i).S(cloudContextPClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			cloudContextPProfileDN,
-			cloudContextPProfileDN,
-			"aci_cloud_context_profile",
-			"aci",
-			[]string{
-				"type",
-				"name_alias",
-				"relation_cloud_rs_ctx_to_flow_log",
-				"relation_cloud_rs_to_ctx",
-				"relation_cloud_rs_ctx_profile_to_region",
-				"hub_network",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(cloudContextPProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				cloudContextPProfileDN,
+				cloudContextPProfileDN,
+				"aci_cloud_context_profile",
+				"aci",
+				[]string{
+					"type",
+					"name_alias",
+					"relation_cloud_rs_ctx_to_flow_log",
+					"relation_cloud_rs_to_ctx",
+					"relation_cloud_rs_ctx_profile_to_region",
+					"hub_network",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

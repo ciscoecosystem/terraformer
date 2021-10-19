@@ -38,19 +38,21 @@ func (a *VlanVxlanTrafficGenerator) InitResources() error {
 
 	for i := 0; i < VlanVxlanTrafficCount; i++ {
 		VlanVxlanTrafficDN := VlanVxlanTrafficsCont.S("imdata").Index(i).S(VlanVxlanTrafficClassName, "attributes", "dn").String()
-		resource := terraformutils.NewSimpleResource(
-			stripQuotes(VlanVxlanTrafficDN),
-			stripQuotes(VlanVxlanTrafficDN),
-			"aci_vlan_encapsulationfor_vxlan_traffic",
-			"aci",
-			[]string{
-				"name_alias",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(VlanVxlanTrafficDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				stripQuotes(VlanVxlanTrafficDN),
+				stripQuotes(VlanVxlanTrafficDN),
+				"aci_vlan_encapsulationfor_vxlan_traffic",
+				"aci",
+				[]string{
+					"name_alias",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

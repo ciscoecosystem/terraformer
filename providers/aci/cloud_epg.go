@@ -34,7 +34,7 @@ func (a *CloudEPGGenerator) InitResources() error {
 
 	totalCount := stripQuotes(cloudEPGCont.S("totalCount").String())
 
-	if totalCount == "{}"{
+	if totalCount == "{}" {
 		totalCount = "0"
 	}
 

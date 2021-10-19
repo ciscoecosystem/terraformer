@@ -21,7 +21,7 @@ func (a *L3ExtSubnetGenerator) InitResources() error {
 		}
 	}
 
-	client:= clientImpl
+	client := clientImpl
 
 	baseURL := "/api/node/class"
 	dnURL := fmt.Sprintf("%s/%s.json", baseURL, L3ExtSubnetClass)
@@ -39,23 +39,25 @@ func (a *L3ExtSubnetGenerator) InitResources() error {
 
 	for i := 0; i < l3ExtSubnetCount; i++ {
 		L3ExtSubnetDN := stripQuotes(l3ExtSubnetCont.S("imdata").Index(i).S(L3ExtSubnetClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			L3ExtSubnetDN,
-			L3ExtSubnetDN,
-			"aci_l3_ext_subnet",
-			"aci",
-			[]string{
-				"aggregate",
-				"name_alias",
-				"scope",
-				"relation_l3ext_rs_subnet_to_profile",
-				"relation_l3ext_rs_subnet_to_rt_summ",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(L3ExtSubnetDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				L3ExtSubnetDN,
+				L3ExtSubnetDN,
+				"aci_l3_ext_subnet",
+				"aci",
+				[]string{
+					"aggregate",
+					"name_alias",
+					"scope",
+					"relation_l3ext_rs_subnet_to_profile",
+					"relation_l3ext_rs_subnet_to_rt_summ",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

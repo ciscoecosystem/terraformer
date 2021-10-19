@@ -21,7 +21,7 @@ func (a *SubnetGenerator) InitResources() error {
 		}
 	}
 
-	client:= clientImpl
+	client := clientImpl
 
 	baseURL := "/api/node/class"
 	dnURL := fmt.Sprintf("%s/%s.json", baseURL, subnetClassName)
@@ -38,26 +38,28 @@ func (a *SubnetGenerator) InitResources() error {
 
 	for i := 0; i < SubnetCount; i++ {
 		SubnetDN := SubnetsCont.S("imdata").Index(i).S(subnetClassName, "attributes", "dn").String()
-		resource := terraformutils.NewSimpleResource(
-			stripQuotes(SubnetDN),
-			stripQuotes(SubnetDN),
-			"aci_subnet",
-			"aci",
-			[]string{
-				"ctrl",
-				"name_alias",
-				"preferred",
-				"scope",
-				"virtual",
-				"relation_fv_rs_bd_subnet_to_out",
-				"relation_fv_rs_nd_pfx_pol",
-				"relation_fv_rs_bd_subnet_to_profile",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(SubnetDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				stripQuotes(SubnetDN),
+				stripQuotes(SubnetDN),
+				"aci_subnet",
+				"aci",
+				[]string{
+					"ctrl",
+					"name_alias",
+					"preferred",
+					"scope",
+					"virtual",
+					"relation_fv_rs_bd_subnet_to_out",
+					"relation_fv_rs_nd_pfx_pol",
+					"relation_fv_rs_bd_subnet_to_profile",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

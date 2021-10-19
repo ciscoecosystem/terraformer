@@ -40,21 +40,23 @@ func (a *CloudEndpointSelectorForExternalEpgsGenerator) InitResources() error {
 
 	for i := 0; i < CloudEndpointSelectorForExternalEpgssCount; i++ {
 		CloudEndpointSelectorForExternalEpgsDN := stripQuotes(CloudEndpointSelectorForExternalEpgsCont.S("imdata").Index(i).S(CloudEndpointSelectorForExternalEpgsClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			CloudEndpointSelectorForExternalEpgsDN,
-			CloudEndpointSelectorForExternalEpgsDN,
-			"aci_cloud_endpoint_selectorfor_external_epgs",
-			"aci",
-			[]string{
-				"is_shared",
-				"match_expression",
-				"name_alias",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(CloudEndpointSelectorForExternalEpgsDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				CloudEndpointSelectorForExternalEpgsDN,
+				CloudEndpointSelectorForExternalEpgsDN,
+				"aci_cloud_endpoint_selectorfor_external_epgs",
+				"aci",
+				[]string{
+					"is_shared",
+					"match_expression",
+					"name_alias",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

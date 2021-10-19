@@ -40,19 +40,21 @@ func (a *ApplicationEndpointSecurityGroupSelectorGenerator) InitResources() erro
 
 	for i := 0; i < endpointSecurityGroupSelectorCount; i++ {
 		endpointSecurityGroupSelectorProfileDN := stripQuotes(endpointSecurityGroupSelectorCont.S("imdata").Index(i).S(applicationEndpointSecurityGroupSelectorClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			endpointSecurityGroupSelectorProfileDN,
-			endpointSecurityGroupSelectorProfileDN,
-			"aci_endpoint_security_group_selector",
-			"aci",
-			[]string{
-				"name",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(endpointSecurityGroupSelectorProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				endpointSecurityGroupSelectorProfileDN,
+				endpointSecurityGroupSelectorProfileDN,
+				"aci_endpoint_security_group_selector",
+				"aci",
+				[]string{
+					"name",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

@@ -41,22 +41,23 @@ func (a *L3OutHSRPInterfaceProfileGenerator) InitResources() error {
 
 	for i := 0; i < L3OutHSRPInterfaceProfileCount; i++ {
 		L3OutHSRPInterfaceProfileDN := stripQuotes(L3OutHSRPInterfaceProfileCont.S("imdata").Index(i).S(L3OutHSRPInterfaceProfileClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			L3OutHSRPInterfaceProfileDN,
-			L3OutHSRPInterfaceProfileDN,
-			"aci_l3out_hsrp_interface_profile",
-			"aci",
-			[]string{
-				"name_alias",
-				"version",
-				"relation_hsrp_rs_if_pol",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(L3OutHSRPInterfaceProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				L3OutHSRPInterfaceProfileDN,
+				L3OutHSRPInterfaceProfileDN,
+				"aci_l3out_hsrp_interface_profile",
+				"aci",
+				[]string{
+					"name_alias",
+					"version",
+					"relation_hsrp_rs_if_pol",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
-
 	return nil
 }

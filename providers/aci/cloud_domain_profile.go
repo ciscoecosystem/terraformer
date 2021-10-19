@@ -34,7 +34,7 @@ func (a *CloudDomainPGenerator) InitResources() error {
 
 	totalCount := stripQuotes(cloudDomainPCont.S("totalCount").String())
 
-	if totalCount == "{}"{
+	if totalCount == "{}" {
 		totalCount = "0"
 	}
 
@@ -46,20 +46,22 @@ func (a *CloudDomainPGenerator) InitResources() error {
 
 	for i := 0; i < cloudDomainPCount; i++ {
 		cloudDomainPProfileDN := stripQuotes(cloudDomainPCont.S("imdata").Index(i).S(cloudDomainPClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			cloudDomainPProfileDN,
-			cloudDomainPProfileDN,
-			"aci_cloud_domain_profile",
-			"aci",
-			[]string{
-				"site_id",
-				"name_alias",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(cloudDomainPProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				cloudDomainPProfileDN,
+				cloudDomainPProfileDN,
+				"aci_cloud_domain_profile",
+				"aci",
+				[]string{
+					"site_id",
+					"name_alias",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

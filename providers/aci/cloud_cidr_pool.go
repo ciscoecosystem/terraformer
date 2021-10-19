@@ -40,20 +40,22 @@ func (a *CloudCidrPoolGenerator) InitResources() error {
 
 	for i := 0; i < CloudCidrPoolsCount; i++ {
 		CloudCidrPoolDN := stripQuotes(CloudCidrPoolCont.S("imdata").Index(i).S(CloudCidrPoolClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			CloudCidrPoolDN,
-			CloudCidrPoolDN,
-			"aci_cloud_cidr_pool",
-			"aci",
-			[]string{
-				"name_alias",
-				"primary",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(CloudCidrPoolDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				CloudCidrPoolDN,
+				CloudCidrPoolDN,
+				"aci_cloud_cidr_pool",
+				"aci",
+				[]string{
+					"name_alias",
+					"primary",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

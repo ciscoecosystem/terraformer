@@ -34,7 +34,7 @@ func (a *CloudSubnetGenerator) InitResources() error {
 
 	totalCount := stripQuotes(cloudSubnetCont.S("totalCount").String())
 
-	if totalCount == "{}"{
+	if totalCount == "{}" {
 		totalCount = "0"
 	}
 

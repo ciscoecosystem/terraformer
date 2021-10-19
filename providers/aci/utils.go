@@ -17,6 +17,18 @@ func GetMOName(dn string) string {
 	return strings.Join(dash_split[1:], "-")
 }
 
+func filterChildrenDn(dn, parentDns string) string {
+	parentDnList := strings.Split(parentDns, ":")
+
+	for _, parentDn := range parentDnList {
+		if strings.HasPrefix(dn, parentDn) {
+			return dn
+		}
+	}
+
+	return ""
+}
+
 func StrtoInt(s string, startIndex int, bitSize int) (int64, error) {
 	return strconv.ParseInt(s, startIndex, bitSize)
 }

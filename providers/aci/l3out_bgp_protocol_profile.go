@@ -38,19 +38,21 @@ func (a *L3OutBGPProtocolProfileGenerator) InitResources() error {
 
 	for i := 0; i < L3OutBGPProtocolProfileCount; i++ {
 		L3OutBGPProtocolProfileDN := stripQuotes(L3OutBGPProtocolProfileCont.S("imdata").Index(i).S(L3OutBGPProtocolProfileClassName, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			L3OutBGPProtocolProfileDN,
-			L3OutBGPProtocolProfileDN,
-			"aci_l3out_bgp_protocol_profile",
-			"aci",
-			[]string{
-				"relation_bgp_rs_bgp_node_ctx_pol",
-				"name_alias",
-				"annotation",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(L3OutBGPProtocolProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				L3OutBGPProtocolProfileDN,
+				L3OutBGPProtocolProfileDN,
+				"aci_l3out_bgp_protocol_profile",
+				"aci",
+				[]string{
+					"relation_bgp_rs_bgp_node_ctx_pol",
+					"name_alias",
+					"annotation",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

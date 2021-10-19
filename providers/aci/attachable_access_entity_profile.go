@@ -39,20 +39,22 @@ func (a *AttachableAccessEntityProfileGenerator) InitResources() error {
 
 	for i := 0; i < AttachableAccessEntityProfileCount; i++ {
 		AttachableAccessEntityProfileDN := stripQuotes(AttachableAccessEntityProfileCont.S("imdata").Index(i).S(AttachableAccessEntityProfileClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			AttachableAccessEntityProfileDN,
-			AttachableAccessEntityProfileDN,
-			"aci_attachable_access_entity_profile",
-			"aci",
-			[]string{
-				"name_alias",
-				"relation_infra_rs_dom_p",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(AttachableAccessEntityProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				AttachableAccessEntityProfileDN,
+				AttachableAccessEntityProfileDN,
+				"aci_attachable_access_entity_profile",
+				"aci",
+				[]string{
+					"name_alias",
+					"relation_infra_rs_dom_p",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

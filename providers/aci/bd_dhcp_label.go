@@ -39,22 +39,24 @@ func (a *BDDHCPLabelGenerator) InitResources() error {
 
 	for i := 0; i < BDDHCPLblCount; i++ {
 		BDDHCPLblDN := stripQuotes(BDDHCPLblCont.S("imdata").Index(i).S(BDDHCPLabelClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			BDDHCPLblDN,
-			BDDHCPLblDN,
-			"aci_bd_dhcp_label",
-			"aci",
-			[]string{
-				"name_alias",
-				"owner",
-				"tag",
-				"relation_dhcp_rs_dhcp_option_pol",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(BDDHCPLblDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				BDDHCPLblDN,
+				BDDHCPLblDN,
+				"aci_bd_dhcp_label",
+				"aci",
+				[]string{
+					"name_alias",
+					"owner",
+					"tag",
+					"relation_dhcp_rs_dhcp_option_pol",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

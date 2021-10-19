@@ -39,31 +39,33 @@ func (a *BGPPeerConnectivityProGenerator) InitResources() error {
 
 	for i := 0; i < BGPPeerConnectivityProCount; i++ {
 		BGPPeerConnectivityProDN := stripQuotes(BGPPeerConnectivityProCont.S("imdata").Index(i).S(BGPPeerConnectivityProClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			BGPPeerConnectivityProDN,
-			BGPPeerConnectivityProDN,
-			"aci_bgp_peer_connectivity_profile",
-			"aci",
-			[]string{
-				"description",
-				"annotation",
-				"addr_t_ctrl",
-				"allowed_self_as_cnt",
-				"ctrl",
-				"name_alias",
-				"password",
-				"peer_ctrl",
-				"private_a_sctrl",
-				"ttl",
-				"weight",
-				"as_number",
-				"local_asn",
-				"local_asn_propagate",
-				"relation_bgp_rs_peer_pfx_pol",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(BGPPeerConnectivityProDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				BGPPeerConnectivityProDN,
+				BGPPeerConnectivityProDN,
+				"aci_bgp_peer_connectivity_profile",
+				"aci",
+				[]string{
+					"description",
+					"annotation",
+					"addr_t_ctrl",
+					"allowed_self_as_cnt",
+					"ctrl",
+					"name_alias",
+					"password",
+					"peer_ctrl",
+					"private_a_sctrl",
+					"ttl",
+					"weight",
+					"as_number",
+					"local_asn",
+					"local_asn_propagate",
+					"relation_bgp_rs_peer_pfx_pol",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

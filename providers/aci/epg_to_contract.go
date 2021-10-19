@@ -40,24 +40,26 @@ func (a *EPGToContractGenerator) InitResources() error {
 
 	for i := 0; i < EPGToContractCount; i++ {
 		EPGToContractDN := stripQuotes(EPGToContractCont.S("imdata").Index(i).S(EPGToContractClass, "attributes", "dn").String())
-		resource := terraformutils.NewResource(
-			EPGToContractDN,
-			EPGToContractDN,
-			"aci_epg_to_contract",
-			"aci",
-			map[string]string{
-				"contract_type": "provider",
-			},
-			[]string{
-				"annotation",
-				"match_t",
-				"prio",
-				"description",
-			},
-			map[string]interface{}{},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(EPGToContractDN, client.parentResource) != "" {
+			resource := terraformutils.NewResource(
+				EPGToContractDN,
+				EPGToContractDN,
+				"aci_epg_to_contract",
+				"aci",
+				map[string]string{
+					"contract_type": "provider",
+				},
+				[]string{
+					"annotation",
+					"match_t",
+					"prio",
+					"description",
+				},
+				map[string]interface{}{},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	// Consumer
 	dnURL = fmt.Sprintf("%s/%s.json", baseURL, "fvRsCons")

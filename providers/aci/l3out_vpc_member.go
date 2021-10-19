@@ -34,7 +34,7 @@ func (a *L3OutVPCMemberGenerator) InitResources() error {
 
 	totalCount := stripQuotes(l3OutVPCMemberCont.S("totalCount").String())
 
-	if totalCount == "{}"{
+	if totalCount == "{}" {
 		totalCount = "0"
 	}
 
@@ -46,7 +46,8 @@ func (a *L3OutVPCMemberGenerator) InitResources() error {
 
 	for i := 0; i < l3OutVPCMemberCount; i++ {
 		l3OutVPCMemberProfileDN := stripQuotes(l3OutVPCMemberCont.S("imdata").Index(i).S(l3OutVPCMemberClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
+		if filterChildrenDn(l3OutVPCMemberProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
 			l3OutVPCMemberProfileDN,
 			l3OutVPCMemberProfileDN,
 			"aci_l3out_vpc_member",
@@ -60,9 +61,9 @@ func (a *L3OutVPCMemberGenerator) InitResources() error {
 				"description",
 			},
 		)
-		resource.SlowQueryRequired = true
+ 		resource.SlowQueryRequired = true
 		a.Resources = append(a.Resources, resource)
-	}
+		}	}
 
 	return nil
 }

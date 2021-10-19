@@ -38,20 +38,22 @@ func (a *LeafInterfaceProfileGenerator) InitResources() error {
 
 	for i := 0; i < LeafInterfaceProfileCount; i++ {
 		LeafInterfaceProfileDN := stripQuotes(LeafInterfaceProfileCont.S("imdata").Index(i).S(LeafInterfaceProfileClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			LeafInterfaceProfileDN,
-			LeafInterfaceProfileDN,
-			"aci_leaf_interface_profile",
-			"aci",
-			[]string{
+		if filterChildrenDn(LeafInterfaceProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				LeafInterfaceProfileDN,
+				LeafInterfaceProfileDN,
+				"aci_leaf_interface_profile",
+				"aci",
+				[]string{
 
-				"name_alias",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+					"name_alias",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

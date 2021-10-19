@@ -40,21 +40,23 @@ func (a *LogicalNodeToFabricNodeGenerator) InitResources() error {
 
 	for i := 0; i < LogicalNodeToFabricNodesCount; i++ {
 		LogicalNodeToFabricNodeDN := stripQuotes(LogicalNodeToFabricNodeCont.S("imdata").Index(i).S(LogicalNodeToFabricNodeClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			LogicalNodeToFabricNodeDN,
-			LogicalNodeToFabricNodeDN,
-			"aci_logical_node_to_fabric_node",
-			"aci",
-			[]string{
-				"config_issues",
-				"rtr_id",
-				"rtr_id_loop_back",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(LogicalNodeToFabricNodeDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				LogicalNodeToFabricNodeDN,
+				LogicalNodeToFabricNodeDN,
+				"aci_logical_node_to_fabric_node",
+				"aci",
+				[]string{
+					"config_issues",
+					"rtr_id",
+					"rtr_id_loop_back",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

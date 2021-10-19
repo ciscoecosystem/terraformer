@@ -22,7 +22,7 @@ func (a *L3outOspfExternalPolicyGenerator) InitResources() error {
 		}
 	}
 
-	client:= clientImpl
+	client := clientImpl
 
 	baseURL := "/api/node/class"
 	dnURL := fmt.Sprintf("%s/%s.json", baseURL, L3outOspfExternalPolicyClass)
@@ -40,24 +40,26 @@ func (a *L3outOspfExternalPolicyGenerator) InitResources() error {
 
 	for i := 0; i < L3outOspfExternalPoliciesCount; i++ {
 		L3outOspfExternalPolicyDN := stripQuotes(L3outOsfpExternalPolicyCont.S("imdata").Index(i).S(L3outOspfExternalPolicyClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			L3outOspfExternalPolicyDN,
-			L3outOspfExternalPolicyDN,
-			"aci_l3out_ospf_external_policy",
-			"aci",
-			[]string{
-				"area_cost",
-				"area_ctrl",
-				"area_id",
-				"area_type",
-				"multipod_internal",
-				"name_alias",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(L3outOspfExternalPolicyDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				L3outOspfExternalPolicyDN,
+				L3outOspfExternalPolicyDN,
+				"aci_l3out_ospf_external_policy",
+				"aci",
+				[]string{
+					"area_cost",
+					"area_ctrl",
+					"area_id",
+					"area_type",
+					"multipod_internal",
+					"name_alias",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

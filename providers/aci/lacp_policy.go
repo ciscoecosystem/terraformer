@@ -38,23 +38,25 @@ func (a *LacpPolicyGenerator) InitResources() error {
 
 	for i := 0; i < LacpPolicyCount; i++ {
 		LacpPolicyDN := LacpPolicysCont.S("imdata").Index(i).S(LacpPolicyClassName, "attributes", "dn").String()
-		resource := terraformutils.NewSimpleResource(
-			stripQuotes(LacpPolicyDN),
-			stripQuotes(LacpPolicyDN),
-			"aci_lacp_policy",
-			"aci",
-			[]string{
-				"ctrl",
-				"max_links",
-				"min_links",
-				"mode",
-				"name_alias",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(LacpPolicyDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				stripQuotes(LacpPolicyDN),
+				stripQuotes(LacpPolicyDN),
+				"aci_lacp_policy",
+				"aci",
+				[]string{
+					"ctrl",
+					"max_links",
+					"min_links",
+					"mode",
+					"name_alias",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

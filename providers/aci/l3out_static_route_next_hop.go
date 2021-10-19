@@ -40,23 +40,25 @@ func (a *L3OutStaticRouteNextHopGenerator) InitResources() error {
 
 	for i := 0; i < l3StaticRouteNexHopCount; i++ {
 		l3StaticRouteNextHopProfileDN := stripQuotes(l3StaticRouteNextHopCont.S("imdata").Index(i).S(l3OutStaticRouteNextHopClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			l3StaticRouteNextHopProfileDN,
-			l3StaticRouteNextHopProfileDN,
-			"aci_l3out_static_route_next_hop",
-			"aci",
-			[]string{
-				"nexthop_profile_type",
-				"name_alias",
-				"pref",
-				"relation_ip_rs_nexthop_route_track",
-				"relation_ip_rs_nh_track_member",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(l3StaticRouteNextHopProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				l3StaticRouteNextHopProfileDN,
+				l3StaticRouteNextHopProfileDN,
+				"aci_l3out_static_route_next_hop",
+				"aci",
+				[]string{
+					"nexthop_profile_type",
+					"name_alias",
+					"pref",
+					"relation_ip_rs_nexthop_route_track",
+					"relation_ip_rs_nh_track_member",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

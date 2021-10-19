@@ -41,20 +41,22 @@ func (a *ImportedContractGenerator) InitResources() error {
 
 	for i := 0; i < importedContractCount; i++ {
 		importedContractDN := stripQuotes(importedContractCont.S("imdata").Index(i).S(ImportedContractClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			importedContractDN,
-			importedContractDN,
-			"aci_imported_contract",
-			"aci",
-			[]string{
-				"name_alias",
-				"relation_vz_rs_if",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(importedContractDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				importedContractDN,
+				importedContractDN,
+				"aci_imported_contract",
+				"aci",
+				[]string{
+					"name_alias",
+					"relation_vz_rs_if",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

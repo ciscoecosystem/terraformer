@@ -38,24 +38,26 @@ func (a *BgpTimersGenerator) InitResources() error {
 
 	for i := 0; i < BgpTimersCount; i++ {
 		BgpTimersDN := stripQuotes(BgpTimersCont.S("imdata").Index(i).S(BgpTimersClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			BgpTimersDN,
-			BgpTimersDN,
-			"aci_bgp_timers",
-			"aci",
-			[]string{
-				"name_alias",
-				"gr_ctrl",
-				"annotation",
-				"description",
-				"hold_intvl",
-				"ka_intvl",
-				"max_as_limit",
-				"stale_intvl",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(BgpTimersDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				BgpTimersDN,
+				BgpTimersDN,
+				"aci_bgp_timers",
+				"aci",
+				[]string{
+					"name_alias",
+					"gr_ctrl",
+					"annotation",
+					"description",
+					"hold_intvl",
+					"ka_intvl",
+					"max_as_limit",
+					"stale_intvl",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

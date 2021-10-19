@@ -40,20 +40,22 @@ func (a *CloudEndpointSelectorGenerator) InitResources() error {
 
 	for i := 0; i < CloudEndpointSelectorsCount; i++ {
 		CloudEndpointSelectorDN := stripQuotes(CloudEndpointSelectorCont.S("imdata").Index(i).S(CloudEndpointSelectorClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			CloudEndpointSelectorDN,
-			CloudEndpointSelectorDN,
-			"aci_cloud_endpoint_selector",
-			"aci",
-			[]string{
-				"match_expression",
-				"name_alias",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(CloudEndpointSelectorDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				CloudEndpointSelectorDN,
+				CloudEndpointSelectorDN,
+				"aci_cloud_endpoint_selector",
+				"aci",
+				[]string{
+					"match_expression",
+					"name_alias",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

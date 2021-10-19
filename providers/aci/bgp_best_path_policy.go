@@ -38,20 +38,22 @@ func (a *BgpBestPathPolicyGenerator) InitResources() error {
 
 	for i := 0; i < BgpBestPathPolicyCount; i++ {
 		BgpBestPathPolicyDN := stripQuotes(BgpBestPathPolicyCont.S("imdata").Index(i).S(BgpBestPathPolicyClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			BgpBestPathPolicyDN,
-			BgpBestPathPolicyDN,
-			"aci_bgp_best_path_policy",
-			"aci",
-			[]string{
-				"name_alias",
-				"annotation",
-				"description",
-				"ctrl",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(BgpBestPathPolicyDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				BgpBestPathPolicyDN,
+				BgpBestPathPolicyDN,
+				"aci_bgp_best_path_policy",
+				"aci",
+				[]string{
+					"name_alias",
+					"annotation",
+					"description",
+					"ctrl",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

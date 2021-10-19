@@ -41,27 +41,29 @@ func (a *L3OutHSRPInterfaceGroupGenerator) InitResources() error {
 
 	for i := 0; i < L3OutHSRPInterfaceGroupCount; i++ {
 		L3OutHSRPInterfaceGroupDN := stripQuotes(L3OutHSRPInterfaceGroupCont.S("imdata").Index(i).S(L3OutHSRPInterfaceGroupClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			L3OutHSRPInterfaceGroupDN,
-			L3OutHSRPInterfaceGroupDN,
-			"aci_l3out_hsrp_interface_group",
-			"aci",
-			[]string{
-				"config_issues",
-				"group_af",
-				"group_id",
-				"group_name",
-				"ip",
-				"ip_obtain_mode",
-				"mac",
-				"name_alias",
-				"relation_hsrp_rs_group_pol",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(L3OutHSRPInterfaceGroupDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				L3OutHSRPInterfaceGroupDN,
+				L3OutHSRPInterfaceGroupDN,
+				"aci_l3out_hsrp_interface_group",
+				"aci",
+				[]string{
+					"config_issues",
+					"group_af",
+					"group_id",
+					"group_name",
+					"ip",
+					"ip_obtain_mode",
+					"mac",
+					"name_alias",
+					"relation_hsrp_rs_group_pol",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

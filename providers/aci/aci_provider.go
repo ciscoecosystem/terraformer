@@ -8,10 +8,11 @@ import (
 
 type ACIProvider struct {
 	terraformutils.Provider
-	baseURL  string
-	username string
-	password string
-	insecure bool
+	baseURL        string
+	username       string
+	password       string
+	parentResource string
+	insecure       bool
 }
 
 func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
@@ -201,6 +202,7 @@ func (p *ACIProvider) Init(args []string) error {
 	p.baseURL = args[0]
 	p.username = args[1]
 	p.password = args[2]
+	p.parentResource = args[3]
 	p.insecure = true
 	return nil
 }
@@ -219,10 +221,11 @@ func (p *ACIProvider) InitService(serviceName string, verbose bool) error {
 	p.Service.SetVerbose(verbose)
 	p.Service.SetProviderName(p.GetName())
 	p.Service.SetArgs(map[string]interface{}{
-		"username": p.username,
-		"password": p.password,
-		"base_url": p.baseURL,
-		"insecure": p.insecure,
+		"username":        p.username,
+		"password":        p.password,
+		"base_url":        p.baseURL,
+		"insecure":        p.insecure,
+		"parent_resource": p.parentResource,
 	})
 	return nil
 }

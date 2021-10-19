@@ -38,21 +38,23 @@ func (a *LLDPInterfacePolicyGenerator) InitResources() error {
 
 	for i := 0; i < LLDPInterfacePolicyCount; i++ {
 		LLDPInterfacePolicyDN := LLDPInterfacePolicysCont.S("imdata").Index(i).S(LLDPInterfacePolicyClassName, "attributes", "dn").String()
-		resource := terraformutils.NewSimpleResource(
-			stripQuotes(LLDPInterfacePolicyDN),
-			stripQuotes(LLDPInterfacePolicyDN),
-			"aci_lldp_interface_policy",
-			"aci",
-			[]string{
-				"admin_rx_st",
-				"admin_tx_st",
-				"name_alias",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(LLDPInterfacePolicyDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				stripQuotes(LLDPInterfacePolicyDN),
+				stripQuotes(LLDPInterfacePolicyDN),
+				"aci_lldp_interface_policy",
+				"aci",
+				[]string{
+					"admin_rx_st",
+					"admin_tx_st",
+					"name_alias",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

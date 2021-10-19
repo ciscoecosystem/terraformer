@@ -40,19 +40,21 @@ func (a *CloudApplicationContainerGenerator) InitResources() error {
 
 	for i := 0; i < CloudApplicationContainersCount; i++ {
 		CloudApplicationContainerDN := stripQuotes(CloudApplicationContainerCont.S("imdata").Index(i).S(CloudApplicationContainerClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			CloudApplicationContainerDN,
-			CloudApplicationContainerDN,
-			"aci_cloud_applicationcontainer",
-			"aci",
-			[]string{
-				"name_alias",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(CloudApplicationContainerDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				CloudApplicationContainerDN,
+				CloudApplicationContainerDN,
+				"aci_cloud_applicationcontainer",
+				"aci",
+				[]string{
+					"name_alias",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

@@ -1,4 +1,3 @@
-
 package aci
 
 import (
@@ -41,31 +40,33 @@ func (a *ApplicationEndpointSecurityGroupGenerator) InitResources() error {
 
 	for i := 0; i < endpointSecurityGroupCount; i++ {
 		endpointSecurityGroupProfileDN := stripQuotes(endpointSecurityGroupCont.S("imdata").Index(i).S(applicationEndpointSecurityGroupClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			endpointSecurityGroupProfileDN,
-			endpointSecurityGroupProfileDN,
-			"aci_endpoint_security_group",
-			"aci",
-			[]string{
-				"flood_on_encap",
-				"match_t",
-				"pc_enf_pref",
-				"pref_gr_memb",
-				"prio",
-				"relation_fv_rs_cons",
-				"relation_fv_rs_cons_if",
-				"relation_fv_rs_cust_qos_pol",
-				"relation_fv_rs_intra_epg",
-				"relation_fv_rs_prot_by",
-				"relation_fv_rs_prov",
-				"relation_fv_rs_scope",
-				"relation_fv_rs_sec_inherited",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(endpointSecurityGroupProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				endpointSecurityGroupProfileDN,
+				endpointSecurityGroupProfileDN,
+				"aci_endpoint_security_group",
+				"aci",
+				[]string{
+					"flood_on_encap",
+					"match_t",
+					"pc_enf_pref",
+					"pref_gr_memb",
+					"prio",
+					"relation_fv_rs_cons",
+					"relation_fv_rs_cons_if",
+					"relation_fv_rs_cust_qos_pol",
+					"relation_fv_rs_intra_epg",
+					"relation_fv_rs_prot_by",
+					"relation_fv_rs_prov",
+					"relation_fv_rs_scope",
+					"relation_fv_rs_sec_inherited",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

@@ -36,21 +36,23 @@ func (a *EPGUsingFunctionGenerator) InitResources() error {
 	}
 	for i := 0; i < EPGUsingFunctionCount; i++ {
 		EPGUsingFunctionDN := EPGUsingFunctionCont.S("imdata").Index(i).S(EPGUsingFunctionClass, "attributes", "dn").String()
-		resource := terraformutils.NewSimpleResource(
-			stripQuotes(EPGUsingFunctionDN),
-			stripQuotes(EPGUsingFunctionDN),
-			"aci_epgs_using_function",
-			"aci",
-			[]string{
-				"instr_imedcy",
-				"mode",
-				"primary_encap",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(EPGUsingFunctionDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				stripQuotes(EPGUsingFunctionDN),
+				stripQuotes(EPGUsingFunctionDN),
+				"aci_epgs_using_function",
+				"aci",
+				[]string{
+					"instr_imedcy",
+					"mode",
+					"primary_encap",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }
