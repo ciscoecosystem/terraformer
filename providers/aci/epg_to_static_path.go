@@ -35,11 +35,11 @@ func (a *EPGToStaticPathGenerator) InitResources() error {
 		return err
 	}
 	for i := 0; i < EGPToStaticPathCount; i++ {
-		EGPToStaticPathDN := EGPToStaticPathCont.S("imdata").Index(i).S(EPGToStaticPathClass, "attributes", "dn").String()
+		EGPToStaticPathDN := stripQuotes(EGPToStaticPathCont.S("imdata").Index(i).S(EPGToStaticPathClass, "attributes", "dn").String())
 		if filterChildrenDn(EGPToStaticPathDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
-				stripQuotes(EGPToStaticPathDN),
-				stripQuotes(EGPToStaticPathDN),
+				EGPToStaticPathDN,
+				EGPToStaticPathDN,
 				"aci_epg_to_static_path",
 				"aci",
 				[]string{

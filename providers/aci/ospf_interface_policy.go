@@ -36,11 +36,11 @@ func (a *ospfInterfacePolicyGenerator) InitResources() error {
 	}
 
 	for i := 0; i < ospfInterfacePolicyCount; i++ {
-		ospfInterfacePolicyDN := ospfInterfacePoliciesCont.S("imdata").Index(i).S(ospfInterfacePolicyClassName, "attributes", "dn").String()
+		ospfInterfacePolicyDN := stripQuotes(ospfInterfacePoliciesCont.S("imdata").Index(i).S(ospfInterfacePolicyClassName, "attributes", "dn").String())
 		if filterChildrenDn(ospfInterfacePolicyDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
-				stripQuotes(ospfInterfacePolicyDN),
-				stripQuotes(ospfInterfacePolicyDN),
+				ospfInterfacePolicyDN,
+				ospfInterfacePolicyDN,
 				"aci_ospf_interface_policy",
 				"aci",
 				[]string{

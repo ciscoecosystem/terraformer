@@ -35,11 +35,11 @@ func (a *VmmCredentialGenerator) InitResources() error {
 		return err
 	}
 	for i := 0; i < VmmCredentialCount; i++ {
-		VmmCredentialDN := VmmCredentialCont.S("imdata").Index(i).S(VmmCredentialClass, "attributes", "dn").String()
+		VmmCredentialDN := stripQuotes(VmmCredentialCont.S("imdata").Index(i).S(VmmCredentialClass, "attributes", "dn").String())
 		if filterChildrenDn(VmmCredentialDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
-				stripQuotes(VmmCredentialDN),
-				stripQuotes(VmmCredentialDN),
+				VmmCredentialDN,
+				VmmCredentialDN,
 				"aci_vmm_credential",
 				"aci",
 				[]string{

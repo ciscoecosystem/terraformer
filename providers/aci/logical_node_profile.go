@@ -37,11 +37,11 @@ func (a *LogicalNodeProfileGenerator) InitResources() error {
 	}
 
 	for i := 0; i < LogicalNodeProfileCount; i++ {
-		LogicalNodeProfileDN := LogicalNodeProfilesCont.S("imdata").Index(i).S(logicalNodeProfileClassName, "attributes", "dn").String()
+		LogicalNodeProfileDN := stripQuotes(LogicalNodeProfilesCont.S("imdata").Index(i).S(logicalNodeProfileClassName, "attributes", "dn").String())
 		if filterChildrenDn(LogicalNodeProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
-				stripQuotes(LogicalNodeProfileDN),
-				stripQuotes(LogicalNodeProfileDN),
+				LogicalNodeProfileDN,
+				LogicalNodeProfileDN,
 				"aci_logical_node_profile",
 				"aci",
 				[]string{

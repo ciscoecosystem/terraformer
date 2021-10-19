@@ -35,7 +35,7 @@ func (a *VswitchPolicyGenerator) InitResources() error {
 		return err
 	}
 	for i := 0; i < VswitchPolicyCount; i++ {
-		VswitchPolicyDN := VswitchPolicyCont.S("imdata").Index(i).S(VswitchPolicyClass, "attributes", "dn").String()
+		VswitchPolicyDN := stripQuotes(VswitchPolicyCont.S("imdata").Index(i).S(VswitchPolicyClass, "attributes", "dn").String())
 		if filterChildrenDn(VswitchPolicyDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				stripQuotes(VswitchPolicyDN),

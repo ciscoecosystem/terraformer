@@ -40,8 +40,8 @@ func (a *LogicalInterfaceProfileGenerator) InitResources() error {
 		LogicalInterfaceProfileDN := LogicalInterfaceProfilesCont.S("imdata").Index(i).S(logicalInterfaceProfileClassName, "attributes", "dn").String()
 		if filterChildrenDn(LogicalInterfaceProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
-				stripQuotes(LogicalInterfaceProfileDN),
-				stripQuotes(LogicalInterfaceProfileDN),
+				LogicalInterfaceProfileDN,
+				LogicalInterfaceProfileDN,
 				"aci_logical_interface_profile",
 				"aci",
 				[]string{

@@ -37,11 +37,11 @@ func (a *LacpPolicyGenerator) InitResources() error {
 	}
 
 	for i := 0; i < LacpPolicyCount; i++ {
-		LacpPolicyDN := LacpPolicysCont.S("imdata").Index(i).S(LacpPolicyClassName, "attributes", "dn").String()
+		LacpPolicyDN := stripQuotes(LacpPolicysCont.S("imdata").Index(i).S(LacpPolicyClassName, "attributes", "dn").String())
 		if filterChildrenDn(LacpPolicyDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
-				stripQuotes(LacpPolicyDN),
-				stripQuotes(LacpPolicyDN),
+				LacpPolicyDN,
+				LacpPolicyDN,
 				"aci_lacp_policy",
 				"aci",
 				[]string{

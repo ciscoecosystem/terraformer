@@ -37,11 +37,11 @@ func (a *FilterGenerator) InitResources() error {
 	}
 
 	for i := 0; i < FilterCount; i++ {
-		FilterDN := FiltersCont.S("imdata").Index(i).S(filterClassName, "attributes", "dn").String()
+		FilterDN := stripQuotes(FiltersCont.S("imdata").Index(i).S(filterClassName, "attributes", "dn").String())
 		if filterChildrenDn(FilterDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
-				stripQuotes(FilterDN),
-				stripQuotes(FilterDN),
+				FilterDN,
+				FilterDN,
 				"aci_filter",
 				"aci",
 				[]string{

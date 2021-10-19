@@ -37,8 +37,7 @@ func (a *TenantGenerator) InitResources() error {
 	}
 
 	for i := 0; i < tenantCount; i++ {
-		tenantDN := tenantsCont.S("imdata").Index(i).S(tenantClassName, "attributes", "dn").String()
-
+		tenantDN := stripQuotes(tenantsCont.S("imdata").Index(i).S(tenantClassName, "attributes", "dn").String())
 		if filterChildrenDn(tenantDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				stripQuotes(tenantDN),

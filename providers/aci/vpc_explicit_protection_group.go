@@ -36,11 +36,11 @@ func (a *VPCExplicitProtectionGroupGenerator) InitResources() error {
 	}
 
 	for i := 0; i < VPCExplicitProtectionGroupCount; i++ {
-		VPCExplicitProtectionGroupDN := VPCExplicitProtectionGroupsCont.S("imdata").Index(i).S(vpcExplicitProtectionGroupClassName, "attributes", "dn").String()
+		VPCExplicitProtectionGroupDN := stripQuotes(VPCExplicitProtectionGroupsCont.S("imdata").Index(i).S(vpcExplicitProtectionGroupClassName, "attributes", "dn").String())
 		if filterChildrenDn(VPCExplicitProtectionGroupDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
-				stripQuotes(VPCExplicitProtectionGroupDN),
-				stripQuotes(VPCExplicitProtectionGroupDN),
+				VPCExplicitProtectionGroupDN,
+				VPCExplicitProtectionGroupDN,
 				"aci_vpc_explicit_protection_group",
 				"aci",
 				[]string{

@@ -37,11 +37,11 @@ func (a *BridgeDomainGenerator) InitResources() error {
 	}
 
 	for i := 0; i < BridgeDomainCount; i++ {
-		BridgeDomainDN := BridgeDomainsCont.S("imdata").Index(i).S(bridgeDomainClassName, "attributes", "dn").String()
+		BridgeDomainDN := stripQuotes(BridgeDomainsCont.S("imdata").Index(i).S(bridgeDomainClassName, "attributes", "dn").String())
 		if filterChildrenDn(BridgeDomainDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
-				stripQuotes(BridgeDomainDN),
-				stripQuotes(BridgeDomainDN),
+				BridgeDomainDN,
+				BridgeDomainDN,
 				"aci_bridge_domain",
 				"aci",
 				[]string{

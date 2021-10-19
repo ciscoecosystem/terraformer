@@ -35,11 +35,11 @@ func (a *EPGUsingFunctionGenerator) InitResources() error {
 		return err
 	}
 	for i := 0; i < EPGUsingFunctionCount; i++ {
-		EPGUsingFunctionDN := EPGUsingFunctionCont.S("imdata").Index(i).S(EPGUsingFunctionClass, "attributes", "dn").String()
+		EPGUsingFunctionDN := stripQuotes(EPGUsingFunctionCont.S("imdata").Index(i).S(EPGUsingFunctionClass, "attributes", "dn").String())
 		if filterChildrenDn(EPGUsingFunctionDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
-				stripQuotes(EPGUsingFunctionDN),
-				stripQuotes(EPGUsingFunctionDN),
+				EPGUsingFunctionDN,
+				EPGUsingFunctionDN,
 				"aci_epgs_using_function",
 				"aci",
 				[]string{

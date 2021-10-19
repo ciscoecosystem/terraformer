@@ -37,11 +37,11 @@ func (a *CDPInterfacePolicyGenerator) InitResources() error {
 	}
 
 	for i := 0; i < CDPInterfacePolicyCount; i++ {
-		CDPInterfacePolicyDN := CDPInterfacePolicysCont.S("imdata").Index(i).S(CDPInterfacePolicyClassName, "attributes", "dn").String()
+		CDPInterfacePolicyDN := stripQuotes(CDPInterfacePolicysCont.S("imdata").Index(i).S(CDPInterfacePolicyClassName, "attributes", "dn").String())
 		if filterChildrenDn(CDPInterfacePolicyDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
-				stripQuotes(CDPInterfacePolicyDN),
-				stripQuotes(CDPInterfacePolicyDN),
+				CDPInterfacePolicyDN,
+				CDPInterfacePolicyDN,
 				"aci_cdp_interface_policy",
 				"aci",
 				[]string{
