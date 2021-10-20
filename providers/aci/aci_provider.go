@@ -218,6 +218,9 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		},
 		"spine_switch_association": {
 			"spine_profile": []string{"spine_profile_dn", "id"},
+		},
+		"l2out_ext_epg": {
+			"l2_outside": []string{"l2_outside_dn", "id"},
 		},	
 	}
 }
@@ -385,5 +388,9 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"access_group":								&AccessGroupGenerator{},
 		"spine_profile":							&SpinePGenerator{},
 		"spine_switch_association":					&SpineSwitchAssGenerator{},
+		"leaf_breakout_port_group":					&LeafBreakoutPortGrpGenerator{},
+		"vxlan_pool":								&VxlanPoolGenerator{},
+		"l2_domain":								&L2DomGenerator{},
+		"l2out_extepg":								&L2OutExtEPGGenerator{},
 	}
 }
