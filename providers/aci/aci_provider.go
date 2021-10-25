@@ -221,7 +221,17 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		},
 		"l2out_ext_epg": {
 			"l2_outside": []string{"l2_outside_dn", "id"},
-		},	
+		},
+		"x509_certificate": {
+			"local_user": []string{"local_user_dn", "id"},
+		},
+		"monitoring_policy": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"action_rule_profile": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+
 	}
 }
 
@@ -392,5 +402,9 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"vxlan_pool":								&VxlanPoolGenerator{},
 		"l2_domain":								&L2DomGenerator{},
 		"l2out_extepg":								&L2OutExtEPGGenerator{},
+		"aaa_domain":								&AaaDomGenerator{},
+		"x509_certificate":							&X509CertificateGenerator{},
+		"monitoring_policy":						&MonPolGenerator{},
+		"action_rule_profile":						&ActionRuleProfGenerator{},
 	}
 }
