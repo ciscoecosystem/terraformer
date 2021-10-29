@@ -221,7 +221,10 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		},
 		"l2out_ext_epg": {
 			"l2_outside": []string{"l2_outside_dn", "id"},
-		},	
+		},
+		"fex_bundle_group": {
+			"fex_profile": []string{"fex_profile_dn", "id"},
+		},
 	}
 }
 
@@ -392,5 +395,9 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"vxlan_pool":								&VxlanPoolGenerator{},
 		"l2_domain":								&L2DomGenerator{},
 		"l2out_extepg":								&L2OutExtEPGGenerator{},
+		"configuration_import_policy":				&ConfigImportPolicyGenerator{},
+		"fabric_node_member":						&FabricNodeMemberGenerator{},
+		"fex_profile":								&FexProfGenerator{},
+		"fex_bundle_group":							&FexBundleGrpGenerator{},		
 	}
 }
