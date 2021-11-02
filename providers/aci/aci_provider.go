@@ -231,7 +231,9 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"action_rule_profile": {
 			"tenant": []string{"tenant_dn", "id"},
 		},
-
+		"fex_bundle_group": {
+			"fex_profile": []string{"fex_profile_dn", "id"},
+		},
 	}
 }
 
@@ -406,5 +408,9 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"x509_certificate":							&X509CertificateGenerator{},
 		"monitoring_policy":						&MonPolGenerator{},
 		"action_rule_profile":						&ActionRuleProfGenerator{},
+		"configuration_import_policy":				&ConfigImportPolicyGenerator{},
+		"fabric_node_member":						&FabricNodeMemberGenerator{},
+		"fex_profile":								&FexProfGenerator{},
+		"fex_bundle_group":							&FexBundleGrpGenerator{},
 	}
 }
