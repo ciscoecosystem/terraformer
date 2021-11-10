@@ -55,6 +55,7 @@ func (a *SpanningTreeInterfacePolicyGenerator) InitResources() error {
 				"ctrl",
 				"annotation",
 				"description",
+				"name_alias",
 			},
 		)
 		resource.SlowQueryRequired = true

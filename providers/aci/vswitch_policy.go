@@ -53,6 +53,7 @@ func (a *VswitchPolicyGenerator) InitResources() error {
 					"relation_vmm_rs_vswitch_override_stp_pol",
 					"annotation",
 					"description",
+					"name_alias",
 				},
 			)
 			resource.SlowQueryRequired = true
