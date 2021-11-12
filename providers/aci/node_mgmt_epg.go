@@ -44,10 +44,9 @@ func (a *NodeMgmtEPGGenerator) InitResources() error {
 			"aci_node_mgmt_epg",
 			"aci",
 			map[string]string{
-				"type": "in_band",
+				"type":                  "in_band",
 			},
 			[]string{
-				"management_profile_dn",
 				"name_alias",
 				"prio",
 				"encap",
