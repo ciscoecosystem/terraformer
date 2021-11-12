@@ -219,7 +219,7 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"spine_switch_association": {
 			"spine_profile": []string{"spine_profile_dn", "id"},
 		},
-		"l2out_ext_epg": {
+		"l2out_extepg": {
 			"l2_outside": []string{"l2_outside_dn", "id"},
 		},
 		"x509_certificate": {
