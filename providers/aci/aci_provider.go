@@ -240,6 +240,12 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"vlan_encapsulationfor_vxlan_traffic": {
 			"attachable_access_entity_profile": []string{"attachable_access_entity_profile_dn", "id"},
 		},
+		"spine_port_selector": {
+			"spine_profile": []string{"spine_profile_dn", "id"},
+		},
+		"epgs_using_function": {
+			"access_generic": []string{"access_generic_dn", "id"},
+		},
 	}
 }
 
