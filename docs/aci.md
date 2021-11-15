@@ -74,6 +74,8 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
     * `taboo_contract`
     * `l2_outside`
         * `l2out_extepg`
+    * `service_redirect_policy`
+        * `destination_of_redirected_traffic`
 * `vpc_explicit_protection_group`
 * `l3out_loopback_interface_profile`
 * `l3out_hsrp_interface_group`

@@ -246,6 +246,12 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"epgs_using_function": {
 			"access_generic": []string{"access_generic_dn", "id"},
 		},
+		"service_redirect_policy": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"destination_of_redirected_traffic": {
+			"service_redirect_policy": []string{"service_redirect_policy_dn", "id"},
+		},
 	}
 }
 
@@ -424,5 +430,7 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"fabric_node_member":                       &FabricNodeMemberGenerator{},
 		"fex_profile":                              &FexProfGenerator{},
 		"fex_bundle_group":                         &FexBundleGrpGenerator{},
+		"service_redirect_policy":					&ServiceRedirectPolicyGenerator{},
+		"destination_of_redirected_traffic":		&DestinationOfRedirectedTrafficGenerator{},
 	}
 }
