@@ -34,27 +34,26 @@ func (a *DestinationOfRedirectedTrafficGenerator) InitResources() error {
 
 	for i := 0; i < DestinationOfRedirectedTrafficCount; i++ {
 		DestinationOfRedirectedTrafficAttr := DestinationOfRedirectedTrafficCont.S("imdata").Index(i).S(destinationOfRedirectedTrafficClassName, "attributes")
-		DestinationOfRedirectedTrafficDN := G(DestinationOfRedirectedTrafficAttr,"dn")
-		ip := G(DestinationOfRedirectedTrafficAttr,"ip")
+		DestinationOfRedirectedTrafficDN := G(DestinationOfRedirectedTrafficAttr, "dn")
+		ip := G(DestinationOfRedirectedTrafficAttr, "ip")
 		if filterChildrenDn(DestinationOfRedirectedTrafficDN, client.parentResource) != "" {
-			
 
 			resource := terraformutils.NewResource(
-					DestinationOfRedirectedTrafficDN,
-					DestinationOfRedirectedTrafficDN,
-					"aci_destination_of_redirected_traffic",
-					"aci",
-					map[string]string{
-						"service_redirect_policy_dn": GetParentDn(DestinationOfRedirectedTrafficDN, fmt.Sprintf("/RedirectDest_ip-[%s]", ip,)),
-					},
-					[]string{
-						"description",
-					},
-					map[string]interface{}{},
-				)
-				resource.SlowQueryRequired = true
-				a.Resources = append(a.Resources, resource)
-		}	
+				DestinationOfRedirectedTrafficDN,
+				DestinationOfRedirectedTrafficDN,
+				"aci_destination_of_redirected_traffic",
+				"aci",
+				map[string]string{
+					"service_redirect_policy_dn": GetParentDn(DestinationOfRedirectedTrafficDN, fmt.Sprintf("/RedirectDest_ip-[%s]", ip)),
+				},
+				[]string{
+					"description",
+				},
+				map[string]interface{}{},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

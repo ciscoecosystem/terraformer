@@ -34,27 +34,25 @@ func (a *ServiceRedirectPolicyGenerator) InitResources() error {
 
 	for i := 0; i < ServiceRedirectPolicyCount; i++ {
 		ServiceRedirectPolicyAttr := ServiceRedirectPolicyCont.S("imdata").Index(i).S(serviceRedirectPolicyClassName, "attributes")
-		ServiceRedirectPolicyDN := G(ServiceRedirectPolicyAttr,"dn")
-		name := G(ServiceRedirectPolicyAttr,"name")
+		ServiceRedirectPolicyDN := G(ServiceRedirectPolicyAttr, "dn")
+		name := G(ServiceRedirectPolicyAttr, "name")
 		if filterChildrenDn(ServiceRedirectPolicyDN, client.parentResource) != "" {
-			
-
 			resource := terraformutils.NewResource(
-					ServiceRedirectPolicyDN,
-					ServiceRedirectPolicyDN,
-					"aci_service_redirect_policy",
-					"aci",
-					map[string]string{
-						"tenant_dn": GetParentDn(ServiceRedirectPolicyDN, fmt.Sprintf("/svcRedirectPol-%s", name,)),
-					},
-					[]string{
-						"description",
-					},
-					map[string]interface{}{},
-				)
-				resource.SlowQueryRequired = true
-				a.Resources = append(a.Resources, resource)
-		}	
+				ServiceRedirectPolicyDN,
+				ServiceRedirectPolicyDN,
+				"aci_service_redirect_policy",
+				"aci",
+				map[string]string{
+					"tenant_dn": GetParentDn(ServiceRedirectPolicyDN, fmt.Sprintf("/svcRedirectPol-%s", name)),
+				},
+				[]string{
+					"description",
+				},
+				map[string]interface{}{},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

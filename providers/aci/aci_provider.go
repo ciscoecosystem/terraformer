@@ -430,7 +430,7 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"fabric_node_member":                       &FabricNodeMemberGenerator{},
 		"fex_profile":                              &FexProfGenerator{},
 		"fex_bundle_group":                         &FexBundleGrpGenerator{},
-		"service_redirect_policy":					&ServiceRedirectPolicyGenerator{},
-		"destination_of_redirected_traffic":		&DestinationOfRedirectedTrafficGenerator{},
+		"service_redirect_policy":                  &ServiceRedirectPolicyGenerator{},
+		"destination_of_redirected_traffic":        &DestinationOfRedirectedTrafficGenerator{},
 	}
 }
