@@ -252,6 +252,12 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"destination_of_redirected_traffic": {
 			"service_redirect_policy": []string{"service_redirect_policy_dn", "id"},
 		},
+		"span_destination_group": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"span_source_group":{
+			"tenant": []string{"tenant_dn", "id"},
+		},
 	}
 }
 

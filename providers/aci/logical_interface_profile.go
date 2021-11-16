@@ -37,7 +37,7 @@ func (a *LogicalInterfaceProfileGenerator) InitResources() error {
 	}
 
 	for i := 0; i < LogicalInterfaceProfileCount; i++ {
-		LogicalInterfaceProfileDN := LogicalInterfaceProfilesCont.S("imdata").Index(i).S(logicalInterfaceProfileClassName, "attributes", "dn").String()
+		LogicalInterfaceProfileDN := stripQuotes(LogicalInterfaceProfilesCont.S("imdata").Index(i).S(logicalInterfaceProfileClassName, "attributes", "dn").String())
 		if filterChildrenDn(LogicalInterfaceProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				LogicalInterfaceProfileDN,

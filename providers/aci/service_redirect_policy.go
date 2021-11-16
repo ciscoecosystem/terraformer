@@ -47,6 +47,18 @@ func (a *ServiceRedirectPolicyGenerator) InitResources() error {
 				},
 				[]string{
 					"description",
+					"anycast_enabled",
+					"dest_type",
+					"hashing_algorithm",
+					"max_threshold_percent",
+					"min_threshold_percent",
+					"name_alias",
+					"annotation",
+					"program_local_pod_only",
+					"resilient_hash_enabled",
+					"threshold_down_action",
+					"threshold_enable",
+					"relation_vns_rs_ipsla_monitoring_pol",
 				},
 				map[string]interface{}{},
 			)
