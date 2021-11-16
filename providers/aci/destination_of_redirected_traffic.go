@@ -48,6 +48,12 @@ func (a *DestinationOfRedirectedTrafficGenerator) InitResources() error {
 				},
 				[]string{
 					"description",
+					"dest_name",
+					"ip2",
+					"name_alias",
+					"annotation",
+					"pod_id",
+					"relation_vns_rs_redirect_health_group",
 				},
 				map[string]interface{}{},
 			)
