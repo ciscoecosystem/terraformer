@@ -255,7 +255,10 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"span_destination_group": {
 			"tenant": []string{"tenant_dn", "id"},
 		},
-		"span_source_group":{
+		"span_source_group": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"logical_device_context": {
 			"tenant": []string{"tenant_dn", "id"},
 		},
 	}
@@ -438,5 +441,7 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"fex_bundle_group":                         &FexBundleGrpGenerator{},
 		"service_redirect_policy":                  &ServiceRedirectPolicyGenerator{},
 		"destination_of_redirected_traffic":        &DestinationOfRedirectedTrafficGenerator{},
+		"logical_device_context":                   &LogicalDeviceContextGenerator{},
+		"interface_fc_policy":                      &InterfaceFCPolicyGenerator{},
 	}
 }
