@@ -2,6 +2,7 @@ package aci
 
 import (
 	"errors"
+	"os"
 
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
 )
@@ -240,6 +241,9 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"vlan_encapsulationfor_vxlan_traffic": {
 			"attachable_access_entity_profile": []string{"attachable_access_entity_profile_dn", "id"},
 		},
+		"l4_l7_service_graph_template": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
 	}
 }
 
@@ -261,6 +265,9 @@ func (p *ACIProvider) Init(args []string) error {
 	p.password = args[2]
 	p.parentResource = args[3]
 	p.insecure = true
+	os.Setenv("ACI_URL", p.baseURL)
+	os.Setenv("ACI_USERNAME", p.username)
+	os.Setenv("ACI_PASSWORD", p.password)
 	return nil
 }
 
@@ -418,5 +425,6 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"fabric_node_member":                       &FabricNodeMemberGenerator{},
 		"fex_profile":                              &FexProfGenerator{},
 		"fex_bundle_group":                         &FexBundleGrpGenerator{},
+		"l4_l7_service_graph_template":             &L4L7ServiceGraphTemplateGenerator{},
 	}
 }
