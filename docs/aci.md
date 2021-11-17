@@ -146,6 +146,9 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
 * `fex_profile`
     * `fex_bundle_group`
 * `interface_fc_policy`
+* `firmware_policy`
+* `firmware_group`
+
 #### Attribute filters
 
 Attribute filters allow filtering across different resource types by their attributes.

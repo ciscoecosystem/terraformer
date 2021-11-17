@@ -443,5 +443,7 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"destination_of_redirected_traffic":        &DestinationOfRedirectedTrafficGenerator{},
 		"logical_device_context":                   &LogicalDeviceContextGenerator{},
 		"interface_fc_policy":                      &InterfaceFCPolicyGenerator{},
+		"firmware_group":                           &FirmwareGroupGenerator{},
+		"firmware_policy":                          &FirmwarePolicyGenerator{},
 	}
 }
