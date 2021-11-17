@@ -50,6 +50,7 @@ func (a *LogicalDeviceContextGenerator) InitResources() error {
 				},
 				[]string{
 					"description",
+					"name_alias",
 				},
 				map[string]interface{}{},
 			)

@@ -45,6 +45,7 @@ func (a *InterfaceFCPolicyGenerator) InitResources() error {
 				map[string]string{},
 				[]string{
 					"description",
+					"name_alias",
 				},
 				map[string]interface{}{},
 			)
