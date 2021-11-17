@@ -241,6 +241,27 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"vlan_encapsulationfor_vxlan_traffic": {
 			"attachable_access_entity_profile": []string{"attachable_access_entity_profile_dn", "id"},
 		},
+		"spine_port_selector": {
+			"spine_profile": []string{"spine_profile_dn", "id"},
+		},
+		"epgs_using_function": {
+			"access_generic": []string{"access_generic_dn", "id"},
+		},
+		"service_redirect_policy": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"destination_of_redirected_traffic": {
+			"service_redirect_policy": []string{"service_redirect_policy_dn", "id"},
+		},
+		"span_destination_group": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"span_source_group": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"logical_device_context": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
 		"l4_l7_service_graph_template": {
 			"tenant": []string{"tenant_dn", "id"},
 		},
@@ -426,5 +447,11 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"fex_profile":                              &FexProfGenerator{},
 		"fex_bundle_group":                         &FexBundleGrpGenerator{},
 		"l4_l7_service_graph_template":             &L4L7ServiceGraphTemplateGenerator{},
+		"service_redirect_policy":                  &ServiceRedirectPolicyGenerator{},
+		"destination_of_redirected_traffic":        &DestinationOfRedirectedTrafficGenerator{},
+		"logical_device_context":                   &LogicalDeviceContextGenerator{},
+		"interface_fc_policy":                      &InterfaceFCPolicyGenerator{},
+		"firmware_group":                           &FirmwareGroupGenerator{},
+		"firmware_policy":                          &FirmwarePolicyGenerator{},
 	}
 }
