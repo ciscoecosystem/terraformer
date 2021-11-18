@@ -34,7 +34,7 @@ func (a *NodeBlockGenerator) InitResources() error {
 
 	totalCount := stripQuotes(nodeBlockCont.S("totalCount").String())
 
-	if totalCount == "{}"{
+	if totalCount == "{}" {
 		totalCount = "0"
 	}
 
@@ -46,21 +46,23 @@ func (a *NodeBlockGenerator) InitResources() error {
 
 	for i := 0; i < nodeBlockCount; i++ {
 		nodeBlockProfileDN := stripQuotes(nodeBlockCont.S("imdata").Index(i).S(nodeBlockClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			nodeBlockProfileDN,
-			nodeBlockProfileDN,
-			"aci_node_block",
-			"aci",
-			[]string{
-				"name_alias",
-				"from_",
-				"to_",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(nodeBlockProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				nodeBlockProfileDN,
+				nodeBlockProfileDN,
+				"aci_node_block",
+				"aci",
+				[]string{
+					"name_alias",
+					"from_",
+					"to_",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

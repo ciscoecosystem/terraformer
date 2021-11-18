@@ -34,7 +34,7 @@ func (a *FexBundleGrpGenerator) InitResources() error {
 
 	totalCount := stripQuotes(fexBundleGrpCont.S("totalCount").String())
 
-	if totalCount == "{}"{
+	if totalCount == "{}" {
 		totalCount = "0"
 	}
 
@@ -46,22 +46,24 @@ func (a *FexBundleGrpGenerator) InitResources() error {
 
 	for i := 0; i < fexBundleGrpCount; i++ {
 		fexBundleGrpProfileDN := stripQuotes(fexBundleGrpCont.S("imdata").Index(i).S(fexBundleGrpClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			fexBundleGrpProfileDN,
-			fexBundleGrpProfileDN,
-			"aci_fex_bundle_group",
-			"aci",
-			[]string{
-				"name",
-				"name_alias",
-				"relation_infra_rs_mon_fex_infra_pol",
-				"relation_infra_rs_fex_bndl_grp_to_aggr_if",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(fexBundleGrpProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				fexBundleGrpProfileDN,
+				fexBundleGrpProfileDN,
+				"aci_fex_bundle_group",
+				"aci",
+				[]string{
+					"name",
+					"name_alias",
+					"relation_infra_rs_mon_fex_infra_pol",
+					"relation_infra_rs_fex_bndl_grp_to_aggr_if",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

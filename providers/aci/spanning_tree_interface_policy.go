@@ -34,7 +34,7 @@ func (a *SpanningTreeInterfacePolicyGenerator) InitResources() error {
 
 	totalCount := stripQuotes(spanningTreeInterfacePolicyCont.S("totalCount").String())
 
-	if totalCount == "{}"{
+	if totalCount == "{}" {
 		totalCount = "0"
 	}
 
@@ -46,20 +46,22 @@ func (a *SpanningTreeInterfacePolicyGenerator) InitResources() error {
 
 	for i := 0; i < spanningTreeInterfacePolicyCount; i++ {
 		spanningTreeInterfacePolicyProfileDN := stripQuotes(spanningTreeInterfacePolicyCont.S("imdata").Index(i).S(spanningTreeInterfacePolicyClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			spanningTreeInterfacePolicyProfileDN,
-			spanningTreeInterfacePolicyProfileDN,
-			"aci_spanning_tree_interface_policy",
-			"aci",
-			[]string{
-				"ctrl",
-				"annotation",
-				"description",
-				"name_alias",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(spanningTreeInterfacePolicyProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				spanningTreeInterfacePolicyProfileDN,
+				spanningTreeInterfacePolicyProfileDN,
+				"aci_spanning_tree_interface_policy",
+				"aci",
+				[]string{
+					"ctrl",
+					"annotation",
+					"description",
+					"name_alias",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

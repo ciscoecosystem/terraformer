@@ -34,7 +34,7 @@ func (a *VlanPoolGenerator) InitResources() error {
 
 	totalCount := stripQuotes(vlanPoolCont.S("totalCount").String())
 
-	if totalCount == "{}"{
+	if totalCount == "{}" {
 		totalCount = "0"
 	}
 
@@ -46,19 +46,21 @@ func (a *VlanPoolGenerator) InitResources() error {
 
 	for i := 0; i < vlanPoolCount; i++ {
 		vlanPoolProfileDN := stripQuotes(vlanPoolCont.S("imdata").Index(i).S(vlanPoolClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			vlanPoolProfileDN,
-			vlanPoolProfileDN,
-			"aci_vlan_pool",
-			"aci",
-			[]string{
-				"name_alias",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(vlanPoolProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				vlanPoolProfileDN,
+				vlanPoolProfileDN,
+				"aci_vlan_pool",
+				"aci",
+				[]string{
+					"name_alias",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

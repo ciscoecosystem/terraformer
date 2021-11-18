@@ -32,8 +32,6 @@ func (a *PortSecurityPolicyGenerator) InitResources() error {
 		return err
 	}
 
-	
-
 	PortSecurityPolicyCount, err := strconv.Atoi(stripQuotes(PortSecurityPolicyCont.S("totalCount").String()))
 
 	if err != nil {
@@ -42,22 +40,24 @@ func (a *PortSecurityPolicyGenerator) InitResources() error {
 
 	for i := 0; i < PortSecurityPolicyCount; i++ {
 		PortSecurityPolicyProfileDN := stripQuotes(PortSecurityPolicyCont.S("imdata").Index(i).S(PortSecurityPolicyClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			PortSecurityPolicyProfileDN,
-			PortSecurityPolicyProfileDN,
-			"aci_port_security_policy",
-			"aci",
-			[]string{
-				"maximum",
-				"name_alias",
-				"timeout",
-				"violation",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(PortSecurityPolicyProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				PortSecurityPolicyProfileDN,
+				PortSecurityPolicyProfileDN,
+				"aci_port_security_policy",
+				"aci",
+				[]string{
+					"maximum",
+					"name_alias",
+					"timeout",
+					"violation",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

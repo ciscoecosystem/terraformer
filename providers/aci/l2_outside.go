@@ -38,22 +38,24 @@ func (a *L2OutsideGenerator) InitResources() error {
 
 	for i := 0; i < L2OutsideCount; i++ {
 		L2OutsideDN := L2OutsideCont.S("imdata").Index(i).S(L2OutsideClassName, "attributes", "dn").String()
-		resource := terraformutils.NewSimpleResource(
-			stripQuotes(L2OutsideDN),
-			stripQuotes(L2OutsideDN),
-			"aci_l2_outside",
-			"aci",
-			[]string{
-				"name_alias",
-				"target_dscp",
-				"relation_l2ext_rs_e_bd",
-				"relation_l2ext_rs_l2_dom_att",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(L2OutsideDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				stripQuotes(L2OutsideDN),
+				stripQuotes(L2OutsideDN),
+				"aci_l2_outside",
+				"aci",
+				[]string{
+					"name_alias",
+					"target_dscp",
+					"relation_l2ext_rs_e_bd",
+					"relation_l2ext_rs_l2_dom_att",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

@@ -34,7 +34,7 @@ func (a *RangesGenerator) InitResources() error {
 
 	totalCount := stripQuotes(rangesCont.S("totalCount").String())
 
-	if totalCount == "{}"{
+	if totalCount == "{}" {
 		totalCount = "0"
 	}
 
@@ -46,22 +46,23 @@ func (a *RangesGenerator) InitResources() error {
 
 	for i := 0; i < rangesCount; i++ {
 		rangesProfileDN := stripQuotes(rangesCont.S("imdata").Index(i).S(rangesClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			rangesProfileDN,
-			rangesProfileDN,
-			"aci_ranges",
-			"aci",
-			[]string{
-				"alloc_mode",
-				"role",
-				"name_alias",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(rangesProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				rangesProfileDN,
+				rangesProfileDN,
+				"aci_ranges",
+				"aci",
+				[]string{
+					"alloc_mode",
+					"role",
+					"name_alias",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
-
 	return nil
 }

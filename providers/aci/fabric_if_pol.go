@@ -40,23 +40,25 @@ func (a *FabricIfPolGenerator) InitResources() error {
 
 	for i := 0; i < FabricIfPolCount; i++ {
 		FabricIfPolDN := stripQuotes(FabricIfPolCont.S("imdata").Index(i).S(FabricIfPolClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			FabricIfPolDN,
-			FabricIfPolDN,
-			"aci_fabric_if_pol",
-			"aci",
-			[]string{
-				"auto_neg",
-				"fec_mode",
-				"link_debounce",
-				"name_alias",
-				"speed",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(FabricIfPolDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				FabricIfPolDN,
+				FabricIfPolDN,
+				"aci_fabric_if_pol",
+				"aci",
+				[]string{
+					"auto_neg",
+					"fec_mode",
+					"link_debounce",
+					"name_alias",
+					"speed",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

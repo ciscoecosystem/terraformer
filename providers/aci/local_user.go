@@ -38,35 +38,37 @@ func (a *LocalUserGenerator) InitResources() error {
 
 	for i := 0; i < LocalUserCount; i++ {
 		LocalUserDN := LocalUserCont.S("imdata").Index(i).S(LocalUserClassName, "attributes", "dn").String()
-		resource := terraformutils.NewSimpleResource(
-			stripQuotes(LocalUserDN),
-			stripQuotes(LocalUserDN),
-			"aci_local_user",
-			"aci",
-			[]string{
-				"account_status",
-				"cert_attribute",
-				"clear_pwd_history",
-				"email",
-				"expiration",
-				"expires",
-				"first_name",
-				"last_name",
-				"name_alias",
-				"otpenable",
-				"otpkey",
-				"phone",
-				"pwd",
-				"pwd_life_time",
-				"pwd_update_required",
-				"rbac_string",
-				"unix_user_id",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(LocalUserDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				stripQuotes(LocalUserDN),
+				stripQuotes(LocalUserDN),
+				"aci_local_user",
+				"aci",
+				[]string{
+					"account_status",
+					"cert_attribute",
+					"clear_pwd_history",
+					"email",
+					"expiration",
+					"expires",
+					"first_name",
+					"last_name",
+					"name_alias",
+					"otpenable",
+					"otpkey",
+					"phone",
+					"pwd",
+					"pwd_life_time",
+					"pwd_update_required",
+					"rbac_string",
+					"unix_user_id",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

@@ -34,7 +34,7 @@ func (a *LeafSelectorGenerator) InitResources() error {
 
 	totalCount := stripQuotes(leafSelectorCont.S("totalCount").String())
 
-	if totalCount == "{}"{
+	if totalCount == "{}" {
 		totalCount = "0"
 	}
 
@@ -46,20 +46,22 @@ func (a *LeafSelectorGenerator) InitResources() error {
 
 	for i := 0; i < leafSelectorCount; i++ {
 		leafSelectorProfileDN := stripQuotes(leafSelectorCont.S("imdata").Index(i).S(leafSelectorClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			leafSelectorProfileDN,
-			leafSelectorProfileDN,
-			"aci_leaf_selector",
-			"aci",
-			[]string{
-				"name_alias",
-				"relation_infra_rs_acc_node_p_grp",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(leafSelectorProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				leafSelectorProfileDN,
+				leafSelectorProfileDN,
+				"aci_leaf_selector",
+				"aci",
+				[]string{
+					"name_alias",
+					"relation_infra_rs_acc_node_p_grp",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

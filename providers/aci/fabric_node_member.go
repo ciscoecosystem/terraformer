@@ -34,7 +34,7 @@ func (a *FabricNodeMemberGenerator) InitResources() error {
 
 	totalCount := stripQuotes(fabricNodeMemberCont.S("totalCount").String())
 
-	if totalCount == "{}"{
+	if totalCount == "{}" {
 		totalCount = "0"
 	}
 
@@ -46,26 +46,28 @@ func (a *FabricNodeMemberGenerator) InitResources() error {
 
 	for i := 0; i < fabricNodeMemberCount; i++ {
 		fabricNodeMemberProfileDN := stripQuotes(fabricNodeMemberCont.S("imdata").Index(i).S(fabricNodeMemberClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			fabricNodeMemberProfileDN,
-			fabricNodeMemberProfileDN,
-			"aci_fabric_node_member",
-			"aci",
-			[]string{
-				"name",
-				"ext_pool_id",
-				"fabric_id",
-				"name_alias",
-				"node_id",
-				"node_type",
-				"pod_id",
-				"role",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(fabricNodeMemberProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				fabricNodeMemberProfileDN,
+				fabricNodeMemberProfileDN,
+				"aci_fabric_node_member",
+				"aci",
+				[]string{
+					"name",
+					"ext_pool_id",
+					"fabric_id",
+					"name_alias",
+					"node_id",
+					"node_type",
+					"pod_id",
+					"role",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

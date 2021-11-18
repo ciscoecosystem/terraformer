@@ -34,7 +34,7 @@ func (a *AccessSubPortBlkGenerator) InitResources() error {
 
 	totalCount := stripQuotes(accessSubPortBlkCont.S("totalCount").String())
 
-	if totalCount == "{}"{
+	if totalCount == "{}" {
 		totalCount = "0"
 	}
 
@@ -46,25 +46,27 @@ func (a *AccessSubPortBlkGenerator) InitResources() error {
 
 	for i := 0; i < accessSubPortBlkCount; i++ {
 		accessSubPortBlkProfileDN := stripQuotes(accessSubPortBlkCont.S("imdata").Index(i).S(accessSubPortBlkClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			accessSubPortBlkProfileDN,
-			accessSubPortBlkProfileDN,
-			"aci_access_sub_port_block",
-			"aci",
-			[]string{
-				"name_alias",
-				"from_card",
-				"from_port",
-				"from_sub_port",
-				"to_card",
-				"to_port",
-				"to_sub_port",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(accessSubPortBlkProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				accessSubPortBlkProfileDN,
+				accessSubPortBlkProfileDN,
+				"aci_access_sub_port_block",
+				"aci",
+				[]string{
+					"name_alias",
+					"from_card",
+					"from_port",
+					"from_sub_port",
+					"to_card",
+					"to_port",
+					"to_sub_port",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

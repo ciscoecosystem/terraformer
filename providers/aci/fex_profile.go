@@ -34,7 +34,7 @@ func (a *FexProfGenerator) InitResources() error {
 
 	totalCount := stripQuotes(fexProfCont.S("totalCount").String())
 
-	if totalCount == "{}"{
+	if totalCount == "{}" {
 		totalCount = "0"
 	}
 
@@ -46,20 +46,22 @@ func (a *FexProfGenerator) InitResources() error {
 
 	for i := 0; i < fexProfCount; i++ {
 		fexProfProfileDN := stripQuotes(fexProfCont.S("imdata").Index(i).S(fexProfClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			fexProfProfileDN,
-			fexProfProfileDN,
-			"aci_fex_profile",
-			"aci",
-			[]string{
-				"name",
-				"name_alias",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(fexProfProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				fexProfProfileDN,
+				fexProfProfileDN,
+				"aci_fex_profile",
+				"aci",
+				[]string{
+					"name",
+					"name_alias",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

@@ -34,7 +34,7 @@ func (a *AccessGenericGenerator) InitResources() error {
 
 	totalCount := stripQuotes(accessGenericCont.S("totalCount").String())
 
-	if totalCount == "{}"{
+	if totalCount == "{}" {
 		totalCount = "0"
 	}
 
@@ -46,20 +46,21 @@ func (a *AccessGenericGenerator) InitResources() error {
 
 	for i := 0; i < accessGenericCount; i++ {
 		accessGenericProfileDN := stripQuotes(accessGenericCont.S("imdata").Index(i).S(accessGenericClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			accessGenericProfileDN,
-			accessGenericProfileDN,
-			"aci_access_generic",
-			"aci",
-			[]string{
-				"name_alias",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(accessGenericProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				accessGenericProfileDN,
+				accessGenericProfileDN,
+				"aci_access_generic",
+				"aci",
+				[]string{
+					"name_alias",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
-
 	return nil
 }

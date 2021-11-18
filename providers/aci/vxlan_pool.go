@@ -34,7 +34,7 @@ func (a *VxlanPoolGenerator) InitResources() error {
 
 	totalCount := stripQuotes(vxlanPoolCont.S("totalCount").String())
 
-	if totalCount == "{}"{
+	if totalCount == "{}" {
 		totalCount = "0"
 	}
 
@@ -46,19 +46,21 @@ func (a *VxlanPoolGenerator) InitResources() error {
 
 	for i := 0; i < vxlanPoolCount; i++ {
 		vxlanPoolProfileDN := stripQuotes(vxlanPoolCont.S("imdata").Index(i).S(vxlanPoolClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			vxlanPoolProfileDN,
-			vxlanPoolProfileDN,
-			"aci_vxlan_pool",
-			"aci",
-			[]string{
-				"name_alias",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(vxlanPoolProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				vxlanPoolProfileDN,
+				vxlanPoolProfileDN,
+				"aci_vxlan_pool",
+				"aci",
+				[]string{
+					"name_alias",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

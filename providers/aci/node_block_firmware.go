@@ -38,21 +38,23 @@ func (a *NodeBlockFirmWareGenerator) InitResources() error {
 
 	for i := 0; i < NodeBlockFirmWareCount; i++ {
 		NodeBlockFirmWareDN := NodeBlockFirmWaresCont.S("imdata").Index(i).S(NodeBlockFirmWareClassName, "attributes", "dn").String()
-		resource := terraformutils.NewSimpleResource(
-			stripQuotes(NodeBlockFirmWareDN),
-			stripQuotes(NodeBlockFirmWareDN),
-			"aci_node_block_firmware",
-			"aci",
-			[]string{
-				"from_",
-				"to_",
-				"name_alias",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(NodeBlockFirmWareDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				stripQuotes(NodeBlockFirmWareDN),
+				stripQuotes(NodeBlockFirmWareDN),
+				"aci_node_block_firmware",
+				"aci",
+				[]string{
+					"from_",
+					"to_",
+					"name_alias",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

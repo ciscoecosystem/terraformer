@@ -34,7 +34,7 @@ func (a *MonPolGenerator) InitResources() error {
 
 	totalCount := stripQuotes(monPolCont.S("totalCount").String())
 
-	if totalCount == "{}"{
+	if totalCount == "{}" {
 		totalCount = "0"
 	}
 
@@ -46,19 +46,21 @@ func (a *MonPolGenerator) InitResources() error {
 
 	for i := 0; i < monPolCount; i++ {
 		monPolProfileDN := stripQuotes(monPolCont.S("imdata").Index(i).S(monPolClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			monPolProfileDN,
-			monPolProfileDN,
-			"aci_monitoring_policy",
-			"aci",
-			[]string{
-				"name_alias",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(monPolProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				monPolProfileDN,
+				monPolProfileDN,
+				"aci_monitoring_policy",
+				"aci",
+				[]string{
+					"name_alias",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

@@ -34,7 +34,7 @@ func (a *AaaDomGenerator) InitResources() error {
 
 	totalCount := stripQuotes(aaaDomCont.S("totalCount").String())
 
-	if totalCount == "{}"{
+	if totalCount == "{}" {
 		totalCount = "0"
 	}
 
@@ -46,20 +46,21 @@ func (a *AaaDomGenerator) InitResources() error {
 
 	for i := 0; i < aaaDomCount; i++ {
 		aaaDomProfileDN := stripQuotes(aaaDomCont.S("imdata").Index(i).S(aaaDomClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			aaaDomProfileDN,
-			aaaDomProfileDN,
-			"aci_aaa_domain",
-			"aci",
-			[]string{
-				"name_alias",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(aaaDomProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				aaaDomProfileDN,
+				aaaDomProfileDN,
+				"aci_aaa_domain",
+				"aci",
+				[]string{
+					"name_alias",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
-
 	return nil
 }

@@ -38,26 +38,28 @@ func (a *StaticNodeMgmtAddressGenerator) InitResources() error {
 
 	for i := 0; i < StaticNodeMgmtAddressCount; i++ {
 		StaticNodeMgmtAddressDN := StaticNodeMgmtAddressCont.S("imdata").Index(i).S(StaticNodeMgmtAddressClassName, "attributes", "dn").String()
-		resource := terraformutils.NewResource(
-			stripQuotes(StaticNodeMgmtAddressDN),
-			stripQuotes(StaticNodeMgmtAddressDN),
-			"aci_static_node_mgmt_address",
-			"aci",
-			map[string]string{
-				"type": "in_band",
-			},
-			[]string{
-				"addr",
-				"gw",
-				"v6_addr",
-				"v6_gw",
-				"annotation",
-				"description",
-			},
-			map[string]interface{}{},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(StaticNodeMgmtAddressDN, client.parentResource) != "" {
+			resource := terraformutils.NewResource(
+				stripQuotes(StaticNodeMgmtAddressDN),
+				stripQuotes(StaticNodeMgmtAddressDN),
+				"aci_static_node_mgmt_address",
+				"aci",
+				map[string]string{
+					"type": "in_band",
+				},
+				[]string{
+					"addr",
+					"gw",
+					"v6_addr",
+					"v6_gw",
+					"annotation",
+					"description",
+				},
+				map[string]interface{}{},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	dnURL = fmt.Sprintf("%s/%s.json", baseURL, "mgmtRsOoBStNode")
 
@@ -73,26 +75,28 @@ func (a *StaticNodeMgmtAddressGenerator) InitResources() error {
 
 	for i := 0; i < StaticNodeMgmtAddressCount; i++ {
 		StaticNodeMgmtAddressDN := StaticNodeMgmtAddressCont.S("imdata").Index(i).S("mgmtRsOoBStNode", "attributes", "dn").String()
-		resource := terraformutils.NewResource(
-			stripQuotes(StaticNodeMgmtAddressDN),
-			stripQuotes(StaticNodeMgmtAddressDN),
-			"aci_static_node_mgmt_address",
-			"aci",
-			map[string]string{
-				"type": "out_of_band",
-			},
-			[]string{
-				"addr",
-				"gw",
-				"v6_addr",
-				"v6_gw",
-				"annotation",
-				"description",
-			},
-			map[string]interface{}{},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(StaticNodeMgmtAddressDN, client.parentResource) != "" {
+			resource := terraformutils.NewResource(
+				stripQuotes(StaticNodeMgmtAddressDN),
+				stripQuotes(StaticNodeMgmtAddressDN),
+				"aci_static_node_mgmt_address",
+				"aci",
+				map[string]string{
+					"type": "out_of_band",
+				},
+				[]string{
+					"addr",
+					"gw",
+					"v6_addr",
+					"v6_gw",
+					"annotation",
+					"description",
+				},
+				map[string]interface{}{},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

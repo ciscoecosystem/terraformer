@@ -48,21 +48,23 @@ func (a *CloudSubnetGenerator) InitResources() error {
 		cloudSubnetAttr := cloudSubnetCont.S("imdata").Index(i).S(cloudSubnetClass, "attributes")
 		cloudSubnetProfileDN := stripQuotes(cloudSubnetCont.S("imdata").Index(i).S(cloudSubnetClass, "attributes", "dn").String())
 		ip := G(cloudSubnetAttr, "ip")
-		resource := terraformutils.NewResource(
-			cloudSubnetProfileDN,
-			cloudSubnetProfileDN,
-			"aci_cloud_subnet",
-			"aci",
-			map[string]string{
-				"cloud_cidr_pool_dn": GetParentDn(cloudSubnetProfileDN, fmt.Sprintf("/subnet-[%s]", ip)),
-			},
-			[]string{
-				"description",
-			},
-			map[string]interface{}{},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(cloudSubnetProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewResource(
+				cloudSubnetProfileDN,
+				cloudSubnetProfileDN,
+				"aci_cloud_subnet",
+				"aci",
+				map[string]string{
+					"cloud_cidr_pool_dn": GetParentDn(cloudSubnetProfileDN, fmt.Sprintf("/subnet-[%s]", ip)),
+				},
+				[]string{
+					"description",
+				},
+				map[string]interface{}{},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

@@ -34,7 +34,7 @@ func (a *LeafBreakoutPortGrpGenerator) InitResources() error {
 
 	totalCount := stripQuotes(leafBreakoutPortGrpCont.S("totalCount").String())
 
-	if totalCount == "{}"{
+	if totalCount == "{}" {
 		totalCount = "0"
 	}
 
@@ -46,21 +46,23 @@ func (a *LeafBreakoutPortGrpGenerator) InitResources() error {
 
 	for i := 0; i < leafBreakoutPortGrpCount; i++ {
 		leafBreakoutPortGrpProfileDN := stripQuotes(leafBreakoutPortGrpCont.S("imdata").Index(i).S(leafBreakoutPortGrpClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			leafBreakoutPortGrpProfileDN,
-			leafBreakoutPortGrpProfileDN,
-			"aci_leaf_breakout_port_group",
-			"aci",
-			[]string{
-				"name_alias",
-				"brkout_map",
-				"relation_infra_rs_mon_brkout_infra_pol",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(leafBreakoutPortGrpProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				leafBreakoutPortGrpProfileDN,
+				leafBreakoutPortGrpProfileDN,
+				"aci_leaf_breakout_port_group",
+				"aci",
+				[]string{
+					"name_alias",
+					"brkout_map",
+					"relation_infra_rs_mon_brkout_infra_pol",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

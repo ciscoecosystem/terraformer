@@ -34,7 +34,7 @@ func (a *ActionRuleProfGenerator) InitResources() error {
 
 	totalCount := stripQuotes(actionRuleProfCont.S("totalCount").String())
 
-	if totalCount == "{}"{
+	if totalCount == "{}" {
 		totalCount = "0"
 	}
 
@@ -46,19 +46,21 @@ func (a *ActionRuleProfGenerator) InitResources() error {
 
 	for i := 0; i < actionRuleProfCount; i++ {
 		actionRuleProfProfileDN := stripQuotes(actionRuleProfCont.S("imdata").Index(i).S(actionRuleProfClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			actionRuleProfProfileDN,
-			actionRuleProfProfileDN,
-			"aci_action_rule_profile",
-			"aci",
-			[]string{
-				"name_alias",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(actionRuleProfProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				actionRuleProfProfileDN,
+				actionRuleProfProfileDN,
+				"aci_action_rule_profile",
+				"aci",
+				[]string{
+					"name_alias",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

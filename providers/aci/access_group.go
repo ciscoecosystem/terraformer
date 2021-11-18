@@ -34,7 +34,7 @@ func (a *AccessGroupGenerator) InitResources() error {
 
 	totalCount := stripQuotes(accessGroupCont.S("totalCount").String())
 
-	if totalCount == "{}"{
+	if totalCount == "{}" {
 		totalCount = "0"
 	}
 
@@ -46,20 +46,22 @@ func (a *AccessGroupGenerator) InitResources() error {
 
 	for i := 0; i < accessGroupCount; i++ {
 		accessGroupProfileDN := stripQuotes(accessGroupCont.S("imdata").Index(i).S(accessGroupClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			accessGroupProfileDN,
-			accessGroupProfileDN,
-			"aci_access_group",
-			"aci",
-			[]string{
-				"fex_id",
-				"tdn",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(accessGroupProfileDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				accessGroupProfileDN,
+				accessGroupProfileDN,
+				"aci_access_group",
+				"aci",
+				[]string{
+					"fex_id",
+					"tdn",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

@@ -40,22 +40,24 @@ func (a *L2InterfacePolicyGenerator) InitResources() error {
 
 	for i := 0; i < L2InterfacePolicysCount; i++ {
 		L2InterfacePolicyDN := stripQuotes(L2InterfacePolicyCont.S("imdata").Index(i).S(L2InterfacePolicyClass, "attributes", "dn").String())
-		resource := terraformutils.NewSimpleResource(
-			L2InterfacePolicyDN,
-			L2InterfacePolicyDN,
-			"aci_l2_interface_policy",
-			"aci",
-			[]string{
-				"qinq",
-				"vepa",
-				"vlan_scope",
-				"name_alias",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(L2InterfacePolicyDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				L2InterfacePolicyDN,
+				L2InterfacePolicyDN,
+				"aci_l2_interface_policy",
+				"aci",
+				[]string{
+					"qinq",
+					"vepa",
+					"vlan_scope",
+					"name_alias",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 
 	return nil

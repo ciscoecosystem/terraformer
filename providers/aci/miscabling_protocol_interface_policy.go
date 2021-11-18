@@ -37,20 +37,22 @@ func (a *MiscablingProtocolInterfacePolicyGenerator) InitResources() error {
 
 	for i := 0; i < MiscablingProtocolInterfacePolicyCount; i++ {
 		MiscablingProtocolInterfacePolicyDN := MiscablingProtocolInterfacePolicyCont.S("imdata").Index(i).S(MiscablingProtocolInterfacePolicyClassName, "attributes", "dn").String()
-		resource := terraformutils.NewSimpleResource(
-			stripQuotes(MiscablingProtocolInterfacePolicyDN),
-			stripQuotes(MiscablingProtocolInterfacePolicyDN),
-			"aci_miscabling_protocol_interface_policy",
-			"aci",
-			[]string{
-				"admin_st",
-				"name_alias",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
+		if filterChildrenDn(MiscablingProtocolInterfacePolicyDN, client.parentResource) != "" {
+			resource := terraformutils.NewSimpleResource(
+				stripQuotes(MiscablingProtocolInterfacePolicyDN),
+				stripQuotes(MiscablingProtocolInterfacePolicyDN),
+				"aci_miscabling_protocol_interface_policy",
+				"aci",
+				[]string{
+					"admin_st",
+					"name_alias",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }
