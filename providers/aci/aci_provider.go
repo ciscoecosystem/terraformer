@@ -453,5 +453,6 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"interface_fc_policy":                      &InterfaceFCPolicyGenerator{},
 		"firmware_group":                           &FirmwareGroupGenerator{},
 		"firmware_policy":                          &FirmwarePolicyGenerator{},
+		"firmware_download_task":                   &FirmwareDownloadTaskGenerator{},
 	}
 }
