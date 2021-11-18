@@ -46,24 +46,30 @@ func (a *L3OutVPCMemberGenerator) InitResources() error {
 
 	for i := 0; i < l3OutVPCMemberCount; i++ {
 		l3OutVPCMemberProfileDN := stripQuotes(l3OutVPCMemberCont.S("imdata").Index(i).S(l3OutVPCMemberClass, "attributes", "dn").String())
+		side := stripQuotes(l3OutVPCMemberCont.S("imdata").Index(i).S(l3OutVPCMemberClass, "attributes", "side").String())
 		if filterChildrenDn(l3OutVPCMemberProfileDN, client.parentResource) != "" {
-			resource := terraformutils.NewSimpleResource(
-			l3OutVPCMemberProfileDN,
-			l3OutVPCMemberProfileDN,
-			"aci_l3out_vpc_member",
-			"aci",
-			[]string{
-				"addr",
-				"ipv6_dad",
-				"ll_addr",
-				"name_alias",
-				"annotation",
-				"description",
-			},
-		)
- 		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
-		}	}
+			resource := terraformutils.NewResource(
+				l3OutVPCMemberProfileDN,
+				l3OutVPCMemberProfileDN,
+				"aci_l3out_vpc_member",
+				"aci",
+				map[string]string{
+					"leaf_port_dn": GetParentDn(l3OutVPCMemberProfileDN, fmt.Sprintf("/mem-%s", side)),
+				},
+				[]string{
+					"addr",
+					"ipv6_dad",
+					"ll_addr",
+					"name_alias",
+					"annotation",
+					"description",
+				},
+				map[string]interface{}{},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
+	}
 
 	return nil
 }

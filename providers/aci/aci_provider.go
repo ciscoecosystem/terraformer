@@ -265,6 +265,9 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"l4_l7_service_graph_template": {
 			"tenant": []string{"tenant_dn", "id"},
 		},
+		"function_node": {
+			"l4_l7_service_graph_template": []string{"l4_l7_service_graph_template_dn", "id"},
+		},
 	}
 }
 
@@ -315,11 +318,8 @@ func (p *ACIProvider) InitService(serviceName string, verbose bool) error {
 	return nil
 }
 
-// GetSupportedService return map of support service for Github
 func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGenerator {
 	return map[string]terraformutils.ServiceGenerator{
-		// "members":               &MembersGenerator{},
-
 		"tenant":                                   &TenantGenerator{},
 		"application_profile":                      &ApplicationProfileGenerator{},
 		"application_epg":                          &ApplicationEPGGenerator{},
@@ -454,5 +454,6 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"firmware_group":                           &FirmwareGroupGenerator{},
 		"firmware_policy":                          &FirmwarePolicyGenerator{},
 		"firmware_download_task":                   &FirmwareDownloadTaskGenerator{},
+		"function_node":                            &FunctionNodeGenerator{},
 	}
 }
