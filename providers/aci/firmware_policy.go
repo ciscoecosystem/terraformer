@@ -52,6 +52,7 @@ func (a *FirmwarePolicyGenerator) InitResources() error {
 					"name_alias",
 					"version",
 					"version_check_override",
+					"annotation",
 				},
 				map[string]interface{}{},
 			)
