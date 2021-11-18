@@ -1,12 +1,11 @@
 
 ### Use with ACI
 
-Example:
-
+* use `--username`, `--password` and `--base-url` options to specify server credentials for the first run. It should set respective envirenment variables of server credentials. Once environment variables are set there is no need to specify these options in the import command.
 ```
 terraformer import aci --resources=tenant,application_profile --username=Cisco_APIC_username --password=Cisco_APIC_password --base-url=Cisco_APIC_url
-terraformer import aci --resources=* --excludes=application_profile --username=Cisco_APIC_username --password=Cisco_APIC_password --base-url=Cisco_APIC_url
-terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 --username=Cisco_APIC_username --password=Cisco_APIC_password --base-url=Cisco_APIC_url
+terraformer import aci --resources=* --excludes=application_profile
+terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2
 ```
 
 #### Supported services
@@ -94,15 +93,15 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
 * `vswitch_policy`
 * `cloud_domain_profile`
 * `cloud_vpn_gateway`
-* `aci_attachable_access_entity_profile`
-    * `aci_access_generic`
-* `aci_epgs_using_function`
-* `aci_leaf_interface_profile`
+* `attachable_access_entity_profile`
+    * `access_generic`
+* `epgs_using_function`
+* `leaf_interface_profile`
     * `access_port_selector`
         * `access_group`
         * `access_port_block`
         * `access_sub_port_block`
-* `aci_leaf_profile`
+* `leaf_profile`
     * `leaf_selector`
         * `node_block`
 * `leaf_access_bundle_policy`
@@ -165,7 +164,12 @@ It Will work as same as the example above with a change the filter will apply on
 ```
 terraformer import aci --resources=application_profile --filter="Name=annotation;Value='orchestrator:terraform':'tag'" --password=Cisco_APIC_password --username=Cisco_APIC_username --base-url=Cisco_APIC_url
 ```
-If the value of the attribute has `: (colon)` in its value, then to pass this value inside --filter tag user needs to pass the entire value in `'' (single quotes)` like the above mentioned example. 
+`--parent-dn`: specify DN of parent resource. following command will import whole tree of child resources under `test` tenant.
+```
+terraformer import aci --resources=* --parent-dn="uni/tn-test" --password=Cisco_APIC_password --username=Cisco_APIC_username --base-url=Cisco_APIC_url
+```
+If the value of the attribute has `: (colon)` in its value, then to pass this value inside --filter tag user needs to pass the entire value in `'' (single quotes)` like the above mentioned example.  
+
 
 #### Building the terraformer provider
 
@@ -197,6 +201,7 @@ Or alternatively
    ACI_PASSWORD = Cisco_APIC_password
    ACI_URL = Cisco_APIC_url
 ```
+Note: If above environment variables have not been set, use `--username`, `--password` and `--base-url` options.
 
 From Releases:
 
