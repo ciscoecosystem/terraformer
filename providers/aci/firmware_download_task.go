@@ -59,6 +59,7 @@ func (a *FirmwareDownloadTaskGenerator) InitResources() error {
 					"proto",
 					"url",
 					"user",
+					"annotation",
 				},
 				map[string]interface{}{},
 			)

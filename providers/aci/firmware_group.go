@@ -47,6 +47,7 @@ func (a *FirmwareGroupGenerator) InitResources() error {
 					"name_alias",
 					"firmware_group_type",
 					"relation_firmware_rs_fwgrpp",
+					"annotation",
 				},
 				map[string]interface{}{},
 			)
