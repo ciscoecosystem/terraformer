@@ -148,6 +148,7 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
 * `interface_fc_policy`
 * `firmware_policy`
 * `firmware_group`
+* `firmware_download_task`
 
 #### Attribute filters
 
