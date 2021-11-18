@@ -1,7 +1,7 @@
 
 ### Use with ACI
 
-* use `--username`, `--password` and `--base-url` options to specify server credentials for the first run. It should set respective envirenment variables of server credentials. Once environment variables are set there is no need to specify these options in the import command.
+* use `--username`, `--password` and `--base-url` options to specify server credentials for the first run. It should set respective environment variables of server credentials. Once environment variables are set there is no need to specify these options in the import command.
 ```
 terraformer import aci --resources=tenant,application_profile --username=Cisco_APIC_username --password=Cisco_APIC_password --base-url=Cisco_APIC_url
 terraformer import aci --resources=* --excludes=application_profile
