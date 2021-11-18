@@ -33,7 +33,7 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
         * `external_network_instance_profile`
             * `l3_ext_subnet`
         * `logical_node_profile`
-            *`logical_node_to_fabric_profile`
+            * `logical_node_to_fabric_profile`
                 * `l3out_static_route`
                     * `l3out_static_route_next_hop`
             * `l3out_bgp_protocol_profile`
@@ -148,6 +148,7 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2 
 * `interface_fc_policy`
 * `firmware_policy`
 * `firmware_group`
+* `firmware_download_task`
 
 #### Attribute filters
 

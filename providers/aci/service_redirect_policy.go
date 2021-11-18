@@ -43,7 +43,7 @@ func (a *ServiceRedirectPolicyGenerator) InitResources() error {
 				"aci_service_redirect_policy",
 				"aci",
 				map[string]string{
-					"tenant_dn": GetParentDn(ServiceRedirectPolicyDN, fmt.Sprintf("/svcRedirectPol-%s", name)),
+					"tenant_dn": GetParentDn(ServiceRedirectPolicyDN, fmt.Sprintf("/svcCont/svcRedirectPol-%s", name)),
 				},
 				[]string{
 					"description",
