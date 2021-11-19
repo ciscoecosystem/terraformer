@@ -19,13 +19,12 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2
         * `cloud_external_epg`
             * `cloud_endpoint_selectorfor_external_epgs`
     * `application_profile`
-        * `endpoint_security_group_selector`
         * `endpoint_security_group`
+            * `endpoint_security_group_selector`
         * `application_epg`
             * `epg_to_contract`
             * `epg_to_domain`
             * `epg_to_static_path`
-            * `epgs_using_function`
     * `vrf`
         * `any`
     * `bgp_route_control_profile`
@@ -58,7 +57,6 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2
               * `l3out_loopback_interface_profile`
         * `l3out_bgp_external_policy`
         * `bgp_route_control_profile` 
-    * `bgp_route_control_profile`   
     * `bridge_domain` 
         * `subnet`
         * `bd_dhcp_label`
@@ -155,7 +153,6 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2
 * `firmware_download_task`
 * `vsan_pool`
 * `fc_domain`
-    * `epg_to_domain`
 * `pod_maintenance_group`
     * `maintenance_group_node`
 
