@@ -24,6 +24,7 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2
             * `epg_to_static_path`
     * `vrf`
         * `any`
+    * `bgp_route_control_profile`
     * `cloud_context_profile`
             * `cloud_cidr_pool`
                 * `cloud_subnet`
@@ -32,12 +33,12 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2
         * `external_network_instance_profile`
             * `l3_ext_subnet`
         * `logical_node_profile`
+            * `bgp_peer_connectivity_profile`
             * `logical_node_to_fabric_profile`
                 * `l3out_static_route`
                     * `l3out_static_route_next_hop`
             * `l3out_bgp_protocol_profile`
             * `logical_interface_profile`
-                * `l3out_hsrp_secondary_vip`
                 * `l3out_ospf_interface_profile`
                 * `l3out_floating_svi`
                 * `l3out_path_attachment`
@@ -55,7 +56,7 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2
         * `epg_to_contract`
     * `filter`
         * `filter_entry`
-    * `ospf_inteface_policy`
+    * `ospf_interface_policy`
     * `dhcp_option_policy`
     * `dhcp_relay_policy`
     * `bgp_route_summarization`
@@ -80,9 +81,13 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2
     * `l4_l7_service_graph_template`
         * `function_node`
         * `connection`
+    * `span_destination_group`
+    * `span_source_group`
+        * `span_sourcedestination_group_match_label`
 * `vpc_explicit_protection_group`
 * `l3out_loopback_interface_profile`
 * `l3out_hsrp_interface_group`
+    * `l3out_hsrp_secondary_vip`
 * `l3out_hsrp_interface_profile`
 * `l3_domain_profile`
 * `logical_node_to_fabric_node`
@@ -134,9 +139,6 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2
     * `x509_certificate`
 * `trigger_scheduler`
 * `spanning_tree_interface_policy`
-* `span_destination_group`
-* `span_source_group`
-    * `span_sourcedestination_group_match_label`
 * `maintenance_policy`
 * `maintenance_group_node`
 * `node_block_firmware`
@@ -149,9 +151,14 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2
 * `interface_fc_policy`
 * `firmware_policy`
 * `firmware_group`
+    * `node_block_firmware`
 * `firmware_download_task`
 * `vsan_pool`
 * `fc_domain`
+    * `epg_to_domain`
+* `pod_maintenance_group`
+    * `maintenance_group_node`
+
 
 #### Attribute filters
 
