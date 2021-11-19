@@ -268,6 +268,12 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"function_node": {
 			"l4_l7_service_graph_template": []string{"l4_l7_service_graph_template_dn", "id"},
 		},
+		"connection": {
+			"l4_l7_service_graph_template": []string{"l4_l7_service_graph_template_dn", "id"},
+		},
+		"logical_interface_context": {
+			"logical_device_context": []string{"logical_device_context_dn", "id"},
+		},
 	}
 }
 
@@ -455,5 +461,9 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"firmware_policy":                          &FirmwarePolicyGenerator{},
 		"firmware_download_task":                   &FirmwareDownloadTaskGenerator{},
 		"function_node":                            &FunctionNodeGenerator{},
+		"connection":                               &ConnectionGenerator{},
+		"logical_interface_context":                &LogicalInterfaceContextGenerator{},
+		"vsan_pool":                                &VSANPoolGenerator{},
+		"fc_domain":                                &FCDomainGenerator{},
 	}
 }
