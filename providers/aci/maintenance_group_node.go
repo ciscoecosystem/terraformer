@@ -37,7 +37,7 @@ func (a *MaintenanceGroupNodeGenerator) InitResources() error {
 	}
 
 	for i := 0; i < MaintenanceGroupNodeCount; i++ {
-		MaintenanceGroupNodeDN := MaintenanceGroupNodesCont.S("imdata").Index(i).S(MaintenanceGroupNodeClassName, "attributes", "dn").String()
+		MaintenanceGroupNodeDN := stripQuotes(MaintenanceGroupNodesCont.S("imdata").Index(i).S(MaintenanceGroupNodeClassName, "attributes", "dn").String())
 		if filterChildrenDn(MaintenanceGroupNodeDN, client.parentResource) != "" {
 		resource := terraformutils.NewSimpleResource(
 			stripQuotes(MaintenanceGroupNodeDN),

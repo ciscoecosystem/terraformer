@@ -37,7 +37,7 @@ func (a *NodeBlockFirmWareGenerator) InitResources() error {
 	}
 
 	for i := 0; i < NodeBlockFirmWareCount; i++ {
-		NodeBlockFirmWareDN := NodeBlockFirmWaresCont.S("imdata").Index(i).S(NodeBlockFirmWareClassName, "attributes", "dn").String()
+		NodeBlockFirmWareDN := stripQuotes(NodeBlockFirmWaresCont.S("imdata").Index(i).S(NodeBlockFirmWareClassName, "attributes", "dn").String())
 		if filterChildrenDn(NodeBlockFirmWareDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				stripQuotes(NodeBlockFirmWareDN),

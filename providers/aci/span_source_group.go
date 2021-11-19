@@ -35,7 +35,7 @@ func (a *SpanSourceGroupGenerator) InitResources() error {
 		return err
 	}
 	for i := 0; i < SpanSourceGroupCount; i++ {
-		SpanSourceGroupDN := SpanSourceGroupCont.S("imdata").Index(i).S(SpanSourceGroupClass, "attributes", "dn").String()
+		SpanSourceGroupDN := stripQuotes(SpanSourceGroupCont.S("imdata").Index(i).S(SpanSourceGroupClass, "attributes", "dn").String())
 		if filterChildrenDn(SpanSourceGroupDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				stripQuotes(SpanSourceGroupDN),

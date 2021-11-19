@@ -35,7 +35,7 @@ func (a *VmmControllerGenerator) InitResources() error {
 		return err
 	}
 	for i := 0; i < VmmControllerCount; i++ {
-		VmmControllerDN := VmmControllerCont.S("imdata").Index(i).S(VmmControllerClass, "attributes", "dn").String()
+		VmmControllerDN := stripQuotes(VmmControllerCont.S("imdata").Index(i).S(VmmControllerClass, "attributes", "dn").String())
 		if filterChildrenDn(VmmControllerDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				stripQuotes(VmmControllerDN),

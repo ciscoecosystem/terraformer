@@ -35,7 +35,7 @@ func (a *TriggerSchedulerGenerator) InitResources() error {
 		return err
 	}
 	for i := 0; i < TriggerSchedulerCount; i++ {
-		TriggerSchedulerDN := TriggerSchedulerCont.S("imdata").Index(i).S(TriggerSchedulerClass, "attributes", "dn").String()
+		TriggerSchedulerDN := stripQuotes(TriggerSchedulerCont.S("imdata").Index(i).S(TriggerSchedulerClass, "attributes", "dn").String())
 		if filterChildrenDn(TriggerSchedulerDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				stripQuotes(TriggerSchedulerDN),

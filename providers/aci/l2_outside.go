@@ -37,7 +37,7 @@ func (a *L2OutsideGenerator) InitResources() error {
 	}
 
 	for i := 0; i < L2OutsideCount; i++ {
-		L2OutsideDN := L2OutsideCont.S("imdata").Index(i).S(L2OutsideClassName, "attributes", "dn").String()
+		L2OutsideDN := stripQuotes(L2OutsideCont.S("imdata").Index(i).S(L2OutsideClassName, "attributes", "dn").String())
 		if filterChildrenDn(L2OutsideDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				stripQuotes(L2OutsideDN),

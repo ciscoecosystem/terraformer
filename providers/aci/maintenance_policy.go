@@ -37,7 +37,7 @@ func (a *MaintenancePolicyGenerator) InitResources() error {
 	}
 
 	for i := 0; i < MaintenancePolicyCount; i++ {
-		MaintenancePolicyDN := MaintenancePolicysCont.S("imdata").Index(i).S(MaintenancePolicyClassName, "attributes", "dn").String()
+		MaintenancePolicyDN := stripQuotes(MaintenancePolicysCont.S("imdata").Index(i).S(MaintenancePolicyClassName, "attributes", "dn").String())
 		if filterChildrenDn(MaintenancePolicyDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				stripQuotes(MaintenancePolicyDN),

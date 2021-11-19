@@ -36,7 +36,7 @@ func (a *MiscablingProtocolInterfacePolicyGenerator) InitResources() error {
 	}
 
 	for i := 0; i < MiscablingProtocolInterfacePolicyCount; i++ {
-		MiscablingProtocolInterfacePolicyDN := MiscablingProtocolInterfacePolicyCont.S("imdata").Index(i).S(MiscablingProtocolInterfacePolicyClassName, "attributes", "dn").String()
+		MiscablingProtocolInterfacePolicyDN := stripQuotes(MiscablingProtocolInterfacePolicyCont.S("imdata").Index(i).S(MiscablingProtocolInterfacePolicyClassName, "attributes", "dn").String())
 		if filterChildrenDn(MiscablingProtocolInterfacePolicyDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				stripQuotes(MiscablingProtocolInterfacePolicyDN),

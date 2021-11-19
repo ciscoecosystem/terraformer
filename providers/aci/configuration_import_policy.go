@@ -37,7 +37,7 @@ func (a *ConfigImportPolicyGenerator) InitResources() error {
 	}
 
 	for i := 0; i < configImportPolicyCount; i++ {
-		configImportPolicyDN := configImportPolicysCont.S("imdata").Index(i).S(configImportPolicyClassName, "attributes", "dn").String()
+		configImportPolicyDN := stripQuotes(configImportPolicysCont.S("imdata").Index(i).S(configImportPolicyClassName, "attributes", "dn").String())
 		if filterChildrenDn(configImportPolicyDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				stripQuotes(configImportPolicyDN),

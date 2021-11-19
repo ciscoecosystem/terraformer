@@ -37,7 +37,7 @@ func (a *ConfigExportPolicyGenerator) InitResources() error {
 	}
 
 	for i := 0; i < ConfigExportPolicyCount; i++ {
-		ConfigExportPolicyDN := ConfigExportPolicysCont.S("imdata").Index(i).S(ConfigExportPolicyClassName, "attributes", "dn").String()
+		ConfigExportPolicyDN := stripQuotes(ConfigExportPolicysCont.S("imdata").Index(i).S(ConfigExportPolicyClassName, "attributes", "dn").String())
 		if filterChildrenDn(ConfigExportPolicyDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				stripQuotes(ConfigExportPolicyDN),

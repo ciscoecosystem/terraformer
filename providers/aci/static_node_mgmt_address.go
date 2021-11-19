@@ -37,7 +37,7 @@ func (a *StaticNodeMgmtAddressGenerator) InitResources() error {
 	}
 
 	for i := 0; i < StaticNodeMgmtAddressCount; i++ {
-		StaticNodeMgmtAddressDN := StaticNodeMgmtAddressCont.S("imdata").Index(i).S(StaticNodeMgmtAddressClassName, "attributes", "dn").String()
+		StaticNodeMgmtAddressDN := stripQuotes(StaticNodeMgmtAddressCont.S("imdata").Index(i).S(StaticNodeMgmtAddressClassName, "attributes", "dn").String())
 		if filterChildrenDn(StaticNodeMgmtAddressDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
 				stripQuotes(StaticNodeMgmtAddressDN),
@@ -74,7 +74,8 @@ func (a *StaticNodeMgmtAddressGenerator) InitResources() error {
 	}
 
 	for i := 0; i < StaticNodeMgmtAddressCount; i++ {
-		StaticNodeMgmtAddressDN := StaticNodeMgmtAddressCont.S("imdata").Index(i).S("mgmtRsOoBStNode", "attributes", "dn").String()
+		StaticNodeMgmtAddressDN := stripQuotes(StaticNodeMgmtAddressCont.S("imdata").Index(i).S("mgmtRsOoBStNode", "attributes", "dn").String())
+		fmt.Printf("StaticNodeMgmtAddressDN: %v\n", StaticNodeMgmtAddressDN)
 		if filterChildrenDn(StaticNodeMgmtAddressDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
 				stripQuotes(StaticNodeMgmtAddressDN),

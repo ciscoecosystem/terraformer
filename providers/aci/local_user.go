@@ -37,7 +37,7 @@ func (a *LocalUserGenerator) InitResources() error {
 	}
 
 	for i := 0; i < LocalUserCount; i++ {
-		LocalUserDN := LocalUserCont.S("imdata").Index(i).S(LocalUserClassName, "attributes", "dn").String()
+		LocalUserDN := stripQuotes(LocalUserCont.S("imdata").Index(i).S(LocalUserClassName, "attributes", "dn").String())
 		if filterChildrenDn(LocalUserDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				stripQuotes(LocalUserDN),
