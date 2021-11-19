@@ -107,6 +107,7 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		},
 		"bgp_peer_connectivity_profile": {
 			"l3out_path_attachment": []string{"parent_dn", "id"},
+			"logical_node_profile":  []string{"parent_dn", "id"},
 		},
 		"ospf_route_summarization": {
 			"tenant": []string{"tenant_dn", "id"},
@@ -122,6 +123,7 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		},
 		"bgp_route_control_profile": {
 			"l3_outside": []string{"parent_dn", "id"},
+			"tenant":     []string{"parent_dn", "id"},
 		},
 		"ospf_timers": {
 			"tenant": []string{"tenant_dn", "id"},
@@ -465,5 +467,6 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"logical_interface_context":                &LogicalInterfaceContextGenerator{},
 		"vsan_pool":                                &VSANPoolGenerator{},
 		"fc_domain":                                &FCDomainGenerator{},
+		"leaf_profile":                             &LeafProfileGenerator{},
 	}
 }

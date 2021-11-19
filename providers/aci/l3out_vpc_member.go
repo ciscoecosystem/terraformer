@@ -64,7 +64,10 @@ func (a *L3OutVPCMemberGenerator) InitResources() error {
 					"annotation",
 					"description",
 				},
-				map[string]interface{}{},
+				map[string]interface{}{
+					"leaf_selector_ids": nil,
+					"node_block_ids":    nil,
+				},
 			)
 			resource.SlowQueryRequired = true
 			a.Resources = append(a.Resources, resource)

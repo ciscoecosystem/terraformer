@@ -23,10 +23,10 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2
             * `epg_to_domain`
             * `epg_to_static_path`
     * `vrf`
-        * `cloud_context_profile`
+        * `any`
+    * `cloud_context_profile`
             * `cloud_cidr_pool`
                 * `cloud_subnet`
-        * `any`
     * `l3_outside`
         * `l3out_ospf_external_policy`
         * `external_network_instance_profile`
@@ -52,6 +52,7 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2
         * `bd_dhcp_label`
     * `contract`
         * `contract_subject`
+        * `epg_to_contract`
     * `filter`
         * `filter_entry`
     * `ospf_inteface_policy`
@@ -68,7 +69,6 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2
     * `hsrp_interface_policy`
     * `hsrp_group_policy`
     * `imported_contract`
-    * `cloud_applicationcontainer`
     * `cloud_aws_provider`
     * `taboo_contract`
     * `l2_outside`
@@ -86,11 +86,9 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2
 * `l3out_hsrp_interface_profile`
 * `l3_domain_profile`
 * `logical_node_to_fabric_node`
-* `cloud_cidr_pool`
 * `cloud_endpoint_selectorfor_external_epgs`
 * `cloud_endpoint_selector`
 * `cloud_external_epg`
-* `cloud_vpn_gateway`
 * `vmm_domain`
 * `vmm_controller`
 * `vmm_credential`
@@ -126,7 +124,7 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2
 * `end_point_retention_policy`
 * `spine_profile`
     * `spine_switch_association`
-* `spine_port_selector`
+    * `spine_port_selector`
 * `spine_interface_profile`
 * `spine_port_policy_group`
 * `fabric_if_pol`
