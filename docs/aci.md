@@ -76,8 +76,10 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2
     * `service_redirect_policy`
         * `destination_of_redirected_traffic`
     * `logical_device_context`
+        * `logical_interface_context`
     * `l4_l7_service_graph_template`
         * `function_node`
+        * `connection`
 * `vpc_explicit_protection_group`
 * `l3out_loopback_interface_profile`
 * `l3out_hsrp_interface_group`
@@ -150,6 +152,8 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2
 * `firmware_policy`
 * `firmware_group`
 * `firmware_download_task`
+* `vsan_pool`
+* `fc_domain`
 
 #### Attribute filters
 
