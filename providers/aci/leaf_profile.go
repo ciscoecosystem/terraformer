@@ -42,10 +42,7 @@ func (a *LeafProfileGenerator) InitResources() error {
 				LeafProfileDN,
 				"aci_leaf_profile",
 				"aci",
-				map[string]string{
-					"leaf_selector_ids": "",
-					"node_block_ids":    "",
-				},
+				map[string]string{},
 				[]string{
 					"description",
 					"name_alias",
