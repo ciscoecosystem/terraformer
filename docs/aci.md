@@ -39,7 +39,7 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2
             * `l3_ext_subnet`
         * `logical_node_profile`
             * `bgp_peer_connectivity_profile`
-            * `logical_node_to_fabric_profile`
+            * `logical_node_to_fabric_node`
                 * `l3out_static_route`
                     * `l3out_static_route_next_hop`
             * `l3out_bgp_protocol_profile`
@@ -57,7 +57,8 @@ terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2
             * `logical_node_to_fabric_node`
               * `l3out_loopback_interface_profile`
         * `l3out_bgp_external_policy`
-        * `bgp_route_control_profile`   
+        * `bgp_route_control_profile` 
+    * `bgp_route_control_profile`   
     * `bridge_domain` 
         * `subnet`
         * `bd_dhcp_label`
