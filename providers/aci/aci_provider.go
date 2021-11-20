@@ -97,7 +97,7 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 			"l3out_path_attachment": []string{"l3out_path_attachment_dn", "id"},
 		},
 		"l3out_vpc_member": {
-			"l3out_path_attachment": []string{"l3out_path_attachment_dn", "id"},
+			"l3out_path_attachment": []string{"leaf_port_dn", "id"},
 		},
 		"bgp_route_summarization": {
 			"tenant": []string{"tenant_dn", "id"},
@@ -468,5 +468,6 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"vsan_pool":                                &VSANPoolGenerator{},
 		"fc_domain":                                &FCDomainGenerator{},
 		"leaf_profile":                             &LeafProfileGenerator{},
+		"pod_maintenance_group":                    &PodMaintenanceGroupGenerator{},
 	}
 }
