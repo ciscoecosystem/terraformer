@@ -43,7 +43,7 @@ func (a *CloudEndpointSelectorForExternalEpgsGenerator) InitResources() error {
 		if filterChildrenDn(CloudEndpointSelectorForExternalEpgsDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				CloudEndpointSelectorForExternalEpgsDN,
-				CloudEndpointSelectorForExternalEpgsDN,
+				fmt.Sprintf("%s_%s_%d", CloudEndpointSelectorForExternalEpgsClass, GetMOName(CloudEndpointSelectorForExternalEpgsDN), i),
 				"aci_cloud_endpoint_selectorfor_external_epgs",
 				"aci",
 				[]string{

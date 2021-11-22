@@ -43,7 +43,7 @@ func (a *CloudAWSProviderGenerator) InitResources() error {
 		if filterChildrenDn(CloudAWSProviderDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				CloudAWSProviderDN,
-				CloudAWSProviderDN,
+				fmt.Sprintf("%s_%s_%d", CloudAWSProviderClass, GetMOName(CloudAWSProviderDN), i),
 				"aci_cloud_aws_provider",
 				"aci",
 				[]string{

@@ -49,7 +49,7 @@ func (a *CloudEPGGenerator) InitResources() error {
 		if filterChildrenDn(cloudEPGProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				cloudEPGProfileDN,
-				cloudEPGProfileDN,
+				fmt.Sprintf("%s_%s_%d", cloudEPGClass, GetMOName(cloudEPGProfileDN), i),
 				"aci_cloud_epg",
 				"aci",
 				[]string{

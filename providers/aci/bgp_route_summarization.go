@@ -42,7 +42,7 @@ func (a *BGPRouteSumGenerator) InitResources() error {
 		if filterChildrenDn(BGPRouteSumDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				BGPRouteSumDN,
-				BGPRouteSumDN,
+				fmt.Sprintf("%s_%s_%d", BGPRouteSumClass, GetMOName(BGPRouteSumDN), i),
 				"aci_bgp_route_summarization",
 				"aci",
 				[]string{

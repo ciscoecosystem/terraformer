@@ -41,7 +41,7 @@ func (a *FilterEntryGenerator) InitResources() error {
 		if filterChildrenDn(FilterEntryDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				FilterEntryDN,
-				FilterEntryDN,
+				fmt.Sprintf("%s_%s_%d", filterEntryClassName, GetMOName(FilterEntryDN), i),
 				"aci_filter_entry",
 				"aci",
 				[]string{

@@ -40,8 +40,8 @@ func (a *DhcpOptionPolicyGenerator) InitResources() error {
 		DhcpOptionPolicyDN := stripQuotes(DhcpOptionPoliciesCont.S("imdata").Index(i).S(dhcpOptionPolicyClassName, "attributes", "dn").String())
 		if filterChildrenDn(DhcpOptionPolicyDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
-				stripQuotes(DhcpOptionPolicyDN),
-				stripQuotes(DhcpOptionPolicyDN),
+				DhcpOptionPolicyDN,
+				fmt.Sprintf("%s_%s_%d", dhcpOptionPolicyClassName, GetMOName(DhcpOptionPolicyDN), i),
 				"aci_dhcp_option_policy",
 				"aci",
 				[]string{

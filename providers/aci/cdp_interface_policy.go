@@ -41,7 +41,7 @@ func (a *CDPInterfacePolicyGenerator) InitResources() error {
 		if filterChildrenDn(CDPInterfacePolicyDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				CDPInterfacePolicyDN,
-				CDPInterfacePolicyDN,
+				fmt.Sprintf("%s_%s_%d", CDPInterfacePolicyClassName, GetMOName(CDPInterfacePolicyDN), i),
 				"aci_cdp_interface_policy",
 				"aci",
 				[]string{

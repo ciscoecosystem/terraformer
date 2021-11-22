@@ -51,7 +51,7 @@ func (a *CloudSubnetGenerator) InitResources() error {
 		if filterChildrenDn(cloudSubnetProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
 				cloudSubnetProfileDN,
-				cloudSubnetProfileDN,
+				fmt.Sprintf("%s_%s_%d", cloudSubnetClass, GetMOName(cloudSubnetProfileDN), i),
 				"aci_cloud_subnet",
 				"aci",
 				map[string]string{

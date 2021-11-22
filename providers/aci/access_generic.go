@@ -49,7 +49,7 @@ func (a *AccessGenericGenerator) InitResources() error {
 		if filterChildrenDn(accessGenericProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				accessGenericProfileDN,
-				accessGenericProfileDN,
+				fmt.Sprintf("%s_%s_%d", accessGenericClass, GetMOName(accessGenericProfileDN), i),
 				"aci_access_generic",
 				"aci",
 				[]string{

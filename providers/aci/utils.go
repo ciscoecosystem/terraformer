@@ -1,6 +1,7 @@
 package aci
 
 import (
+	"regexp"
 	"strconv"
 	"strings"
 
@@ -47,4 +48,12 @@ func G(cont *container.Container, key string) string {
 func GetParentDn(dn string, rn string) string {
 	arr := strings.Split(dn, rn)
 	return arr[0]
+}
+
+func replaceSpecialCharsDn(dn string) string {
+	doubleDash := regexp.MustCompile("[/]")
+	removeChars := regexp.MustCompile("[\\[\\]]")
+	res := doubleDash.ReplaceAllString(dn, "__")
+	res = removeChars.ReplaceAllString(res, "")
+	return res
 }

@@ -40,8 +40,8 @@ func (a *AnyGenerator) InitResources() error {
 		AnyDN := stripQuotes(AnyCont.S("imdata").Index(i).S(anyClassName, "attributes", "dn").String())
 		if filterChildrenDn(AnyDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
-				stripQuotes(AnyDN),
-				stripQuotes(AnyDN),
+				AnyDN,
+				fmt.Sprintf("%s_%s_%d", anyClassName, GetMOName(AnyDN), i),
 				"aci_any",
 				"aci",
 				[]string{
