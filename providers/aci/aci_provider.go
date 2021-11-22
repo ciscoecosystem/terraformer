@@ -276,6 +276,9 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"logical_interface_context": {
 			"logical_device_context": []string{"logical_device_context_dn", "id"},
 		},
+		"maintenance_group_node": {
+			"pod_maintenance_group": []string{"pod_maintenance_group_dn", "id"},
+		},
 	}
 }
 

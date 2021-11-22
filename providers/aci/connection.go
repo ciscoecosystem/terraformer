@@ -48,6 +48,12 @@ func (a *ConnectionGenerator) InitResources() error {
 				},
 				[]string{
 					"description",
+					"adj_type",
+					"conn_dir",
+					"conn_type",
+					"direct_connect",
+					"name_alias",
+					"unicast_route",
 				},
 				map[string]interface{}{},
 			)

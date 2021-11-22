@@ -44,7 +44,8 @@ func (a *FCDomainGenerator) InitResources() error {
 				"aci",
 				map[string]string{},
 				[]string{
-					"description",
+					"annotation",
+					"name_alias",
 				},
 				map[string]interface{}{},
 			)
