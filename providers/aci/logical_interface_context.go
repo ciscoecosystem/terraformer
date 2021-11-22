@@ -48,6 +48,9 @@ func (a *LogicalInterfaceContextGenerator) InitResources() error {
 				},
 				[]string{
 					"description",
+					"l3_dest",
+					"name_alias",
+					"permit_log",
 				},
 				map[string]interface{}{},
 			)
