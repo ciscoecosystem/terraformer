@@ -45,6 +45,8 @@ func (a *VSANPoolGenerator) InitResources() error {
 				map[string]string{},
 				[]string{
 					"description",
+					"annotation",
+					"name_alias",
 				},
 				map[string]interface{}{},
 			)
