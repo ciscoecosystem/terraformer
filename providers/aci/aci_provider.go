@@ -278,6 +278,7 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		},
 		"maintenance_group_node": {
 			"pod_maintenance_group": []string{"pod_maintenance_group_dn", "id"},
+			"firmware_group":        []string{"pod_maintenance_group_dn", "id"},
 		},
 	}
 }
