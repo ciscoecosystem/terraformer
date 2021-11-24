@@ -302,7 +302,10 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		},
 		"cloud_endpoint_selectorfor_external_epgs": {
 			"cloud_external_epg": []string{"cloud_external_epg_dn", "id"},
-    },
+		},
+		"node_block_firmware": {
+			"firmware_group": []string{"firmware_group_dn", "id"},
+		},
 		"maintenance_group_node": {
 			"pod_maintenance_group": []string{"pod_maintenance_group_dn", "id"},
 			"firmware_group":        []string{"pod_maintenance_group_dn", "id"},
