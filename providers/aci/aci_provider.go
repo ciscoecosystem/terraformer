@@ -97,7 +97,7 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 			"l3out_path_attachment": []string{"l3out_path_attachment_dn", "id"},
 		},
 		"l3out_vpc_member": {
-			"l3out_path_attachment": []string{"l3out_path_attachment_dn", "id"},
+			"l3out_path_attachment": []string{"leaf_port_dn", "id"},
 		},
 		"bgp_route_summarization": {
 			"tenant": []string{"tenant_dn", "id"},
@@ -107,6 +107,7 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		},
 		"bgp_peer_connectivity_profile": {
 			"l3out_path_attachment": []string{"parent_dn", "id"},
+			"logical_node_profile":  []string{"parent_dn", "id"},
 		},
 		"ospf_route_summarization": {
 			"tenant": []string{"tenant_dn", "id"},
@@ -122,6 +123,7 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		},
 		"bgp_route_control_profile": {
 			"l3_outside": []string{"parent_dn", "id"},
+			"tenant":     []string{"parent_dn", "id"},
 		},
 		"ospf_timers": {
 			"tenant": []string{"tenant_dn", "id"},
@@ -300,6 +302,10 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		},
 		"cloud_endpoint_selectorfor_external_epgs": {
 			"cloud_external_epg": []string{"cloud_external_epg_dn", "id"},
+    },
+		"maintenance_group_node": {
+			"pod_maintenance_group": []string{"pod_maintenance_group_dn", "id"},
+			"firmware_group":        []string{"pod_maintenance_group_dn", "id"},
 		},
 	}
 }
@@ -492,5 +498,7 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"logical_interface_context":                &LogicalInterfaceContextGenerator{},
 		"vsan_pool":                                &VSANPoolGenerator{},
 		"fc_domain":                                &FCDomainGenerator{},
+		"leaf_profile":                             &LeafProfileGenerator{},
+		"pod_maintenance_group":                    &PodMaintenanceGroupGenerator{},
 	}
 }
