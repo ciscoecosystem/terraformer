@@ -43,7 +43,7 @@ func (a *CloudCidrPoolGenerator) InitResources() error {
 		if filterChildrenDn(CloudCidrPoolDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				CloudCidrPoolDN,
-				fmt.Sprintf("%s_%s_%d", CloudCidrPoolClass, GetMOName(CloudCidrPoolDN), i),
+				resourceNamefromDn(CloudCidrPoolClass, (CloudCidrPoolDN), i),
 				"aci_cloud_cidr_pool",
 				"aci",
 				[]string{

@@ -43,7 +43,7 @@ func (a *EPGToDomainGenerator) InitResources() error {
 		if filterChildrenDn(EPGToDomainDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				EPGToDomainDN,
-				EPGToDomainDN,
+				resourceNamefromDn(EPGToDomainClass, replaceSpecialCharsDn(GetMOName(EPGToDomainDN)), i),
 				"aci_epg_to_domain",
 				"aci",
 				[]string{

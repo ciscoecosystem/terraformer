@@ -41,7 +41,7 @@ func (a *ConfigExportPolicyGenerator) InitResources() error {
 		if filterChildrenDn(ConfigExportPolicyDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				ConfigExportPolicyDN,
-				fmt.Sprintf("%s_%s_%d", ConfigExportPolicyClassName, GetMOName(ConfigExportPolicyDN), i),
+				resourceNamefromDn(ConfigExportPolicyClassName, (ConfigExportPolicyDN), i),
 				"aci_configuration_export_policy",
 				"aci",
 				[]string{

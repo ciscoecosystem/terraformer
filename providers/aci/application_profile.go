@@ -43,7 +43,7 @@ func (a *ApplicationProfileGenerator) InitResources() error {
 		if filterChildrenDn(apDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				apDN,
-				fmt.Sprintf("%s_%s_%d", applicationProfileClass, GetMOName(apDN), i),
+				resourceNamefromDn(applicationProfileClass, apDN, i),
 				"aci_application_profile",
 				"aci",
 				[]string{

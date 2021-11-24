@@ -49,7 +49,7 @@ func (a *FabricNodeMemberGenerator) InitResources() error {
 		if filterChildrenDn(fabricNodeMemberProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				fabricNodeMemberProfileDN,
-				fabricNodeMemberProfileDN,
+				resourceNamefromDn(fabricNodeMemberClass, (fabricNodeMemberProfileDN), i),
 				"aci_fabric_node_member",
 				"aci",
 				[]string{

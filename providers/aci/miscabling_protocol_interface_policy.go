@@ -40,7 +40,7 @@ func (a *MiscablingProtocolInterfacePolicyGenerator) InitResources() error {
 		if filterChildrenDn(MiscablingProtocolInterfacePolicyDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				stripQuotes(MiscablingProtocolInterfacePolicyDN),
-				stripQuotes(MiscablingProtocolInterfacePolicyDN),
+				resourceNamefromDn(MiscablingProtocolInterfacePolicyClassName, (MiscablingProtocolInterfacePolicyDN), i),
 				"aci_miscabling_protocol_interface_policy",
 				"aci",
 				[]string{

@@ -43,7 +43,7 @@ func (a *L3OutStaticRouteNextHopGenerator) InitResources() error {
 		if filterChildrenDn(l3StaticRouteNextHopProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				l3StaticRouteNextHopProfileDN,
-				l3StaticRouteNextHopProfileDN,
+				resourceNamefromDn(l3OutStaticRouteNextHopClass, (l3StaticRouteNextHopProfileDN), i),
 				"aci_l3out_static_route_next_hop",
 				"aci",
 				[]string{

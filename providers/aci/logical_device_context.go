@@ -42,7 +42,7 @@ func (a *LogicalDeviceContextGenerator) InitResources() error {
 
 			resource := terraformutils.NewResource(
 				LogicalDeviceContextDN,
-				LogicalDeviceContextDN,
+				resourceNamefromDn(logicalDeviceContextClassName, (LogicalDeviceContextDN), i),
 				"aci_logical_device_context",
 				"aci",
 				map[string]string{

@@ -39,7 +39,7 @@ func (a *InterfaceFCPolicyGenerator) InitResources() error {
 
 			resource := terraformutils.NewResource(
 				InterfaceFCPolicyDN,
-				InterfaceFCPolicyDN,
+				resourceNamefromDn(interfaceFCPolicyClassName, (InterfaceFCPolicyDN), i),
 				"aci_interface_fc_policy",
 				"aci",
 				map[string]string{},

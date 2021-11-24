@@ -43,7 +43,7 @@ func (a *PortSecurityPolicyGenerator) InitResources() error {
 		if filterChildrenDn(PortSecurityPolicyProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				PortSecurityPolicyProfileDN,
-				PortSecurityPolicyProfileDN,
+				resourceNamefromDn(PortSecurityPolicyClass, (PortSecurityPolicyProfileDN), i),
 				"aci_port_security_policy",
 				"aci",
 				[]string{

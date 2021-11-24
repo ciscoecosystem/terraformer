@@ -39,7 +39,7 @@ func (a *FunctionNodeGenerator) InitResources() error {
 		if filterChildrenDn(FunctionNodeDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
 				FunctionNodeDN,
-				FunctionNodeDN,
+				resourceNamefromDn(functionNodeClassName, (FunctionNodeDN), i),
 				"aci_function_node",
 				"aci",
 				map[string]string{

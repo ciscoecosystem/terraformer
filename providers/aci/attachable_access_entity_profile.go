@@ -42,7 +42,7 @@ func (a *AttachableAccessEntityProfileGenerator) InitResources() error {
 		if filterChildrenDn(AttachableAccessEntityProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				AttachableAccessEntityProfileDN,
-				fmt.Sprintf("%s_%s_%d", AttachableAccessEntityProfileClass, GetMOName(AttachableAccessEntityProfileDN), i),
+				resourceNamefromDn(AttachableAccessEntityProfileClass,AttachableAccessEntityProfileDN,i),
 				"aci_attachable_access_entity_profile",
 				"aci",
 				[]string{

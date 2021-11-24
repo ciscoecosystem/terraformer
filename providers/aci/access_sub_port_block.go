@@ -49,7 +49,7 @@ func (a *AccessSubPortBlkGenerator) InitResources() error {
 		if filterChildrenDn(accessSubPortBlkProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				accessSubPortBlkProfileDN,
-				fmt.Sprintf("%s_%s_%d", accessSubPortBlkClass, GetMOName(accessSubPortBlkProfileDN), i),
+				resourceNamefromDn(accessSubPortBlkClass,accessSubPortBlkProfileDN,i),
 				"aci_access_sub_port_block",
 				"aci",
 				[]string{

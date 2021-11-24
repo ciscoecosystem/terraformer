@@ -49,7 +49,7 @@ func (a *X509CertificateGenerator) InitResources() error {
 		if filterChildrenDn(x509CertificateProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				x509CertificateProfileDN,
-				x509CertificateProfileDN,
+				resourceNamefromDn(x509CertificateClass, (x509CertificateProfileDN), i),
 				"aci_x509_certificate",
 				"aci",
 				[]string{

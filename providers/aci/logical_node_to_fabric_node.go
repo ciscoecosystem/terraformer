@@ -43,7 +43,7 @@ func (a *LogicalNodeToFabricNodeGenerator) InitResources() error {
 		if filterChildrenDn(LogicalNodeToFabricNodeDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				LogicalNodeToFabricNodeDN,
-				LogicalNodeToFabricNodeDN,
+				resourceNamefromDn(LogicalNodeToFabricNodeClass, replaceSpecialCharsDn(GetMOName(LogicalNodeToFabricNodeDN)), i),
 				"aci_logical_node_to_fabric_node",
 				"aci",
 				[]string{

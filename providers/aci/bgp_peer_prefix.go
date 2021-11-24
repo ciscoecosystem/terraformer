@@ -42,7 +42,7 @@ func (a *BGPPeerPrefixGenerator) InitResources() error {
 		if filterChildrenDn(BGPPeerPrefixDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				BGPPeerPrefixDN,
-				fmt.Sprintf("%s_%s_%d", BGPPeerPrefixClass, GetMOName(BGPPeerPrefixDN), i),
+				resourceNamefromDn(BGPPeerPrefixClass, (BGPPeerPrefixDN), i),
 				"aci_bgp_peer_prefix",
 				"aci",
 				[]string{

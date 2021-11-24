@@ -41,7 +41,7 @@ func (a *LacpPolicyGenerator) InitResources() error {
 		if filterChildrenDn(LacpPolicyDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				LacpPolicyDN,
-				LacpPolicyDN,
+				resourceNamefromDn(LacpPolicyClassName, (LacpPolicyDN), i),
 				"aci_lacp_policy",
 				"aci",
 				[]string{

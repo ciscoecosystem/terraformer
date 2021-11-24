@@ -43,7 +43,7 @@ func (a *CloudEndpointSelectorGenerator) InitResources() error {
 		if filterChildrenDn(CloudEndpointSelectorDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				CloudEndpointSelectorDN,
-				fmt.Sprintf("%s_%s_%d", CloudEndpointSelectorDN, GetMOName(CloudEndpointSelectorDN), i),
+				resourceNamefromDn(CloudEndpointSelectorDN, GetMOName(CloudEndpointSelectorDN), i),
 				"aci_cloud_endpoint_selector",
 				"aci",
 				[]string{

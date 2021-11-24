@@ -41,7 +41,7 @@ func (a *BgpTimersGenerator) InitResources() error {
 		if filterChildrenDn(BgpTimersDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				BgpTimersDN,
-				fmt.Sprintf("%s_%s_%d", BgpTimersClass, GetMOName(BgpTimersDN), i),
+				resourceNamefromDn(BgpTimersClass, (BgpTimersDN), i),
 				"aci_bgp_timers",
 				"aci",
 				[]string{

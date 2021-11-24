@@ -49,7 +49,7 @@ func (a *FexProfGenerator) InitResources() error {
 		if filterChildrenDn(fexProfProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				fexProfProfileDN,
-				fexProfProfileDN,
+				resourceNamefromDn(fexProfClass, (fexProfProfileDN), i),
 				"aci_fex_profile",
 				"aci",
 				[]string{

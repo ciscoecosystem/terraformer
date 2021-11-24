@@ -49,7 +49,7 @@ func (a *LeafAccPorPolGGenerator) InitResources() error {
 		if filterChildrenDn(leafAccPorPolGProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				leafAccPorPolGProfileDN,
-				leafAccPorPolGProfileDN,
+				resourceNamefromDn(leafAccPorPolGClass, (leafAccPorPolGProfileDN), i),
 				"aci_leaf_access_port_policy_group",
 				"aci",
 				[]string{

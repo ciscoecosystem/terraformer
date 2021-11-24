@@ -38,7 +38,7 @@ func (a *FirmwareGroupGenerator) InitResources() error {
 		if filterChildrenDn(FirmwareGroupDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
 				FirmwareGroupDN,
-				FirmwareGroupDN,
+				resourceNamefromDn(firmwareGroupClassName, (FirmwareGroupDN), i),
 				"aci_firmware_group",
 				"aci",
 				map[string]string{},

@@ -49,7 +49,7 @@ func (a *VxlanPoolGenerator) InitResources() error {
 		if filterChildrenDn(vxlanPoolProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				vxlanPoolProfileDN,
-				vxlanPoolProfileDN,
+				resourceNamefromDn(vxlanPoolClass, (vxlanPoolProfileDN), i),
 				"aci_vxlan_pool",
 				"aci",
 				[]string{

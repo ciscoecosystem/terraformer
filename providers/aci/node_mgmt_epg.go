@@ -41,7 +41,7 @@ func (a *NodeMgmtEPGGenerator) InitResources() error {
 		if filterChildrenDn(NodeMgmtEPGDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
 				stripQuotes(NodeMgmtEPGDN),
-				stripQuotes(NodeMgmtEPGDN),
+				resourceNamefromDn(NodeMgmtEPGClassName, NodeMgmtEPGDN, i),
 				"aci_node_mgmt_epg",
 				"aci",
 				map[string]string{
@@ -92,8 +92,8 @@ func (a *NodeMgmtEPGGenerator) InitResources() error {
 		NodeMgmtEPGDN := stripQuotes(NodeMgmtEPGCont.S("imdata").Index(i).S("mgmtOoB", "attributes", "dn").String())
 		if filterChildrenDn(NodeMgmtEPGDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
-				stripQuotes(NodeMgmtEPGDN),
-				stripQuotes(NodeMgmtEPGDN),
+				NodeMgmtEPGDN,
+				resourceNamefromDn("mgmtOoB", NodeMgmtEPGDN, i),
 				"aci_node_mgmt_epg",
 				"aci",
 				map[string]string{

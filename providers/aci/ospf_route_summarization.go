@@ -41,7 +41,7 @@ func (a *OSPFRouteSumGenerator) InitResources() error {
 		if filterChildrenDn(OSPFRouteSumDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				OSPFRouteSumDN,
-				OSPFRouteSumDN,
+				resourceNamefromDn(OSPFRouteSumClass, (OSPFRouteSumDN), i),
 				"aci_ospf_route_summarization",
 				"aci",
 				[]string{

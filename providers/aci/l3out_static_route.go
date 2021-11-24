@@ -48,23 +48,24 @@ func (a *L3OutStaticRouteGenerator) InitResources() error {
 		l3StaticRouteProfileDN := stripQuotes(l3StaticRouteCont.S("imdata").Index(i).S(l3OutStaticRouteClass, "attributes", "dn").String())
 		if filterChildrenDn(l3StaticRouteProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
-			l3StaticRouteProfileDN,
-			l3StaticRouteProfileDN,
-			"aci_l3out_static_route",
-			"aci",
-			[]string{
-				"aggregate",
-				"name_alias",
-				"pref",
-				"rt_ctrl",
-				"relation_ip_rs_route_track",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
-	}}
+				l3StaticRouteProfileDN,
+				resourceNamefromDn(l3OutStaticRouteClass, (l3StaticRouteProfileDN), i),
+				"aci_l3out_static_route",
+				"aci",
+				[]string{
+					"aggregate",
+					"name_alias",
+					"pref",
+					"rt_ctrl",
+					"relation_ip_rs_route_track",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
+	}
 
 	return nil
 }

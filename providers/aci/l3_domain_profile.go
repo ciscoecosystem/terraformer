@@ -49,7 +49,7 @@ func (a *L3DomPGenerator) InitResources() error {
 		if filterChildrenDn(l3DomPProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				l3DomPProfileDN,
-				l3DomPProfileDN,
+				resourceNamefromDn(l3DomPClass, (l3DomPProfileDN), i),
 				"aci_l3_domain_profile",
 				"aci",
 				[]string{

@@ -1,6 +1,7 @@
 package aci
 
 import (
+	"fmt"
 	"regexp"
 	"strconv"
 	"strings"
@@ -51,9 +52,13 @@ func GetParentDn(dn string, rn string) string {
 }
 
 func replaceSpecialCharsDn(dn string) string {
-	doubleDash := regexp.MustCompile("[/]")
-	removeChars := regexp.MustCompile("[\\[\\]]")
-	res := doubleDash.ReplaceAllString(dn, "__")
+	hyphen := regexp.MustCompile(`[/.:]`)
+	removeChars := regexp.MustCompile(`[\[\]]`)
+	res := hyphen.ReplaceAllString(dn, "-")
 	res = removeChars.ReplaceAllString(res, "")
 	return res
+}
+
+func resourceNamefromDn(className, dn string, i int) string {
+	return fmt.Sprintf("%s_%s_%d", className, replaceSpecialCharsDn(GetMOName(dn)), i)
 }

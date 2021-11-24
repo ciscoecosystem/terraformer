@@ -39,7 +39,7 @@ func (a *VmmControllerGenerator) InitResources() error {
 		if filterChildrenDn(VmmControllerDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				VmmControllerDN,
-				fmt.Sprintf("%s_%s_%d", VmmControllerClass, GetMOName(VmmControllerDN), i),
+				resourceNamefromDn(VmmControllerClass, (VmmControllerDN), i),
 				"aci_vmm_controller",
 				"aci",
 				[]string{

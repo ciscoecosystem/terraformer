@@ -41,7 +41,7 @@ func (a *OSPFTimersGenerator) InitResources() error {
 		if filterChildrenDn(OSPFTimersDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				OSPFTimersDN,
-				OSPFTimersDN,
+				resourceNamefromDn(OSPFTimersClassName, (OSPFTimersDN), i),
 				"aci_ospf_timers",
 				"aci",
 				[]string{

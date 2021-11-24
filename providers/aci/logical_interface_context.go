@@ -40,7 +40,7 @@ func (a *LogicalInterfaceContextGenerator) InitResources() error {
 
 			resource := terraformutils.NewResource(
 				LogicalInterfaceContextDN,
-				LogicalInterfaceContextDN,
+				resourceNamefromDn(logicalInterfaceContextClassName, (LogicalInterfaceContextDN), i),
 				"aci_logical_interface_context",
 				"aci",
 				map[string]string{

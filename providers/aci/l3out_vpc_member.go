@@ -50,7 +50,7 @@ func (a *L3OutVPCMemberGenerator) InitResources() error {
 		if filterChildrenDn(l3OutVPCMemberProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
 				l3OutVPCMemberProfileDN,
-				l3OutVPCMemberProfileDN,
+				resourceNamefromDn(l3OutVPCMemberClass, (l3OutVPCMemberProfileDN), i),
 				"aci_l3out_vpc_member",
 				"aci",
 				map[string]string{

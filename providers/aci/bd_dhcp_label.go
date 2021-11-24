@@ -42,7 +42,7 @@ func (a *BDDHCPLabelGenerator) InitResources() error {
 		if filterChildrenDn(BDDHCPLblDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				BDDHCPLblDN,
-				fmt.Sprintf("%s_%s_%d", BDDHCPLabelClass, GetMOName(BDDHCPLblDN), i),
+				resourceNamefromDn(BDDHCPLabelClass,BDDHCPLblDN,i),
 				"aci_bd_dhcp_label",
 				"aci",
 				[]string{

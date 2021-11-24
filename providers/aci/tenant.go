@@ -41,7 +41,7 @@ func (a *TenantGenerator) InitResources() error {
 		if filterChildrenDn(tenantDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				tenantDN,
-				fmt.Sprintf("%s_%s_%d", tenantClassName, GetMOName(tenantDN), i),
+				resourceNamefromDn(tenantClassName, (tenantDN), i),
 				"aci_tenant",
 				"aci",
 				[]string{

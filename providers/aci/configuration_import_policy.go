@@ -41,7 +41,7 @@ func (a *ConfigImportPolicyGenerator) InitResources() error {
 		if filterChildrenDn(configImportPolicyDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				configImportPolicyDN,
-				fmt.Sprintf("%s_%s_%d", configImportPolicyClassName, GetMOName(configImportPolicyDN), i),
+				resourceNamefromDn(configImportPolicyClassName, (configImportPolicyDN), i),
 				"aci_configuration_import_policy",
 				"aci",
 				[]string{

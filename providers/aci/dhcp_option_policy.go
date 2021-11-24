@@ -41,7 +41,7 @@ func (a *DhcpOptionPolicyGenerator) InitResources() error {
 		if filterChildrenDn(DhcpOptionPolicyDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				DhcpOptionPolicyDN,
-				fmt.Sprintf("%s_%s_%d", dhcpOptionPolicyClassName, GetMOName(DhcpOptionPolicyDN), i),
+				resourceNamefromDn(dhcpOptionPolicyClassName, (DhcpOptionPolicyDN), i),
 				"aci_dhcp_option_policy",
 				"aci",
 				[]string{

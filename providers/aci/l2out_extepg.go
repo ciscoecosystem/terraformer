@@ -49,7 +49,7 @@ func (a *L2OutExtEPGGenerator) InitResources() error {
 		if filterChildrenDn(l2OutExtEPGProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				l2OutExtEPGProfileDN,
-				l2OutExtEPGProfileDN,
+				resourceNamefromDn(l2OutExtEPGClass, (l2OutExtEPGProfileDN), i),
 				"aci_l2out_extepg",
 				"aci",
 				[]string{

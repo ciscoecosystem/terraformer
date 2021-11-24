@@ -41,7 +41,7 @@ func (a *BgpRouteControlProfileGenerator) InitResources() error {
 		if filterChildrenDn(BgpRouteControlProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				BgpRouteControlProfileDN,
-				fmt.Sprintf("%s_%s_%d", BgpRouteControlProfileDN, GetMOName(BgpRouteControlProfileDN), i),
+				resourceNamefromDn(BgpRouteControlProfileClass, (BgpRouteControlProfileDN), i),
 				"aci_bgp_route_control_profile",
 				"aci",
 				[]string{
@@ -51,6 +51,7 @@ func (a *BgpRouteControlProfileGenerator) InitResources() error {
 					"route_control_profile_type",
 				},
 			)
+
 			resource.SlowQueryRequired = true
 			a.Resources = append(a.Resources, resource)
 		}

@@ -42,7 +42,7 @@ func (a *SubnetGenerator) InitResources() error {
 		if filterChildrenDn(SubnetDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				SubnetDN,
-				fmt.Sprintf("%s_%s_%d", subnetClassName, nameAlias, i),
+				resourceNamefromDn(subnetClassName, nameAlias, i),
 				"aci_subnet",
 				"aci",
 				[]string{

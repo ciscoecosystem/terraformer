@@ -49,7 +49,7 @@ func (a *AccessGroupGenerator) InitResources() error {
 		if filterChildrenDn(accessGroupProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				accessGroupProfileDN,
-				fmt.Sprintf("%s_%s_%d", accessGroupClass, GetMOName(accessGroupProfileDN), i),
+				resourceNamefromDn(accessGroupClass,accessGroupProfileDN,i),
 				"aci_access_group",
 				"aci",
 				[]string{

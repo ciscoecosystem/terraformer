@@ -43,7 +43,7 @@ func (a *L3outOspfInterfaceProfileGenerator) InitResources() error {
 		if filterChildrenDn(L3outOspfInterfaceProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				L3outOspfInterfaceProfileDN,
-				L3outOspfInterfaceProfileDN,
+				resourceNamefromDn(L3outOspfInterfaceProfileClass, (L3outOspfInterfaceProfileDN), i),
 				"aci_l3out_ospf_interface_profile",
 				"aci",
 				[]string{

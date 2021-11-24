@@ -43,7 +43,7 @@ func (a *ApplicationEndpointSecurityGroupGenerator) InitResources() error {
 		if filterChildrenDn(endpointSecurityGroupProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				endpointSecurityGroupProfileDN,
-				endpointSecurityGroupProfileDN,
+				resourceNamefromDn(applicationEndpointSecurityGroupClass, (endpointSecurityGroupProfileDN), i),
 				"aci_endpoint_security_group",
 				"aci",
 				[]string{

@@ -44,7 +44,7 @@ func (a *L3OutHSRPInterfaceProfileGenerator) InitResources() error {
 		if filterChildrenDn(L3OutHSRPInterfaceProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				L3OutHSRPInterfaceProfileDN,
-				L3OutHSRPInterfaceProfileDN,
+				resourceNamefromDn(L3OutHSRPInterfaceProfileClass, (L3OutHSRPInterfaceProfileDN), i),
 				"aci_l3out_hsrp_interface_profile",
 				"aci",
 				[]string{

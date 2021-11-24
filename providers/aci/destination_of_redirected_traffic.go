@@ -40,7 +40,7 @@ func (a *DestinationOfRedirectedTrafficGenerator) InitResources() error {
 
 			resource := terraformutils.NewResource(
 				DestinationOfRedirectedTrafficDN,
-				fmt.Sprintf("%s_%s_%d", destinationOfRedirectedTrafficClassName, GetMOName(DestinationOfRedirectedTrafficDN), i),
+				resourceNamefromDn(destinationOfRedirectedTrafficClassName, replaceSpecialCharsDn(GetMOName(DestinationOfRedirectedTrafficDN)), i),
 				"aci_destination_of_redirected_traffic",
 				"aci",
 				map[string]string{

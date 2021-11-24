@@ -42,7 +42,7 @@ func (a *SpinePortSelectorGenerator) InitResources() error {
 		if filterChildrenDn(SpinePortSelectorDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
 				SpinePortSelectorDN,
-				SpinePortSelectorDN,
+				resourceNamefromDn(SpinePortSelectorClassName, (SpinePortSelectorDN), i),
 				"aci_spine_port_selector",
 				"aci",
 				map[string]string{

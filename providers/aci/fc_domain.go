@@ -39,7 +39,7 @@ func (a *FCDomainGenerator) InitResources() error {
 
 			resource := terraformutils.NewResource(
 				FCDomainDN,
-				FCDomainDN,
+				resourceNamefromDn(fCDomainClassName, (FCDomainDN), i),
 				"aci_fc_domain",
 				"aci",
 				map[string]string{},

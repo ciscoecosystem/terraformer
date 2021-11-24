@@ -40,8 +40,8 @@ func (a *NodeBlockFirmWareGenerator) InitResources() error {
 		NodeBlockFirmWareDN := stripQuotes(NodeBlockFirmWaresCont.S("imdata").Index(i).S(NodeBlockFirmWareClassName, "attributes", "dn").String())
 		if filterChildrenDn(NodeBlockFirmWareDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
-				stripQuotes(NodeBlockFirmWareDN),
-				stripQuotes(NodeBlockFirmWareDN),
+				NodeBlockFirmWareDN,
+				resourceNamefromDn(NodeBlockFirmWareClassName, (NodeBlockFirmWareDN), i),
 				"aci_node_block_firmware",
 				"aci",
 				[]string{

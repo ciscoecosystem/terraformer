@@ -38,8 +38,8 @@ func (a *SpanSourceGroupGenerator) InitResources() error {
 		SpanSourceGroupDN := stripQuotes(SpanSourceGroupCont.S("imdata").Index(i).S(SpanSourceGroupClass, "attributes", "dn").String())
 		if filterChildrenDn(SpanSourceGroupDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
-				stripQuotes(SpanSourceGroupDN),
-				stripQuotes(SpanSourceGroupDN),
+				SpanSourceGroupDN,
+				resourceNamefromDn(SpanSourceGroupClass, (SpanSourceGroupDN), i),
 				"aci_span_source_group",
 				"aci",
 				[]string{

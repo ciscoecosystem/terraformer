@@ -42,7 +42,7 @@ func (a *ExtNetInsProGenerator) InitResources() error {
 		if filterChildrenDn(extNetInsProDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				extNetInsProDN,
-				extNetInsProDN,
+				resourceNamefromDn(ExtNetInsProClass, (extNetInsProDN), i),
 				"aci_external_network_instance_profile",
 				"aci",
 				[]string{

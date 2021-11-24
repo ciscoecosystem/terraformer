@@ -39,7 +39,7 @@ func (a *VswitchPolicyGenerator) InitResources() error {
 		if filterChildrenDn(VswitchPolicyDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				VswitchPolicyDN,
-				fmt.Sprintf("%s_%s_%d", VswitchPolicyClass, GetMOName(VswitchPolicyDN), i),
+				resourceNamefromDn(VswitchPolicyClass, (VswitchPolicyDN), i),
 				"aci_vswitch_policy",
 				"aci",
 				[]string{

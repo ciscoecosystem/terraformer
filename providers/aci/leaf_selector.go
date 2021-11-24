@@ -49,7 +49,7 @@ func (a *LeafSelectorGenerator) InitResources() error {
 		if filterChildrenDn(leafSelectorProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				leafSelectorProfileDN,
-				leafSelectorProfileDN,
+				resourceNamefromDn(leafSelectorClass, (leafSelectorProfileDN), i),
 				"aci_leaf_selector",
 				"aci",
 				[]string{

@@ -41,7 +41,7 @@ func (a *BgpBestPathPolicyGenerator) InitResources() error {
 		if filterChildrenDn(BgpBestPathPolicyDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				BgpBestPathPolicyDN,
-				fmt.Sprintf("%s_%s_%d", BgpBestPathPolicyClass, GetMOName(BgpBestPathPolicyDN), i),
+				resourceNamefromDn(BgpBestPathPolicyClass, (BgpBestPathPolicyDN), i),
 				"aci_bgp_best_path_policy",
 				"aci",
 				[]string{

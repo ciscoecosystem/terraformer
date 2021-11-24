@@ -44,7 +44,7 @@ func (a *L4L7ServiceGraphTemplateGenerator) InitResources() error {
 
 			resource := terraformutils.NewResource(
 				l4L7ServiceGraphTemplateDN,
-				l4L7ServiceGraphTemplateDN,
+				resourceNamefromDn(L4L7ServiceGraphTemplateClassName, (l4L7ServiceGraphTemplateDN), i),
 				"aci_l4_l7_service_graph_template",
 				"aci",
 				map[string]string{

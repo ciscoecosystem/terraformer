@@ -49,7 +49,7 @@ func (a *PhysicalDomGenerator) InitResources() error {
 		if filterChildrenDn(physicalDomProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				physicalDomProfileDN,
-				physicalDomProfileDN,
+				resourceNamefromDn(physicalDomClass, (physicalDomProfileDN), i),
 				"aci_physical_domain",
 				"aci",
 				[]string{
