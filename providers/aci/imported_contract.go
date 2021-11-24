@@ -44,7 +44,7 @@ func (a *ImportedContractGenerator) InitResources() error {
 		if filterChildrenDn(importedContractDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				importedContractDN,
-				importedContractDN,
+				resourceNamefromDn(ImportedContractClass, (importedContractDN), i),
 				"aci_imported_contract",
 				"aci",
 				[]string{

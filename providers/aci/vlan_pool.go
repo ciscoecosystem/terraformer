@@ -49,7 +49,7 @@ func (a *VlanPoolGenerator) InitResources() error {
 		if filterChildrenDn(vlanPoolProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				vlanPoolProfileDN,
-				vlanPoolProfileDN,
+				resourceNamefromDn(vlanPoolClass, (vlanPoolProfileDN), i),
 				"aci_vlan_pool",
 				"aci",
 				[]string{

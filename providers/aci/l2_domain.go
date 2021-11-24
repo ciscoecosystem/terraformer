@@ -49,7 +49,7 @@ func (a *L2DomGenerator) InitResources() error {
 		if filterChildrenDn(l2DomProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				l2DomProfileDN,
-				l2DomProfileDN,
+				resourceNamefromDn(l2DomClass, (l2DomProfileDN), i),
 				"aci_l2_domain",
 				"aci",
 				[]string{

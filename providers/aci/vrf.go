@@ -42,7 +42,7 @@ func (a *VRFGenerator) InitResources() error {
 		if filterChildrenDn(vrfDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				vrfDN,
-				vrfDN,
+				resourceNamefromDn(VRFClass, (vrfDN), i),
 				"aci_vrf",
 				"aci",
 				[]string{

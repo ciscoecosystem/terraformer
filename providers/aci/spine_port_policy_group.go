@@ -43,7 +43,7 @@ func (a *SpinePortPolicyGroupGenerator) InitResources() error {
 		if filterChildrenDn(SpinePortPolicyGroupProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				SpinePortPolicyGroupProfileDN,
-				SpinePortPolicyGroupProfileDN,
+				resourceNamefromDn(SpinePortPolicyGroupClass, (SpinePortPolicyGroupProfileDN), i),
 				"aci_spine_port_policy_group",
 				"aci",
 				[]string{

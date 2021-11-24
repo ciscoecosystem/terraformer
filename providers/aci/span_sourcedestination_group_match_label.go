@@ -41,7 +41,7 @@ func (a *SpanSourceDestGroupMatchGenerator) InitResources() error {
 		if filterChildrenDn(SpanSourceDestGroupMatchDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
 				SpanSourceDestGroupMatchDN,
-				SpanSourceDestGroupMatchDN,
+				resourceNamefromDn(SpanSourceDestGroupMatchClass, (SpanSourceDestGroupMatchDN), i),
 				"aci_span_sourcedestination_group_match_label",
 				"aci",
 				map[string]string{

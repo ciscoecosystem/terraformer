@@ -38,8 +38,8 @@ func (a *VswitchPolicyGenerator) InitResources() error {
 		VswitchPolicyDN := stripQuotes(VswitchPolicyCont.S("imdata").Index(i).S(VswitchPolicyClass, "attributes", "dn").String())
 		if filterChildrenDn(VswitchPolicyDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
-				stripQuotes(VswitchPolicyDN),
-				stripQuotes(VswitchPolicyDN),
+				VswitchPolicyDN,
+				resourceNamefromDn(VswitchPolicyClass, (VswitchPolicyDN), i),
 				"aci_vswitch_policy",
 				"aci",
 				[]string{

@@ -43,7 +43,7 @@ func (a *L2InterfacePolicyGenerator) InitResources() error {
 		if filterChildrenDn(L2InterfacePolicyDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				L2InterfacePolicyDN,
-				L2InterfacePolicyDN,
+				resourceNamefromDn(L2InterfacePolicyClass, (L2InterfacePolicyDN), i),
 				"aci_l2_interface_policy",
 				"aci",
 				[]string{

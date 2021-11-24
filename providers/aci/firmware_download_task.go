@@ -40,7 +40,7 @@ func (a *FirmwareDownloadTaskGenerator) InitResources() error {
 
 			resource := terraformutils.NewResource(
 				FirmwareDownloadTaskDN,
-				FirmwareDownloadTaskDN,
+				resourceNamefromDn(firmwareDownloadTaskClassName, (FirmwareDownloadTaskDN), i),
 				"aci_firmware_download_task",
 				"aci",
 				map[string]string{},

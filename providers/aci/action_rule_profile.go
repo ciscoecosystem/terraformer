@@ -49,7 +49,7 @@ func (a *ActionRuleProfGenerator) InitResources() error {
 		if filterChildrenDn(actionRuleProfProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				actionRuleProfProfileDN,
-				actionRuleProfProfileDN,
+				resourceNamefromDn(actionRuleProfClass,actionRuleProfProfileDN,i),
 				"aci_action_rule_profile",
 				"aci",
 				[]string{

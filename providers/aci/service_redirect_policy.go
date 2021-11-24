@@ -39,7 +39,7 @@ func (a *ServiceRedirectPolicyGenerator) InitResources() error {
 		if filterChildrenDn(ServiceRedirectPolicyDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
 				ServiceRedirectPolicyDN,
-				ServiceRedirectPolicyDN,
+				resourceNamefromDn(serviceRedirectPolicyClassName, (ServiceRedirectPolicyDN), i),
 				"aci_service_redirect_policy",
 				"aci",
 				map[string]string{

@@ -49,7 +49,7 @@ func (a *TabooContractGenerator) InitResources() error {
 		if filterChildrenDn(tabooContractProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				tabooContractProfileDN,
-				tabooContractProfileDN,
+				resourceNamefromDn(tabooContractClass, (tabooContractProfileDN), i),
 				"aci_taboo_contract",
 				"aci",
 				[]string{

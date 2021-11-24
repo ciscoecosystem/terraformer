@@ -49,7 +49,7 @@ func (a *LeafBreakoutPortGrpGenerator) InitResources() error {
 		if filterChildrenDn(leafBreakoutPortGrpProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				leafBreakoutPortGrpProfileDN,
-				leafBreakoutPortGrpProfileDN,
+				resourceNamefromDn(leafBreakoutPortGrpClass, (leafBreakoutPortGrpProfileDN), i),
 				"aci_leaf_breakout_port_group",
 				"aci",
 				[]string{

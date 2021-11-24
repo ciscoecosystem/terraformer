@@ -38,8 +38,8 @@ func (a *TriggerSchedulerGenerator) InitResources() error {
 		TriggerSchedulerDN := stripQuotes(TriggerSchedulerCont.S("imdata").Index(i).S(TriggerSchedulerClass, "attributes", "dn").String())
 		if filterChildrenDn(TriggerSchedulerDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
-				stripQuotes(TriggerSchedulerDN),
-				stripQuotes(TriggerSchedulerDN),
+				TriggerSchedulerDN,
+				resourceNamefromDn(TriggerSchedulerClass, (TriggerSchedulerDN), i),
 				"aci_trigger_scheduler",
 				"aci",
 				[]string{

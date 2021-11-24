@@ -49,7 +49,7 @@ func (a *SpanningTreeInterfacePolicyGenerator) InitResources() error {
 		if filterChildrenDn(spanningTreeInterfacePolicyProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				spanningTreeInterfacePolicyProfileDN,
-				spanningTreeInterfacePolicyProfileDN,
+				resourceNamefromDn(spanningTreeInterfacePolicyClass, (spanningTreeInterfacePolicyProfileDN), i),
 				"aci_spanning_tree_interface_policy",
 				"aci",
 				[]string{

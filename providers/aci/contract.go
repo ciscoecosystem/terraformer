@@ -41,7 +41,7 @@ func (a *ContractGenerator) InitResources() error {
 		if filterChildrenDn(contractDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				contractDN,
-				contractDN,
+				resourceNamefromDn(contractClassName, (contractDN), i),
 				"aci_contract",
 				"aci",
 				[]string{

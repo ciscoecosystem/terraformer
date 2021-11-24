@@ -39,7 +39,7 @@ func (a *EPGToStaticPathGenerator) InitResources() error {
 		if filterChildrenDn(EGPToStaticPathDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				EGPToStaticPathDN,
-				EGPToStaticPathDN,
+				resourceNamefromDn(EPGToStaticPathClass, (EGPToStaticPathDN), i),
 				"aci_epg_to_static_path",
 				"aci",
 				[]string{

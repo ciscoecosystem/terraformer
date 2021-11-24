@@ -43,7 +43,7 @@ func (a *CloudExternalEPGGenerator) InitResources() error {
 		if filterChildrenDn(CloudExternalEPGDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				CloudExternalEPGDN,
-				CloudExternalEPGDN,
+				resourceNamefromDn(CloudExternalEPGClass, (CloudExternalEPGDN), i),
 				"aci_cloud_external_epg",
 				"aci",
 				[]string{

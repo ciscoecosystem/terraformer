@@ -41,7 +41,7 @@ func (a *BridgeDomainGenerator) InitResources() error {
 		if filterChildrenDn(BridgeDomainDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				BridgeDomainDN,
-				BridgeDomainDN,
+				resourceNamefromDn(bridgeDomainClassName, (BridgeDomainDN), i),
 				"aci_bridge_domain",
 				"aci",
 				[]string{

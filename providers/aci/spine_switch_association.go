@@ -49,7 +49,7 @@ func (a *SpineSwitchAssGenerator) InitResources() error {
 		if filterChildrenDn(spineSwitchAssProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				spineSwitchAssProfileDN,
-				spineSwitchAssProfileDN,
+				resourceNamefromDn(spineSwitchAssClass, (spineSwitchAssProfileDN), i),
 				"aci_spine_switch_association",
 				"aci",
 				[]string{

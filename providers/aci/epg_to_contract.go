@@ -33,7 +33,7 @@ func (a *EPGToContractGenerator) InitResources() error {
 	}
 
 	EPGToContractCount, err := strconv.Atoi(stripQuotes(EPGToContractCont.S("totalCount").String()))
-
+	provCount := EPGToContractCount
 	if err != nil {
 		return err
 	}
@@ -43,7 +43,7 @@ func (a *EPGToContractGenerator) InitResources() error {
 		if filterChildrenDn(EPGToContractDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
 				EPGToContractDN,
-				EPGToContractDN,
+				resourceNamefromDn(EPGToContractClass, (EPGToContractDN), i),
 				"aci_epg_to_contract",
 				"aci",
 				map[string]string{
@@ -81,7 +81,7 @@ func (a *EPGToContractGenerator) InitResources() error {
 		if filterChildrenDn(EPGToContractDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
 				EPGToContractDN,
-				EPGToContractDN,
+				resourceNamefromDn("fvRsCons", GetMOName(EPGToContractDN), i+provCount),
 				"aci_epg_to_contract",
 				"aci",
 				map[string]string{

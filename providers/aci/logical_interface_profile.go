@@ -41,7 +41,7 @@ func (a *LogicalInterfaceProfileGenerator) InitResources() error {
 		if filterChildrenDn(LogicalInterfaceProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				LogicalInterfaceProfileDN,
-				LogicalInterfaceProfileDN,
+				resourceNamefromDn(logicalInterfaceProfileClassName, (LogicalInterfaceProfileDN), i),
 				"aci_logical_interface_profile",
 				"aci",
 				[]string{

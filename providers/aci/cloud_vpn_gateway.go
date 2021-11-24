@@ -43,7 +43,7 @@ func (a *CloudVPNGatewayGenerator) InitResources() error {
 		if filterChildrenDn(CloudVPNGatewayDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				CloudVPNGatewayDN,
-				CloudVPNGatewayDN,
+				resourceNamefromDn(CloudVPNGatewayClass, (CloudVPNGatewayDN), i),
 				"aci_cloud_vpn_gateway",
 				"aci",
 				[]string{

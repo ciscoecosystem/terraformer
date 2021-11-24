@@ -42,7 +42,7 @@ func (a *L3OutBFDInterfaceProfileGenerator) InitResources() error {
 		if filterChildrenDn(L3OutBFDInterfaceProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				L3OutBFDInterfaceProfileDN,
-				L3OutBFDInterfaceProfileDN,
+				resourceNamefromDn(L3OutBFDInterfaceProfileClass, (L3OutBFDInterfaceProfileDN), i),
 				"aci_l3out_bfd_interface_profile",
 				"aci",
 				[]string{

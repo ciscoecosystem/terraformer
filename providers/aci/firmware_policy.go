@@ -40,7 +40,7 @@ func (a *FirmwarePolicyGenerator) InitResources() error {
 
 			resource := terraformutils.NewResource(
 				FirmwarePolicyDN,
-				FirmwarePolicyDN,
+				resourceNamefromDn(firmwarePolicyClassName, (FirmwarePolicyDN), i),
 				"aci_firmware_policy",
 				"aci",
 				map[string]string{},

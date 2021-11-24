@@ -43,7 +43,7 @@ func (a *EndpointRetentionPolicyGenerator) InitResources() error {
 		if filterChildrenDn(EndpointRetentionPolicyDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				EndpointRetentionPolicyDN,
-				EndpointRetentionPolicyDN,
+				resourceNamefromDn(EndpointRetentionPolicyClass, (EndpointRetentionPolicyDN), i),
 				"aci_end_point_retention_policy",
 				"aci",
 				[]string{

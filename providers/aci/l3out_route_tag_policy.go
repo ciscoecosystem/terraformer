@@ -41,7 +41,7 @@ func (a *L3OutRouteTagPolicyGenerator) InitResources() error {
 		if filterChildrenDn(L3OutRouteTagPolicyDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				L3OutRouteTagPolicyDN,
-				L3OutRouteTagPolicyDN,
+				resourceNamefromDn(L3OutRouteTagPolicyClassName, (L3OutRouteTagPolicyDN), i),
 				"aci_l3out_route_tag_policy",
 				"aci",
 				[]string{

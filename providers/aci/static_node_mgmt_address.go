@@ -40,8 +40,8 @@ func (a *StaticNodeMgmtAddressGenerator) InitResources() error {
 		StaticNodeMgmtAddressDN := stripQuotes(StaticNodeMgmtAddressCont.S("imdata").Index(i).S(StaticNodeMgmtAddressClassName, "attributes", "dn").String())
 		if filterChildrenDn(StaticNodeMgmtAddressDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
-				stripQuotes(StaticNodeMgmtAddressDN),
-				stripQuotes(StaticNodeMgmtAddressDN),
+				StaticNodeMgmtAddressDN,
+				resourceNamefromDn(StaticNodeMgmtAddressClassName, "in_band", i),
 				"aci_static_node_mgmt_address",
 				"aci",
 				map[string]string{
@@ -78,8 +78,8 @@ func (a *StaticNodeMgmtAddressGenerator) InitResources() error {
 		fmt.Printf("StaticNodeMgmtAddressDN: %v\n", StaticNodeMgmtAddressDN)
 		if filterChildrenDn(StaticNodeMgmtAddressDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
-				stripQuotes(StaticNodeMgmtAddressDN),
-				stripQuotes(StaticNodeMgmtAddressDN),
+				StaticNodeMgmtAddressDN,
+				resourceNamefromDn(StaticNodeMgmtAddressClassName, "out_of_band", i),
 				"aci_static_node_mgmt_address",
 				"aci",
 				map[string]string{

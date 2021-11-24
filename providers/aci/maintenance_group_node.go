@@ -39,21 +39,22 @@ func (a *MaintenanceGroupNodeGenerator) InitResources() error {
 	for i := 0; i < MaintenanceGroupNodeCount; i++ {
 		MaintenanceGroupNodeDN := stripQuotes(MaintenanceGroupNodesCont.S("imdata").Index(i).S(MaintenanceGroupNodeClassName, "attributes", "dn").String())
 		if filterChildrenDn(MaintenanceGroupNodeDN, client.parentResource) != "" {
-		resource := terraformutils.NewSimpleResource(
-			stripQuotes(MaintenanceGroupNodeDN),
-			stripQuotes(MaintenanceGroupNodeDN),
-			"aci_maintenance_group_node",
-			"aci",
-			[]string{
-				"from_",
-				"to_",
-				"name_alias",
-				"annotation",
-				"description",
-			},
-		)
-		resource.SlowQueryRequired = true
-		a.Resources = append(a.Resources, resource)
-	}}
+			resource := terraformutils.NewSimpleResource(
+				MaintenanceGroupNodeDN,
+				resourceNamefromDn(MaintenanceGroupNodeClassName, (MaintenanceGroupNodeDN), i),
+				"aci_maintenance_group_node",
+				"aci",
+				[]string{
+					"from_",
+					"to_",
+					"name_alias",
+					"annotation",
+					"description",
+				},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
+	}
 	return nil
 }

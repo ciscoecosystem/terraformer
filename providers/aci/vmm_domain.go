@@ -49,7 +49,7 @@ func (a *VmmDomGenerator) InitResources() error {
 		if filterChildrenDn(vmmDomProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				vmmDomProfileDN,
-				vmmDomProfileDN,
+				resourceNamefromDn(vmmDomClass, (vmmDomProfileDN), i),
 				"aci_vmm_domain",
 				"aci",
 				[]string{

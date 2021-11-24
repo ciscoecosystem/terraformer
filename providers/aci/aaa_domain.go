@@ -49,7 +49,7 @@ func (a *AaaDomGenerator) InitResources() error {
 		if filterChildrenDn(aaaDomProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				aaaDomProfileDN,
-				aaaDomProfileDN,
+				resourceNamefromDn(aaaDomClass,aaaDomProfileDN,i),
 				"aci_aaa_domain",
 				"aci",
 				[]string{

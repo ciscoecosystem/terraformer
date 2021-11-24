@@ -49,7 +49,7 @@ func (a *FexBundleGrpGenerator) InitResources() error {
 		if filterChildrenDn(fexBundleGrpProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				fexBundleGrpProfileDN,
-				fexBundleGrpProfileDN,
+				resourceNamefromDn(fexBundleGrpClass, (fexBundleGrpProfileDN), i),
 				"aci_fex_bundle_group",
 				"aci",
 				[]string{

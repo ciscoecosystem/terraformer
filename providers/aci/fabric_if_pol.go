@@ -43,7 +43,7 @@ func (a *FabricIfPolGenerator) InitResources() error {
 		if filterChildrenDn(FabricIfPolDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				FabricIfPolDN,
-				FabricIfPolDN,
+				resourceNamefromDn(FabricIfPolClass, (FabricIfPolDN), i),
 				"aci_fabric_if_pol",
 				"aci",
 				[]string{

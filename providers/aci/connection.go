@@ -40,7 +40,7 @@ func (a *ConnectionGenerator) InitResources() error {
 
 			resource := terraformutils.NewResource(
 				ConnectionDN,
-				ConnectionDN,
+				resourceNamefromDn(connectionClassName, (ConnectionDN), i),
 				"aci_connection",
 				"aci",
 				map[string]string{

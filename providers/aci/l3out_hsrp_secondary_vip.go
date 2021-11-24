@@ -41,7 +41,7 @@ func (a *L3OutHSRPSecondaryVipGenerator) InitResources() error {
 		if filterChildrenDn(L3OutHSRPSecondaryVipDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				L3OutHSRPSecondaryVipDN,
-				L3OutHSRPSecondaryVipDN,
+				resourceNamefromDn(L3OutHSRPSecondaryVipClassName, (L3OutHSRPSecondaryVipDN), i),
 				"aci_l3out_hsrp_secondary_vip",
 				"aci",
 				[]string{

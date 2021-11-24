@@ -39,7 +39,7 @@ func (a *VSANPoolGenerator) InitResources() error {
 
 			resource := terraformutils.NewResource(
 				VSANPoolDN,
-				VSANPoolDN,
+				fmt.Sprintf("%s_%d", vSANPoolClassName, i),
 				"aci_vsan_pool",
 				"aci",
 				map[string]string{},

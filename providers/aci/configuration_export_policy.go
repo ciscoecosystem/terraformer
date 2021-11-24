@@ -40,8 +40,8 @@ func (a *ConfigExportPolicyGenerator) InitResources() error {
 		ConfigExportPolicyDN := stripQuotes(ConfigExportPolicysCont.S("imdata").Index(i).S(ConfigExportPolicyClassName, "attributes", "dn").String())
 		if filterChildrenDn(ConfigExportPolicyDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
-				stripQuotes(ConfigExportPolicyDN),
-				stripQuotes(ConfigExportPolicyDN),
+				ConfigExportPolicyDN,
+				resourceNamefromDn(ConfigExportPolicyClassName, (ConfigExportPolicyDN), i),
 				"aci_configuration_export_policy",
 				"aci",
 				[]string{

@@ -43,7 +43,7 @@ func (a *L3outPathAttachmentGenerator) InitResources() error {
 		if filterChildrenDn(L3outPathAttachmentDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				L3outPathAttachmentDN,
-				L3outPathAttachmentDN,
+				resourceNamefromDn(L3outPathAttachmentClass, (L3outPathAttachmentDN), i),
 				"aci_l3out_path_attachment",
 				"aci",
 				[]string{

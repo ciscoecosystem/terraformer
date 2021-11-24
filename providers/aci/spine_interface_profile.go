@@ -39,8 +39,8 @@ func (a *SpineInterfaceProfileGenerator) InitResources() error {
 		SpineInterfaceProfileDN := stripQuotes(SpineInterfaceProfileCont.S("imdata").Index(i).S(SpineInterfaceProfileClassName, "attributes", "dn").String())
 		if filterChildrenDn(SpineInterfaceProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
-				stripQuotes(SpineInterfaceProfileDN),
-				stripQuotes(SpineInterfaceProfileDN),
+				SpineInterfaceProfileDN,
+				resourceNamefromDn(SpineInterfaceProfileClassName, (SpineInterfaceProfileDN), i),
 				"aci_spine_interface_profile",
 				"aci",
 				[]string{

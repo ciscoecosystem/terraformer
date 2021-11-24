@@ -57,11 +57,11 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"logical_interface_profile": {
 			"logical_node_profile": []string{"logical_node_profile_dn", "id"},
 		},
-		"logical_node_to_fabric_node_profile": {
+		"logical_node_to_fabric_node": {
 			"logical_node_profile": []string{"logical_node_profile_dn", "id"},
 		},
 		"l3out_static_route": {
-			"logical_node_to_fabric_node_profile": []string{"logical_node_to_fabric_node_profile_dn", "id"},
+			"logical_node_to_fabric_node": []string{"fabric_node_dn", "id"},
 		},
 		"l3out_static_route_next_hop": {
 			"l3out_static_route": []string{"l3out_static_route_dn", "id"},
@@ -150,7 +150,7 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 			"endpoint_security_group": []string{"endpoint_security_group_dn", "id"},
 		},
 		"endpoint_security_group": {
-			"application_profile": []string{"application_profile", "id"},
+			"application_profile": []string{"application_profile_dn", "id"},
 		},
 		"epg_to_contract": {
 			"application_epg": []string{"application_epg_dn", "id"},
@@ -240,6 +240,9 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"end_point_retention_policy": {
 			"tenant": []string{"tenant_dn", "id"},
 		},
+		"ranges": {
+			"vlan_pool": []string{"vlan_pool_dn", "id"},
+		},
 		"vlan_encapsulationfor_vxlan_traffic": {
 			"attachable_access_entity_profile": []string{"attachable_access_entity_profile_dn", "id"},
 		},
@@ -275,6 +278,33 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		},
 		"logical_interface_context": {
 			"logical_device_context": []string{"logical_device_context_dn", "id"},
+		},
+		"l3out_hsrp_interface_profile": {
+			"logical_interface_profile": []string{"logical_interface_profile_dn", "id"},
+		},
+		"l3out_hsrp_interface_group": {
+			"l3out_hsrp_interface_profile": []string{"l3out_hsrp_interface_profile_dn", "id"},
+		},
+		"vmm_credential": {
+			"vmm_domain": []string{"vmm_domain_dn", "id"},
+		},
+		"vmm_controller": {
+			"vmm_domain": []string{"vmm_domain_dn", "id"},
+		},
+		"cloud_vpn_gateway": {
+			"cloud_context_profile": []string{"cloud_context_profile_dn", "id"},
+		},
+		"cloud_external_epg": {
+			"cloud_applicationcontainer": []string{"cloud_applicationcontainer_dn", "id"},
+		},
+		"cloud_endpoint_selector": {
+			"cloud_epg": []string{"cloud_epg_dn", "id"},
+		},
+		"cloud_endpoint_selectorfor_external_epgs": {
+			"cloud_external_epg": []string{"cloud_external_epg_dn", "id"},
+		},
+		"node_block_firmware": {
+			"firmware_group": []string{"firmware_group_dn", "id"},
 		},
 		"maintenance_group_node": {
 			"pod_maintenance_group": []string{"pod_maintenance_group_dn", "id"},

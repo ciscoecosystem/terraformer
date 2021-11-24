@@ -49,7 +49,7 @@ func (a *NodeBlockGenerator) InitResources() error {
 		if filterChildrenDn(nodeBlockProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				nodeBlockProfileDN,
-				nodeBlockProfileDN,
+				resourceNamefromDn(nodeBlockClass, (nodeBlockProfileDN), i),
 				"aci_node_block",
 				"aci",
 				[]string{

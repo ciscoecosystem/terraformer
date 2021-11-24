@@ -49,7 +49,7 @@ func (a *RangesGenerator) InitResources() error {
 		if filterChildrenDn(rangesProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				rangesProfileDN,
-				rangesProfileDN,
+				fmt.Sprintf("%s_%d", rangesClass, i),
 				"aci_ranges",
 				"aci",
 				[]string{

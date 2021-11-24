@@ -49,7 +49,7 @@ func (a *SpinePGenerator) InitResources() error {
 		if filterChildrenDn(spinePProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				spinePProfileDN,
-				spinePProfileDN,
+				resourceNamefromDn(spinePClass, (spinePProfileDN), i),
 				"aci_spine_profile",
 				"aci",
 				[]string{
