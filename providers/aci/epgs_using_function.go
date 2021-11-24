@@ -41,7 +41,7 @@ func (a *EPGUsingFunctionGenerator) InitResources() error {
 		if filterChildrenDn(EPGUsingFunctionDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
 				EPGUsingFunctionDN,
-				resourceNamefromDn(EPGUsingFunctionClass, replaceSpecialCharsDn(GetMOName(EPGUsingFunctionDN)), i),
+				resourceNamefromDn(EPGUsingFunctionClass, EPGUsingFunctionDN, i),
 				"aci_epgs_using_function",
 				"aci",
 				map[string]string{

@@ -39,7 +39,7 @@ func (a *LeafProfileGenerator) InitResources() error {
 
 			resource := terraformutils.NewResource(
 				LeafProfileDN,
-				LeafProfileDN,
+				resourceNamefromDn(leafProfileClassName, LeafProfileDN, i),
 				"aci_leaf_profile",
 				"aci",
 				map[string]string{},

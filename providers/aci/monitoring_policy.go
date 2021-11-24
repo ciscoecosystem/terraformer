@@ -49,7 +49,7 @@ func (a *MonPolGenerator) InitResources() error {
 		if filterChildrenDn(monPolProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				monPolProfileDN,
-				resourceNamefromDn(contractClassName, (monPolProfileDN), i),
+				resourceNamefromDn(monPolClass, (monPolProfileDN), i),
 				"aci_monitoring_policy",
 				"aci",
 				[]string{

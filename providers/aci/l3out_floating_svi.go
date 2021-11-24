@@ -41,7 +41,7 @@ func (a *L3OutFloatingSviGenerator) InitResources() error {
 		if filterChildrenDn(L3OutFloatingSviDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				L3OutFloatingSviDN,
-				resourceNamefromDn(L3OutFloatingSviClassName, replaceSpecialCharsDn(GetMOName(L3OutFloatingSviDN)), i),
+				resourceNamefromDn(L3OutFloatingSviClassName, L3OutFloatingSviDN, i),
 				"aci_l3out_floating_svi",
 				"aci",
 				[]string{

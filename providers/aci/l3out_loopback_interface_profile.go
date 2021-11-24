@@ -42,7 +42,7 @@ func (a *L3OutLoopbackInterfaceProGenerator) InitResources() error {
 		if filterChildrenDn(L3OutLoopbackInterfaceProDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				L3OutLoopbackInterfaceProDN,
-				resourceNamefromDn(L3OutLoopbackInterfaceProClass, replaceSpecialCharsDn(GetMOName(L3OutLoopbackInterfaceProDN)), i),
+				resourceNamefromDn(L3OutLoopbackInterfaceProClass, L3OutLoopbackInterfaceProDN, i),
 				"aci_l3out_loopback_interface_profile",
 				"aci",
 				[]string{

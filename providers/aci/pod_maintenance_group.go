@@ -40,7 +40,7 @@ func (a *PodMaintenanceGroupGenerator) InitResources() error {
 
 			resource := terraformutils.NewResource(
 				PodMaintenanceGroupDN,
-				PodMaintenanceGroupDN,
+				resourceNamefromDn(podMaintenanceGroupClassName, PodMaintenanceGroupDN, i),
 				"aci_pod_maintenance_group",
 				"aci",
 				map[string]string{},
