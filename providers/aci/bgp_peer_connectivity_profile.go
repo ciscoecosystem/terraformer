@@ -42,7 +42,7 @@ func (a *BGPPeerConnectivityProGenerator) InitResources() error {
 		if filterChildrenDn(BGPPeerConnectivityProDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
 				BGPPeerConnectivityProDN,
-				resourceNamefromDn(BGPPeerConnectivityProClass, replaceSpecialCharsDn(GetMOName(BGPPeerConnectivityProDN)), i),
+				resourceNamefromDn(BGPPeerConnectivityProClass, BGPPeerConnectivityProDN, i),
 				"aci_bgp_peer_connectivity_profile",
 				"aci",
 				[]string{
