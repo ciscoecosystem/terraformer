@@ -54,6 +54,7 @@ func (a *ConnectionGenerator) InitResources() error {
 					"direct_connect",
 					"name_alias",
 					"unicast_route",
+					"annotation",
 				},
 				map[string]interface{}{},
 			)
