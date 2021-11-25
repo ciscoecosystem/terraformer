@@ -52,6 +52,8 @@ func (a *LogicalDeviceContextGenerator) InitResources() error {
 					"description",
 					"name_alias",
 					"annotation",
+					"relation_vns_rs_l_dev_ctx_to_l_dev",
+					"relation_vns_rs_l_dev_ctx_to_rtr_cfg",
 				},
 				map[string]interface{}{},
 			)
