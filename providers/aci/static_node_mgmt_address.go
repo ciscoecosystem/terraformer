@@ -41,7 +41,7 @@ func (a *StaticNodeMgmtAddressGenerator) InitResources() error {
 		if filterChildrenDn(StaticNodeMgmtAddressDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
 				StaticNodeMgmtAddressDN,
-				resourceNamefromDn(StaticNodeMgmtAddressClassName, "in_band", i),
+				resourceNamefromDn(StaticNodeMgmtAddressClassName, StaticNodeMgmtAddressDN, i),
 				"aci_static_node_mgmt_address",
 				"aci",
 				map[string]string{
@@ -79,7 +79,7 @@ func (a *StaticNodeMgmtAddressGenerator) InitResources() error {
 		if filterChildrenDn(StaticNodeMgmtAddressDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
 				StaticNodeMgmtAddressDN,
-				resourceNamefromDn(StaticNodeMgmtAddressClassName, "out_of_band", i),
+				resourceNamefromDn("mgmtRsOoBStNode",StaticNodeMgmtAddressDN, i),
 				"aci_static_node_mgmt_address",
 				"aci",
 				map[string]string{
