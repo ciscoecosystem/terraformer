@@ -51,6 +51,7 @@ func (a *LogicalDeviceContextGenerator) InitResources() error {
 				[]string{
 					"description",
 					"name_alias",
+					"annotation",
 				},
 				map[string]interface{}{},
 			)

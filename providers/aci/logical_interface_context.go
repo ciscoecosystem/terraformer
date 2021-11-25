@@ -51,6 +51,7 @@ func (a *LogicalInterfaceContextGenerator) InitResources() error {
 					"l3_dest",
 					"name_alias",
 					"permit_log",
+					"annotation",
 				},
 				map[string]interface{}{},
 			)

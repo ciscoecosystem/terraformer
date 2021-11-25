@@ -59,6 +59,12 @@ func (a *CloudSubnetGenerator) InitResources() error {
 				},
 				[]string{
 					"description",
+					"relation_cloud_rs_subnet_to_flow_log",
+					"annotation",
+					"name_alias",
+					"scope",
+					"usage",
+					"zone",
 				},
 				map[string]interface{}{},
 			)
