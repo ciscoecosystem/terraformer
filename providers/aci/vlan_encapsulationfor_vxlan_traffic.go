@@ -40,7 +40,7 @@ func (a *VlanVxlanTrafficGenerator) InitResources() error {
 		VlanVxlanTrafficDN := stripQuotes(VlanVxlanTrafficsCont.S("imdata").Index(i).S(VlanVxlanTrafficClassName, "attributes", "dn").String())
 		if filterChildrenDn(VlanVxlanTrafficDN, client.parentResource) != "" {
 			resource := terraformutils.NewSimpleResource(
-				VlanVxlanTrafficClassName,
+				VlanVxlanTrafficDN,
 				resourceNamefromDn(VlanVxlanTrafficClassName, (VlanVxlanTrafficDN), i),
 				"aci_vlan_encapsulationfor_vxlan_traffic",
 				"aci",
