@@ -46,6 +46,14 @@ func (a *FCDomainGenerator) InitResources() error {
 				[]string{
 					"annotation",
 					"name_alias",
+					"relation_infra_rs_vlan_ns",
+					"relation_fc_rs_vsan_ns",
+					"relation_fc_rs_vsan_attr",
+					"relation_infra_rs_vlan_ns_def",
+					"relation_infra_rs_vip_addr_ns",
+					"relation_infra_rs_dom_vxlan_ns_def",
+					"relation_fc_rs_vsan_attr_def",
+					"relation_fc_rs_vsan_ns_def",
 				},
 				map[string]interface{}{},
 			)
