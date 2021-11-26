@@ -38,11 +38,14 @@ func (a *ospfInterfacePolicyGenerator) InitResources() error {
 	for i := 0; i < ospfInterfacePolicyCount; i++ {
 		ospfInterfacePolicyDN := stripQuotes(ospfInterfacePoliciesCont.S("imdata").Index(i).S(ospfInterfacePolicyClassName, "attributes", "dn").String())
 		if filterChildrenDn(ospfInterfacePolicyDN, client.parentResource) != "" {
-			resource := terraformutils.NewSimpleResource(
+			resource := terraformutils.NewResource(
 				ospfInterfacePolicyDN,
 				resourceNamefromDn(ospfInterfacePolicyClassName, (ospfInterfacePolicyDN), i),
 				"aci_ospf_interface_policy",
 				"aci",
+				map[string]string{
+					"auth_key": "AUTH_KEY",
+				},
 				[]string{
 					"cost",
 					"ctrl",
@@ -57,6 +60,7 @@ func (a *ospfInterfacePolicyGenerator) InitResources() error {
 					"annotation",
 					"description",
 				},
+				map[string]interface{}{},
 			)
 			resource.SlowQueryRequired = true
 			a.Resources = append(a.Resources, resource)

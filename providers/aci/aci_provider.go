@@ -64,7 +64,7 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 			"logical_node_to_fabric_node": []string{"fabric_node_dn", "id"},
 		},
 		"l3out_static_route_next_hop": {
-			"l3out_static_route": []string{"l3out_static_route_dn", "id"},
+			"l3out_static_route": []string{"static_route_dn", "id"},
 		},
 		"dhcp_option_policy": {
 			"tenant": []string{"tenant_dn", "id"},
@@ -154,6 +154,7 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		},
 		"epg_to_contract": {
 			"application_epg": []string{"application_epg_dn", "id"},
+			"contract":        []string{"contract_dn", "id"},
 		},
 		"epg_to_domain": {
 			"application_epg": []string{"application_epg_dn", "id"},
@@ -202,7 +203,7 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 			"leaf_profile": []string{"leaf_profile_dn", "id"},
 		},
 		"node_block": {
-			"leaf_selector": []string{"leaf_selector_dn", "id"},
+			"leaf_selector": []string{"switch_association_dn", "id"},
 		},
 		"access_port_selector": {
 			"leaf_interface_profile": []string{"leaf_interface_profile_dn", "id"},
@@ -309,6 +310,9 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"maintenance_group_node": {
 			"pod_maintenance_group": []string{"pod_maintenance_group_dn", "id"},
 			"firmware_group":        []string{"pod_maintenance_group_dn", "id"},
+		},
+		"vswitch_policy": {
+			"vmm_domain": []string{"vmm_domain_dn", "id"},
 		},
 	}
 }
