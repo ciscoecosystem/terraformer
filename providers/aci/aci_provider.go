@@ -158,6 +158,7 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		},
 		"epg_to_domain": {
 			"application_epg": []string{"application_epg_dn", "id"},
+			"fc_domain":[]string{"tdn", "id"},
 		},
 		"epg_to_static_path": {
 			"application_epg": []string{"application_epg_dn", "id"},
@@ -313,6 +314,9 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		},
 		"vswitch_policy": {
 			"vmm_domain": []string{"vmm_domain_dn", "id"},
+		},
+		"l3out_hsrp_secondary_vip": {
+			"l3out_hsrp_interface_group": []string{"l3out_hsrp_interface_group_dn", "id"},
 		},
 	}
 }
