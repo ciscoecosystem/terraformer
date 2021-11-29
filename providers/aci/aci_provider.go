@@ -13,6 +13,8 @@ type ACIProvider struct {
 	username       string
 	password       string
 	parentResource string
+	certName       string
+	privateKey     string
 	insecure       bool
 }
 
@@ -158,7 +160,7 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		},
 		"epg_to_domain": {
 			"application_epg": []string{"application_epg_dn", "id"},
-			"fc_domain":[]string{"tdn", "id"},
+			"fc_domain":       []string{"tdn", "id"},
 		},
 		"epg_to_static_path": {
 			"application_epg": []string{"application_epg_dn", "id"},
@@ -325,9 +327,11 @@ func (p ACIProvider) GetProviderData(arg ...string) map[string]interface{} {
 	return map[string]interface{}{
 		"provider": map[string]interface{}{
 			"aci": map[string]interface{}{
-				"username": p.username,
-				"password": p.password,
-				"url":      p.baseURL,
+				"username":    p.username,
+				"password":    p.password,
+				"cert_name":   p.certName,
+				"private_key": p.privateKey,
+				"url":         p.baseURL,
 			},
 		},
 	}
@@ -337,11 +341,15 @@ func (p *ACIProvider) Init(args []string) error {
 	p.baseURL = args[0]
 	p.username = args[1]
 	p.password = args[2]
-	p.parentResource = args[3]
+	p.certName = args[3]
+	p.privateKey = args[4]
+	p.parentResource = args[5]
 	p.insecure = true
 	os.Setenv("ACI_URL", p.baseURL)
 	os.Setenv("ACI_USERNAME", p.username)
 	os.Setenv("ACI_PASSWORD", p.password)
+	os.Setenv("ACI_CERT_NAME", p.certName)
+	os.Setenv("ACI_PRIVATE_KEY", p.privateKey)
 	return nil
 }
 
@@ -362,6 +370,8 @@ func (p *ACIProvider) InitService(serviceName string, verbose bool) error {
 		"username":        p.username,
 		"password":        p.password,
 		"base_url":        p.baseURL,
+		"cert_name":       p.certName,
+		"private_key":     p.privateKey,
 		"insecure":        p.insecure,
 		"parent_resource": p.parentResource,
 	})
