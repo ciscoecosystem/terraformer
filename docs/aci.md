@@ -182,6 +182,7 @@ terraformer import aci --resources=application_profile --filter="Name=annotation
 `--parent-dn`: specify DN of parent resource. following command will import whole tree of child resources under `test` tenant.
 ```
 terraformer import aci --resources=* --parent-dn="uni/tn-test" --password=Cisco_APIC_password --username=Cisco_APIC_username --base-url=Cisco_APIC_url
+terraformer import aci --resources=* --parent-dn="uni/tn-infra:uni/tn-common"
 ```
 If the value of the attribute has `: (colon)` in its value, then to pass this value inside --filter tag user needs to pass the entire value in `'' (single quotes)` like the above mentioned example.  
 
