@@ -11,7 +11,10 @@ terraformer import aci --resources=tenant --base-url=Cisco_APIC_url --username=C
 terraformer import aci --resources=* --excludes=application_profile
 terraformer import aci --resources=tenant --filter=tenant=tenant_dn1:tenant_dn2
 ```
-
+for more information regarding all supported flags use `--help` or `-h` flag.
+```
+terraformer import aci --help
+```
 #### Supported services
 
 * `tenant`
