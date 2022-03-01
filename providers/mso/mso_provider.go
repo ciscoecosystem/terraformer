@@ -19,12 +19,18 @@ type MSOProvider struct {
 
 func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 	return map[string]map[string][]string{
-		// "schema":{
-		// 	"tenant":[]string{"tenant_id","id"},
-		// },
+		"schema": {
+			// "tenant":[]string{"tenant_id","id"},
+			"schema_template": []string{"template_name", "name"},
+		},
 		"schema_site": {
 			"schema": []string{"schema_id", "id"},
 			// "site":   []string{"site_id", "id"},
+			"schema_template": []string{"template_name", "name"},
+		},
+		"schema_template": {
+			"schema": []string{"schema_id", "id"},
+			// "tenant":[]string{"tenant_id","id"},
 		},
 		"schema_template_anp_epg": {
 			"schema": []string{"schema_id", "id"},
