@@ -18,7 +18,15 @@ type MSOProvider struct {
 }
 
 func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
-	return map[string]map[string][]string{}
+	return map[string]map[string][]string{
+		// "schema":{
+		// 	"tenant":[]string{"tenant_id","id"},
+		// },
+		"schema_site": {
+			"schema": []string{"schema_id", "id"},
+			// "site":   []string{"site_id", "id"},
+		},
+	}
 }
 
 func (p MSOProvider) GetProviderData(arg ...string) map[string]interface{} {
