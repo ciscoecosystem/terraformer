@@ -33,7 +33,7 @@ func newCmdMsoImporter(options ImportOptions) *cobra.Command {
 	cmd.PersistentFlags().StringVarP(&username, "username", "", os.Getenv("MSO_USERNAME"), "YOUR_MSO_USERNAME or env param MSO_USERNAME")
 	cmd.PersistentFlags().StringVarP(&password, "password", "", os.Getenv("MSO_PASSWORD"), "YOUR_MSO_PASSWORD or env param MSO_PASSWORD")
 	cmd.PersistentFlags().StringVarP(&baseURL, "base-url", "", os.Getenv("MSO_URL"), "YOUR_MSO_URL or env param MSO_URL")
-	cmd.PersistentFlags().StringVarP(&domain, "domain", "", os.Getenv("MSO_URL"), "YOUR_MSO_DOMAIN or env param MSO_DOMAIN")
+	cmd.PersistentFlags().StringVarP(&domain, "domain", "", os.Getenv("MSO_DOMAIN"), "YOUR_MSO_DOMAIN or env param MSO_DOMAIN")
 	cmd.PersistentFlags().StringVarP(&platform, "platform", "", os.Getenv("MSO_PLATFORM"), "YOUR_MSO_PLATFORM or env param MSO_PLATFORM")
 	return cmd
 }
