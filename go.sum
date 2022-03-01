@@ -425,6 +425,10 @@ github.com/chzyer/test v0.0.0-20180213035817-a1ea475d72b1/go.mod h1:Q3SI9o4m/ZMn
 github.com/cilium/ebpf v0.6.2/go.mod h1:4tRaxcgiL706VnOzHOdBlY8IEAIdxINsQBcU4xJJXRs=
 github.com/ciscoecosystem/mso-go-client v1.2.6 h1:CU8l0cs15WNJFHQLJA/hJA6H4/vgra2WbP/+Rt4h9uM=
 github.com/ciscoecosystem/mso-go-client v1.2.6/go.mod h1:ffy+aqN7Zo7GZC8e0pSt+Kbc32wjqkc+zDD42Ug0lWw=
+github.com/ciscoecosystem/mso-go-client v1.3.4 h1:4w3CDCKqVV0qMFJbS1IAmgPgoZfcrWAjfUT6bbu5KDw=
+github.com/ciscoecosystem/mso-go-client v1.3.4/go.mod h1:ffy+aqN7Zo7GZC8e0pSt+Kbc32wjqkc+zDD42Ug0lWw=
+github.com/ciscoecosystem/mso-go-client v1.3.5-0.20220228120157-6baa07ef8ef0 h1:p0WMCk7LJ2jyyu5FuM30qA/eVksXBXzkZzAIF+POh5w=
+github.com/ciscoecosystem/mso-go-client v1.3.5-0.20220228120157-6baa07ef8ef0/go.mod h1:ffy+aqN7Zo7GZC8e0pSt+Kbc32wjqkc+zDD42Ug0lWw=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
 github.com/cloudflare/cloudflare-go v0.13.6 h1:G6aw092fOkvkHODCxf8EHLPqHN2BVxHU4RoTFjS51xo=
 github.com/cloudflare/cloudflare-go v0.13.6/go.mod h1:gNGW6MkPPVLhjgaXq4vaS7WnTaQpCfl6DE1W9JuWyt8=

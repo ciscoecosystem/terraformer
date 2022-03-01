@@ -908,7 +908,7 @@ github.com/cenkalti/backoff
 # github.com/cenkalti/backoff/v4 v4.1.1
 ## explicit; go 1.13
 github.com/cenkalti/backoff/v4
-# github.com/ciscoecosystem/mso-go-client v1.2.6
+# github.com/ciscoecosystem/mso-go-client v1.3.5-0.20220228120157-6baa07ef8ef0
 ## explicit
 github.com/ciscoecosystem/mso-go-client/client
 github.com/ciscoecosystem/mso-go-client/container

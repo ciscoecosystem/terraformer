@@ -19,12 +19,17 @@ func (a *SchemaGenerator) InitResources() error {
 	}
 	for i := 0; i < len(con.S("schemas").Data().([]interface{})); i++ {
 		schemaId := stripQuotes(con.S("schemas").Index(i).S("id").String())
+		templateName := stripQuotes(con.S("schemas").Index(i).S("templates").Index(0).S("name").String())
+		tenantId := stripQuotes(con.S("schemas").Index(i).S("templates").Index(0).S("tenantId").String())
 		resource := terraformutils.NewResource(
 			schemaId,
 			strconv.Itoa(i),
 			"mso_schema",
 			"mso",
-			map[string]string{},
+			map[string]string{
+				"template_name": templateName,
+				"tenant_id":     tenantId,
+			},
 			[]string{},
 			map[string]interface{}{},
 		)

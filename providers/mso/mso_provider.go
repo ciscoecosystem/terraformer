@@ -13,6 +13,8 @@ type MSOProvider struct {
 	username string
 	password string
 	insecure bool
+	domain   string
+	platform string
 }
 
 func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
@@ -22,10 +24,12 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 func (p MSOProvider) GetProviderData(arg ...string) map[string]interface{} {
 	return map[string]interface{}{
 		"provider": map[string]interface{}{
-			"aci": map[string]interface{}{
+			"mso": map[string]interface{}{
 				"username": p.username,
 				"password": p.password,
 				"url":      p.baseURL,
+				"domain":   p.domain,
+				"platform": p.platform,
 			},
 		},
 	}
@@ -36,9 +40,13 @@ func (p *MSOProvider) Init(args []string) error {
 	p.username = args[1]
 	p.password = args[2]
 	p.insecure = true
+	p.domain = args[3]
+	p.platform = args[4]
 	os.Setenv("MSO_URL", p.baseURL)
 	os.Setenv("MSO_USERNAME", p.username)
 	os.Setenv("MSO_PASSWORD", p.password)
+	os.Setenv("MSO_DOMAIN", p.domain)
+	os.Setenv("MSO_PLATFORM", p.platform)
 	return nil
 }
 
@@ -60,6 +68,8 @@ func (p *MSOProvider) InitService(serviceName string, verbose bool) error {
 		"password": p.password,
 		"base_url": p.baseURL,
 		"insecure": p.insecure,
+		"domain":   p.domain,
+		"platform": p.platform,
 	})
 	return nil
 }

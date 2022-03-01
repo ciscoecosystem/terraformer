@@ -336,7 +336,7 @@ require (
 	sigs.k8s.io/yaml v1.2.0 // indirect
 )
 
-require github.com/ciscoecosystem/mso-go-client v1.2.6
+require github.com/ciscoecosystem/mso-go-client v1.3.5-0.20220228120157-6baa07ef8ef0
 
 require github.com/peterhellberg/link v1.1.0 // indirect
 
