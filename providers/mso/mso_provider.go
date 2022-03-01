@@ -109,5 +109,6 @@ func (p *MSOProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"site":                    &SiteGenerator{},
 		"tenant":                  &TenantGenerator{},
 		"schema_template_bd":      &SchemaTemplateBdGenerator{},
+		"schema_template":         &SchemaTemlateGenerator{},
 	}
 }
