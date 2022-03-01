@@ -84,7 +84,9 @@ func (p *MSOProvider) InitService(serviceName string, verbose bool) error {
 
 func (p *MSOProvider) GetSupportedService() map[string]terraformutils.ServiceGenerator {
 	return map[string]terraformutils.ServiceGenerator{
-		"schema":      &SchemaGenerator{},
-		"schema_site": &SchemaSiteGenerator{},
+		"schema":                  &SchemaGenerator{},
+		"schema_site":             &SchemaSiteGenerator{},
+		"label":                   &LabelGenerator{},
+		"schema_template_anp_epg": &SchemaTemplateAnpEpgGenerator{},
 	}
 }
