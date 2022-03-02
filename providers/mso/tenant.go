@@ -22,6 +22,12 @@ func (a *TenantGenerator) InitResources() error {
 		tenantId := stripQuotes(tenantCont.S("id").String())
 		name := stripQuotes(tenantCont.S("name").String())
 		displayName := stripQuotes(tenantCont.S("displayName").String())
+		var description string
+		if tenantCont.Exists("description") {
+			description = stripQuotes(tenantCont.S("description").String())
+		} else {
+			description = ""
+		}
 		resource := terraformutils.NewResource(
 			tenantId,
 			strconv.Itoa(i),
@@ -30,6 +36,7 @@ func (a *TenantGenerator) InitResources() error {
 			map[string]string{
 				"name":         name,
 				"display_name": displayName,
+				"description":  description,
 			},
 			[]string{},
 			map[string]interface{}{},

@@ -31,7 +31,6 @@ func (a *SiteGenerator) InitResources() error {
 			labels := []string{}
 			siteCont := con.S("sites").Index(i).S("common")
 			name := stripQuotes(siteCont.S("name").String())
-			fmt.Printf("name: %v\n", name)
 			apicSiteID := stripQuotes(siteCont.S("siteId").String())
 			siteId := stripQuotes(con.S("sites").Index(i).S("id").String())
 			if siteCont.Exists("labels") {
@@ -52,13 +51,12 @@ func (a *SiteGenerator) InitResources() error {
 				},
 			)
 			resource.SlowQueryRequired = true
-			fmt.Printf("resource: %v\n", resource)
 			a.Resources = append(a.Resources, resource)
 		}
 		return nil
 	} else {
 		for i := 0; i < len(con.S("sites").Data().([]interface{})); i++ {
-			var urls interface{}
+			urls := []interface{}{}
 			labels := []string{}
 			location := map[string]interface{}{}
 			siteCont := con.S("sites").Index(i)
