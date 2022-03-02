@@ -143,5 +143,6 @@ func (p *MSOProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"schema_template_anp_epg_subnet":        &SchemaTemplateAnpEpgSubnet{},
 		"schema_template_vrf":                   &SchemaTemplateVRFGenerator{},
 		"schema_template_external_epg_contract": &SchemaTemplateExternalEpgContract{},
+		"schema_template_anp_epg_contract":      &SchemaTemplateANPEPGContractGenerator{},
 	}
 }
