@@ -26,6 +26,9 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"schema": []string{"schema_id", "id"},
 			// "site":   []string{"site_id", "id"},
 		},
+		"tenant": {
+			"site": []string{"site_associations.site_id", "id"},
+		},
 	}
 }
 
@@ -86,5 +89,7 @@ func (p *MSOProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 	return map[string]terraformutils.ServiceGenerator{
 		"schema":      &SchemaGenerator{},
 		"schema_site": &SchemaSiteGenerator{},
+		"site":        &SiteGenerator{},
+		"tenant":      &TenantGenerator{},
 	}
 }
