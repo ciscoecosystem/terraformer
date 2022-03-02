@@ -20,20 +20,20 @@ type MSOProvider struct {
 func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 	return map[string]map[string][]string{
 		"schema": {
-			"tenant":[]string{"tenant_id","id"},
+			"tenant":          []string{"tenant_id", "id"},
 			"schema_template": []string{"template_name", "name"},
 		},
 		"schema_site": {
-			"schema": []string{"schema_id", "id"},
-			"site":   []string{"site_id", "id"},
+			"schema":          []string{"schema_id", "id"},
+			"site":            []string{"site_id", "id"},
 			"schema_template": []string{"template_name", "name"},
 		},
 		"schema_template": {
 			"schema": []string{"schema_id", "id"},
-			"tenant":[]string{"tenant_id","id"},
+			"tenant": []string{"tenant_id", "id"},
 		},
 		"schema_template_anp_epg": {
-			"schema": []string{"schema_id", "id"},
+			"schema":          []string{"schema_id", "id"},
 			"schema_template": []string{"template_name", "name"},
 			// "schema_template_anp": []string{"anp_name", "name"},
 		},
@@ -49,6 +49,11 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			// },
 			// "dhcp_relay_policy":  []string{"name", "name"},
 			// "dhcp_option_policy": []string{"dhcp_option_policy_name", "name"},
+		},
+		"schema_template_bd_subnet": {
+			"schema": []string{"schema_id", "id"},
+			// "schema_template":    []string{"template_name", "name"},
+			// "schema_template_bd": []string{"bd_name", "name"},
 		},
 	}
 }
@@ -108,13 +113,14 @@ func (p *MSOProvider) InitService(serviceName string, verbose bool) error {
 
 func (p *MSOProvider) GetSupportedService() map[string]terraformutils.ServiceGenerator {
 	return map[string]terraformutils.ServiceGenerator{
-		"schema":                  &SchemaGenerator{},
-		"schema_site":             &SchemaSiteGenerator{},
-		"label":                   &LabelGenerator{},
-		"schema_template_anp_epg": &SchemaTemplateAnpEpgGenerator{},
-		"site":                    &SiteGenerator{},
-		"tenant":                  &TenantGenerator{},
-		"schema_template_bd":      &SchemaTemplateBdGenerator{},
-		"schema_template":         &SchemaTemlateGenerator{},
+		"schema":                    &SchemaGenerator{},
+		"schema_site":               &SchemaSiteGenerator{},
+		"label":                     &LabelGenerator{},
+		"schema_template_anp_epg":   &SchemaTemplateAnpEpgGenerator{},
+		"site":                      &SiteGenerator{},
+		"tenant":                    &TenantGenerator{},
+		"schema_template_bd":        &SchemaTemplateBdGenerator{},
+		"schema_template":           &SchemaTemlateGenerator{},
+		"schema_template_bd_subnet": &SchemaTemplateBDSubnet{},
 	}
 }
