@@ -30,6 +30,9 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"schema": []string{"schema_id", "id"},
 			// "schema_template": []string{"template_name", "name"},
 			// "schema_template_anp": []string{"anp_name", "name"},
+    },
+		"tenant": {
+			"site": []string{"site_associations.site_id", "id"},
 		},
 	}
 }
@@ -93,5 +96,7 @@ func (p *MSOProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"schema_site":             &SchemaSiteGenerator{},
 		"label":                   &LabelGenerator{},
 		"schema_template_anp_epg": &SchemaTemplateAnpEpgGenerator{},
+		"site":                    &SiteGenerator{},
+		"tenant":                  &TenantGenerator{},
 	}
 }
