@@ -30,9 +30,19 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"schema": []string{"schema_id", "id"},
 			// "schema_template": []string{"template_name", "name"},
 			// "schema_template_anp": []string{"anp_name", "name"},
-    },
+		},
 		"tenant": {
 			"site": []string{"site_associations.site_id", "id"},
+		},
+		"schema_template_bd": {
+			"schema": []string{"schema_id", "id"},
+			// "schema_template_vrf": []string{
+			// 	"vrf_name", "name",
+			// 	"vrf_schema_id", "schema_id",
+			// 	"vrf_template_name", "template",
+			// },
+			// "dhcp_relay_policy":  []string{"name", "name"},
+			// "dhcp_option_policy": []string{"dhcp_option_policy_name", "name"},
 		},
 	}
 }
@@ -98,5 +108,6 @@ func (p *MSOProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"schema_template_anp_epg": &SchemaTemplateAnpEpgGenerator{},
 		"site":                    &SiteGenerator{},
 		"tenant":                  &TenantGenerator{},
+		"schema_template_bd":      &SchemaTemplateBdGenerator{},
 	}
 }
