@@ -51,9 +51,9 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			// "dhcp_option_policy": []string{"dhcp_option_policy_name", "name"},
 		},
 		"schema_template_bd_subnet": {
-			"schema": []string{"schema_id", "id"},
-			// "schema_template":    []string{"template_name", "name"},
-			// "schema_template_bd": []string{"bd_name", "name"},
+			"schema":             []string{"schema_id", "id"},
+			"schema_template":    []string{"template_name", "name"},
+			"schema_template_bd": []string{"bd_name", "name"},
 		},
 	}
 }
