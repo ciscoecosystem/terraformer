@@ -58,6 +58,11 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 		"schema_template_anp": {
 			"schema": []string{"schema_id", "id"},
 		},
+		"schema_template_anp_epg_subnet": {
+			"schema":                  []string{"schema_id", "id"},
+			"schema_template_anp":     []string{"anp_name", "name"},
+			"schema_template_anp_epg": []string{"epg_name", "name"},
+		},
 	}
 }
 
@@ -116,15 +121,16 @@ func (p *MSOProvider) InitService(serviceName string, verbose bool) error {
 
 func (p *MSOProvider) GetSupportedService() map[string]terraformutils.ServiceGenerator {
 	return map[string]terraformutils.ServiceGenerator{
-		"schema":                    &SchemaGenerator{},
-		"schema_site":               &SchemaSiteGenerator{},
-		"label":                     &LabelGenerator{},
-		"schema_template_anp_epg":   &SchemaTemplateAnpEpgGenerator{},
-		"site":                      &SiteGenerator{},
-		"tenant":                    &TenantGenerator{},
-		"schema_template_bd":        &SchemaTemplateBdGenerator{},
-		"schema_template":           &SchemaTemlateGenerator{},
-		"schema_template_bd_subnet": &SchemaTemplateBDSubnet{},
-		"schema_template_anp":       &SchemaTemplateAnpGenerator{},
+		"schema":                         &SchemaGenerator{},
+		"schema_site":                    &SchemaSiteGenerator{},
+		"label":                          &LabelGenerator{},
+		"schema_template_anp_epg":        &SchemaTemplateAnpEpgGenerator{},
+		"site":                           &SiteGenerator{},
+		"tenant":                         &TenantGenerator{},
+		"schema_template_bd":             &SchemaTemplateBdGenerator{},
+		"schema_template":                &SchemaTemlateGenerator{},
+		"schema_template_bd_subnet":      &SchemaTemplateBDSubnet{},
+		"schema_template_anp":            &SchemaTemplateAnpGenerator{},
+		"schema_template_anp_epg_subnet": &SchemaTemplateAnpEpgSubnet{},
 	}
 }
