@@ -55,6 +55,9 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"schema_template":    []string{"template_name", "name"},
 			"schema_template_bd": []string{"bd_name", "name"},
 		},
+		"schema_template_anp": {
+			"schema": []string{"schema_id", "id"},
+		},
 	}
 }
 
@@ -122,5 +125,6 @@ func (p *MSOProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"schema_template_bd":        &SchemaTemplateBdGenerator{},
 		"schema_template":           &SchemaTemlateGenerator{},
 		"schema_template_bd_subnet": &SchemaTemplateBDSubnet{},
+		"schema_template_anp":       &SchemaTemplateAnpGenerator{},
 	}
 }
