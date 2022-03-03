@@ -42,11 +42,11 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 		},
 		"schema_template_bd": {
 			"schema": []string{"schema_id", "id"},
-			// "schema_template_vrf": []string{
-			// 	"vrf_name", "name",
-			// 	"vrf_schema_id", "schema_id",
-			// 	"vrf_template_name", "template",
-			// },
+			"schema_template_vrf": []string{
+				"vrf_name", "name",
+				"vrf_schema_id", "schema_id",
+				"vrf_template_name", "template",
+			},
 			// "dhcp_relay_policy":  []string{"name", "name"},
 			// "dhcp_option_policy": []string{"dhcp_option_policy_name", "name"},
 		},
@@ -66,6 +66,11 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 		"schema_template_vrf": {
 			"schema":          []string{"schema_id", "id"},
 			"schema_template": []string{"template", "name"},
+		},
+		"schema_template_external_epg_contract": {
+			"schema":          []string{"schema_id", "id"},
+			"schema_template": []string{"template_name", "name"},
+			// "schema_template_external_epg": []string{"external_epg_name", "external_epg_name"},
 		},
 	}
 }
@@ -137,5 +142,6 @@ func (p *MSOProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"schema_template_anp":            &SchemaTemplateAnpGenerator{},
 		"schema_template_anp_epg_subnet": &SchemaTemplateAnpEpgSubnet{},
 		"schema_template_vrf":            &SchemaTemplateVRFGenerator{},
+		"schema_template_external_epg_contract": &SchemaTemplateExternalEpgContract{},
 	}
 }
