@@ -172,5 +172,6 @@ func (p *MSOProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"schema_site_anp_epg_domain":            &SchemaSiteAnpEpgDomain{},
 		"schema_template_l3out":                 &SchemaTemplateL3OutGenerator{},
 		"schema_site_vrf_region_cidr":           &SchemaSiteVrfRegionCidr{},
+		"schema_template_filter_entry":          &SchemaTemplateFilterEntryGenerator{},
 	}
 }
