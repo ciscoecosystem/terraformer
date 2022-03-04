@@ -78,7 +78,7 @@ func (a *SchemaSiteAnpEpgDomain) InitResources() error {
 							re := regexp.MustCompile("uni/fc-(.*)")
 							match := re.FindStringSubmatch(domainAssociationsID)
 							domainAssociationsName = match[1]
-						}
+						} 
 
 						deployImmediacy := stripQuotes(domainAssociationsCon.Index(m).S("deployImmediacy").String())
 						resolutionImmediacy := stripQuotes(domainAssociationsCon.Index(m).S("resolutionImmediacy").String())
