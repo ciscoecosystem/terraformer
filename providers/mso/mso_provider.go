@@ -78,6 +78,13 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"schema_template_anp":     []string{"anp_name", "name"},
 			"schema_template_anp_epg": []string{"epg_name", "name"},
 		},
+		"schema_site_anp_epg_domain": {
+			"schema":                  []string{"schema_id", "id", "contract_schema_id", "id"},
+			"schema_template":         []string{"template_name", "name", "contract_template_name", "name"},
+			"schema_template_anp":     []string{"anp_name", "name"},
+			"schema_template_anp_epg": []string{"epg_name", "name"},
+			"site":                    []string{"site_id", "id"},
+		},
 	}
 }
 
@@ -150,5 +157,6 @@ func (p *MSOProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"schema_template_vrf":                   &SchemaTemplateVRFGenerator{},
 		"schema_template_external_epg_contract": &SchemaTemplateExternalEpgContract{},
 		"schema_template_anp_epg_contract":      &SchemaTemplateANPEPGContractGenerator{},
+		"schema_site_anp_epg_domain":            &SchemaSiteAnpEpgDomain{},
 	}
 }
