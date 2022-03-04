@@ -79,8 +79,8 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"schema_template_anp_epg": []string{"epg_name", "name"},
 		},
 		"schema_site_anp_epg_domain": {
-			"schema":                  []string{"schema_id", "id", "contract_schema_id", "id"},
-			"schema_template":         []string{"template_name", "name", "contract_template_name", "name"},
+			"schema":                  []string{"schema_id", "id"},
+			"schema_template":         []string{"template_name", "name"},
 			"schema_template_anp":     []string{"anp_name", "name"},
 			"schema_template_anp_epg": []string{"epg_name", "name"},
 			"site":                    []string{"site_id", "id"},
@@ -89,6 +89,13 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"schema":              []string{"schema_id", "id", "vrf_schema_id", "id"},
 			"schema_template":     []string{"template_name", "name", "vrf_template_name", "name"},
 			"schema_template_vrf": []string{"vrf_name", "name"},
+		},
+		"schema_site_vrf_region_cidr": {
+			"schema":          []string{"schema_id", "id"},
+			"schema_template": []string{"template_name", "name"},
+			"site":            []string{"site_id", "id"},
+			// "schema_site_vrf": []string{"vrf_name", "vrf_name"},
+			// "schema_site_vrf_region": []string{"region_name", "region_name"},
 		},
 	}
 }
@@ -164,5 +171,6 @@ func (p *MSOProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"schema_template_anp_epg_contract":      &SchemaTemplateANPEPGContractGenerator{},
 		"schema_site_anp_epg_domain":            &SchemaSiteAnpEpgDomain{},
 		"schema_template_l3out":                 &SchemaTemplateL3OutGenerator{},
+		"schema_site_vrf_region_cidr":           &SchemaSiteVrfRegionCidr{},
 	}
 }
