@@ -195,5 +195,6 @@ func (p *MSOProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"schema_template_filter_entry":          &SchemaTemplateFilterEntryGenerator{},
 		"schema_site_anp_epg_static_port":       &SchemaSiteAnpEpgStaticPort{},
 		"schema_template_contract_filter":       &SchemaTemplateContractFilter{},
+		"schema_site_anp_epg_static_leaf":       &SchemaSiteAnpEpgStaticLeaf{},
 	}
 }
