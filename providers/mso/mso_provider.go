@@ -86,8 +86,8 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"site":                    []string{"site_id", "id"},
 		},
 		"schema_template_l3out": {
-			"schema":              []string{"schema_id", "id"},
-			"schema_template":     []string{"template_name", "name"},
+			"schema":              []string{"schema_id", "id", "vrf_schema_id", "id"},
+			"schema_template":     []string{"template_name", "name", "vrf_template_name", "name"},
 			"schema_template_vrf": []string{"vrf_name", "name"},
 		},
 	}
