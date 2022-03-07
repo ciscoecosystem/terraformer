@@ -108,6 +108,15 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"schema_site":     []string{"site_id", "site_id"},
 			"schema_template": []string{"template_name", "name"},
 		},
+		"schema_template_contract_filter": {
+			"schema": []string{"schema_id", "id"},
+			"schema_template_filter_entry": []string{
+				"filter_schema_id", "schema_id",
+				"filter_template_name", "template_name",
+				"filter_name", "name",
+			},
+			// "schema_template_contract": []string{"contract_name", "contract_name"},
+		},
 	}
 }
 
@@ -185,5 +194,6 @@ func (p *MSOProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"schema_site_vrf_region_cidr":           &SchemaSiteVrfRegionCidr{},
 		"schema_template_filter_entry":          &SchemaTemplateFilterEntryGenerator{},
 		"schema_site_anp_epg_static_port":       &SchemaSiteAnpEpgStaticPort{},
+		"schema_template_contract_filter":       &SchemaTemplateContractFilter{},
 	}
 }
