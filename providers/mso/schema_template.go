@@ -1,9 +1,6 @@
 package mso
 
 import (
-	"math/rand"
-	"strconv"
-
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
 	"github.com/ciscoecosystem/mso-go-client/client"
 	"github.com/ciscoecosystem/mso-go-client/models"
@@ -32,7 +29,7 @@ func (a *SchemaTemlateGenerator) InitResources() error {
 			tenantId := models.G(templateCont, "tenantId")
 			templateName := models.G(templateCont, "name")
 			displayName := models.G(templateCont, "displayName")
-			name := schemaId + "_" + templateName + "_" + strconv.Itoa(rand.Intn(1000))
+			name := schemaId + "_" + templateName
 			resource := terraformutils.NewResource(
 				templateName,
 				name,

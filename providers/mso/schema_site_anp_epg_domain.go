@@ -84,7 +84,7 @@ func (a *SchemaSiteAnpEpgDomain) InitResources() error {
 						deployImmediacy := stripQuotes(domainAssociationsCon.Index(m).S("deployImmediacy").String())
 						resolutionImmediacy := stripQuotes(domainAssociationsCon.Index(m).S("resolutionImmediacy").String())
 
-						name := schemaId + "_" + templateName + "_" + siteId + "_" + anpRefName + "_" + epgRefName + "_" + strconv.Itoa(rand.Intn(1000))
+						name := schemaId + "_" + templateName + "_" + siteId + "_" + anpRefName + "_" + epgRefName + "_" + domainAssociationsType + "_" + domainAssociationsID + "_" + strconv.Itoa(rand.Intn(1000))
 						resource := terraformutils.NewResource(
 							domainAssociationsID,
 							name,

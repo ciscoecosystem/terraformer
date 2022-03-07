@@ -2,8 +2,6 @@ package mso
 
 import (
 	"fmt"
-	"math/rand"
-	"strconv"
 
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
 	"github.com/ciscoecosystem/mso-go-client/client"
@@ -37,7 +35,7 @@ func (a *SiteGenerator) InitResources() error {
 			if siteCont.Exists("labels") {
 				labels = siteCont.S("labels").Data().([]string)
 			}
-			siteName := siteId + "_" + apicSiteID + "_" + name + "_" + strconv.Itoa(rand.Intn(1000))
+			siteName := siteId + "_" + apicSiteID + "_" + name
 			resource := terraformutils.NewResource(
 				siteId,
 				siteName,
@@ -84,7 +82,7 @@ func (a *SiteGenerator) InitResources() error {
 					location = nil
 				}
 			}
-			siteName := siteId + "_" + apicSiteID + "_" + name + "_" + strconv.Itoa(rand.Intn(1000))
+			siteName := siteId + "_" + apicSiteID + "_" + name
 			resource := terraformutils.NewResource(
 				siteId,
 				siteName,

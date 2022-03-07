@@ -1,9 +1,7 @@
 package mso
 
 import (
-	"math/rand"
 	"regexp"
-	"strconv"
 
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
 	"github.com/ciscoecosystem/mso-go-client/client"
@@ -39,7 +37,7 @@ func (a *SchemaTemplateAnpGenerator) InitResources() error {
 				anpRef := models.G(anps, "anpRef")
 				re := regexp.MustCompile("/schemas/(.*)/templates/(.*)/anps/(.*)")
 				match := re.FindStringSubmatch(anpRef)
-				resourceName := match[1] + "_" + match[2] + "_" + name + "_" + strconv.Itoa(rand.Intn(1000))
+				resourceName := match[1] + "_" + match[2] + "_" + name
 				resource := terraformutils.NewResource(
 					name,
 					resourceName,

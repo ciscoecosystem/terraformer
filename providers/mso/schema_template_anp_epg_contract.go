@@ -1,8 +1,6 @@
 package mso
 
 import (
-	"math/rand"
-	"strconv"
 	"strings"
 
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
@@ -54,7 +52,7 @@ func (a *SchemaTemplateANPEPGContractGenerator) InitResources() error {
 						contractRefSplitted := strings.Split(contractRef, "/")
 						contractName := contractRefSplitted[len(contractRefSplitted)-1]
 						relationShipType := models.G(contractCont, "relationshipType")
-						name := schemaId + "_" + templateName + "_" + anpName + "_" + epgName + "_" + contractName + "_" + strconv.Itoa(rand.Intn(1000))
+						name := schemaId + "_" + templateName + "_" + anpName + "_" + epgName + "_" + contractName
 						resource := terraformutils.NewResource(
 							schemaId,
 							name,

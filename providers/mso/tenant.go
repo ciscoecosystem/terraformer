@@ -1,9 +1,6 @@
 package mso
 
 import (
-	"math/rand"
-	"strconv"
-
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
 	"github.com/ciscoecosystem/mso-go-client/client"
 )
@@ -29,7 +26,7 @@ func (a *TenantGenerator) InitResources() error {
 		} else {
 			description = ""
 		}
-		tenantName := tenantId + "_" + name + "_" + strconv.Itoa(rand.Intn(1000))
+		tenantName := tenantId + "_" + name
 		resource := terraformutils.NewResource(
 			tenantId,
 			tenantName,
