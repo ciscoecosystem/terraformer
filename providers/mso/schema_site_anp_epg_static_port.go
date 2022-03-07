@@ -65,10 +65,6 @@ func (a *SchemaSiteAnpEpgStaticPort) InitResources() error {
 						staticPortPath := ""
 						fex := ""
 						staticPath := models.G(staticPortCont, "path")
-						// if staticPortType == "port" {
-						// 	re := regexp.MustCompile("/schemas/(.*)/templates/(.*)/epgs/(.*)")
-						// 	match := re.FindStringSubmatch(staticPath)
-						// }
 						reForPort := regexp.MustCompile(`topology\/(.*)\/paths-(.*)\/extpaths-(.*)\/pathep-\[(.*)\]`)
 						reForVpc := regexp.MustCompile(`topology\/(.*)\/protpaths-(.*)\/pathep-\[(.*)\]`)
 						reDefault := regexp.MustCompile(`topology\/(.*)\/paths-(.*)\/pathep-\[(.*)\]`)

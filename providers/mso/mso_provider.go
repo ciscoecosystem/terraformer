@@ -102,6 +102,12 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"schema_template":          []string{"template_name", "name"},
 			"schema_template_contract": []string{"name", "contract_name"},
 		},
+		"schema_site_anp_epg_static_port": {
+			// "schema_site_anp":     []string{"anp_name", "anp_name"},
+			// "schema_site_anp_epg": []string{"epg_name", "epg_name"},
+			"schema_site":         []string{"site_id", "site_id"},
+			"schema_template":     []string{"template_name", "name"},
+		},
 	}
 }
 
