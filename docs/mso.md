@@ -17,10 +17,10 @@ terraformer import mso --help
 
 * `schema`
 * `schema_site`
-* `label`:                                 
+* `label`                                
 * `schema_template_anp_epg`
-* `site`:                                  
-* `tenant`:                               
+* `site`                                  
+* `tenant`                               
 * `schema_template_bd`
 * `schema_template`
 * `schema_template_bd_subnet`
