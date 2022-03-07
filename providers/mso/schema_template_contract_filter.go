@@ -2,7 +2,6 @@ package mso
 
 import (
 	"regexp"
-	"strconv"
 
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
 	"github.com/ciscoecosystem/mso-go-client/client"
@@ -53,7 +52,7 @@ func (a *SchemaTemplateContractFilter) InitResources() error {
 						re := regexp.MustCompile("/schemas/(.*)/templates/(.*)/filters/(.*)")
 						fmatch = re.FindStringSubmatch(filRef)
 					}
-					resourceName := strconv.Itoa(i) + "_" + strconv.Itoa(j) + "_" + strconv.Itoa(k) + "_" + strconv.Itoa(m)
+					resourceName := schemaId + "_" + templateName + "_" + match[3] + "_" + fmatch[3]
 					resource := terraformutils.NewResource(
 						match[3],
 						resourceName,
