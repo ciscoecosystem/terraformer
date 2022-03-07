@@ -60,7 +60,7 @@ func (a *SchemaSiteAnpEpgStaticLeaf) InitResources() error {
 						staticLeafCont := epgCont.S("staticLeafs").Index(n)
 						path := models.G(staticLeafCont, "path")
 						port, _ := strconv.Atoi(staticLeafCont.S("portEncapVlan").String())
-						resourceName := strconv.Itoa(i) + "_" + strconv.Itoa(j) + "_" + strconv.Itoa(k) + "_" + strconv.Itoa(m) + "_" + strconv.Itoa(n)
+						resourceName := schemaId + "_" + siteId + "_" + match[3] + "_" + epgMatch[4] + "_" + path
 						resource := terraformutils.NewResource(
 							path,
 							resourceName,

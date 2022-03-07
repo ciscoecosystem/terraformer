@@ -35,6 +35,7 @@ terraformer import mso --help
 * `schema_template_filter_entry`
 * `schema_site_anp_epg_static_port`
 * `schema_template_contract_filter`
+* `schema_site_anp_epg_static_leaf`
 
 
 #### Attribute filters
