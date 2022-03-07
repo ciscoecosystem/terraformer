@@ -1,6 +1,7 @@
 package mso
 
 import (
+	"math/rand"
 	"regexp"
 	"strconv"
 	"strings"
@@ -78,12 +79,12 @@ func (a *SchemaSiteAnpEpgDomain) InitResources() error {
 							re := regexp.MustCompile("uni/fc-(.*)")
 							match := re.FindStringSubmatch(domainAssociationsID)
 							domainAssociationsName = match[1]
-						} 
+						}
 
 						deployImmediacy := stripQuotes(domainAssociationsCon.Index(m).S("deployImmediacy").String())
 						resolutionImmediacy := stripQuotes(domainAssociationsCon.Index(m).S("resolutionImmediacy").String())
 
-						name := strconv.Itoa(i) + "_" + strconv.Itoa(j) + "_" + strconv.Itoa(k) + "_" + strconv.Itoa(l)
+						name := schemaId + "_" + templateName + "_" + siteId + "_" + anpRefName + "_" + epgRefName + "_" + domainAssociationsType + "_" + domainAssociationsID + "_" + strconv.Itoa(rand.Intn(1000))
 						resource := terraformutils.NewResource(
 							domainAssociationsID,
 							name,

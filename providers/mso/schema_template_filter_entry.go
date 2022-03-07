@@ -1,8 +1,6 @@
 package mso
 
 import (
-	"strconv"
-
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
 	"github.com/ciscoecosystem/mso-go-client/client"
 	"github.com/ciscoecosystem/mso-go-client/models"
@@ -45,7 +43,7 @@ func (a *SchemaTemplateFilterEntryGenerator) InitResources() error {
 					entryCont := filterCont.S("entries").Index(l)
 					entryName := models.G(entryCont, "name")
 					entryDisplayName := models.G(entryCont, "displayName")
-					name := strconv.Itoa(i) + "_" + strconv.Itoa(j) + "_" + strconv.Itoa(k) + "_" + strconv.Itoa(l)
+					name := schemaId + "_" + templateName + "_" + filterName + "_" + entryName
 					resource := terraformutils.NewResource(
 						schemaId,
 						name,

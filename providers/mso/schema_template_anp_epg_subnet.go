@@ -1,8 +1,6 @@
 package mso
 
 import (
-	"strconv"
-
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
 	"github.com/ciscoecosystem/mso-go-client/client"
 	"github.com/ciscoecosystem/mso-go-client/models"
@@ -52,7 +50,7 @@ func (a *SchemaTemplateAnpEpgSubnet) InitResources() error {
 					for n := 0; n < subnetLen; n++ {
 						subnetCont := epgCont.S("subnets").Index(n)
 						ip := models.G(subnetCont, "ip")
-						resourceName := strconv.Itoa(i) + "_" + strconv.Itoa(j) + "_" + strconv.Itoa(k) + "_" + strconv.Itoa(m) + "_" + strconv.Itoa(n)
+						resourceName := schemaId + "_" + templateName + "_" + anpName + "_" + epgName + "_" + ip
 						resource := terraformutils.NewResource(
 							ip,
 							resourceName,

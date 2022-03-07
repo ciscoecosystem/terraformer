@@ -1,8 +1,6 @@
 package mso
 
 import (
-	"strconv"
-
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
 	"github.com/ciscoecosystem/mso-go-client/client"
 	"github.com/ciscoecosystem/mso-go-client/models"
@@ -38,7 +36,7 @@ func (a *SchemaTemplateBdGenerator) InitResources() error {
 				optimizeWanBandwidth := models.G(bds, "optimizeWanBandwidth")
 				l2Stretch := models.G(bds, "l2Stretch")
 				l3MCast := models.G(bds, "l3MCast")
-				resourceName := strconv.Itoa(i) + "_" + strconv.Itoa(j) + "_" + strconv.Itoa(k)
+				resourceName := schemaId + "_" + templateName + "_" + name
 				resource := terraformutils.NewResource(
 					name,
 					resourceName,

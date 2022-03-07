@@ -1,7 +1,6 @@
 package mso
 
 import (
-	"strconv"
 	"strings"
 
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
@@ -36,7 +35,7 @@ func (a *SchemaTemplateBDSubnet) InitResources() error {
 					subnetIpArray := strings.Split(subnetIp, "/")
 					subnetID := subnetIpArray[0]
 					subnetScope := stripQuotes(subnetCont.S("scope").String())
-					resourceName := strconv.Itoa(i) + "_" + strconv.Itoa(j) + "_" + strconv.Itoa(k) + "_" + strconv.Itoa(m)
+					resourceName := schemaId + "_" + templateName + "_" + bdName + "_" + subnetID
 					resource := terraformutils.NewResource(
 						subnetID,
 						resourceName,

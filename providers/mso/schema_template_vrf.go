@@ -1,8 +1,6 @@
 package mso
 
 import (
-	"strconv"
-
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
 	"github.com/ciscoecosystem/mso-go-client/client"
 	"github.com/ciscoecosystem/mso-go-client/models"
@@ -35,8 +33,8 @@ func (a *SchemaTemplateVRFGenerator) InitResources() error {
 			}
 			for k := 0; k < vrfLen; k++ {
 				vrfCont := templateCont.S("vrfs").Index(k)
-				name := strconv.Itoa(i) + "_" + strconv.Itoa(j) + "_" + strconv.Itoa(k)
 				vrfName := models.G(vrfCont, "name")
+				name := schemaId + "_" + templateName + "_" + vrfName
 				resource := terraformutils.NewResource(
 					vrfName,
 					name,

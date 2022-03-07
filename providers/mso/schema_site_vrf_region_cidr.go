@@ -2,7 +2,6 @@ package mso
 
 import (
 	"regexp"
-	"strconv"
 
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
 	"github.com/ciscoecosystem/mso-go-client/client"
@@ -53,7 +52,7 @@ func (a *SchemaSiteVrfRegionCidr) InitResources() error {
 						id := stripQuotes(cidrsCon.Index(m).S("ip").String())
 						primary := stripQuotes(cidrsCon.Index(m).S("primary").String())
 
-						name := strconv.Itoa(i) + "_" + strconv.Itoa(j) + "_" + strconv.Itoa(k) + "_" + strconv.Itoa(l) + "_" + strconv.Itoa(m)
+						name := schemaId + "_" + siteId + "_" + templateName + "_" + vrfRefName + "_" + regionName + "_" + id
 						resource := terraformutils.NewResource(
 							id,
 							name,

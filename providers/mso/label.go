@@ -1,8 +1,6 @@
 package mso
 
 import (
-	"strconv"
-
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
 	"github.com/ciscoecosystem/mso-go-client/client"
 )
@@ -19,9 +17,10 @@ func (a *LabelGenerator) InitResources() error {
 	}
 	for i := 0; i < len(con.S("labels").Data().([]interface{})); i++ {
 		labelId := stripQuotes(con.S("labels").Index(i).S("id").String())
+		labelName := labelId
 		resource := terraformutils.NewResource(
 			labelId,
-			strconv.Itoa(i),
+			labelName,
 			"mso_label",
 			"mso",
 			map[string]string{},
