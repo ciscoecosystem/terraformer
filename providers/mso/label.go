@@ -1,6 +1,7 @@
 package mso
 
 import (
+	"math/rand"
 	"strconv"
 
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
@@ -19,9 +20,10 @@ func (a *LabelGenerator) InitResources() error {
 	}
 	for i := 0; i < len(con.S("labels").Data().([]interface{})); i++ {
 		labelId := stripQuotes(con.S("labels").Index(i).S("id").String())
+		labelName := labelId + "_" + strconv.Itoa(rand.Intn(1000))
 		resource := terraformutils.NewResource(
 			labelId,
-			strconv.Itoa(i),
+			labelName,
 			"mso_label",
 			"mso",
 			map[string]string{},

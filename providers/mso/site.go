@@ -2,6 +2,7 @@ package mso
 
 import (
 	"fmt"
+	"math/rand"
 	"strconv"
 
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
@@ -36,9 +37,10 @@ func (a *SiteGenerator) InitResources() error {
 			if siteCont.Exists("labels") {
 				labels = siteCont.S("labels").Data().([]string)
 			}
+			siteName := siteId + "_" + apicSiteID + "_" + name + "_" + strconv.Itoa(rand.Intn(1000))
 			resource := terraformutils.NewResource(
 				siteId,
-				strconv.Itoa(i),
+				siteName,
 				"mso_site",
 				"mso",
 				map[string]string{
@@ -82,9 +84,10 @@ func (a *SiteGenerator) InitResources() error {
 					location = nil
 				}
 			}
+			siteName := siteId + "_" + apicSiteID + "_" + name + "_" + strconv.Itoa(rand.Intn(1000))
 			resource := terraformutils.NewResource(
 				siteId,
-				strconv.Itoa(i),
+				siteName,
 				"mso_site",
 				"mso",
 				map[string]string{
