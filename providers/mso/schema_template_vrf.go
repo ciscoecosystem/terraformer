@@ -1,6 +1,7 @@
 package mso
 
 import (
+	"math/rand"
 	"strconv"
 
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
@@ -35,8 +36,8 @@ func (a *SchemaTemplateVRFGenerator) InitResources() error {
 			}
 			for k := 0; k < vrfLen; k++ {
 				vrfCont := templateCont.S("vrfs").Index(k)
-				name := strconv.Itoa(i) + "_" + strconv.Itoa(j) + "_" + strconv.Itoa(k)
 				vrfName := models.G(vrfCont, "name")
+				name := schemaId + "_" + templateName + "_" + vrfName + "_" + strconv.Itoa(rand.Intn(1000))
 				resource := terraformutils.NewResource(
 					vrfName,
 					name,

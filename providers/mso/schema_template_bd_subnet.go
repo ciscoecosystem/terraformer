@@ -1,6 +1,7 @@
 package mso
 
 import (
+	"math/rand"
 	"strconv"
 	"strings"
 
@@ -36,7 +37,7 @@ func (a *SchemaTemplateBDSubnet) InitResources() error {
 					subnetIpArray := strings.Split(subnetIp, "/")
 					subnetID := subnetIpArray[0]
 					subnetScope := stripQuotes(subnetCont.S("scope").String())
-					resourceName := strconv.Itoa(i) + "_" + strconv.Itoa(j) + "_" + strconv.Itoa(k) + "_" + strconv.Itoa(m)
+					resourceName := schemaId + "_" + templateName + "_" + bdName + "_" + subnetID +  "_" + strconv.Itoa(rand.Intn(1000))
 					resource := terraformutils.NewResource(
 						subnetID,
 						resourceName,

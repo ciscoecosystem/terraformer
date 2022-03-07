@@ -1,6 +1,7 @@
 package mso
 
 import (
+	"math/rand"
 	"strconv"
 
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
@@ -38,7 +39,7 @@ func (a *SchemaTemplateBdGenerator) InitResources() error {
 				optimizeWanBandwidth := models.G(bds, "optimizeWanBandwidth")
 				l2Stretch := models.G(bds, "l2Stretch")
 				l3MCast := models.G(bds, "l3MCast")
-				resourceName := strconv.Itoa(i) + "_" + strconv.Itoa(j) + "_" + strconv.Itoa(k)
+				resourceName := schemaId + "_" + templateName + "_" + name + "_" + strconv.Itoa(rand.Intn(1000))
 				resource := terraformutils.NewResource(
 					name,
 					resourceName,

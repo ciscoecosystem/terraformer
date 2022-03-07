@@ -1,6 +1,7 @@
 package mso
 
 import (
+	"math/rand"
 	"strconv"
 
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
@@ -45,7 +46,7 @@ func (a *SchemaTemplateFilterEntryGenerator) InitResources() error {
 					entryCont := filterCont.S("entries").Index(l)
 					entryName := models.G(entryCont, "name")
 					entryDisplayName := models.G(entryCont, "displayName")
-					name := strconv.Itoa(i) + "_" + strconv.Itoa(j) + "_" + strconv.Itoa(k) + "_" + strconv.Itoa(l)
+					name := schemaId + "_" + templateName + "_" + filterName + "_" + entryName + "_" + strconv.Itoa(rand.Intn(1000))
 					resource := terraformutils.NewResource(
 						schemaId,
 						name,

@@ -1,6 +1,7 @@
 package mso
 
 import (
+	"math/rand"
 	"regexp"
 	"strconv"
 
@@ -38,7 +39,7 @@ func (a *SchemaTemplateAnpGenerator) InitResources() error {
 				anpRef := models.G(anps, "anpRef")
 				re := regexp.MustCompile("/schemas/(.*)/templates/(.*)/anps/(.*)")
 				match := re.FindStringSubmatch(anpRef)
-				resourceName := strconv.Itoa(i) + "_" + strconv.Itoa(j) + "_" + strconv.Itoa(k)
+				resourceName := match[1] + "_" + match[2] + "_" + name + "_" + strconv.Itoa(rand.Intn(1000))
 				resource := terraformutils.NewResource(
 					name,
 					resourceName,

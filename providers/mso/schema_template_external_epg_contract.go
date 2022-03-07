@@ -1,6 +1,7 @@
 package mso
 
 import (
+	"math/rand"
 	"strconv"
 	"strings"
 
@@ -35,7 +36,7 @@ func (a *SchemaTemplateExternalEpgContract) InitResources() error {
 					contractRelationshipsName := stripQuotes(con.S("schemas").Index(i).S("templates").Index(j).S("externalEpgs").Index(k).S("contractRelationships").Index(l).S("contractRef").String())
 					contractRelationshipsNameSplit := strings.Split(contractRelationshipsName, "/")
 					contractID := contractRelationshipsNameSplit[6]
-					name := strconv.Itoa(i) + "_" + strconv.Itoa(j) + "_" + strconv.Itoa(k) + "_" + strconv.Itoa(l)
+					name := schemaId + "_" + templateName + "_" + externalEpgname + "_" + contractID + "_" + strconv.Itoa(rand.Intn(1000))
 					resource := terraformutils.NewResource(
 						contractID,
 						name,

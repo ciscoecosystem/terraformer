@@ -2,6 +2,7 @@ package mso
 
 import (
 	"fmt"
+	"math/rand"
 	"strconv"
 	"strings"
 
@@ -35,7 +36,7 @@ func (a *SchemaTemplateAnpEpgGenerator) InitResources() error {
 				for l := 0; l < epgCount; l++ {
 					epgName := stripQuotes(con.S("schemas").Index(i).S("templates").Index(j).S("anps").Index(k).S("epgs").Index(l).S("name").String())
 					epgID := fmt.Sprintf("/schemas/%s/templates/%s/anps/%s/epgs/%s", schemaId, templateName, anpNname, epgName)
-					name := strconv.Itoa(i) + "_" + strconv.Itoa(j) + "_" + strconv.Itoa(k) + "_" + strconv.Itoa(l)
+					name := schemaId + "_" + templateName + "_" + anpNname + "_" + epgName + "_" + strconv.Itoa(rand.Intn(1000))
 					if stripQuotes(con.S("schemas").Index(i).S("templates").Index(j).S("anps").Index(k).S("epgs").Index(l).S("vrfRef").String()) != "" && stripQuotes(con.S("schemas").Index(i).S("templates").Index(j).S("anps").Index(k).S("epgs").Index(l).S("bdRef").String()) != "" {
 						vrfRef := stripQuotes(con.S("schemas").Index(i).S("templates").Index(j).S("anps").Index(k).S("epgs").Index(l).S("vrfRef").String())
 						bdRef := stripQuotes(con.S("schemas").Index(i).S("templates").Index(j).S("anps").Index(k).S("epgs").Index(l).S("bdRef").String())

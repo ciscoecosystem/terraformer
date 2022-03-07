@@ -1,6 +1,7 @@
 package mso
 
 import (
+	"math/rand"
 	"strconv"
 	"strings"
 
@@ -41,7 +42,7 @@ func (a *SchemaTemplateL3OutGenerator) InitResources() error {
 				vrfRef := models.G(l3outCont, "vrfRef")
 				vrfRefSplitted := strings.Split(vrfRef, "/")
 				vrfName := vrfRefSplitted[len(vrfRefSplitted)-1]
-				name := strconv.Itoa(i) + "_" + strconv.Itoa(j) + "_" + strconv.Itoa(k)
+				name := schemaId + "_" + templateName + "_" + l3outName + "_" + vrfName + "_" + strconv.Itoa(rand.Intn(1000))
 				resource := terraformutils.NewResource(
 					l3outName,
 					name,

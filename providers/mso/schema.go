@@ -1,6 +1,7 @@
 package mso
 
 import (
+	"math/rand"
 	"strconv"
 
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
@@ -21,9 +22,10 @@ func (a *SchemaGenerator) InitResources() error {
 		schemaId := stripQuotes(con.S("schemas").Index(i).S("id").String())
 		templateName := stripQuotes(con.S("schemas").Index(i).S("templates").Index(0).S("name").String())
 		tenantId := stripQuotes(con.S("schemas").Index(i).S("templates").Index(0).S("tenantId").String())
+		schemaName := schemaId + "_" + templateName + "_" + tenantId + "_" + strconv.Itoa(rand.Intn(1000))
 		resource := terraformutils.NewResource(
 			schemaId,
-			strconv.Itoa(i),
+			schemaName,
 			"mso_schema",
 			"mso",
 			map[string]string{

@@ -1,6 +1,7 @@
 package mso
 
 import (
+	"math/rand"
 	"regexp"
 	"strconv"
 
@@ -53,7 +54,7 @@ func (a *SchemaSiteVrfRegionCidr) InitResources() error {
 						id := stripQuotes(cidrsCon.Index(m).S("ip").String())
 						primary := stripQuotes(cidrsCon.Index(m).S("primary").String())
 
-						name := strconv.Itoa(i) + "_" + strconv.Itoa(j) + "_" + strconv.Itoa(k) + "_" + strconv.Itoa(l) + "_" + strconv.Itoa(m)
+						name := schemaId + "_" + siteId + "_" + templateName + "_" + vrfRefName + "_" + regionName + "_" + id + "_" + strconv.Itoa(rand.Intn(1000))
 						resource := terraformutils.NewResource(
 							id,
 							name,
