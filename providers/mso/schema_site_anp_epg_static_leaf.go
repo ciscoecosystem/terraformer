@@ -1,6 +1,7 @@
 package mso
 
 import (
+	"regexp"
 	"strconv"
 
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
@@ -22,21 +23,25 @@ func (a *SchemaSiteAnpEpgStaticLeaf) InitResources() error {
 	for i := 0; i < schemaLen; i++ {
 		schemaCont := con.S("schemas").Index(i)
 		schemaId := stripQuotes(schemaCont.S("id").String())
-		templateLen := len(schemaCont.S("templates").Data().([]interface{}))
+		siteLen := 0
+		if schemaCont.Exists("sites") {
+			siteLen = len(schemaCont.S("sites").Data().([]interface{}))
+		}
 
-		for j := 0; j < templateLen; j++ {
-			templateCont := schemaCont.S("templates").Index(j)
-			templateName := stripQuotes(templateCont.S("name").String())
+		for j := 0; j < siteLen; j++ {
+			siteCont := schemaCont.S("sites").Index(j)
+			siteId := models.G(siteCont, "siteId")
 
 			anpsLen := 0
-			if templateCont.Exists("anps") {
-				anpsLen = len(templateCont.S("anps").Data().([]interface{}))
+			if siteCont.Exists("anps") {
+				anpsLen = len(siteCont.S("anps").Data().([]interface{}))
 			}
 
 			for k := 0; k < anpsLen; k++ {
-				anpCont := templateCont.S("anps").Index(k)
-				anpName := models.G(anpCont, "name")
-
+				anpCont := siteCont.S("anps").Index(k)
+				anpRef := models.G(anpCont, "anpRef")
+				re := regexp.MustCompile("/schemas/(.*)/templates/(.*)/anps/(.*)")
+				match := re.FindStringSubmatch(anpRef)
 				epgsLen := 0
 				if anpCont.Exists("epgs") {
 					epgsLen = len(anpCont.S("epgs").Data().([]interface{}))
@@ -44,29 +49,34 @@ func (a *SchemaSiteAnpEpgStaticLeaf) InitResources() error {
 
 				for m := 0; m < epgsLen; m++ {
 					epgCont := anpCont.S("epgs").Index(m)
-					epgName := models.G(epgCont, "name")
-					subnetLen := 0
-					if epgCont.Exists("subnets") {
-						subnetLen = len(epgCont.S("subnets").Data().([]interface{}))
+					epgRef := models.G(epgCont, "epgRef")
+					re := regexp.MustCompile("/schemas/(.*)/templates/(.*)/anps/(.*)/epgs/(.*)")
+					epgMatch := re.FindStringSubmatch(epgRef)
+					staticLeafsLen := 0
+					if epgCont.Exists("staticLeafs") {
+						staticLeafsLen = len(epgCont.S("staticLeafs").Data().([]interface{}))
 					}
-					for n := 0; n < subnetLen; n++ {
-						subnetCont := epgCont.S("subnets").Index(n)
-						ip := models.G(subnetCont, "ip")
+					for n := 0; n < staticLeafsLen; n++ {
+						staticLeafCont := epgCont.S("staticLeafs").Index(n)
+						path := models.G(staticLeafCont, "path")
+						port, _ := strconv.Atoi(staticLeafCont.S("portEncapVlan").String())
 						resourceName := strconv.Itoa(i) + "_" + strconv.Itoa(j) + "_" + strconv.Itoa(k) + "_" + strconv.Itoa(m) + "_" + strconv.Itoa(n)
 						resource := terraformutils.NewResource(
-							ip,
+							path,
 							resourceName,
-							"mso_schema_template_anp_epg_subnet",
+							"mso_schema_site_anp_epg_static_leaf",
 							"mso",
 							map[string]string{
 								"schema_id": schemaId,
-								"template":  templateName,
-								"anp_name":  anpName,
-								"epg_name":  epgName,
-								"ip":        ip,
+								"site_id":   siteId,
+								"anp_name":  match[3],
+								"epg_name":  epgMatch[4],
+								"path":      path,
 							},
 							[]string{},
-							map[string]interface{}{},
+							map[string]interface{}{
+								"port_encap_vlan": port,
+							},
 						)
 						resource.SlowQueryRequired = true
 						a.Resources = append(a.Resources, resource)
