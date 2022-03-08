@@ -126,6 +126,14 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 		"schema_site_vrf_region": {
 			"schema":      []string{"schema_id", "id"},
 			"schema_site": []string{"site_id", "site_id"},
+			// "schema_site_vrf_region_hub_network": []string{
+			// 	"hub_network.name", "name",
+			// 	"hub_network.tenant_name", "tenant_name",
+			// },
+			"schema_site_vrf_region_cidr": []string{
+				"cidr.cidr_ip", "ip",
+				"cidr.primary", "primary",
+			},
 			// "schema_site_vrf":     []string{"vrf_name", "vrf_name"},
 		},
 	}
