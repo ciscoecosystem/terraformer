@@ -227,5 +227,6 @@ func (p *MSOProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"schema_site_anp_epg_static_leaf":       &SchemaSiteAnpEpgStaticLeaf{},
 		"schema_site_vrf_region":                &SchemaSiteVrfRegion{},
 		"schema_template_external_epg":          &SchemaTemplateExternalEPG{},
+		"schema_site_vrf_region_cidr_subnet":    &SchemaSiteVrfRegionCidrSubnet{},
 	}
 }
