@@ -95,7 +95,7 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"schema_template": []string{"template_name", "name"},
 			"site":            []string{"site_id", "id"},
 			// "schema_site_vrf": []string{"vrf_name", "vrf_name"},
-			// "schema_site_vrf_region": []string{"region_name", "region_name"},
+			"schema_site_vrf_region": []string{"region_name", "region_name"},
 		},
 		"schema_template_filter_entry": {
 			"schema":                   []string{"schema_id", "id"},
@@ -122,6 +122,19 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"schema_site": []string{"site_id", "site_id"},
 			// "schema_site_anp":     []string{"anp_name", "anp_name"},
 			// "schema_site_anp_epg": []string{"epg_name", "epg_name"},
+		},
+		"schema_site_vrf_region": {
+			"schema":      []string{"schema_id", "id"},
+			"schema_site": []string{"site_id", "site_id"},
+			// "schema_site_vrf_region_hub_network": []string{
+			// 	"hub_network.name", "name",
+			// 	"hub_network.tenant_name", "tenant_name",
+			// },
+			"schema_site_vrf_region_cidr": []string{
+				"cidr.cidr_ip", "ip",
+				"cidr.primary", "primary",
+			},
+			// "schema_site_vrf":     []string{"vrf_name", "vrf_name"},
 		},
 	}
 }
@@ -202,5 +215,6 @@ func (p *MSOProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"schema_site_anp_epg_static_port":       &SchemaSiteAnpEpgStaticPort{},
 		"schema_template_contract_filter":       &SchemaTemplateContractFilter{},
 		"schema_site_anp_epg_static_leaf":       &SchemaSiteAnpEpgStaticLeaf{},
+		"schema_site_vrf_region":                &SchemaSiteVrfRegion{},
 	}
 }

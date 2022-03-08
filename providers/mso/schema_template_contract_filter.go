@@ -4,7 +4,6 @@ import (
 	"regexp"
 
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
-	"github.com/ciscoecosystem/mso-go-client/client"
 	"github.com/ciscoecosystem/mso-go-client/models"
 )
 
@@ -13,7 +12,10 @@ type SchemaTemplateContractFilter struct {
 }
 
 func (a *SchemaTemplateContractFilter) InitResources() error {
-	mso := a.getClient().(*client.Client)
+	mso, err := a.getClient()
+	if err != nil {
+		return err
+	}
 	con, err := getSchemaContainer(mso)
 	if err != nil {
 		return err

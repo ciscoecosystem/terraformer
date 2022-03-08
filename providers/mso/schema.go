@@ -13,7 +13,10 @@ type SchemaGenerator struct {
 var globalSchemaCont *container.Container
 
 func (a *SchemaGenerator) InitResources() error {
-	mso := a.getClient().(*client.Client)
+	mso, err := a.getClient()
+	if err != nil {
+		return err
+	}
 	con, err := getSchemaContainer(mso)
 	if err != nil {
 		return err

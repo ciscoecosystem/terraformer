@@ -2,7 +2,6 @@ package mso
 
 import (
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
-	"github.com/ciscoecosystem/mso-go-client/client"
 )
 
 type LabelGenerator struct {
@@ -10,7 +9,10 @@ type LabelGenerator struct {
 }
 
 func (a *LabelGenerator) InitResources() error {
-	mso := a.getClient().(*client.Client)
+	mso, err := a.getClient()
+	if err != nil {
+		return err
+	}
 	con, err := mso.GetViaURL("api/v1/labels/")
 	if err != nil {
 		return err

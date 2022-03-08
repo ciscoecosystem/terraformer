@@ -4,7 +4,6 @@ import (
 	"strings"
 
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
-	"github.com/ciscoecosystem/mso-go-client/client"
 )
 
 type SchemaTemplateExternalEpgContract struct {
@@ -12,7 +11,10 @@ type SchemaTemplateExternalEpgContract struct {
 }
 
 func (a *SchemaTemplateExternalEpgContract) InitResources() error {
-	mso := a.getClient().(*client.Client)
+	mso, err := a.getClient()
+	if err != nil {
+		return err
+	}
 	con, err := getSchemaContainer(mso)
 	if err != nil {
 		return err

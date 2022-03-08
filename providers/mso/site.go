@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
-	"github.com/ciscoecosystem/mso-go-client/client"
 )
 
 type SiteGenerator struct {
@@ -12,7 +11,10 @@ type SiteGenerator struct {
 }
 
 func (a *SiteGenerator) InitResources() error {
-	mso := a.getClient().(*client.Client)
+	mso, err := a.getClient()
+	if err != nil {
+		return err
+	}
 	platform := mso.GetPlatform()
 	var version string
 	if platform == "nd" {

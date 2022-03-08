@@ -7,7 +7,6 @@ import (
 	"math/rand"
 
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
-	"github.com/ciscoecosystem/mso-go-client/client"
 	"github.com/ciscoecosystem/mso-go-client/models"
 )
 
@@ -16,7 +15,10 @@ type SchemaSiteAnpEpgStaticPort struct {
 }
 
 func (a *SchemaSiteAnpEpgStaticPort) InitResources() error {
-	mso := a.getClient().(*client.Client)
+	mso, err := a.getClient()
+	if err != nil {
+		return err
+	}
 	con, err := getSchemaContainer(mso)
 	if err != nil {
 		return err
