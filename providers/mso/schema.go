@@ -3,15 +3,18 @@ package mso
 import (
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
 	"github.com/ciscoecosystem/mso-go-client/client"
+	"github.com/ciscoecosystem/mso-go-client/container"
 )
 
 type SchemaGenerator struct {
 	MSOService
 }
 
+var globalSchemaCont *container.Container
+
 func (a *SchemaGenerator) InitResources() error {
 	mso := a.getClient().(*client.Client)
-	con, err := mso.GetViaURL("api/v1/schemas/")
+	con, err := getSchemaContainer(mso)
 	if err != nil {
 		return err
 	}
@@ -36,4 +39,16 @@ func (a *SchemaGenerator) InitResources() error {
 		a.Resources = append(a.Resources, resource)
 	}
 	return nil
+}
+
+func getSchemaContainer(mso *client.Client) (*container.Container, error) {
+	if globalSchemaCont != nil {
+		return globalSchemaCont, nil
+	}
+	con, err := mso.GetViaURL("api/v1/schemas/")
+	if err != nil {
+		return nil, err
+	}
+	globalSchemaCont = con
+	return globalSchemaCont, nil
 }

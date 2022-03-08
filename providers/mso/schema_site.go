@@ -12,7 +12,7 @@ type SchemaSiteGenerator struct {
 
 func (a *SchemaSiteGenerator) InitResources() error {
 	mso := a.getClient().(*client.Client)
-	con, err := mso.GetViaURL("api/v1/schemas/")
+	con, err := getSchemaContainer(mso)
 	if err != nil {
 		return err
 	}
