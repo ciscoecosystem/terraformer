@@ -2,7 +2,7 @@ package mso
 
 import (
 	"fmt"
-	"strings"
+	"regexp"
 
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
 )
@@ -34,14 +34,12 @@ func (a *SchemaTemplateExternalEPG) InitResources() error {
 				externalEPGId := fmt.Sprintf("/schemas/%s/templates/%s/externalEpgs/%s", schemaId, templateName, externalEPGName)
 				externalEPGDisplayName := stripQuotes(externalEPGCont.S("displayName").String())
 				vrfRef := stripQuotes(externalEPGCont.S("vrfRef").String())
-				vrfArray := strings.Split(vrfRef, "/")
-				vrfName := vrfArray[6]
-				vrfSchemaID := vrfArray[2]
-				vrfTemplateName := vrfArray[4]
+				re := regexp.MustCompile("/schemas/(.*)/templates/(.*)/vrfs/(.*)")
+				match := re.FindStringSubmatch(vrfRef)
+				vrfRefName := match[3]
+				vrfSchemaID := match[1]
+				vrfTemplateName := match[2]
 				externalEPGType := stripQuotes(externalEPGCont.S("extEpgType").String())
-				// anpRef := stripQuotes(externalEPGCont.S("anpRef").String())
-				// anpArray := stripQuotes("")
-
 				resourceName := schemaId + "_" + templateName + "_" + externalEPGName
 				resource := terraformutils.NewResource(
 					externalEPGId,
@@ -53,7 +51,7 @@ func (a *SchemaTemplateExternalEPG) InitResources() error {
 						"template_name":     templateName,
 						"external_epg_name": externalEPGName,
 						"display_name":      externalEPGDisplayName,
-						"vrf_name":          vrfName,
+						"vrf_name":          vrfRefName,
 						"vrf_schema_id":     vrfSchemaID,
 						"vrf_template_name": vrfTemplateName,
 						"external_epg_type": externalEPGType,

@@ -68,9 +68,9 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"schema_template": []string{"template", "name"},
 		},
 		"schema_template_external_epg_contract": {
-			"schema":          []string{"schema_id", "id"},
-			"schema_template": []string{"template_name", "name"},
-			// "schema_template_external_epg": []string{"external_epg_name", "external_epg_name"},
+			"schema":                       []string{"schema_id", "id"},
+			"schema_template":              []string{"template_name", "name"},
+			"schema_template_external_epg": []string{"external_epg_name", "external_epg_name"},
 		},
 		"schema_template_anp_epg_contract": {
 			"schema":                  []string{"schema_id", "id", "contract_schema_id", "id"},
