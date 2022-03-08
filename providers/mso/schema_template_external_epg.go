@@ -1,7 +1,7 @@
 package mso
 
 import (
-	"strconv"
+	"fmt"
 	"strings"
 
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
@@ -26,35 +26,42 @@ func (a *SchemaTemplateExternalEPG) InitResources() error {
 			templateCont := schemaCont.S("templates").Index(j)
 			templateName := stripQuotes(templateCont.S("name").String())
 
-			for k := 0; k < len(templateCont.S("bds").Data().([]interface{})); k++ {
-				bdCont := templateCont.S("bds").Index(k)
-				bdName := stripQuotes(bdCont.S("name").String())
+			for k := 0; k < len(templateCont.S("externalEpgs").Data().([]interface{})); k++ {
+				externalEPGCont := templateCont.S("externalEpgs").Index(k)
+				externalEPGName := stripQuotes(externalEPGCont.S("name").String())
+				externalEPGId := fmt.Sprintf("/schemas/%s/templates/%s/externalEpgs/%s", schemaId, templateName, externalEPGName)
+				externalEPGDisplayName := stripQuotes(externalEPGCont.S("displayName").String())
+				vrfRef := stripQuotes(externalEPGCont.S("vrfRef").String())
+				vrfArray := strings.Split(vrfRef, "/")
+				vrfName := vrfArray[6]
+				vrfSchemaID := vrfArray[2]
+				vrfTemplateName := vrfArray[4]
+				externalEPGType := stripQuotes(externalEPGCont.S("extEpgType").String())
+				// anpRef := stripQuotes(externalEPGCont.S("anpRef").String())
+				// anpArray := stripQuotes("")
 
-				for m := 0; m < len(bdCont.S("subnets").Data().([]interface{})); m++ {
-					subnetCont := bdCont.S("subnets").Index(m)
-					subnetIp := stripQuotes(subnetCont.S("ip").String())
-					subnetIpArray := strings.Split(subnetIp, "/")
-					subnetID := subnetIpArray[0]
-					subnetScope := stripQuotes(subnetCont.S("scope").String())
-					resourceName := strconv.Itoa(i) + "_" + strconv.Itoa(j) + "_" + strconv.Itoa(k) + "_" + strconv.Itoa(m)
-					resource := terraformutils.NewResource(
-						subnetID,
-						resourceName,
-						"mso_schema_template_bd_subnet",
-						"mso",
-						map[string]string{
-							"schema_id":     schemaId,
-							"template_name": templateName,
-							"bd_name":       bdName,
-							"ip":            subnetIp,
-							"scope":         subnetScope,
-						},
-						[]string{},
-						map[string]interface{}{},
-					)
-					resource.SlowQueryRequired = true
-					a.Resources = append(a.Resources, resource)
-				}
+				resourceName := schemaId + "_" + templateName + "_" + externalEPGName
+				resource := terraformutils.NewResource(
+					externalEPGId,
+					resourceName,
+					"mso_schema_template_external_epg",
+					"mso",
+					map[string]string{
+						"schema_id":         schemaId,
+						"template_name":     templateName,
+						"external_epg_name": externalEPGName,
+						"display_name":      externalEPGDisplayName,
+						"vrf_name":          vrfName,
+						"vrf_schema_id":     vrfSchemaID,
+						"vrf_template_name": vrfTemplateName,
+						"external_epg_type": externalEPGType,
+					},
+					[]string{},
+					map[string]interface{}{},
+				)
+				resource.SlowQueryRequired = true
+				a.Resources = append(a.Resources, resource)
+
 			}
 		}
 	}

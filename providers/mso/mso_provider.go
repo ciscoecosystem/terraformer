@@ -136,6 +136,14 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			},
 			// "schema_site_vrf":     []string{"vrf_name", "vrf_name"},
 		},
+		"schema_template_external_epg": {
+			"schema":                []string{"schema_id", "id", "vrf_schema_id", "id", "anp_schema_id", "id", "l3out_schema_id", "id"},
+			"schema_template":       []string{"template_name", "name", "vrf_template_name", "name", "anp_template_name", "name", "l3out_template_name", "name"},
+			"schema_template_vrf":   []string{"vrf_name", "name"},
+			"schema_template_anp":   []string{"anp_name", "name"},
+			"schema_template_l3out": []string{"l3out_name", "l3out_name"},
+			// "schema_template_external_epg_selector": []string{"selector_name", "name"},
+		},
 	}
 }
 
