@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
-	"github.com/ciscoecosystem/mso-go-client/client"
 )
 
 type SchemaTemplateAnpEpgGenerator struct {
@@ -13,7 +12,10 @@ type SchemaTemplateAnpEpgGenerator struct {
 }
 
 func (a *SchemaTemplateAnpEpgGenerator) InitResources() error {
-	mso := a.getClient().(*client.Client)
+	mso, err := a.getClient()
+	if err != nil {
+		return err
+	}
 	con, err := mso.GetViaURL("api/v1/schemas/")
 	if err != nil {
 		return err

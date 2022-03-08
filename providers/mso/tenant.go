@@ -2,7 +2,6 @@ package mso
 
 import (
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
-	"github.com/ciscoecosystem/mso-go-client/client"
 )
 
 type TenantGenerator struct {
@@ -10,7 +9,10 @@ type TenantGenerator struct {
 }
 
 func (a *TenantGenerator) InitResources() error {
-	mso := a.getClient().(*client.Client)
+	mso, err := a.getClient()
+	if err != nil {
+		return err
+	}
 	con, err := mso.GetViaURL("api/v1/tenants")
 	if err != nil {
 		return err

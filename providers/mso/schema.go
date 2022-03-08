@@ -2,7 +2,6 @@ package mso
 
 import (
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
-	"github.com/ciscoecosystem/mso-go-client/client"
 )
 
 type SchemaGenerator struct {
@@ -10,7 +9,10 @@ type SchemaGenerator struct {
 }
 
 func (a *SchemaGenerator) InitResources() error {
-	mso := a.getClient().(*client.Client)
+	mso, err := a.getClient()
+	if err != nil {
+		return err
+	}
 	con, err := mso.GetViaURL("api/v1/schemas/")
 	if err != nil {
 		return err

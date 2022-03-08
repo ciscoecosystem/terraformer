@@ -4,7 +4,6 @@ import (
 	"strings"
 
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
-	"github.com/ciscoecosystem/mso-go-client/client"
 )
 
 type SchemaTemplateBDSubnet struct {
@@ -12,7 +11,10 @@ type SchemaTemplateBDSubnet struct {
 }
 
 func (a *SchemaTemplateBDSubnet) InitResources() error {
-	mso := a.getClient().(*client.Client)
+	mso, err := a.getClient()
+	if err != nil {
+		return err
+	}
 	con, err := mso.GetViaURL("api/v1/schemas")
 	if err != nil {
 		return err
