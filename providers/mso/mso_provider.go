@@ -136,6 +136,22 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 				"cidr.cidr_ip", "ip",
 				"cidr.primary", "primary",
 			},
+			"schema_site_vrf_region_cidr_subnet": []string{
+				"cidr.subnet.ip", "ip",
+				"cidr.subnet.zone", "zone",
+				"cidr.subnet.usage", "usage",
+			},
+			// "schema_site_vrf":     []string{"vrf_name", "vrf_name"},
+		},
+		"schema_site_vrf_region_cidr_subnet": {
+			"schema":      []string{"schema_id", "id"},
+			"schema_site": []string{"site_id", "site_id"},
+			"schema_site_vrf_region_cidr": []string{
+				"cidr_ip", "ip",
+			},
+			"schema_site_vrf_region": []string{
+				"region_name", "region_name",
+			},
 			// "schema_site_vrf":     []string{"vrf_name", "vrf_name"},
 		},
 		"schema_template_external_epg": {
@@ -227,5 +243,6 @@ func (p *MSOProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"schema_site_anp_epg_static_leaf":       &SchemaSiteAnpEpgStaticLeaf{},
 		"schema_site_vrf_region":                &SchemaSiteVrfRegion{},
 		"schema_template_external_epg":          &SchemaTemplateExternalEPG{},
+		"schema_site_vrf_region_cidr_subnet":    &SchemaSiteVrfRegionCidrSubnet{},
 	}
 }

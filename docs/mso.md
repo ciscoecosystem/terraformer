@@ -38,6 +38,7 @@ terraformer import mso --help
 * `schema_site_anp_epg_static_leaf`
 * `schema_site_vrf_region`
 * `schema_template_external_epg`
+* `schema_site_vrf_region_cidr_subnet`
 
 
 #### Attribute filters
