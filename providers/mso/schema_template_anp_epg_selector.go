@@ -52,22 +52,6 @@ func (a *SchemaTemplateAnpEpgSelector) InitResources() error {
 					for n := 0; n < selectorLen; n++ {
 						selectorCont := epgCont.S("selectors").Index(n)
 						selectorName := models.G(selectorCont, "name")
-						exps := selectorCont.S("expressions").Data().([]interface{})
-
-						expressionsList := make([]interface{}, 0, 1)
-						for _, val := range exps {
-							tp := val.(map[string]interface{})
-							expressionsMap := make(map[string]interface{})
-
-							expressionsMap["key"] = tp["key"]
-
-							expressionsMap["operator"] = tp["operator"]
-
-							if tp["value"] != nil {
-								expressionsMap["value"] = tp["value"]
-							}
-							expressionsList = append(expressionsList, expressionsMap)
-						}
 						resourceName := schemaId + "_" + templateName + "_" + anpName + "_" + epgName + "_" + selectorName
 						resource := terraformutils.NewResource(
 							selectorName,
@@ -79,12 +63,9 @@ func (a *SchemaTemplateAnpEpgSelector) InitResources() error {
 								"template_name": templateName,
 								"anp_name":      anpName,
 								"epg_name":      epgName,
-								"name":          selectorName,
 							},
 							[]string{},
-							map[string]interface{}{
-								"expressions": expressionsList,
-							},
+							map[string]interface{}{},
 						)
 						resource.SlowQueryRequired = SlowQueryRequired
 						a.Resources = append(a.Resources, resource)

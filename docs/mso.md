@@ -42,6 +42,8 @@ terraformer import mso --help
 * `schema_site_bd_subnet`
 * `schema_template_external_epg_subnet`
 * `schema_site_vrf`
+* `schema_template_anp_epg_selector`
+
 
 #### Attribute filters
 
