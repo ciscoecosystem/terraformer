@@ -49,6 +49,7 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 				"vrf_schema_id", "schema_id",
 				"vrf_template_name", "template",
 			},
+			"schema_template": []string{"template_name", "name"},
 			// "dhcp_relay_policy":  []string{"name", "name"},
 			// "dhcp_option_policy": []string{"dhcp_option_policy_name", "name"},
 		},
@@ -58,10 +59,12 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"schema_template_bd": []string{"bd_name", "name"},
 		},
 		"schema_template_anp": {
-			"schema": []string{"schema_id", "id"},
+			"schema":          []string{"schema_id", "id"},
+			"schema_template": []string{"template", "name"},
 		},
 		"schema_template_anp_epg_subnet": {
 			"schema":                  []string{"schema_id", "id"},
+			"schema_template":         []string{"template", "name"},
 			"schema_template_anp":     []string{"anp_name", "name"},
 			"schema_template_anp_epg": []string{"epg_name", "name"},
 		},
@@ -111,7 +114,8 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"schema_template": []string{"template_name", "name"},
 		},
 		"schema_template_contract_filter": {
-			"schema": []string{"schema_id", "id"},
+			"schema":          []string{"schema_id", "id"},
+			"schema_template": []string{"template_name", "name"},
 			"schema_template_filter_entry": []string{
 				"filter_schema_id", "schema_id",
 				"filter_template_name", "template_name",
@@ -120,14 +124,16 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			// "schema_template_contract": []string{"contract_name", "contract_name"},
 		},
 		"schema_site_anp_epg_static_leaf": {
-			"schema":      []string{"schema_id", "id"},
-			"schema_site": []string{"site_id", "site_id"},
+			"schema":          []string{"schema_id", "id"},
+			"schema_template": []string{"template_name", "name"},
+			"schema_site":     []string{"site_id", "site_id"},
 			// "schema_site_anp":     []string{"anp_name", "anp_name"},
 			// "schema_site_anp_epg": []string{"epg_name", "epg_name"},
 		},
 		"schema_site_vrf_region": {
-			"schema":      []string{"schema_id", "id"},
-			"schema_site": []string{"site_id", "site_id"},
+			"schema":          []string{"schema_id", "id"},
+			"schema_template": []string{"template_name", "name"},
+			"schema_site":     []string{"site_id", "site_id"},
 			// "schema_site_vrf_region_hub_network": []string{
 			// 	"hub_network.name", "name",
 			// 	"hub_network.tenant_name", "tenant_name",
@@ -144,8 +150,9 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			// "schema_site_vrf":     []string{"vrf_name", "vrf_name"},
 		},
 		"schema_site_vrf_region_cidr_subnet": {
-			"schema":      []string{"schema_id", "id"},
-			"schema_site": []string{"site_id", "site_id"},
+			"schema":          []string{"schema_id", "id"},
+			"schema_template": []string{"template_name", "name"},
+			"schema_site":     []string{"site_id", "site_id"},
 			"schema_site_vrf_region_cidr": []string{
 				"cidr_ip", "ip",
 			},
