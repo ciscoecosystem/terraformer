@@ -52,7 +52,7 @@ func (a *SiteGenerator) InitResources() error {
 					"labels": labels,
 				},
 			)
-			resource.SlowQueryRequired = true
+			resource.SlowQueryRequired = SlowQueryRequired
 			a.Resources = append(a.Resources, resource)
 		}
 		return nil
@@ -104,7 +104,7 @@ func (a *SiteGenerator) InitResources() error {
 					"labels":           labels,
 				},
 			)
-			resource.SlowQueryRequired = true
+			resource.SlowQueryRequired = SlowQueryRequired
 			a.Resources = append(a.Resources, resource)
 		}
 		return nil

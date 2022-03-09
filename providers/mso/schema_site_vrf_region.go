@@ -108,7 +108,7 @@ func (a *SchemaSiteVrfRegion) InitResources() error {
 							"cidr":               cidrList,
 						},
 					)
-					resource.SlowQueryRequired = true
+					resource.SlowQueryRequired = SlowQueryRequired
 					a.Resources = append(a.Resources, resource)
 				}
 			}
