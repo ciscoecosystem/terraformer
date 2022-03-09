@@ -7,6 +7,8 @@ import (
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
 )
 
+const SlowQueryRequired = false
+
 type MSOProvider struct {
 	terraformutils.Provider
 	baseURL  string

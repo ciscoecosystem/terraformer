@@ -68,7 +68,7 @@ func (a *SchemaTemplateAnpEpgSubnet) InitResources() error {
 							[]string{},
 							map[string]interface{}{},
 						)
-						resource.SlowQueryRequired = true
+						resource.SlowQueryRequired = SlowQueryRequired
 						a.Resources = append(a.Resources, resource)
 					}
 				}

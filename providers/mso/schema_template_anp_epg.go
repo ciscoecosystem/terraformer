@@ -63,7 +63,7 @@ func (a *SchemaTemplateAnpEpgGenerator) InitResources() error {
 							[]string{},
 							map[string]interface{}{},
 						)
-						resource.SlowQueryRequired = true
+						resource.SlowQueryRequired = SlowQueryRequired
 						a.Resources = append(a.Resources, resource)
 
 					} else if stripQuotes(con.S("schemas").Index(i).S("templates").Index(j).S("anps").Index(k).S("epgs").Index(l).S("vrfRef").String()) != "" {
@@ -86,7 +86,7 @@ func (a *SchemaTemplateAnpEpgGenerator) InitResources() error {
 							[]string{},
 							map[string]interface{}{},
 						)
-						resource.SlowQueryRequired = true
+						resource.SlowQueryRequired = SlowQueryRequired
 						a.Resources = append(a.Resources, resource)
 
 					} else if stripQuotes(con.S("schemas").Index(i).S("templates").Index(j).S("anps").Index(k).S("epgs").Index(l).S("bdRef").String()) != "" {
@@ -109,7 +109,7 @@ func (a *SchemaTemplateAnpEpgGenerator) InitResources() error {
 							[]string{},
 							map[string]interface{}{},
 						)
-						resource.SlowQueryRequired = true
+						resource.SlowQueryRequired = SlowQueryRequired
 						a.Resources = append(a.Resources, resource)
 					} else {
 						resource := terraformutils.NewResource(
@@ -126,7 +126,7 @@ func (a *SchemaTemplateAnpEpgGenerator) InitResources() error {
 							[]string{},
 							map[string]interface{}{},
 						)
-						resource.SlowQueryRequired = true
+						resource.SlowQueryRequired = SlowQueryRequired
 						a.Resources = append(a.Resources, resource)
 					}
 				}
