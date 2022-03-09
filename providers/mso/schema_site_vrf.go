@@ -15,7 +15,7 @@ func (a *SchemaSiteVRF) InitResources() error {
 	if err != nil {
 		return err
 	}
-	con, err := mso.GetViaURL("api/v1/schemas")
+	con, err := getSchemaContainer(mso)
 	if err != nil {
 		return err
 	}
