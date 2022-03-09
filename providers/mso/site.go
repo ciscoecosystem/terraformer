@@ -29,13 +29,13 @@ func (a *SiteGenerator) InitResources() error {
 	}
 	if version == "v2" {
 		for i := 0; i < len(con.S("sites").Data().([]interface{})); i++ {
-			labels := []string{}
+			labels := []interface{}{}
 			siteCont := con.S("sites").Index(i).S("common")
 			name := stripQuotes(siteCont.S("name").String())
 			apicSiteID := stripQuotes(siteCont.S("siteId").String())
 			siteId := stripQuotes(con.S("sites").Index(i).S("id").String())
 			if siteCont.Exists("labels") {
-				labels = siteCont.S("labels").Data().([]string)
+				labels = siteCont.S("labels").Data().([]interface{})
 			}
 			siteName := siteId + "_" + apicSiteID + "_" + name
 			resource := terraformutils.NewResource(
@@ -56,10 +56,10 @@ func (a *SiteGenerator) InitResources() error {
 			a.Resources = append(a.Resources, resource)
 		}
 		return nil
-	} else {
+	} else if version == "v1" {
 		for i := 0; i < len(con.S("sites").Data().([]interface{})); i++ {
 			urls := []interface{}{}
-			labels := []string{}
+			labels := []interface{}{}
 			location := map[string]interface{}{}
 			siteCont := con.S("sites").Index(i)
 			name := stripQuotes(siteCont.S("name").String())
@@ -71,8 +71,8 @@ func (a *SiteGenerator) InitResources() error {
 			if siteCont.Exists("urls") {
 				urls = siteCont.S("urls").Data().([]interface{})
 			}
-			if siteCont.Exists("labels") {
-				labels = siteCont.S("labels").Data().([]string)
+			if siteCont.Exists("labels") && siteCont.S("labels").Data() != nil {
+				labels = siteCont.S("labels").Data().([]interface{})
 			}
 			if siteCont.Exists("location") {
 				loc1 := con.S("location").Data()
@@ -109,4 +109,5 @@ func (a *SiteGenerator) InitResources() error {
 		}
 		return nil
 	}
+	return nil
 }

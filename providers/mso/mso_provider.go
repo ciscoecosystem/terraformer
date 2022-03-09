@@ -96,10 +96,10 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"schema_template_vrf": []string{"vrf_name", "name"},
 		},
 		"schema_site_vrf_region_cidr": {
-			"schema":          []string{"schema_id", "id"},
-			"schema_template": []string{"template_name", "name"},
-			"site":            []string{"site_id", "id"},
-			// "schema_site_vrf": []string{"vrf_name", "vrf_name"},
+			"schema":                 []string{"schema_id", "id"},
+			"schema_template":        []string{"template_name", "name"},
+			"site":                   []string{"site_id", "id"},
+			"schema_site_vrf":        []string{"vrf_name", "vrf_name"},
 			"schema_site_vrf_region": []string{"region_name", "region_name"},
 		},
 		"schema_template_filter_entry": {
@@ -147,7 +147,7 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 				"cidr.subnet.zone", "zone",
 				"cidr.subnet.usage", "usage",
 			},
-			// "schema_site_vrf":     []string{"vrf_name", "vrf_name"},
+			"schema_site_vrf": []string{"vrf_name", "vrf_name"},
 		},
 		"schema_site_vrf_region_cidr_subnet": {
 			"schema":          []string{"schema_id", "id"},
@@ -159,7 +159,7 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"schema_site_vrf_region": []string{
 				"region_name", "region_name",
 			},
-			// "schema_site_vrf":     []string{"vrf_name", "vrf_name"},
+			"schema_site_vrf": []string{"vrf_name", "vrf_name"},
 		},
 		"schema_template_external_epg": {
 			"schema":                []string{"schema_id", "id", "vrf_schema_id", "id", "anp_schema_id", "id", "l3out_schema_id", "id"},
@@ -174,6 +174,16 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"schema_site":     []string{"site_id", "site_id"},
 			"schema_template": []string{"template_name", "name"},
 			// "schema_site_bd":  []string{"bd_name", "bd_name"},
+		},
+		"schema_template_external_epg_subnet": {
+			"schema":                       []string{"schema_id", "id"},
+			"schema_template":              []string{"template_name", "name"},
+			"schema_template_external_epg": []string{"external_epg_name", "external_epg_name"},
+		},
+		"schema_site_vrf": {
+			"schema":          []string{"schema_id", "id"},
+			"schema_template": []string{"template_name", "name"},
+			"schema_site":     []string{"site_id", "site_id"},
 		},
 	}
 }
@@ -258,5 +268,7 @@ func (p *MSOProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"schema_template_external_epg":          &SchemaTemplateExternalEPG{},
 		"schema_site_vrf_region_cidr_subnet":    &SchemaSiteVrfRegionCidrSubnet{},
 		"schema_site_bd_subnet":                 &SchemaSiteBDSubnetGenerator{},
+		"schema_template_external_epg_subnet":   &SchemaTemplateExternalEPGSubnet{},
+		"schema_site_vrf":                       &SchemaSiteVRF{},
 	}
 }
