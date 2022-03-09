@@ -175,6 +175,16 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"schema_template": []string{"template_name", "name"},
 			// "schema_site_bd":  []string{"bd_name", "bd_name"},
 		},
+		"schema_template_external_epg_subnet": {
+			"schema":                       []string{"schema_id", "id"},
+			"schema_template":              []string{"template_name", "name"},
+			"schema_template_external_epg": []string{"external_epg_name", "external_epg_name"},
+		},
+		"schema_site_vrf": {
+			"schema":          []string{"schema_id", "id"},
+			"schema_template": []string{"template_name", "name"},
+			"schema_site":     []string{"site_id", "site_id"},
+		},
 	}
 }
 
@@ -258,5 +268,7 @@ func (p *MSOProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"schema_template_external_epg":          &SchemaTemplateExternalEPG{},
 		"schema_site_vrf_region_cidr_subnet":    &SchemaSiteVrfRegionCidrSubnet{},
 		"schema_site_bd_subnet":                 &SchemaSiteBDSubnetGenerator{},
+		"schema_template_external_epg_subnet":   &SchemaTemplateExternalEPGSubnet{},
+		"schema_site_vrf":                       &SchemaSiteVRF{},
 	}
 }
