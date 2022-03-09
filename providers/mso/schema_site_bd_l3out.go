@@ -18,14 +18,14 @@ func (a *SchemaSitel3OutsGenerator) InitResources() error {
 	if err != nil {
 		return err
 	}
-	con, err := mso.GetViaURL("api/v1/schemas/")
+	con, err := getSchemaContainer(mso)
 	if err != nil {
 		return err
 	}
 	schemaLength := len(con.S("schemas").Data().([]interface{}))
-	schemaCon := con.S("schemas")
 	for i := 0; i < schemaLength; i++ {
 
+		schemaCon := con.S("schemas").Index(i)
 		schemaId := models.G(schemaCon, "id")
 
 		sitesCount := 0
@@ -83,7 +83,7 @@ func (a *SchemaSitel3OutsGenerator) InitResources() error {
 						[]string{},
 						map[string]interface{}{},
 					)
-					resource.SlowQueryRequired = true
+					resource.SlowQueryRequired = SlowQueryRequired
 					a.Resources = append(a.Resources, resource)
 				}
 			}

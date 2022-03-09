@@ -1,10 +1,9 @@
 package mso
 
 import (
+	"fmt"
 	"regexp"
 	"strconv"
-
-	"math/rand"
 
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
 	"github.com/ciscoecosystem/mso-go-client/models"
@@ -68,7 +67,8 @@ func (a *SchemaSiteAnpEpgSubnetGenerator) InitResources() error {
 						noDefaultGateway := models.G(staticPortCont, "noDefaultGateway")
 						querier := models.G(staticPortCont, "querier")
 
-						name := schemaId + "_" + siteId + "_" + templateName + "_" + anpName + "_" + epgName + "_" + "subnet_" + strconv.Itoa(rand.Intn(1000))
+						name := schemaId + "_" + siteId + "_" + templateName + "_" + anpName + "_" + epgName + "_" + "subnet_" + strconv.Itoa(int(hash(subnetIP)))
+						fmt.Printf("name: %v\n", name)
 						resource := terraformutils.NewResource(
 							subnetIP,
 							name,
@@ -90,7 +90,7 @@ func (a *SchemaSiteAnpEpgSubnetGenerator) InitResources() error {
 							[]string{},
 							map[string]interface{}{},
 						)
-						resource.SlowQueryRequired = true
+						resource.SlowQueryRequired = SlowQueryRequired
 						a.Resources = append(a.Resources, resource)
 					}
 				}

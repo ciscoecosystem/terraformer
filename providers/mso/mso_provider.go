@@ -290,6 +290,6 @@ func (p *MSOProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"schema_site_vrf":                       &SchemaSiteVRF{},
 		"schema_site_bd":                        &SchemaSiteBdGenerator{},
 		"schema_site_anp_epg_subnet":            &SchemaSiteAnpEpgSubnetGenerator{},
-		"chema_site_bd_l3out":                   &SchemaSitel3OutsGenerator{},
+		"schema_site_bd_l3out":                  &SchemaSitel3OutsGenerator{},
 	}
 }
