@@ -50,66 +50,52 @@ func (a *SchemaSiteVrfRegionCidrSubnet) InitResources() error {
 				for m := 0; m < regionsLen; m++ {
 					regionCont := vrfCont.S("regions").Index(m)
 					regionName := models.G(regionCont, "name")
-					var vpnGateway bool
-					var hubNetworkEnable bool
 
-					if regionCont.Exists("isVpnGatewayRouter") {
-						vpnGateway = regionCont.S("isVpnGatewayRouter").Data().(bool)
+					cidrsLen := 0
+					if regionCont.Exists("cidrs") {
+						cidrsLen = len(regionCont.S("cidrs").Data().([]interface{}))
 					}
-					if regionCont.Exists("isTGWAttachment") {
-						hubNetworkEnable = regionCont.S("isTGWAttachment").Data().(bool)
-					}
-					cidrList := make([]interface{}, 0, 1)
-					cidrs := regionCont.S("cidrs").Data().([]interface{})
-					for _, tempCidr := range cidrs {
-						cidr := tempCidr.(map[string]interface{})
 
-						cidrMap := make(map[string]interface{})
-						cidrMap["cidr_ip"] = cidr["ip"]
-						cidrMap["primary"] = cidr["primary"]
+					for n := 0; n < cidrsLen; n++ {
+						cidrCont := regionCont.S("cidrs").Index(n)
 
-						subnets := cidr["subnets"].([]interface{})
-						subnetList := make([]interface{}, 0, 1)
-						for _, tempSubnet := range subnets {
-							subnet := tempSubnet.(map[string]interface{})
+						cidrIP := models.G(cidrCont, "ip")
 
-							subnetMap := make(map[string]interface{})
-							subnetMap["ip"] = subnet["ip"]
-							if subnet["zone"] != nil {
-								subnetMap["zone"] = subnet["zone"]
-							}
-							if subnet["usage"] != nil {
-								subnetMap["usage"] = subnet["usage"]
-							}
-
-							subnetList = append(subnetList, subnetMap)
+						subnetsLen := 0
+						if cidrCont.Exists("subnets") {
+							subnetsLen = len(cidrCont.S("subnets").Data().([]interface{}))
 						}
-						cidrMap["subnet"] = subnetList
 
-						cidrList = append(cidrList, cidrMap)
+						for l := 0; l < subnetsLen; l++ {
+							subnetCont := cidrCont.S("subnets").Index(l)
+							ip := models.G(subnetCont, "ip")
+							zone := models.G(subnetCont, "zone")
+							usage := models.G(subnetCont, "usage")
+
+							resourceName := match[1] + "_" + siteId + "_" + match[3] + "_" + regionName + "_" + cidrIP + "_" + ip
+							resource := terraformutils.NewResource(
+								ip,
+								resourceName,
+								"mso_schema_site_vrf_region_cidr_subnet",
+								"mso",
+								map[string]string{
+									"schema_id":     match[1],
+									"template_name": match[2],
+									"site_id":       siteId,
+									"vrf_name":      match[3],
+									"region_name":   regionName,
+									"cidr_ip":       cidrIP,
+									"ip":            ip,
+									"zone":          zone,
+									"usage":         usage,
+								},
+								[]string{},
+								map[string]interface{}{},
+							)
+							resource.SlowQueryRequired = true
+							a.Resources = append(a.Resources, resource)
+						}
 					}
-					resourceName := match[1] + "_" + siteId + "_" + match[3] + "_" + regionName
-					resource := terraformutils.NewResource(
-						regionName,
-						resourceName,
-						"mso_schema_site_vrf_region",
-						"mso",
-						map[string]string{
-							"schema_id":     match[1],
-							"template_name": match[2],
-							"site_id":       siteId,
-							"vrf_name":      match[3],
-							"region_name":   regionName,
-						},
-						[]string{},
-						map[string]interface{}{
-							"vpn_gateway":        vpnGateway,
-							"hub_network_enable": hubNetworkEnable,
-							"cidr":               cidrList,
-						},
-					)
-					resource.SlowQueryRequired = true
-					a.Resources = append(a.Resources, resource)
 				}
 			}
 		}
