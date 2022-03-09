@@ -56,36 +56,3 @@ func (a *SchemaTemplateExternalEPGSubnet) InitResources() error {
 	}
 	return nil
 }
-
-// externalEPGId := fmt.Sprintf("/schemas/%s/templates/%s/externalEpgs/%s", schemaId, templateName, externalEPGName)
-// externalEPGDisplayName := stripQuotes(externalEPGCont.S("displayName").String())
-// vrfRef := stripQuotes(externalEPGCont.S("vrfRef").String())
-// vrfArray := strings.Split(vrfRef, "/")
-// vrfName := vrfArray[6]
-// vrfSchemaID := vrfArray[2]
-// vrfTemplateName := vrfArray[4]
-// externalEPGType := stripQuotes(externalEPGCont.S("extEpgType").String())
-// // anpRef := stripQuotes(externalEPGCont.S("anpRef").String())
-// // anpArray := stripQuotes("")
-
-// resourceName := schemaId + "_" + templateName + "_" + externalEPGName
-// resource := terraformutils.NewResource(
-// 	externalEPGId,
-// 	resourceName,
-// 	"mso_schema_template_external_epg",
-// 	"mso",
-// 	map[string]string{
-// 		"schema_id":         schemaId,
-// 		"template_name":     templateName,
-// 		"external_epg_name": externalEPGName,
-// 		"display_name":      externalEPGDisplayName,
-// 		"vrf_name":          vrfName,
-// 		"vrf_schema_id":     vrfSchemaID,
-// 		"vrf_template_name": vrfTemplateName,
-// 		"external_epg_type": externalEPGType,
-// 	},
-// 	[]string{},
-// 	map[string]interface{}{},
-// )
-// resource.SlowQueryRequired = true
-// a.Resources = append(a.Resources, resource)
