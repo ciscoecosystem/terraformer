@@ -191,6 +191,11 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"schema_template_anp":     []string{"anp_name", "name"},
 			"schema_template_anp_epg": []string{"epg_name", "name"},
 		},
+		"schema_site_anp": {
+			"schema":          []string{"schema_id", "id"},
+			"schema_site":     []string{"site_id", "site_id"},
+			"schema_template": []string{"template_name", "name"},
+		},
 	}
 }
 
@@ -274,8 +279,12 @@ func (p *MSOProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"schema_template_external_epg":          &SchemaTemplateExternalEPG{},
 		"schema_site_vrf_region_cidr_subnet":    &SchemaSiteVrfRegionCidrSubnet{},
 		"schema_site_bd_subnet":                 &SchemaSiteBDSubnetGenerator{},
+<<<<<<< HEAD
 		"schema_template_external_epg_subnet":   &SchemaTemplateExternalEPGSubnet{},
 		"schema_site_vrf":                       &SchemaSiteVRF{},
 		"schema_template_anp_epg_selector":      &SchemaTemplateAnpEpgSelector{},
+=======
+		"schema_site_anp":                       &SchemaSiteAnpGenerator{},
+>>>>>>> 52d41243 (added schema_site_anp terraformer service)
 	}
 }
