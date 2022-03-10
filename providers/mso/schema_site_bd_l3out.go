@@ -5,7 +5,6 @@ import (
 	"regexp"
 
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
-	// "github.com/ciscoecosystem/mso-go-client/client"
 	"github.com/ciscoecosystem/mso-go-client/models"
 )
 
