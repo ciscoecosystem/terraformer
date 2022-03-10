@@ -27,33 +27,31 @@ func (a *SchemaSiteBdGenerator) InitResources() error {
 
 		schemaCon := con.S("schemas").Index(i)
 		schemaId := models.G(schemaCon, "id")
-		sitesCon := schemaCon.Index(i).S("sites")
 		sitesCount := 0
 
-		if schemaCon.Index(i).Exists("sites") {
-			sitesCount = len(schemaCon.Index(i).S("sites").Data().([]interface{}))
+		if schemaCon.Exists("sites") {
+			sitesCount = len(schemaCon.S("sites").Data().([]interface{}))
 		}
 
 		for j := 0; j < sitesCount; j++ {
+			sitesCon := schemaCon.S("sites").Index(j)
 			siteId := models.G(sitesCon, "siteId")
 			templateName := models.G(sitesCon, "templateName")
-			hostBasedRouting := models.G(sitesCon, "hostBasedRouting")
-
 			bdCount := 0
-			bdCont := sitesCon.Index(i).S("bds")
-
-			if sitesCon.Index(i).Exists("bds") {
-				bdCount = len(sitesCon.Index(j).S("bds").Data().([]interface{}))
+			if sitesCon.Exists("bds") {
+				bdCount = len(sitesCon.S("bds").Data().([]interface{}))
 			}
 
 			for k := 0; k < bdCount; k++ {
+				bdCont := sitesCon.S("bds").Index(k)
 				bdRef := models.G(bdCont, "bdRef")
+				hostBasedRouting := bdCont.S("hostBasedRouting").Data().(bool)
 				re := regexp.MustCompile("/schemas/(.*)/templates/(.*)/bds/(.*)")
 				match := re.FindStringSubmatch(bdRef)
 
 				bdName := match[3]
 
-				name := schemaId + "_" + siteId + "_" + templateName + "_" + bdName + "_" + hostBasedRouting
+				name := schemaId + "_" + siteId + "_" + templateName + "_" + bdName
 
 				fmt.Printf("name: %v\n", name)
 				resource := terraformutils.NewResource(
@@ -66,10 +64,11 @@ func (a *SchemaSiteBdGenerator) InitResources() error {
 						"template_name": templateName,
 						"schema_id":     schemaId,
 						"bd_name":       bdName,
-						"host_route":    hostBasedRouting,
 					},
 					[]string{},
-					map[string]interface{}{},
+					map[string]interface{}{
+						"host_route": hostBasedRouting,
+					},
 				)
 				resource.SlowQueryRequired = SlowQueryRequired
 				a.Resources = append(a.Resources, resource)

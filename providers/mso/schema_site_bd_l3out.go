@@ -30,25 +30,22 @@ func (a *SchemaSitel3OutsGenerator) InitResources() error {
 
 		sitesCount := 0
 
-		if schemaCon.Index(i).Exists("sites") {
-			sitesCount = len(schemaCon.Index(i).S("sites").Data().([]interface{}))
+		if schemaCon.Exists("sites") {
+			sitesCount = len(schemaCon.S("sites").Data().([]interface{}))
 		}
 
-		sitesCon := schemaCon.Index(i).S("sites")
-
 		for j := 0; j < sitesCount; j++ {
-
+			sitesCon := schemaCon.S("sites").Index(j)
 			siteId := models.G(sitesCon, "siteId")
 			templateName := models.G(sitesCon, "templateName")
 
 			bdCount := 0
-			bdCont := sitesCon.Index(j).S("bds")
-
-			if sitesCon.Index(j).Exists("bds") {
-				bdCount = len(sitesCon.Index(j).S("bds").Data().([]interface{}))
+			if sitesCon.Exists("bds") {
+				bdCount = len(sitesCon.S("bds").Data().([]interface{}))
 			}
 
 			for k := 0; k < bdCount; k++ {
+				bdCont := sitesCon.S("bds").Index(k)
 				bdRef := models.G(bdCont, "bdRef")
 				re := regexp.MustCompile("/schemas/(.*)/templates/(.*)/bds/(.*)")
 				match := re.FindStringSubmatch(bdRef)
@@ -57,12 +54,12 @@ func (a *SchemaSitel3OutsGenerator) InitResources() error {
 
 				l3OutsCount := 0
 
-				if bdCont.Index(k).Exists("l3Outs") {
-					l3OutsCount = len(bdCont.Index(k).S("l3Outs").Data().([]interface{}))
+				if bdCont.Exists("l3Outs") {
+					l3OutsCount = len(bdCont.S("l3Outs").Data().([]interface{}))
 				}
 
 				for l := 0; l < l3OutsCount; l++ {
-					l3OutName := stripQuotes(bdCont.Index(k).S("l3Outs").Index(l).String())
+					l3OutName := stripQuotes(bdCont.S("l3Outs").Index(l).String())
 
 					name := schemaId + "_" + siteId + "_" + templateName + "_" + bdName + "_" + l3OutName
 
