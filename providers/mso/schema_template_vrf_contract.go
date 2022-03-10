@@ -1,7 +1,7 @@
 package mso
 
 import (
-	"strings"
+	"regexp"
 
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
 	"github.com/ciscoecosystem/mso-go-client/models"
@@ -31,36 +31,86 @@ func (a *SchemaTemplateVrfContractGenerator) InitResources() error {
 		for j := 0; j < templateLen; j++ {
 			templateCont := schemaCont.S("templates").Index(j)
 			templateName := models.G(templateCont, "name")
-			l3outLen := 0
-			if templateCont.Exists("intersiteL3outs") {
-				l3outLen = len(templateCont.S("intersiteL3outs").Data().([]interface{}))
+			vrfLen := 0
+			if templateCont.Exists("vrfs") {
+				vrfLen = len(templateCont.S("vrfs").Data().([]interface{}))
 			}
-			for k := 0; k < l3outLen; k++ {
-				l3outCont := templateCont.S("intersiteL3outs").Index(k)
-				l3outName := models.G(l3outCont, "name")
-				displayName := models.G(l3outCont, "displayName")
-				vrfRef := models.G(l3outCont, "vrfRef")
-				vrfRefSplitted := strings.Split(vrfRef, "/")
-				vrfName := vrfRefSplitted[len(vrfRefSplitted)-1]
-				name := schemaId + "_" + templateName + "_" + vrfName + "_" + l3outName
-				resource := terraformutils.NewResource(
-					l3outName,
-					name,
-					"mso_schema_template_l3out",
-					"mso",
-					map[string]string{
-						"schema_id":     schemaId,
-						"template_name": templateName,
-						"l3out_name":    l3outName,
-						"display_name":  displayName,
-						"vrf_name":      vrfName,
-					},
-					[]string{},
-					map[string]interface{}{},
-				)
-				resource.SlowQueryRequired = SlowQueryRequired
-				a.Resources = append(a.Resources, resource)
+			for k := 0; k < vrfLen; k++ {
+				vrfCont := templateCont.S("vrfs").Index(k)
+				vrfName := models.G(vrfCont, "name")
+				contractName := ""
+				contractSchemaId := ""
+				contractTemplateName := ""
+				contractType := ""
+				contractLen := 0
+				if vrfCont.Exists("vzAnyProviderContracts") {
+					contractLen = len(vrfCont.S("vzAnyProviderContracts").Data().([]interface{}))
+				}
+				for l := 0; l < contractLen; l++ {
+					contractCont := vrfCont.S("vzAnyProviderContracts").Index(l)
+					contractRef := models.G(contractCont, "contractRef")
+					re := regexp.MustCompile("/schemas/(.*)/templates/(.*)/contracts/(.*)")
+					split := re.FindStringSubmatch(contractRef)
+					contractName = split[3]
+					contractSchemaId = split[1]
+					contractTemplateName = split[2]
+					contractType = "provider"
+					name := schemaId + "_" + templateName + "_" + vrfName + "_" + contractName + "_" + contractType
+					resource := terraformutils.NewResource(
+						contractName,
+						name,
+						"mso_schema_template_vrf_contract",
+						"mso",
+						map[string]string{
+							"schema_id":              schemaId,
+							"template_name":          templateName,
+							"vrf_name":               vrfName,
+							"relationship_type":      contractType,
+							"contract_name":          contractName,
+							"contract_schema_id":     contractSchemaId,
+							"contract_template_name": contractTemplateName,
+						},
+						[]string{},
+						map[string]interface{}{},
+					)
+					resource.SlowQueryRequired = SlowQueryRequired
+					a.Resources = append(a.Resources, resource)
 
+				}
+				contractLen = 0
+				if vrfCont.Exists("vzAnyConsumerContracts") {
+					contractLen = len(vrfCont.S("vzAnyConsumerContracts").Data().([]interface{}))
+				}
+				for l := 0; l < contractLen; l++ {
+					contractCont := vrfCont.S("vzAnyConsumerContracts").Index(l)
+					contractRef := models.G(contractCont, "contractRef")
+					re := regexp.MustCompile("/schemas/(.*)/templates/(.*)/contracts/(.*)")
+					split := re.FindStringSubmatch(contractRef)
+					contractName = split[3]
+					contractSchemaId = split[1]
+					contractTemplateName = split[2]
+					contractType = "consumer"
+					name := schemaId + "_" + templateName + "_" + vrfName + "_" + contractName + "_" + contractType
+					resource := terraformutils.NewResource(
+						contractName,
+						name,
+						"mso_schema_template_vrf_contract",
+						"mso",
+						map[string]string{
+							"schema_id":              schemaId,
+							"template_name":          templateName,
+							"vrf_name":               vrfName,
+							"relationship_type":      contractType,
+							"contract_name":          contractName,
+							"contract_schema_id":     contractSchemaId,
+							"contract_template_name": contractTemplateName,
+						},
+						[]string{},
+						map[string]interface{}{},
+					)
+					resource.SlowQueryRequired = SlowQueryRequired
+					a.Resources = append(a.Resources, resource)
+				}
 			}
 		}
 	}
