@@ -52,6 +52,7 @@ terraformer import mso --help
 * `schema_template_anp_epg_useg_attr`
 * `schema_site_anp_epg`
 * `schema_template_external_epg_selector`
+* `schema_site_anp_epg_selector`
 
 #### Attribute filters
 
