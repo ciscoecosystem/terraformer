@@ -43,7 +43,13 @@ terraformer import mso --help
 * `schema_template_external_epg_subnet`
 * `schema_site_vrf`
 * `schema_template_anp_epg_selector`
-
+* `schema_site_anp`
+* `schema_site_external_epg`
+* `schema_site_anp_epg_subnet`
+* `schema_site_bd`
+* `schema_site_bd_l3out`
+* `schema_template_vrf_contract`
+* `schema_template_anp_epg_useg_attr`
 
 #### Attribute filters
 

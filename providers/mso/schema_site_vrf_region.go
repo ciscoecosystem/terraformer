@@ -50,44 +50,6 @@ func (a *SchemaSiteVrfRegion) InitResources() error {
 				for m := 0; m < regionsLen; m++ {
 					regionCont := vrfCont.S("regions").Index(m)
 					regionName := models.G(regionCont, "name")
-					var vpnGateway bool
-					var hubNetworkEnable bool
-
-					if regionCont.Exists("isVpnGatewayRouter") {
-						vpnGateway = regionCont.S("isVpnGatewayRouter").Data().(bool)
-					}
-					if regionCont.Exists("isTGWAttachment") {
-						hubNetworkEnable = regionCont.S("isTGWAttachment").Data().(bool)
-					}
-					cidrList := make([]interface{}, 0, 1)
-					cidrs := regionCont.S("cidrs").Data().([]interface{})
-					for _, tempCidr := range cidrs {
-						cidr := tempCidr.(map[string]interface{})
-
-						cidrMap := make(map[string]interface{})
-						cidrMap["cidr_ip"] = cidr["ip"]
-						cidrMap["primary"] = cidr["primary"]
-
-						subnets := cidr["subnets"].([]interface{})
-						subnetList := make([]interface{}, 0, 1)
-						for _, tempSubnet := range subnets {
-							subnet := tempSubnet.(map[string]interface{})
-
-							subnetMap := make(map[string]interface{})
-							subnetMap["ip"] = subnet["ip"]
-							if subnet["zone"] != nil {
-								subnetMap["zone"] = subnet["zone"]
-							}
-							if subnet["usage"] != nil {
-								subnetMap["usage"] = subnet["usage"]
-							}
-
-							subnetList = append(subnetList, subnetMap)
-						}
-						cidrMap["subnet"] = subnetList
-
-						cidrList = append(cidrList, cidrMap)
-					}
 					resourceName := match[1] + "_" + siteId + "_" + match[3] + "_" + regionName
 					resource := terraformutils.NewResource(
 						regionName,
@@ -95,18 +57,13 @@ func (a *SchemaSiteVrfRegion) InitResources() error {
 						"mso_schema_site_vrf_region",
 						"mso",
 						map[string]string{
-							"schema_id":     match[1],
-							"template_name": match[2],
-							"site_id":       siteId,
-							"vrf_name":      match[3],
-							"region_name":   regionName,
+							"schema_id":   match[1],
+							"site_id":     siteId,
+							"vrf_name":    match[3],
+							"region_name": regionName,
 						},
 						[]string{},
-						map[string]interface{}{
-							"vpn_gateway":        vpnGateway,
-							"hub_network_enable": hubNetworkEnable,
-							"cidr":               cidrList,
-						},
+						map[string]interface{}{},
 					)
 					resource.SlowQueryRequired = SlowQueryRequired
 					a.Resources = append(a.Resources, resource)

@@ -185,6 +185,18 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"schema_template": []string{"template_name", "name"},
 			"schema_site":     []string{"site_id", "site_id"},
 		},
+		"schema_site_bd": {
+			"schema":          []string{"schema_id", "id"},
+			"schema_site":     []string{"site_id", "site_id"},
+			"schema_template": []string{"template_name", "name"},
+		},
+		"schema_site_anp_epg_subnet": {
+			"schema":                  []string{"schema_id", "id"},
+			"schema_site":             []string{"site_id", "site_id"},
+			"schema_template":         []string{"template_name", "name"},
+			"schema_template_anp":     []string{"anp_name", "name"},
+			"schema_template_anp_epg": []string{"epg_name", "name"},
+		},
 		"schema_template_anp_epg_selector": {
 			"schema":                  []string{"schema_id", "id"},
 			"schema_template":         []string{"template_name", "name"},
@@ -201,6 +213,34 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"schema":                       []string{"schema_id", "id"},
 			"schema_template":              []string{"template_name", "name"},
 			"schema_template_external_epg": []string{"external_epg_name", "external_epg_name"},
+		},
+		"schema_site_bd_l3out": {
+			"schema":          []string{"schema_id", "id"},
+			"schema_site":     []string{"site_id", "site_id"},
+			"schema_template": []string{"template_name", "name"},
+			"schema_site_bd":  []string{"bd_name", "bd_name"},
+		},
+		"schema_site_anp": {
+			"schema":          []string{"schema_id", "id"},
+			"schema_site":     []string{"site_id", "site_id"},
+			"schema_template": []string{"template_name", "name"},
+		},
+		"schema_site_external_epg": {
+			"schema":            []string{"schema_id", "id"},
+			"schema_site":       []string{"site_id", "site_id"},
+			"schema_template":   []string{"template_name", "name"},
+			"schema_site_l3out": []string{"l3out_name", "l3out_name"},
+		},
+		"schema_template_vrf_contract": {
+			"schema":              []string{"schema_id", "id", "contract_schema_id", "id"},
+			"schema_template":     []string{"template_name", "name", "contract_template_name", "name"},
+			"schema_template_vrf": []string{"vrf_name", "name"},
+		},
+		"schema_template_anp_epg_useg_attr": {
+			"schema":                  []string{"schema_id", "id"},
+			"schema_template":         []string{"template_name", "name"},
+			"schema_template_anp":     []string{"anp_name", "name"},
+			"schema_template_anp_epg": []string{"epg_name", "name"},
 		},
 	}
 }
@@ -287,8 +327,15 @@ func (p *MSOProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"schema_site_bd_subnet":                 &SchemaSiteBDSubnetGenerator{},
 		"schema_template_external_epg_subnet":   &SchemaTemplateExternalEPGSubnet{},
 		"schema_site_vrf":                       &SchemaSiteVRF{},
+		"schema_site_bd":                        &SchemaSiteBdGenerator{},
+		"schema_site_anp_epg_subnet":            &SchemaSiteAnpEpgSubnetGenerator{},
+		"schema_site_bd_l3out":                  &SchemaSitel3OutsGenerator{},
 		"schema_template_anp_epg_selector":      &SchemaTemplateAnpEpgSelector{},
 		"schema_site_anp_epg":                   &SchemaSiteAnpEpg{},
 		"schema_template_external_epg_selector": &SchemaTemplateExternalEPGSelector{},
+		"schema_site_anp":                       &SchemaSiteAnpGenerator{},
+		"schema_site_external_epg":              &SchemaSiteExternalEpgGenerator{},
+		"schema_template_vrf_contract":          &SchemaTemplateVrfContractGenerator{},
+		"schema_template_anp_epg_useg_attr":     &SchemaTemplateAnpEpgUsegAttr{},
 	}
 }
