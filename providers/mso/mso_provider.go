@@ -307,7 +307,7 @@ func (p *MSOProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"site":                                  &SiteGenerator{},
 		"tenant":                                &TenantGenerator{},
 		"schema_template_bd":                    &SchemaTemplateBdGenerator{},
-		"schema_template":                       &SchemaTemlateGenerator{},
+		"schema_template":                       &SchemaTemplateGenerator{},
 		"schema_template_bd_subnet":             &SchemaTemplateBDSubnet{},
 		"schema_template_anp":                   &SchemaTemplateAnpGenerator{},
 		"schema_template_anp_epg_subnet":        &SchemaTemplateAnpEpgSubnet{},

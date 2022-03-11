@@ -1,6 +1,8 @@
 package mso
 
 import (
+	"strconv"
+
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
 )
 
@@ -33,7 +35,7 @@ func (a *SchemaTemplateExternalEPGSubnet) InitResources() error {
 					subnetCont := externalEPGCont.S("subnets").Index(l)
 					subnetIP := stripQuotes(subnetCont.S("ip").String())
 
-					resourceName := schemaId + "_" + templateName + "_" + externalEPGName + "_" + subnetIP
+					resourceName := schemaId + "_" + templateName + "_" + externalEPGName + "_" + strconv.Itoa(int(hash(subnetIP)))
 					resource := terraformutils.NewResource(
 						subnetIP,
 						resourceName,
