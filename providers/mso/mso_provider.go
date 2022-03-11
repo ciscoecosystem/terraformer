@@ -191,6 +191,17 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"schema_template_anp":     []string{"anp_name", "name"},
 			"schema_template_anp_epg": []string{"epg_name", "name"},
 		},
+		"schema_site_anp_epg": {
+			"schema":          []string{"schema_id", "id"},
+			"schema_site":     []string{"site_id", "site_id"},
+			"schema_template": []string{"template_name", "name"},
+			// "schema_site_anp":     []string{"anp_name", "anp_name"},
+		},
+		"schema_template_external_epg_selector": {
+			"schema":                       []string{"schema_id", "id"},
+			"schema_template":              []string{"template_name", "name"},
+			"schema_template_external_epg": []string{"external_epg_name", "external_epg_name"},
+		},
 	}
 }
 
@@ -277,5 +288,7 @@ func (p *MSOProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"schema_template_external_epg_subnet":   &SchemaTemplateExternalEPGSubnet{},
 		"schema_site_vrf":                       &SchemaSiteVRF{},
 		"schema_template_anp_epg_selector":      &SchemaTemplateAnpEpgSelector{},
+		"schema_site_anp_epg":                   &SchemaSiteAnpEpg{},
+		"schema_template_external_epg_selector": &SchemaTemplateExternalEPGSelector{},
 	}
 }
