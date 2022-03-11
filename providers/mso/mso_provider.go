@@ -376,5 +376,6 @@ func (p *MSOProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"schema_site_vrf_region_hub_network":    &SchemaSiteVrfRegionHubNetworkGenerator{},
 		"dhcp_option_policy_option":             &DhcpOptionPolicyOptionGenerator{},
 		"schema_template_bd_dhcp_policy":        &SchemaTemplateBdDhcpPolicyGenerator{},
+		"schema_template_service_graph":         &SchemaTemplateServiceGraph{},
 	}
 }
