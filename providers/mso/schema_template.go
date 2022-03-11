@@ -5,11 +5,11 @@ import (
 	"github.com/ciscoecosystem/mso-go-client/models"
 )
 
-type SchemaTemlateGenerator struct {
+type SchemaTemplateGenerator struct {
 	MSOService
 }
 
-func (a *SchemaTemlateGenerator) InitResources() error {
+func (a *SchemaTemplateGenerator) InitResources() error {
 	mso, err := a.getClient()
 	if err != nil {
 		return err
