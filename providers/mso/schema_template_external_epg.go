@@ -39,6 +39,7 @@ func (a *SchemaTemplateExternalEPG) InitResources() error {
 				vrfRefName := match[3]
 				vrfSchemaID := match[1]
 				vrfTemplateName := match[2]
+				siteID := make([]interface{}, 0, 1)
 				externalEPGType := stripQuotes(externalEPGCont.S("extEpgType").String())
 				resourceName := schemaId + "_" + templateName + "_" + externalEPGName
 				resource := terraformutils.NewResource(
@@ -57,7 +58,9 @@ func (a *SchemaTemplateExternalEPG) InitResources() error {
 						"external_epg_type": externalEPGType,
 					},
 					[]string{},
-					map[string]interface{}{},
+					map[string]interface{}{
+						"site_id": siteID,
+					},
 				)
 				resource.SlowQueryRequired = SlowQueryRequired
 				a.Resources = append(a.Resources, resource)
