@@ -40,7 +40,7 @@ func (a *SchemaTemplateContractFilter) InitResources() error {
 				contractRef := models.G(contractCont, "contractRef")
 				re := regexp.MustCompile("/schemas/(.*)/templates/(.*)/contracts/(.*)")
 				match := re.FindStringSubmatch(contractRef)
-				filterType := models.G(contractCont, "filterType")
+				var filterType string
 				filtersLen := 0
 				if contractCont.Exists("filterRelationships") {
 					filtersLen = len(contractCont.S("filterRelationships").Data().([]interface{}))
@@ -48,6 +48,73 @@ func (a *SchemaTemplateContractFilter) InitResources() error {
 
 				for m := 0; m < filtersLen; m++ {
 					filterCont := contractCont.S("filterRelationships").Index(m)
+					filterType = "bothWay"
+					var fmatch []string
+					if filterCont.Exists("filterRef") {
+						filRef := models.G(filterCont, "filterRef")
+						re := regexp.MustCompile("/schemas/(.*)/templates/(.*)/filters/(.*)")
+						fmatch = re.FindStringSubmatch(filRef)
+					}
+					resourceName := schemaId + "_" + templateName + "_" + match[3] + "_" + fmatch[3]
+					resource := terraformutils.NewResource(
+						match[3],
+						resourceName,
+						"mso_schema_template_contract_filter",
+						"mso",
+						map[string]string{
+							"schema_id":     schemaId,
+							"template_name": templateName,
+							"contract_name": match[3],
+							"filter_type":   filterType,
+							"filter_name":   fmatch[3],
+						},
+						[]string{},
+						map[string]interface{}{},
+					)
+					resource.SlowQueryRequired = SlowQueryRequired
+					a.Resources = append(a.Resources, resource)
+				}
+
+				if contractCont.Exists("filterRelationshipsProviderToConsumer") {
+					filtersLen = len(contractCont.S("filterRelationshipsProviderToConsumer").Data().([]interface{}))
+				}
+
+				for m := 0; m < filtersLen; m++ {
+					filterCont := contractCont.S("filterRelationshipsProviderToConsumer").Index(m)
+					filterType = "provider_to_consumer"
+					var fmatch []string
+					if filterCont.Exists("filterRef") {
+						filRef := models.G(filterCont, "filterRef")
+						re := regexp.MustCompile("/schemas/(.*)/templates/(.*)/filters/(.*)")
+						fmatch = re.FindStringSubmatch(filRef)
+					}
+					resourceName := schemaId + "_" + templateName + "_" + match[3] + "_" + fmatch[3]
+					resource := terraformutils.NewResource(
+						match[3],
+						resourceName,
+						"mso_schema_template_contract_filter",
+						"mso",
+						map[string]string{
+							"schema_id":     schemaId,
+							"template_name": templateName,
+							"contract_name": match[3],
+							"filter_type":   filterType,
+							"filter_name":   fmatch[3],
+						},
+						[]string{},
+						map[string]interface{}{},
+					)
+					resource.SlowQueryRequired = SlowQueryRequired
+					a.Resources = append(a.Resources, resource)
+				}
+
+				if contractCont.Exists("filterRelationshipsConsumerToProvider") {
+					filtersLen = len(contractCont.S("filterRelationshipsConsumerToProvider").Data().([]interface{}))
+				}
+
+				for m := 0; m < filtersLen; m++ {
+					filterCont := contractCont.S("filterRelationshipsConsumerToProvider").Index(m)
+					filterType = "consumer_to_provider"
 					var fmatch []string
 					if filterCont.Exists("filterRef") {
 						filRef := models.G(filterCont, "filterRef")
