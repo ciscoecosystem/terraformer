@@ -108,10 +108,10 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"schema_template_contract": []string{"name", "contract_name"},
 		},
 		"schema_site_anp_epg_static_port": {
-			// "schema_site_anp":     []string{"anp_name", "anp_name"},
-			// "schema_site_anp_epg": []string{"epg_name", "epg_name"},
-			"schema_site":     []string{"site_id", "site_id"},
-			"schema_template": []string{"template_name", "name"},
+			"schema_site_anp":     []string{"anp_name", "anp_name"},
+			"schema_site_anp_epg": []string{"epg_name", "epg_name"},
+			"schema_site":         []string{"site_id", "site_id"},
+			"schema_template":     []string{"template_name", "name"},
 		},
 		"schema_template_contract_filter": {
 			"schema":          []string{"schema_id", "id"},
@@ -124,11 +124,11 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			// "schema_template_contract": []string{"contract_name", "contract_name"},
 		},
 		"schema_site_anp_epg_static_leaf": {
-			"schema":          []string{"schema_id", "id"},
-			"schema_template": []string{"template_name", "name"},
-			"schema_site":     []string{"site_id", "site_id"},
-			// "schema_site_anp":     []string{"anp_name", "anp_name"},
-			// "schema_site_anp_epg": []string{"epg_name", "epg_name"},
+			"schema":              []string{"schema_id", "id"},
+			"schema_template":     []string{"template_name", "name"},
+			"schema_site":         []string{"site_id", "site_id"},
+			"schema_site_anp":     []string{"anp_name", "anp_name"},
+			"schema_site_anp_epg": []string{"epg_name", "epg_name"},
 		},
 		"schema_site_vrf_region": {
 			"schema":          []string{"schema_id", "id"},
@@ -162,12 +162,12 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"schema_site_vrf": []string{"vrf_name", "vrf_name"},
 		},
 		"schema_template_external_epg": {
-			"schema":                []string{"schema_id", "id", "vrf_schema_id", "id", "anp_schema_id", "id", "l3out_schema_id", "id"},
-			"schema_template":       []string{"template_name", "name", "vrf_template_name", "name", "anp_template_name", "name", "l3out_template_name", "name"},
-			"schema_template_vrf":   []string{"vrf_name", "name"},
-			"schema_template_anp":   []string{"anp_name", "name"},
-			"schema_template_l3out": []string{"l3out_name", "l3out_name"},
-			// "schema_template_external_epg_selector": []string{"selector_name", "name"},
+			"schema":                                []string{"schema_id", "id", "vrf_schema_id", "id", "anp_schema_id", "id", "l3out_schema_id", "id"},
+			"schema_template":                       []string{"template_name", "name", "vrf_template_name", "name", "anp_template_name", "name", "l3out_template_name", "name"},
+			"schema_template_vrf":                   []string{"vrf_name", "name"},
+			"schema_template_anp":                   []string{"anp_name", "name"},
+			"schema_template_l3out":                 []string{"l3out_name", "l3out_name"},
+			"schema_template_external_epg_selector": []string{"selector_name", "name"},
 		},
 		"schema_site_bd_subnet": {
 			"schema":          []string{"schema_id", "id"},
@@ -248,6 +248,12 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"schema_template":     []string{"template_name", "name"},
 			"schema_site_anp":     []string{"anp_name", "anp_name"},
 			"schema_site_anp_epg": []string{"epg_name", "epg_name"},
+		},
+		"schema_site_external_epg_selector": {
+			"schema":                   []string{"schema_id", "id"},
+			"schema_site":              []string{"site_id", "site_id"},
+			"schema_template":          []string{"template_name", "name"},
+			"schema_site_external_epg": []string{"external_epg_name", "external_epg_name"},
 		},
 	}
 }
@@ -345,5 +351,7 @@ func (p *MSOProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"schema_template_vrf_contract":          &SchemaTemplateVrfContractGenerator{},
 		"schema_template_anp_epg_useg_attr":     &SchemaTemplateAnpEpgUsegAttr{},
 		"schema_site_anp_epg_selector":          &SchemaSiteAnpEpgSelector{},
+		"schema_site_external_epg_selector":     &SchemaSiteExternalEPGSelector{},
+		"service_node_type":                     &ServiceNodeType{},
 	}
 }
