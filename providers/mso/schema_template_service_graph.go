@@ -41,53 +41,66 @@ func (a *SchemaTemplateServiceGraph) InitResources() error {
 				serviceGraphCont := templateCont.S("serviceGraphs").Index(k)
 				serviceGraphName := models.G(serviceGraphCont, "name")
 				// desc := models.G(serviceGraphCont, "description")
-				serviceNodeType := models.G(serviceGraphCont, "serviceNodeTypeId")
 
-				if serviceNodeType == "0000ffff0000000000000051" {
-					serviceNodeType = "firewall"
-				} else if serviceNodeType == "0000ffff0000000000000052" {
-					serviceNodeType = "load-balancer"
-				} else {
-					serviceNodeType = "other"
+				serviceNodesLen := 0
+				if serviceGraphCont.Exists("serviceNodes") {
+					serviceNodesLen = len(serviceGraphCont.S("serviceNodes").Data().([]interface{}))
 				}
 
-				siteLen := 0
-				if schemaCont.Exists("sites") {
-					siteLen = len(schemaCont.S("serviceGraphs").Data().([]interface{}))
-				}
-
-				var siteParams []interface{}
-				for m := 0; m < siteLen; m++ {
-					siteCont := schemaCont.S("sites").Index(m)
-					serviceGraphsLen := 0
-					if siteCont.Exists("serviceGraphs") {
-						serviceGraphsLen = len(siteCont.S("serviceGraphs").Data().([]interface{}))
+				for p := 0; p < serviceNodesLen; p++ {
+					serviceNodeCont := serviceGraphCont.S("serviceNodes").Index(p)
+					serviceNodeType := models.G(serviceNodeCont, "serviceNodeTypeId")
+					serviceNodeName := models.G(serviceNodeCont, "name")
+					if serviceNodeType == "0000ffff0000000000000051" {
+						serviceNodeType = "firewall"
+					} else if serviceNodeType == "0000ffff0000000000000052" {
+						serviceNodeType = "load-balancer"
+					} else {
+						serviceNodeType = "other"
 					}
-					for n := 0; n < serviceGraphsLen; n++ {
-						serviceGraphCont := siteCont.S("serviceGraphs").Index(n)
-						serviceGraphRef := models.G(serviceGraphCont, "serviceGraphRef")
-						re := regexp.MustCompile("/schemas/(.*)/templates/(.*)/serviceGraphs/(.*)")
-						match := re.FindStringSubmatch(serviceGraphRef)
-						if match[3] == serviceGraphName {
-							serviceNodesLen := 0
-							if serviceGraphCont.Exists("serviceNodes") {
-								serviceNodesLen = len(serviceGraphCont.S("serviceNodes").Data().([]interface{}))
+
+					siteLen := 0
+					if schemaCont.Exists("sites") {
+						siteLen = len(schemaCont.S("sites").Data().([]interface{}))
+					}
+					// fmt.Printf("Hihelloeklnsndjvnsjb:\n")
+
+					var siteParams []interface{}
+					for m := 0; m < siteLen; m++ {
+						siteCont := schemaCont.S("sites").Index(m)
+						serviceGraphsLen := 0
+						if siteCont.Exists("serviceGraphs") {
+							serviceGraphsLen = len(siteCont.S("serviceGraphs").Data().([]interface{}))
+						}
+						for n := 0; n < serviceGraphsLen; n++ {
+							siteServiceGraphCont := siteCont.S("serviceGraphs").Index(n)
+							siteServiceGraphRef := models.G(siteServiceGraphCont, "serviceGraphRef")
+							re := regexp.MustCompile("/schemas/(.*)/templates/(.*)/serviceGraphs/(.*)")
+							match := re.FindStringSubmatch(siteServiceGraphRef)
+							if match[3] == serviceGraphName {
+								siteServiceNodesLen := 0
+								if siteServiceGraphCont.Exists("serviceNodes") {
+									siteServiceNodesLen = len(siteServiceGraphCont.S("serviceNodes").Data().([]interface{}))
+								}
+								siteMap := make(map[string]interface{})
+								for p := 0; p < siteServiceNodesLen; p++ {
+									siteServiceNodeCont := siteServiceGraphCont.S("serviceNodes").Index(p)
+									siteServiceNodeRef := models.G(siteServiceNodeCont, "serviceNodeRef")
+									re := regexp.MustCompile("/schemas/(.*)/templates/(.*)/serviceGraphs/(.*)/serviceNodes/(.*)")
+									match := re.FindStringSubmatch(siteServiceNodeRef)
+									if serviceNodeName == match[4] {
+										deviceDn := models.StripQuotes(siteServiceNodeCont.S("device", "dn").String())
+										dnSplit := strings.Split(deviceDn, "/")
+										tenantName := strings.Join(strings.Split(dnSplit[1], "-")[1:], "-")
+										siteMap["tenant_name"] = tenantName
+										siteMap["node_name"] = match[4]
+										siteMap["site_id"] = models.G(siteCont, "siteId")
+										siteParams = append(siteParams, siteMap)
+										break
+									}
+									// fmt.Printf("siteParams: %v\n", siteParams)
+								}
 							}
-							siteMap := make(map[string]interface{}, 0)
-							for p := 0; p < serviceNodesLen; p++ {
-								serviceNodeCont := serviceGraphCont.S("serviceNodes").Index(p)
-								serviceNodeRef := models.G(serviceNodeCont, "serviceNodeRef")
-								re := regexp.MustCompile("/schemas/(.*)/templates/(.*)/serviceGraphs/(.*)/serviceNodes/(.*)")
-								match := re.FindStringSubmatch(serviceNodeRef)
-								deviceDn := models.StripQuotes(serviceNodeCont.S("device", "dn").String())
-								dnSplit := strings.Split(deviceDn, "/")
-								tenantName := strings.Join(strings.Split(dnSplit[1], "-")[1:], "-")
-								siteMap["tenant_name"] = tenantName
-								siteMap["node_name"] = match[4]
-								siteMap["site_id"] = models.G(siteCont, "siteId")
-								siteParams[p] = siteMap
-							}
-							break
 						}
 					}
 				}
