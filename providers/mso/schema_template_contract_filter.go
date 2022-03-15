@@ -55,7 +55,7 @@ func (a *SchemaTemplateContractFilter) InitResources() error {
 						re := regexp.MustCompile("/schemas/(.*)/templates/(.*)/filters/(.*)")
 						fmatch = re.FindStringSubmatch(filRef)
 					}
-					resourceName := schemaId + "_" + templateName + "_" + match[3] + "_" + fmatch[3]
+					resourceName := schemaId + "_" + templateName + "_" + match[3] + "_" + filterType + "_" + fmatch[3]
 					resource := terraformutils.NewResource(
 						match[3],
 						resourceName,
@@ -88,7 +88,7 @@ func (a *SchemaTemplateContractFilter) InitResources() error {
 						re := regexp.MustCompile("/schemas/(.*)/templates/(.*)/filters/(.*)")
 						fmatch = re.FindStringSubmatch(filRef)
 					}
-					resourceName := schemaId + "_" + templateName + "_" + match[3] + "_" + fmatch[3]
+					resourceName := schemaId + "_" + templateName + "_" + match[3] + "_" + filterType + "_" + fmatch[3]
 					resource := terraformutils.NewResource(
 						match[3],
 						resourceName,
@@ -121,7 +121,7 @@ func (a *SchemaTemplateContractFilter) InitResources() error {
 						re := regexp.MustCompile("/schemas/(.*)/templates/(.*)/filters/(.*)")
 						fmatch = re.FindStringSubmatch(filRef)
 					}
-					resourceName := schemaId + "_" + templateName + "_" + match[3] + "_" + fmatch[3]
+					resourceName := schemaId + "_" + templateName + "_" + match[3] + "_" + filterType + "_" + fmatch[3]
 					resource := terraformutils.NewResource(
 						match[3],
 						resourceName,
