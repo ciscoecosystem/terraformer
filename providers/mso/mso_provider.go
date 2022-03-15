@@ -43,13 +43,9 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"site": []string{"site_associations.site_id", "id"},
 		},
 		"schema_template_bd": {
-			"schema": []string{"schema_id", "id"},
-			"schema_template_vrf": []string{
-				"vrf_name", "name",
-				"vrf_schema_id", "schema_id",
-				"vrf_template_name", "template",
-			},
-			"schema_template": []string{"template_name", "name"},
+			"schema":              []string{"schema_id", "id", "vrf_schema_id", "id"},
+			"schema_template_vrf": []string{"vrf_name", "name"},
+			"schema_template":     []string{"template_name", "name", "vrf_template_name", "name"},
 			// "dhcp_relay_policy":  []string{"name", "name"},
 			// "dhcp_option_policy": []string{"dhcp_option_policy_name", "name"},
 		},
@@ -114,13 +110,9 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"schema_template":     []string{"template_name", "name"},
 		},
 		"schema_template_contract_filter": {
-			"schema":          []string{"schema_id", "id"},
-			"schema_template": []string{"template_name", "name"},
-			"schema_template_filter_entry": []string{
-				"filter_schema_id", "schema_id",
-				"filter_template_name", "template_name",
-				"filter_name", "name",
-			},
+			"schema":                       []string{"schema_id", "id", "filter_schema_id", "id"},
+			"schema_template":              []string{"template_name", "name", "filter_template_name", "name"},
+			"schema_template_filter_entry": []string{"filter_name", "name"},
 			// "schema_template_contract": []string{"contract_name", "contract_name"},
 		},
 		"schema_site_anp_epg_static_leaf": {
