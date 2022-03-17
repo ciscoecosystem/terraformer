@@ -38,6 +38,14 @@ func (a *SchemaTemplateBdGenerator) InitResources() error {
 				optimizeWanBandwidth := models.G(bds, "optimizeWanBandwidth")
 				l2Stretch := models.G(bds, "l2Stretch")
 				l3MCast := models.G(bds, "l3MCast")
+				unicastRouting := "false"
+				if bds.Exists("unicastRouting") {
+					unicastRouting = models.G(bds, "unicastRouting")
+				}
+				arpFlood := "false"
+				if bds.Exists("arpFlood") {
+					arpFlood = models.G(bds, "arpFlood")
+				}
 				resourceName := schemaId + "_" + templateName + "_" + name
 				resource := terraformutils.NewResource(
 					name,
@@ -51,6 +59,8 @@ func (a *SchemaTemplateBdGenerator) InitResources() error {
 						"optimize_wan_bandwidth": optimizeWanBandwidth,
 						"layer2_stretch":         l2Stretch,
 						"layer3_multicast":       l3MCast,
+						"arp_flooding":           arpFlood,
+						"unicast_routing":        unicastRouting,
 					},
 					[]string{},
 					map[string]interface{}{},
