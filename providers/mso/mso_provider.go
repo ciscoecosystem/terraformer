@@ -80,11 +80,11 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"schema_template_anp_epg": []string{"epg_name", "name"},
 		},
 		"schema_site_anp_epg_domain": {
-			"schema":                  []string{"schema_id", "id"},
-			"schema_template":         []string{"template_name", "name"},
-			"schema_template_anp":     []string{"anp_name", "name"},
-			"schema_template_anp_epg": []string{"epg_name", "name"},
-			"site":                    []string{"site_id", "id"},
+			"schema":              []string{"schema_id", "id"},
+			"schema_template":     []string{"template_name", "name"},
+			"schema_site_anp":     []string{"anp_name", "anp_name"},
+			"schema_site_anp_epg": []string{"epg_name", "epg_name"},
+			"site":                []string{"site_id", "id"},
 		},
 		"schema_template_l3out": {
 			"schema":              []string{"schema_id", "id", "vrf_schema_id", "id"},
