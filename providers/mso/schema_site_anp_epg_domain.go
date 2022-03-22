@@ -58,13 +58,15 @@ func (a *SchemaSiteAnpEpgDomain) InitResources() error {
 						domainAssociationsID := stripQuotes(domainAssociationsCon.Index(m).S("dn").String())
 
 						var domainAssociationsName string
+						var vmmDomainProfile string = "VMware"
 
 						domainAssociationsType := stripQuotes(domainAssociationsCon.Index(m).S("domainType").String())
 
 						if domainAssociationsType == "vmmDomain" {
-							re := regexp.MustCompile("uni/vmmp-VMware/dom-(.*)")
+							re := regexp.MustCompile("uni/vmmp-(.*)/dom-(.*)")
 							match := re.FindStringSubmatch(domainAssociationsID)
-							domainAssociationsName = match[1]
+							domainAssociationsName = match[2]
+							vmmDomainProfile = match[1]
 						} else if domainAssociationsType == "l3ExtDomain" {
 							re := regexp.MustCompile("uni/l3dom-(.*)")
 							match := re.FindStringSubmatch(domainAssociationsID)
@@ -86,7 +88,7 @@ func (a *SchemaSiteAnpEpgDomain) InitResources() error {
 						deployImmediacy := stripQuotes(domainAssociationsCon.Index(m).S("deployImmediacy").String())
 						resolutionImmediacy := stripQuotes(domainAssociationsCon.Index(m).S("resolutionImmediacy").String())
 
-						name := schemaId + "_" + templateName + "_" + siteId + "_" + anpRefName + "_" + epgRefName + "_" + domainAssociationsType + "_" + domainAssociationsID + "_" + strconv.Itoa(rand.Intn(1000))
+						name := schemaId + "_" + templateName + "_" + siteId + "_" + anpRefName + "_" + epgRefName + "_" + domainAssociationsType + "_" + strconv.Itoa(rand.Intn(1000))
 						resource := terraformutils.NewResource(
 							domainAssociationsID,
 							name,
@@ -102,6 +104,7 @@ func (a *SchemaSiteAnpEpgDomain) InitResources() error {
 								"dn":                   domainAssociationsName,
 								"deploy_immediacy":     deployImmediacy,
 								"resolution_immediacy": resolutionImmediacy,
+								"vmm_domain_profile":   vmmDomainProfile,
 							},
 							[]string{},
 							map[string]interface{}{},
