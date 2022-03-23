@@ -26,7 +26,10 @@ func (a *SchemaTemplateServiceGraph) InitResources() error {
 		schemaCont := con.S("schemas").Index(i)
 		schemaId := stripQuotes(schemaCont.S("id").String())
 
-		templateLen := len(schemaCont.S("templates").Data().([]interface{}))
+		templateLen := 0
+		if schemaCont.Exists("templates") {
+			templateLen = len(schemaCont.S("templates").Data().([]interface{}))
+		}
 
 		for j := 0; j < templateLen; j++ {
 			templateCont := schemaCont.S("templates").Index(j)
@@ -40,16 +43,17 @@ func (a *SchemaTemplateServiceGraph) InitResources() error {
 			for k := 0; k < serviceGraphsLen; k++ {
 				serviceGraphCont := templateCont.S("serviceGraphs").Index(k)
 				serviceGraphName := models.G(serviceGraphCont, "name")
-				// desc := models.G(serviceGraphCont, "description")
 
 				serviceNodesLen := 0
 				if serviceGraphCont.Exists("serviceNodes") {
 					serviceNodesLen = len(serviceGraphCont.S("serviceNodes").Data().([]interface{}))
 				}
 
+				serviceNodeType := ""
+				siteParams := make([]interface{}, 0)
 				for p := 0; p < serviceNodesLen; p++ {
 					serviceNodeCont := serviceGraphCont.S("serviceNodes").Index(p)
-					serviceNodeType := models.G(serviceNodeCont, "serviceNodeTypeId")
+					serviceNodeType = models.G(serviceNodeCont, "serviceNodeTypeId")
 					serviceNodeName := models.G(serviceNodeCont, "name")
 					if serviceNodeType == "0000ffff0000000000000051" {
 						serviceNodeType = "firewall"
@@ -63,21 +67,18 @@ func (a *SchemaTemplateServiceGraph) InitResources() error {
 					if schemaCont.Exists("sites") {
 						siteLen = len(schemaCont.S("sites").Data().([]interface{}))
 					}
-					// fmt.Printf("Hihelloeklnsndjvnsjb:\n")
-
-					var siteParams []interface{}
 					for m := 0; m < siteLen; m++ {
 						siteCont := schemaCont.S("sites").Index(m)
-						serviceGraphsLen := 0
+						siteServiceGraphsLen := 0
 						if siteCont.Exists("serviceGraphs") {
-							serviceGraphsLen = len(siteCont.S("serviceGraphs").Data().([]interface{}))
+							siteServiceGraphsLen = len(siteCont.S("serviceGraphs").Data().([]interface{}))
 						}
-						for n := 0; n < serviceGraphsLen; n++ {
+						for n := 0; n < siteServiceGraphsLen; n++ {
 							siteServiceGraphCont := siteCont.S("serviceGraphs").Index(n)
 							siteServiceGraphRef := models.G(siteServiceGraphCont, "serviceGraphRef")
 							re := regexp.MustCompile("/schemas/(.*)/templates/(.*)/serviceGraphs/(.*)")
 							match := re.FindStringSubmatch(siteServiceGraphRef)
-							if match[3] == serviceGraphName {
+							if match[1] == schemaId && match[2] == templateName && match[3] == serviceGraphName {
 								siteServiceNodesLen := 0
 								if siteServiceGraphCont.Exists("serviceNodes") {
 									siteServiceNodesLen = len(siteServiceGraphCont.S("serviceNodes").Data().([]interface{}))
@@ -87,24 +88,25 @@ func (a *SchemaTemplateServiceGraph) InitResources() error {
 									siteServiceNodeCont := siteServiceGraphCont.S("serviceNodes").Index(p)
 									siteServiceNodeRef := models.G(siteServiceNodeCont, "serviceNodeRef")
 									re := regexp.MustCompile("/schemas/(.*)/templates/(.*)/serviceGraphs/(.*)/serviceNodes/(.*)")
-									match := re.FindStringSubmatch(siteServiceNodeRef)
-									if serviceNodeName == match[4] {
+									nmatch := re.FindStringSubmatch(siteServiceNodeRef)
+									if schemaId == nmatch[1] && templateName == nmatch[2] && serviceGraphName == nmatch[3] && serviceNodeName == nmatch[4] {
 										deviceDn := models.StripQuotes(siteServiceNodeCont.S("device", "dn").String())
 										dnSplit := strings.Split(deviceDn, "/")
-										tenantName := strings.Join(strings.Split(dnSplit[1], "-")[1:], "-")
-										siteMap["tenant_name"] = tenantName
-										siteMap["node_name"] = match[4]
+										siteMap["tenant_name"] = strings.Join(strings.Split(dnSplit[1], "-")[1:], "-")
+										siteMap["node_name"] = strings.Join(strings.Split(dnSplit[2], "-")[1:], "-")
 										siteMap["site_id"] = models.G(siteCont, "siteId")
 										siteParams = append(siteParams, siteMap)
 										break
 									}
-									// fmt.Printf("siteParams: %v\n", siteParams)
 								}
 							}
 						}
 					}
 				}
-
+				extraAttr := make(map[string]interface{})
+				if len(siteParams) != 0 {
+					extraAttr["site_nodes"] = siteParams
+				}
 				resourceName := schemaId + "_" + templateName + "_" + serviceGraphName
 				resource := terraformutils.NewResource(
 					serviceGraphName,
@@ -118,9 +120,7 @@ func (a *SchemaTemplateServiceGraph) InitResources() error {
 						"service_node_type":  serviceNodeType,
 					},
 					[]string{},
-					map[string]interface{}{
-						"site_nodes": siteParams,
-					},
+					extraAttr,
 				)
 				resource.SlowQueryRequired = SlowQueryRequired
 				a.Resources = append(a.Resources, resource)

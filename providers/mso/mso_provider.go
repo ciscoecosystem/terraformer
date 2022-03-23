@@ -273,6 +273,11 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"dhcp_relay_policy":  []string{"name", "name"},
 			"dhcp_option_policy": []string{"dhcp_option_name", "name"},
 		},
+		"schema_template_service_graph": {
+			"schema":            []string{"schema_id", "id"},
+			"schema_template":   []string{"template_name", "name"},
+			"service_node_type": []string{"service_node_type", "name"},
+		},
 	}
 }
 
