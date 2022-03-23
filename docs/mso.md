@@ -56,6 +56,10 @@ terraformer import mso --help
 * `schema_site_external_epg_selector`
 * `service_node_type`
 * `schema_template_contract`
+* `dhcp_option_policy`
+* `schema_site_vrf_region_hub_network`
+* `dhcp_option_policy_option`
+* `schema_template_bd_dhcp_policy`
 
 #### Attribute filters
 
