@@ -60,6 +60,7 @@ terraformer import mso --help
 * `schema_site_vrf_region_hub_network`
 * `dhcp_option_policy_option`
 * `schema_template_bd_dhcp_policy`
+* `schema_template_service_graph`
 
 #### Attribute filters
 
