@@ -252,6 +252,27 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"schema":          []string{"schema_id", "id"},
 			"schema_template": []string{"template_name", "name"},
 		},
+		"dhcp_option_policy": {
+			"tenant": []string{"tenant_id", "id"},
+		},
+		"dhcp_option_policy_option": {
+			"dhcp_option_policy": []string{"option_policy_name", "name"},
+		},
+		"schema_site_vrf_region_hub_network": {
+			"schema":                 []string{"schema_id", "id"},
+			"schema_site":            []string{"site_id", "site_id"},
+			"schema_template":        []string{"template_name", "name"},
+			"schema_site_vrf":        []string{"vrf_name", "vrf_name"},
+			"schema_site_vrf_region": []string{"region_name", "region_name"},
+			"tenant":                 []string{"tenant_name", "name"},
+		},
+		"schema_template_bd_dhcp_policy": {
+			"schema":             []string{"schema_id", "id"},
+			"schema_template":    []string{"template_name", "name"},
+			"schema_template_bd": []string{"bd_name", "name"},
+			"dhcp_relay_policy":  []string{"name", "name"},
+			"dhcp_option_policy": []string{"dhcp_option_name", "name"},
+		},
 	}
 }
 
@@ -351,5 +372,9 @@ func (p *MSOProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"schema_site_external_epg_selector":     &SchemaSiteExternalEPGSelector{},
 		"service_node_type":                     &ServiceNodeType{},
 		"schema_template_contract":              &SchemaTemplateContractGenerator{},
+		"dhcp_option_policy":                    &DhcpOptionPolicyGenerator{},
+		"schema_site_vrf_region_hub_network":    &SchemaSiteVrfRegionHubNetworkGenerator{},
+		"dhcp_option_policy_option":             &DhcpOptionPolicyOptionGenerator{},
+		"schema_template_bd_dhcp_policy":        &SchemaTemplateBdDhcpPolicyGenerator{},
 	}
 }
