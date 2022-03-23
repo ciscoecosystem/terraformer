@@ -273,6 +273,11 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"dhcp_relay_policy":  []string{"name", "name"},
 			"dhcp_option_policy": []string{"dhcp_option_name", "name"},
 		},
+		"schema_template_service_graph": {
+			"schema":            []string{"schema_id", "id"},
+			"schema_template":   []string{"template_name", "name"},
+			"service_node_type": []string{"service_node_type", "name"},
+		},
 	}
 }
 
@@ -376,5 +381,6 @@ func (p *MSOProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"schema_site_vrf_region_hub_network":    &SchemaSiteVrfRegionHubNetworkGenerator{},
 		"dhcp_option_policy_option":             &DhcpOptionPolicyOptionGenerator{},
 		"schema_template_bd_dhcp_policy":        &SchemaTemplateBdDhcpPolicyGenerator{},
+		"schema_template_service_graph":         &SchemaTemplateServiceGraph{},
 	}
 }
