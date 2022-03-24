@@ -290,6 +290,12 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"schema_site":     	[]string{"site_id", "site_id"},
 			"schema_site_vrf": 	[]string{"vrf_name", "vrf_name"},
 		},
+		"schema_site_service_graph_node": {
+			"schema":                        []string{"schema_id", "id"},
+			"schema_template":               []string{"template_name", "name"},
+			"service_node_type":             []string{"service_node_type", "name"},
+			"schema_template_service_graph": []string{"service_graph_name", "service_graph_name"},
+		},
 	}
 }
 
