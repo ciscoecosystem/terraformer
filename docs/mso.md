@@ -61,13 +61,10 @@ terraformer import mso --help
 * `dhcp_option_policy_option`
 * `schema_template_bd_dhcp_policy`
 * `schema_template_service_graph`
-<<<<<<< HEAD
 * `dhcp_relay_policy`
 * `dhcp_relay_policy_provider`
 * `schema_site_l3out`
-=======
 * `schema_site_service_graph_node`
->>>>>>> 49788a34 (final commit for mso_schema_site_service_graph_node)
 
 #### Attribute filters
 
