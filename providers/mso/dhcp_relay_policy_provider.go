@@ -2,9 +2,6 @@ package mso
 
 import (
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
-	// "github.com/ciscoecosystem/mso-go-client/client"
-	// "github.com/ciscoecosystem/mso-go-client/container"
-	// "github.com/ciscoecosystem/mso-go-client/models"
 	"fmt"
 )
 
@@ -37,15 +34,11 @@ func (a *DhcpRelayPolicyProviderGenerator) InitResources() error {
 			var id string
 			if epgRef != "" {
 				id = fmt.Sprintf("%s%s/%s", policyName, epgRef, addr)
-				// fmt.Printf("ID : %s\n", id)
 			} else {
 				id = fmt.Sprintf("%s%s/%s", policyName, extepgRef, addr)
-				// fmt.Printf("ID : %s\n", id)
 			}
 
 		for j := 0; j < dhcpProviderLen; j++ {
-			
-
 			resource := terraformutils.NewResource(
 				id,
 				id,
@@ -58,7 +51,6 @@ func (a *DhcpRelayPolicyProviderGenerator) InitResources() error {
 			resource.SlowQueryRequired = true
 			a.Resources = append(a.Resources, resource)
 		}
-
 	}
 	return nil
 }
