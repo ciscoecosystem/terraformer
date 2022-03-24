@@ -53,15 +53,17 @@ func (a *SchemaTemplateServiceGraph) InitResources() error {
 				siteParams := make([]interface{}, 0)
 				for p := 0; p < serviceNodesLen; p++ {
 					serviceNodeCont := serviceGraphCont.S("serviceNodes").Index(p)
-					serviceNodeType = models.G(serviceNodeCont, "serviceNodeTypeId")
-					serviceNodeName := models.G(serviceNodeCont, "name")
-					if serviceNodeType == "0000ffff0000000000000051" {
-						serviceNodeType = "firewall"
-					} else if serviceNodeType == "0000ffff0000000000000052" {
-						serviceNodeType = "load-balancer"
-					} else {
-						serviceNodeType = "other"
+					if p == 0 {
+						serviceNodeType = models.G(serviceNodeCont, "serviceNodeTypeId")
+						if serviceNodeType == "0000ffff0000000000000051" {
+							serviceNodeType = "firewall"
+						} else if serviceNodeType == "0000ffff0000000000000052" {
+							serviceNodeType = "load-balancer"
+						} else {
+							serviceNodeType = "other"
+						}
 					}
+					serviceNodeName := models.G(serviceNodeCont, "name")
 
 					siteLen := 0
 					if schemaCont.Exists("sites") {
