@@ -285,10 +285,10 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"dhcp_relay_policy":		[]string{"dhcp_relay_policy_name", "name"},
 		},
 		"schema_site_l3out": {
-			"schema":      []string{"schema_id", "id"},
-			"schema_template": []string{"template_name", "name"},
-			"schema_site":              []string{"site_id", "site_id"},
-			"schema_site_vrf": []string{"vrf_name", "vrf_name"},
+			"schema":      		[]string{"schema_id", "id"},
+			"schema_template": 	[]string{"template_name", "name"},
+			"schema_site":     	[]string{"site_id", "site_id"},
+			"schema_site_vrf": 	[]string{"vrf_name", "vrf_name"},
 		},
 	}
 }
