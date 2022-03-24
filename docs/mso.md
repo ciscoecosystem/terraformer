@@ -64,6 +64,7 @@ terraformer import mso --help
 * `dhcp_relay_policy`
 * `dhcp_relay_policy_provider`
 * `schema_site_l3out`
+* `schema_site_service_graph_node`
 
 #### Attribute filters
 
