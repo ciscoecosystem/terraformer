@@ -12,7 +12,6 @@ type SchemaSiteServiceGraphNodeGenerator struct {
 var nodeType = map[string]string{
 	"0000ffff0000000000000051": "firewall",
 	"0000ffff0000000000000052": "load-balancer",
-	"0000ffff0000000000000053": "other",
 }
 
 func (a *SchemaSiteServiceGraphNodeGenerator) InitResources() error {
@@ -50,7 +49,12 @@ func (a *SchemaSiteServiceGraphNodeGenerator) InitResources() error {
 					serviceNodeCont := graphCont.S("serviceNodes").Index(l)
 					serviceNodeName := models.G(serviceNodeCont, "name")
 					serviceNodeTypeHash := models.G(serviceNodeCont, "serviceNodeTypeId")
-					serviceNodeType := nodeType[serviceNodeTypeHash]
+					serviceNodeType := ""
+					if val, ok := nodeType[serviceNodeTypeHash]; !ok {
+						serviceNodeType = "other"
+					} else {
+						serviceNodeType = val
+					}
 					name := schemaId + "_" + templateName + "_" + graphName + "_" + serviceNodeName
 					resource := terraformutils.NewResource(
 						serviceNodeName,
