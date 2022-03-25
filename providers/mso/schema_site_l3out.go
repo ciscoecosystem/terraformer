@@ -3,8 +3,10 @@ package mso
 import (
 	"regexp"
 
-	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
 	"fmt"
+
+	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
+	"github.com/ciscoecosystem/mso-go-client/models"
 )
 
 type SchemaSiteL3outGenerator struct {
@@ -23,7 +25,7 @@ func (a *SchemaSiteL3outGenerator) InitResources() error {
 	schemaLen := len(con.S("schemas").Data().([]interface{}))
 	for i := 0; i < schemaLen; i++ {
 		schemaCont := con.S("schemas").Index(i)
-		schemaId := stripQuotes(schemaCont.S("id").String())
+		schemaId := models.G(schemaCont, "id")
 		siteLen := 0
 		if schemaCont.Exists("sites") {
 			siteLen = len(schemaCont.S("sites").Data().([]interface{}))
@@ -31,19 +33,18 @@ func (a *SchemaSiteL3outGenerator) InitResources() error {
 
 		for j := 0; j < siteLen; j++ {
 			siteCont := schemaCont.S("sites").Index(j)
-			siteId := stripQuotes(siteCont.S("siteId").String())
-			templateName := stripQuotes(siteCont.S("templateName").String())
+			siteId := models.G(siteCont, "siteId")
+			templateName := models.G(siteCont, "templateName")
 
 			l3outLen := 0
 			if siteCont.Exists("intersiteL3outs") {
-				l3outLen = len(schemaCont.S("sites").Data().([]interface{}))
+				l3outLen = len(siteCont.S("intersiteL3outs").Data().([]interface{}))
 			}
 			for k := 0; k < l3outLen; k++ {
 				l3outCont := siteCont.S("intersiteL3outs").Index(k)
 				if l3outCont.Exists("l3outRef") && l3outCont.Exists("vrfRef") {
-					l3outRef := stripQuotes(l3outCont.S("l3outRef").String())
-
-					vrfRef := stripQuotes(l3outCont.S("vrfRef").String())
+					l3outRef := models.G(l3outCont, "l3outRef")
+					vrfRef := models.G(l3outCont, "vrfRef")
 					reVrf := regexp.MustCompile("/schemas/(.*)/templates/(.*)/vrfs/(.*)")
 					matchVrf := reVrf.FindStringSubmatch(vrfRef)
 					vrfRefName := matchVrf[3]
