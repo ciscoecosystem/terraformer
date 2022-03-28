@@ -1,8 +1,8 @@
 package mso
 
 import (
-	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
 	"fmt"
+	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
 )
 
 type DhcpRelayPolicyProviderGenerator struct {
@@ -24,10 +24,10 @@ func (a *DhcpRelayPolicyProviderGenerator) InitResources() error {
 		dhcpProviderLen := 0
 		if dhcpCon.Exists("provider") {
 			dhcpProviderLen = len(dhcpCon.S("provider").Data().([]interface{}))
-			
 		}
+		for j := 0; j < dhcpProviderLen; j++ {
 			policyName := stripQuotes(dhcpCon.S("name").String())
-			providerCon := dhcpCon.S("provider").Index(i)
+			providerCon := dhcpCon.S("provider").Index(j)
 			epgRef := stripQuotes(providerCon.S("epgRef").String())
 			extepgRef := stripQuotes(providerCon.S("externalEpgRef").String())
 			addr := stripQuotes(providerCon.S("addr").String())
@@ -37,8 +37,6 @@ func (a *DhcpRelayPolicyProviderGenerator) InitResources() error {
 			} else {
 				id = fmt.Sprintf("%s%s/%s", policyName, extepgRef, addr)
 			}
-
-		for j := 0; j < dhcpProviderLen; j++ {
 			resource := terraformutils.NewResource(
 				id,
 				id,
