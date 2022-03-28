@@ -279,16 +279,18 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"service_node_type": []string{"service_node_type", "name"},
 		},
 		"dhcp_relay_policy": {
-			"tenant":          []string{"tenant_id", "id"},
+			"tenant": []string{"tenant_id", "id"},
 		},
 		"dhcp_relay_policy_provider": {
-			"dhcp_relay_policy":		[]string{"dhcp_relay_policy_name", "name"},
+			"dhcp_relay_policy":            []string{"dhcp_relay_policy_name", "name"},
+			"schema_template_anp_epg":      []string{"epg_ref", "id"},
+			"schema_template_external_epg": []string{"external_epg_ref", "id"},
 		},
 		"schema_site_l3out": {
-			"schema":      		[]string{"schema_id", "id"},
-			"schema_template": 	[]string{"template_name", "name"},
-			"schema_site":     	[]string{"site_id", "site_id"},
-			"schema_site_vrf": 	[]string{"vrf_name", "vrf_name"},
+			"schema":          []string{"schema_id", "id"},
+			"schema_template": []string{"template_name", "name"},
+			"schema_site":     []string{"site_id", "site_id"},
+			"schema_site_vrf": []string{"vrf_name", "vrf_name"},
 		},
 		"schema_site_service_graph_node": {
 			"schema":                        []string{"schema_id", "id"},
@@ -400,9 +402,9 @@ func (p *MSOProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"dhcp_option_policy_option":             &DhcpOptionPolicyOptionGenerator{},
 		"schema_template_bd_dhcp_policy":        &SchemaTemplateBdDhcpPolicyGenerator{},
 		"schema_template_service_graph":         &SchemaTemplateServiceGraph{},
-		"dhcp_relay_policy":					 &DhcpRelayPolicyGenerator{},
-		"dhcp_relay_policy_provider":			 &DhcpRelayPolicyProviderGenerator{},
-		"schema_site_l3out" : 					 &SchemaSiteL3outGenerator{},
+		"dhcp_relay_policy":                     &DhcpRelayPolicyGenerator{},
+		"dhcp_relay_policy_provider":            &DhcpRelayPolicyProviderGenerator{},
+		"schema_site_l3out":                     &SchemaSiteL3outGenerator{},
 		"schema_site_service_graph_node":        &SchemaSiteServiceGraphNodeGenerator{},
 	}
 }
