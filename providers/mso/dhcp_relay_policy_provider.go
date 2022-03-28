@@ -2,6 +2,9 @@ package mso
 
 import (
 	"fmt"
+	"strconv"
+	"strings"
+
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
 )
 
@@ -32,14 +35,18 @@ func (a *DhcpRelayPolicyProviderGenerator) InitResources() error {
 			extepgRef := stripQuotes(providerCon.S("externalEpgRef").String())
 			addr := stripQuotes(providerCon.S("addr").String())
 			var id string
+			var name string
 			if epgRef != "" {
 				id = fmt.Sprintf("%s%s/%s", policyName, epgRef, addr)
+				name = policyName + "_" + strings.Replace(epgRef, "/", "_", -1) + "_" + strconv.Itoa(int(hash(addr)))
 			} else {
 				id = fmt.Sprintf("%s%s/%s", policyName, extepgRef, addr)
+				name = policyName + "_" + strings.Replace(extepgRef, "/", "_", -1) + "_" + strconv.Itoa(int(hash(addr)))
 			}
+
 			resource := terraformutils.NewResource(
 				id,
-				id,
+				name,
 				"mso_dhcp_relay_policy_provider",
 				"mso",
 				map[string]string{},
