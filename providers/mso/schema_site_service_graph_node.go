@@ -45,7 +45,7 @@ func (a *SchemaSiteServiceGraphNodeGenerator) InitResources() error {
 				if graphCont.Exists("serviceNodes") {
 					serviceNodeLen = len(graphCont.S("serviceNodes").Data().([]interface{}))
 				}
-				for l := 0; l < serviceNodeLen; l++ {
+				for l := 1; l < serviceNodeLen; l++ {
 					serviceNodeCont := graphCont.S("serviceNodes").Index(l)
 					serviceNodeName := models.G(serviceNodeCont, "name")
 					serviceNodeTypeHash := models.G(serviceNodeCont, "serviceNodeTypeId")
