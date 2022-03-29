@@ -39,11 +39,13 @@ func (a *DhcpRelayPolicyProviderGenerator) InitResources() error {
 			if epgRef != "" {
 				id = fmt.Sprintf("%s%s/%s", policyName, epgRef, addr)
 				name = policyName + "_" + strings.Replace(epgRef, "/", "_", -1) + "_" + strconv.Itoa(int(hash(addr)))
-			} else {
+			} else if extepgRef != "" {
 				id = fmt.Sprintf("%s%s/%s", policyName, extepgRef, addr)
 				name = policyName + "_" + strings.Replace(extepgRef, "/", "_", -1) + "_" + strconv.Itoa(int(hash(addr)))
+			} else {
+				fmt.Printf("[WARN] Dhcp Relay Policy Provider with Policy Name %s and dhcp_server_address %s doesn't have external_epg_ref and epg_ref\n", policyName, addr)
+				continue
 			}
-
 			resource := terraformutils.NewResource(
 				id,
 				name,
