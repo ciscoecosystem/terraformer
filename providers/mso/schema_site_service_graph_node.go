@@ -2,6 +2,7 @@ package mso
 
 import (
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
+	"github.com/ciscoecosystem/mso-go-client/client"
 	"github.com/ciscoecosystem/mso-go-client/models"
 )
 
@@ -9,10 +10,7 @@ type SchemaSiteServiceGraphNodeGenerator struct {
 	MSOService
 }
 
-var nodeType = map[string]string{
-	"0000ffff0000000000000051": "firewall",
-	"0000ffff0000000000000052": "load-balancer",
-}
+var nodeType = make(map[string]string, 0)
 
 func (a *SchemaSiteServiceGraphNodeGenerator) InitResources() error {
 	mso, err := a.getClient()
@@ -22,6 +20,12 @@ func (a *SchemaSiteServiceGraphNodeGenerator) InitResources() error {
 	con, err := getSchemaContainer(mso)
 	if err != nil {
 		return err
+	}
+	if len(nodeType) == 0 {
+		nodeType, err = getNodeType(mso)
+		if err != nil {
+			return err
+		}
 	}
 	schemaLen := len(con.S("schemas").Data().([]interface{}))
 	for i := 0; i < schemaLen; i++ {
@@ -51,7 +55,7 @@ func (a *SchemaSiteServiceGraphNodeGenerator) InitResources() error {
 					serviceNodeTypeHash := models.G(serviceNodeCont, "serviceNodeTypeId")
 					serviceNodeType := ""
 					if val, ok := nodeType[serviceNodeTypeHash]; !ok {
-						serviceNodeType = "other"
+						continue
 					} else {
 						serviceNodeType = val
 					}
@@ -77,4 +81,19 @@ func (a *SchemaSiteServiceGraphNodeGenerator) InitResources() error {
 		}
 	}
 	return nil
+}
+
+func getNodeType(c *client.Client) (map[string]string, error) {
+	cont, err := c.GetViaURL("api/v1/schemas/service-node-types")
+	if err != nil {
+		return nil, err
+	}
+	serviceNodeTypeCont := cont.S("serviceNodeTypes")
+	serviceNodeTypeLen := len(serviceNodeTypeCont.Data().([]interface{}))
+	nodeTypeMap := make(map[string]string)
+	for i := 0; i < serviceNodeTypeLen; i++ {
+		nodeCont := serviceNodeTypeCont.Index(i)
+		nodeTypeMap[models.G(nodeCont, "id")] = models.G(nodeCont, "name")
+	}
+	return nodeTypeMap, nil
 }
