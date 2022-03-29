@@ -10,7 +10,7 @@ type SchemaSiteServiceGraphNodeGenerator struct {
 	MSOService
 }
 
-var nodeType map[string]string
+var nodeType = make(map[string]string, 0)
 
 func (a *SchemaSiteServiceGraphNodeGenerator) InitResources() error {
 	mso, err := a.getClient()
