@@ -47,7 +47,7 @@ func (a *SchemaTemplateServiceGraph) InitResources() error {
 				serviceNodesLen := 0
 				if serviceGraphCont.Exists("serviceNodes") {
 					serviceNodesLen = len(serviceGraphCont.S("serviceNodes").Data().([]interface{}))
-					if serviceNodesLen < 1{
+					if serviceNodesLen < 1 {
 						flag = true
 					}
 				}
@@ -58,16 +58,14 @@ func (a *SchemaTemplateServiceGraph) InitResources() error {
 					serviceNodeCont := serviceGraphCont.S("serviceNodes").Index(p)
 					serviceNodeName := models.G(serviceNodeCont, "name")
 					if p == 0 {
-						if serviceNodeName == "tfnode1"{
+						if serviceNodeName == "tfnode1" {
 							serviceNodeType = models.G(serviceNodeCont, "serviceNodeTypeId")
-							if serviceNodeType == "0000ffff0000000000000051" {
-								serviceNodeType = "firewall"
-							} else if serviceNodeType == "0000ffff0000000000000052" {
-								serviceNodeType = "load-balancer"
-							} else {
-								serviceNodeType = "other"
+							nodeType, err := getNodeType(mso)
+							if err != nil {
+								return err
 							}
-						}else{
+							serviceNodeType = nodeType[serviceNodeType]
+						} else {
 							flag = true
 							break
 						}
@@ -114,7 +112,7 @@ func (a *SchemaTemplateServiceGraph) InitResources() error {
 					}
 				}
 				if flag {
-					break
+					continue
 				}
 				extraAttr := make(map[string]interface{})
 				if len(siteParams) != 0 {

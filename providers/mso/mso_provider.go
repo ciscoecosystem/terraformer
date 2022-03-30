@@ -46,8 +46,8 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"schema":              []string{"schema_id", "id", "vrf_schema_id", "id"},
 			"schema_template_vrf": []string{"vrf_name", "name"},
 			"schema_template":     []string{"template_name", "name", "vrf_template_name", "name"},
-			// "dhcp_relay_policy":  []string{"name", "name"},
-			// "dhcp_option_policy": []string{"dhcp_option_policy_name", "name"},
+			"dhcp_relay_policy":   []string{"dhcp_policy.name", "name"},
+			"dhcp_option_policy":  []string{"dhcp_policy.dhcp_option_policy_name", "name"},
 		},
 		"schema_template_bd_subnet": {
 			"schema":             []string{"schema_id", "id"},
@@ -127,18 +127,14 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"schema":          []string{"schema_id", "id"},
 			"schema_template": []string{"template_name", "name"},
 			"schema_site":     []string{"site_id", "site_id"},
-			// "schema_site_vrf_region_hub_network": []string{
-			// 	"hub_network.name", "name",
-			// 	"hub_network.tenant_name", "tenant_name",
-			// },
+			"schema_site_vrf_region_hub_network": []string{
+				"hub_network.name", "name",
+			},
 			"schema_site_vrf_region_cidr": []string{
 				"cidr.cidr_ip", "ip",
-				"cidr.primary", "primary",
 			},
 			"schema_site_vrf_region_cidr_subnet": []string{
 				"cidr.subnet.ip", "ip",
-				"cidr.subnet.zone", "zone",
-				"cidr.subnet.usage", "usage",
 			},
 			"schema_site_vrf": []string{"vrf_name", "vrf_name"},
 		},
