@@ -50,7 +50,7 @@ func getSchemaContainer(mso *client.Client) (*container.Container, error) {
 	}
 	con, err := mso.GetViaURL("api/v1/schemas/")
 	if err != nil {
-		return nil, err
+		return &container.Container{}, err
 	}
 	globalSchemaCont = con
 	return globalSchemaCont, nil
