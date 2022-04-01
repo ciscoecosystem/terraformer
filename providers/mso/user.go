@@ -15,7 +15,6 @@ func (a *UserGenerator) InitResources() error {
 		return err
 	}
 	con, err := mso.GetViaURL("api/v1/users/")
-	// con, err := getSchemaContainer(mso)
 	if err != nil {
 		return err
 	}
