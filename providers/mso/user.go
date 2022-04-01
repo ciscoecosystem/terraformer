@@ -47,6 +47,7 @@ func (a *UserGenerator) InitResources() error {
 
 	rolesLen := len(con.S("roles").Data().([]interface{}))
 	roles := make([]interface{}, 0)
+	roleId := ""
 	for i := 0; i < rolesLen; i++ {
 		roleCont := con.S("roles").Index(i)
 
@@ -55,39 +56,11 @@ func (a *UserGenerator) InitResources() error {
 		map_role["roleid"] = models.G(roleCont, "roleId")
 		map_role["access_type"] = models.G(roleCont, "access_type")
 		roles = append(roles, map_role)
-		// siteLen := 0
-		// if schemaCont.Exists("sites") {
-		// 	siteLen = len(schemaCont.S("sites").Data().([]interface{}))
-		// }
-
-		// for j := 0; j < siteLen; j++ {
-		// 	siteCont := schemaCont.S("sites").Index(j)
-		// 	siteId := models.G(siteCont, "siteId")
-
-		// 	vrfsLen := 0
-		// 	if siteCont.Exists("vrfs") {
-		// 		vrfsLen = len(siteCont.S("vrfs").Data().([]interface{}))
-		// 	}
-
-		// 	for k := 0; k < vrfsLen; k++ {
-		// 		vrfCont := siteCont.S("vrfs").Index(k)
-		// 		vrfRef := models.G(vrfCont, "vrfRef")
-		// 		re := regexp.MustCompile("/schemas/(.*)/templates/(.*)/vrfs/(.*)")
-		// 		match := re.FindStringSubmatch(vrfRef)
-		// 		regionsLen := 0
-		// 		if vrfCont.Exists("regions") {
-		// 			regionsLen = len(vrfCont.S("regions").Data().([]interface{}))
-		// 		}
-
-		// 		for m := 0; m < regionsLen; m++ {
-		// 			regionCont := vrfCont.S("regions").Index(m)
-		// 			regionName := models.G(regionCont, "name")
-
-		// }
-		// }
-		// }
+		if i == 0 {
+			roleId = models.G(roleCont, "roleId")
+		}
 	}
-	resourceName := ""
+	resourceName := roleId
 	resource := terraformutils.NewResource(
 		id,
 		resourceName,
@@ -104,7 +77,9 @@ func (a *UserGenerator) InitResources() error {
 			"domain":         domain,
 		},
 		[]string{},
-		map[string]interface{}{},
+		map[string]interface{}{
+			"roles": roles,
+		},
 	)
 	resource.SlowQueryRequired = SlowQueryRequired
 	a.Resources = append(a.Resources, resource)
