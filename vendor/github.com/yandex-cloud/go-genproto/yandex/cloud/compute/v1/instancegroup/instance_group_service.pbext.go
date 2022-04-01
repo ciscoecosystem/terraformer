@@ -4,8 +4,24 @@ package instancegroup
 
 import (
 	operation "github.com/yandex-cloud/go-genproto/yandex/cloud/operation"
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 )
+
+func (m *ResumeInstanceGroupProcessesRequest) SetInstanceGroupId(v string) {
+	m.InstanceGroupId = v
+}
+
+func (m *ResumeInstanceGroupProcessMetadata) SetInstanceGroupId(v string) {
+	m.InstanceGroupId = v
+}
+
+func (m *PauseInstanceGroupProcessesRequest) SetInstanceGroupId(v string) {
+	m.InstanceGroupId = v
+}
+
+func (m *PauseInstanceGroupProcessMetadata) SetInstanceGroupId(v string) {
+	m.InstanceGroupId = v
+}
 
 func (m *GetInstanceGroupRequest) SetInstanceGroupId(v string) {
 	m.InstanceGroupId = v
@@ -67,6 +83,10 @@ func (m *CreateInstanceGroupRequest) SetDeletionProtection(v bool) {
 	m.DeletionProtection = v
 }
 
+func (m *CreateInstanceGroupRequest) SetApplicationLoadBalancerSpec(v *ApplicationLoadBalancerSpec) {
+	m.ApplicationLoadBalancerSpec = v
+}
+
 func (m *CreateInstanceGroupFromYamlRequest) SetFolderId(v string) {
 	m.FolderId = v
 }
@@ -83,7 +103,7 @@ func (m *UpdateInstanceGroupRequest) SetInstanceGroupId(v string) {
 	m.InstanceGroupId = v
 }
 
-func (m *UpdateInstanceGroupRequest) SetUpdateMask(v *field_mask.FieldMask) {
+func (m *UpdateInstanceGroupRequest) SetUpdateMask(v *fieldmaskpb.FieldMask) {
 	m.UpdateMask = v
 }
 
@@ -175,6 +195,10 @@ func (m *DeleteInstancesMetadata) SetInstanceGroupId(v string) {
 	m.InstanceGroupId = v
 }
 
+func (m *StopInstancesMetadata) SetInstanceGroupId(v string) {
+	m.InstanceGroupId = v
+}
+
 func (m *ListInstanceGroupsRequest) SetFolderId(v string) {
 	m.FolderId = v
 }
@@ -225,6 +249,26 @@ func (m *ListInstanceGroupInstancesResponse) SetInstances(v []*ManagedInstance) 
 
 func (m *ListInstanceGroupInstancesResponse) SetNextPageToken(v string) {
 	m.NextPageToken = v
+}
+
+func (m *DeleteInstancesRequest) SetInstanceGroupId(v string) {
+	m.InstanceGroupId = v
+}
+
+func (m *DeleteInstancesRequest) SetManagedInstanceIds(v []string) {
+	m.ManagedInstanceIds = v
+}
+
+func (m *DeleteInstancesRequest) SetCreateAnother(v bool) {
+	m.CreateAnother = v
+}
+
+func (m *StopInstancesRequest) SetInstanceGroupId(v string) {
+	m.InstanceGroupId = v
+}
+
+func (m *StopInstancesRequest) SetManagedInstanceIds(v []string) {
+	m.ManagedInstanceIds = v
 }
 
 func (m *ListInstanceGroupOperationsRequest) SetInstanceGroupId(v string) {

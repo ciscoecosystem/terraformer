@@ -4,7 +4,7 @@ package iam
 
 import (
 	operation "github.com/yandex-cloud/go-genproto/yandex/cloud/operation"
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
 func (m *GetServiceAccountRequest) SetServiceAccountId(v string) {
@@ -47,6 +47,10 @@ func (m *CreateServiceAccountRequest) SetDescription(v string) {
 	m.Description = v
 }
 
+func (m *CreateServiceAccountRequest) SetLabels(v map[string]string) {
+	m.Labels = v
+}
+
 func (m *CreateServiceAccountMetadata) SetServiceAccountId(v string) {
 	m.ServiceAccountId = v
 }
@@ -55,7 +59,7 @@ func (m *UpdateServiceAccountRequest) SetServiceAccountId(v string) {
 	m.ServiceAccountId = v
 }
 
-func (m *UpdateServiceAccountRequest) SetUpdateMask(v *field_mask.FieldMask) {
+func (m *UpdateServiceAccountRequest) SetUpdateMask(v *fieldmaskpb.FieldMask) {
 	m.UpdateMask = v
 }
 
@@ -65,6 +69,10 @@ func (m *UpdateServiceAccountRequest) SetName(v string) {
 
 func (m *UpdateServiceAccountRequest) SetDescription(v string) {
 	m.Description = v
+}
+
+func (m *UpdateServiceAccountRequest) SetLabels(v map[string]string) {
+	m.Labels = v
 }
 
 func (m *UpdateServiceAccountMetadata) SetServiceAccountId(v string) {

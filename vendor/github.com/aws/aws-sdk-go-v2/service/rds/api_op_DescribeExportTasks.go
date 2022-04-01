@@ -59,7 +59,10 @@ type DescribeExportTasksInput struct {
 	//
 	// * failed
 	//
-	// * starting
+	// * in_progress
+	//
+	// *
+	// starting
 	Filters []types.Filter
 
 	// An optional pagination token provided by a previous DescribeExportTasks request.
@@ -211,12 +214,13 @@ func NewDescribeExportTasksPaginator(client DescribeExportTasksAPIClient, params
 		client:    client,
 		params:    params,
 		firstPage: true,
+		nextToken: params.Marker,
 	}
 }
 
 // HasMorePages returns a boolean indicating whether more pages are available
 func (p *DescribeExportTasksPaginator) HasMorePages() bool {
-	return p.firstPage || p.nextToken != nil
+	return p.firstPage || (p.nextToken != nil && len(*p.nextToken) != 0)
 }
 
 // NextPage retrieves the next DescribeExportTasks page.
@@ -243,7 +247,10 @@ func (p *DescribeExportTasksPaginator) NextPage(ctx context.Context, optFns ...f
 	prevToken := p.nextToken
 	p.nextToken = result.Marker
 
-	if p.options.StopOnDuplicateToken && prevToken != nil && p.nextToken != nil && *prevToken == *p.nextToken {
+	if p.options.StopOnDuplicateToken &&
+		prevToken != nil &&
+		p.nextToken != nil &&
+		*prevToken == *p.nextToken {
 		p.nextToken = nil
 	}
 

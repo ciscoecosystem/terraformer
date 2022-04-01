@@ -3,10 +3,10 @@
 package clickhouse
 
 import (
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
-	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	config "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/clickhouse/v1/config"
 	timeofday "google.golang.org/genproto/googleapis/type/timeofday"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
+	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 func (m *Cluster) SetId(v string) {
@@ -17,7 +17,7 @@ func (m *Cluster) SetFolderId(v string) {
 	m.FolderId = v
 }
 
-func (m *Cluster) SetCreatedAt(v *timestamp.Timestamp) {
+func (m *Cluster) SetCreatedAt(v *timestamppb.Timestamp) {
 	m.CreatedAt = v
 }
 
@@ -69,6 +69,14 @@ func (m *Cluster) SetPlannedOperation(v *MaintenanceOperation) {
 	m.PlannedOperation = v
 }
 
+func (m *Cluster) SetSecurityGroupIds(v []string) {
+	m.SecurityGroupIds = v
+}
+
+func (m *Cluster) SetDeletionProtection(v bool) {
+	m.DeletionProtection = v
+}
+
 func (m *Monitoring) SetName(v string) {
 	m.Name = v
 }
@@ -99,6 +107,22 @@ func (m *ClusterConfig) SetBackupWindowStart(v *timeofday.TimeOfDay) {
 
 func (m *ClusterConfig) SetAccess(v *Access) {
 	m.Access = v
+}
+
+func (m *ClusterConfig) SetCloudStorage(v *CloudStorage) {
+	m.CloudStorage = v
+}
+
+func (m *ClusterConfig) SetSqlDatabaseManagement(v *wrapperspb.BoolValue) {
+	m.SqlDatabaseManagement = v
+}
+
+func (m *ClusterConfig) SetSqlUserManagement(v *wrapperspb.BoolValue) {
+	m.SqlUserManagement = v
+}
+
+func (m *ClusterConfig) SetEmbeddedKeeper(v *wrapperspb.BoolValue) {
+	m.EmbeddedKeeper = v
 }
 
 func (m *ClusterConfig_Clickhouse) SetConfig(v *config.ClickhouseConfigSet) {
@@ -153,7 +177,7 @@ func (m *ShardConfig_Clickhouse) SetResources(v *Resources) {
 	m.Resources = v
 }
 
-func (m *ShardConfig_Clickhouse) SetWeight(v *wrappers.Int64Value) {
+func (m *ShardConfig_Clickhouse) SetWeight(v *wrapperspb.Int64Value) {
 	m.Weight = v
 }
 
@@ -231,4 +255,16 @@ func (m *Access) SetMetrika(v bool) {
 
 func (m *Access) SetServerless(v bool) {
 	m.Serverless = v
+}
+
+func (m *Access) SetDataTransfer(v bool) {
+	m.DataTransfer = v
+}
+
+func (m *Access) SetYandexQuery(v bool) {
+	m.YandexQuery = v
+}
+
+func (m *CloudStorage) SetEnabled(v bool) {
+	m.Enabled = v
 }

@@ -45,10 +45,10 @@ type DescribeDBEngineVersionsInput struct {
 	// * aurora (for MySQL 5.6-compatible
 	// Aurora)
 	//
-	// * aurora-mysql (for MySQL 5.7-compatible Aurora)
+	// * aurora-mysql (for MySQL 5.7-compatible and MySQL 8.0-compatible
+	// Aurora)
 	//
-	// *
-	// aurora-postgresql
+	// * aurora-postgresql
 	//
 	// * mariadb
 	//
@@ -56,10 +56,10 @@ type DescribeDBEngineVersionsInput struct {
 	//
 	// * oracle-ee
 	//
-	// * oracle-ee-cdb
-	//
 	// *
-	// oracle-se2
+	// oracle-ee-cdb
+	//
+	// * oracle-se2
 	//
 	// * oracle-se2-cdb
 	//
@@ -67,10 +67,10 @@ type DescribeDBEngineVersionsInput struct {
 	//
 	// * sqlserver-ee
 	//
-	// * sqlserver-se
-	//
 	// *
-	// sqlserver-ex
+	// sqlserver-se
+	//
+	// * sqlserver-ex
 	//
 	// * sqlserver-web
 	Engine *string
@@ -78,7 +78,43 @@ type DescribeDBEngineVersionsInput struct {
 	// The database engine version to return. Example: 5.1.49
 	EngineVersion *string
 
-	// This parameter isn't currently supported.
+	// A filter that specifies one or more DB engine versions to describe. Supported
+	// filters:
+	//
+	// * db-parameter-group-family - Accepts parameter groups family names.
+	// The results list only includes information about the DB engine versions for
+	// these parameter group families.
+	//
+	// * engine - Accepts engine names. The results
+	// list only includes information about the DB engine versions for these
+	// engines.
+	//
+	// * engine-mode - Accepts DB engine modes. The results list only
+	// includes information about the DB engine versions for these engine modes. Valid
+	// DB engine modes are the following:
+	//
+	// * global
+	//
+	// * multimaster
+	//
+	// * parallelquery
+	//
+	// *
+	// provisioned
+	//
+	// * serverless
+	//
+	// * engine-version - Accepts engine versions. The
+	// results list only includes information about the DB engine versions for these
+	// engine versions.
+	//
+	// * status - Accepts engine version statuses. The results list
+	// only includes information about the DB engine versions for these statuses. Valid
+	// statuses are the following:
+	//
+	// * available
+	//
+	// * deprecated
 	Filters []types.Filter
 
 	// A value that indicates whether to include engine versions that aren't available
@@ -248,12 +284,13 @@ func NewDescribeDBEngineVersionsPaginator(client DescribeDBEngineVersionsAPIClie
 		client:    client,
 		params:    params,
 		firstPage: true,
+		nextToken: params.Marker,
 	}
 }
 
 // HasMorePages returns a boolean indicating whether more pages are available
 func (p *DescribeDBEngineVersionsPaginator) HasMorePages() bool {
-	return p.firstPage || p.nextToken != nil
+	return p.firstPage || (p.nextToken != nil && len(*p.nextToken) != 0)
 }
 
 // NextPage retrieves the next DescribeDBEngineVersions page.
@@ -280,7 +317,10 @@ func (p *DescribeDBEngineVersionsPaginator) NextPage(ctx context.Context, optFns
 	prevToken := p.nextToken
 	p.nextToken = result.Marker
 
-	if p.options.StopOnDuplicateToken && prevToken != nil && p.nextToken != nil && *prevToken == *p.nextToken {
+	if p.options.StopOnDuplicateToken &&
+		prevToken != nil &&
+		p.nextToken != nil &&
+		*prevToken == *p.nextToken {
 		p.nextToken = nil
 	}
 

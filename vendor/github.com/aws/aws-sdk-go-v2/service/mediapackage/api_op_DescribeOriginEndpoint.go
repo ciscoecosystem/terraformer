@@ -17,7 +17,7 @@ func (c *Client) DescribeOriginEndpoint(ctx context.Context, params *DescribeOri
 		params = &DescribeOriginEndpointInput{}
 	}
 
-	result, metadata, err := c.invokeOperation(ctx, "DescribeOriginEndpoint", params, optFns, addOperationDescribeOriginEndpointMiddlewares)
+	result, metadata, err := c.invokeOperation(ctx, "DescribeOriginEndpoint", params, optFns, c.addOperationDescribeOriginEndpointMiddlewares)
 	if err != nil {
 		return nil, err
 	}
@@ -33,6 +33,8 @@ type DescribeOriginEndpointInput struct {
 	//
 	// This member is required.
 	Id *string
+
+	noSmithyDocumentSerde
 }
 
 type DescribeOriginEndpointOutput struct {
@@ -94,9 +96,11 @@ type DescribeOriginEndpointOutput struct {
 
 	// Metadata pertaining to the operation's result.
 	ResultMetadata middleware.Metadata
+
+	noSmithyDocumentSerde
 }
 
-func addOperationDescribeOriginEndpointMiddlewares(stack *middleware.Stack, options Options) (err error) {
+func (c *Client) addOperationDescribeOriginEndpointMiddlewares(stack *middleware.Stack, options Options) (err error) {
 	err = stack.Serialize.Add(&awsRestjson1_serializeOpDescribeOriginEndpoint{}, middleware.After)
 	if err != nil {
 		return err

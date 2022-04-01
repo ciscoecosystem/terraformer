@@ -3,8 +3,8 @@
 package kms
 
 import (
-	duration "github.com/golang/protobuf/ptypes/duration"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func (m *SymmetricKey) SetId(v string) {
@@ -15,7 +15,7 @@ func (m *SymmetricKey) SetFolderId(v string) {
 	m.FolderId = v
 }
 
-func (m *SymmetricKey) SetCreatedAt(v *timestamp.Timestamp) {
+func (m *SymmetricKey) SetCreatedAt(v *timestamppb.Timestamp) {
 	m.CreatedAt = v
 }
 
@@ -43,12 +43,16 @@ func (m *SymmetricKey) SetDefaultAlgorithm(v SymmetricAlgorithm) {
 	m.DefaultAlgorithm = v
 }
 
-func (m *SymmetricKey) SetRotatedAt(v *timestamp.Timestamp) {
+func (m *SymmetricKey) SetRotatedAt(v *timestamppb.Timestamp) {
 	m.RotatedAt = v
 }
 
-func (m *SymmetricKey) SetRotationPeriod(v *duration.Duration) {
+func (m *SymmetricKey) SetRotationPeriod(v *durationpb.Duration) {
 	m.RotationPeriod = v
+}
+
+func (m *SymmetricKey) SetDeletionProtection(v bool) {
+	m.DeletionProtection = v
 }
 
 func (m *SymmetricKeyVersion) SetId(v string) {
@@ -67,7 +71,7 @@ func (m *SymmetricKeyVersion) SetAlgorithm(v SymmetricAlgorithm) {
 	m.Algorithm = v
 }
 
-func (m *SymmetricKeyVersion) SetCreatedAt(v *timestamp.Timestamp) {
+func (m *SymmetricKeyVersion) SetCreatedAt(v *timestamppb.Timestamp) {
 	m.CreatedAt = v
 }
 
@@ -75,6 +79,10 @@ func (m *SymmetricKeyVersion) SetPrimary(v bool) {
 	m.Primary = v
 }
 
-func (m *SymmetricKeyVersion) SetDestroyAt(v *timestamp.Timestamp) {
+func (m *SymmetricKeyVersion) SetDestroyAt(v *timestamppb.Timestamp) {
 	m.DestroyAt = v
+}
+
+func (m *SymmetricKeyVersion) SetHostedByHsm(v bool) {
+	m.HostedByHsm = v
 }

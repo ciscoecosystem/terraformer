@@ -3,13 +3,19 @@
 package k8s
 
 import (
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type Cluster_InternetGateway = isCluster_InternetGateway
 
 func (m *Cluster) SetInternetGateway(v Cluster_InternetGateway) {
 	m.InternetGateway = v
+}
+
+type Cluster_NetworkImplementation = isCluster_NetworkImplementation
+
+func (m *Cluster) SetNetworkImplementation(v Cluster_NetworkImplementation) {
+	m.NetworkImplementation = v
 }
 
 func (m *Cluster) SetId(v string) {
@@ -20,7 +26,7 @@ func (m *Cluster) SetFolderId(v string) {
 	m.FolderId = v
 }
 
-func (m *Cluster) SetCreatedAt(v *timestamp.Timestamp) {
+func (m *Cluster) SetCreatedAt(v *timestamppb.Timestamp) {
 	m.CreatedAt = v
 }
 
@@ -82,6 +88,16 @@ func (m *Cluster) SetKmsProvider(v *KMSProvider) {
 	m.KmsProvider = v
 }
 
+func (m *Cluster) SetLogGroupId(v string) {
+	m.LogGroupId = v
+}
+
+func (m *Cluster) SetCilium(v *Cilium) {
+	m.NetworkImplementation = &Cluster_Cilium{
+		Cilium: v,
+	}
+}
+
 type Master_MasterType = isMaster_MasterType
 
 func (m *Master) SetMasterType(v Master_MasterType) {
@@ -118,6 +134,10 @@ func (m *Master) SetVersionInfo(v *VersionInfo) {
 
 func (m *Master) SetMaintenancePolicy(v *MasterMaintenancePolicy) {
 	m.MaintenancePolicy = v
+}
+
+func (m *Master) SetSecurityGroupIds(v []string) {
+	m.SecurityGroupIds = v
 }
 
 func (m *MasterAuth) SetClusterCaCertificate(v string) {
@@ -168,6 +188,14 @@ func (m *IPAllocationPolicy) SetServiceIpv4CidrBlock(v string) {
 	m.ServiceIpv4CidrBlock = v
 }
 
+func (m *IPAllocationPolicy) SetClusterIpv6CidrBlock(v string) {
+	m.ClusterIpv6CidrBlock = v
+}
+
+func (m *IPAllocationPolicy) SetServiceIpv6CidrBlock(v string) {
+	m.ServiceIpv6CidrBlock = v
+}
+
 func (m *MasterMaintenancePolicy) SetAutoUpgrade(v bool) {
 	m.AutoUpgrade = v
 }
@@ -182,4 +210,8 @@ func (m *NetworkPolicy) SetProvider(v NetworkPolicy_Provider) {
 
 func (m *KMSProvider) SetKeyId(v string) {
 	m.KeyId = v
+}
+
+func (m *Cilium) SetRoutingMode(v Cilium_RoutingMode) {
+	m.RoutingMode = v
 }

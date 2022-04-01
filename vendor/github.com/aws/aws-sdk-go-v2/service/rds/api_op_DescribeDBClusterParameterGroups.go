@@ -15,9 +15,12 @@ import (
 // Returns a list of DBClusterParameterGroup descriptions. If a
 // DBClusterParameterGroupName parameter is specified, the list will contain only
 // the description of the specified DB cluster parameter group. For more
-// information on Amazon Aurora, see  What Is Amazon Aurora?
+// information on Amazon Aurora, see  What is Amazon Aurora?
 // (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html)
-// in the Amazon Aurora User Guide. This action only applies to Aurora DB clusters.
+// in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters,
+// see  Multi-AZ deployments with two readable standby DB instances
+// (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html)
+// in the Amazon RDS User Guide.
 func (c *Client) DescribeDBClusterParameterGroups(ctx context.Context, params *DescribeDBClusterParameterGroupsInput, optFns ...func(*Options)) (*DescribeDBClusterParameterGroupsOutput, error) {
 	if params == nil {
 		params = &DescribeDBClusterParameterGroupsInput{}
@@ -195,12 +198,13 @@ func NewDescribeDBClusterParameterGroupsPaginator(client DescribeDBClusterParame
 		client:    client,
 		params:    params,
 		firstPage: true,
+		nextToken: params.Marker,
 	}
 }
 
 // HasMorePages returns a boolean indicating whether more pages are available
 func (p *DescribeDBClusterParameterGroupsPaginator) HasMorePages() bool {
-	return p.firstPage || p.nextToken != nil
+	return p.firstPage || (p.nextToken != nil && len(*p.nextToken) != 0)
 }
 
 // NextPage retrieves the next DescribeDBClusterParameterGroups page.
@@ -227,7 +231,10 @@ func (p *DescribeDBClusterParameterGroupsPaginator) NextPage(ctx context.Context
 	prevToken := p.nextToken
 	p.nextToken = result.Marker
 
-	if p.options.StopOnDuplicateToken && prevToken != nil && p.nextToken != nil && *prevToken == *p.nextToken {
+	if p.options.StopOnDuplicateToken &&
+		prevToken != nil &&
+		p.nextToken != nil &&
+		*prevToken == *p.nextToken {
 		p.nextToken = nil
 	}
 

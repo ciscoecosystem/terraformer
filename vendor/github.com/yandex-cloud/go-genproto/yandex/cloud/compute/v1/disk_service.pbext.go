@@ -4,7 +4,7 @@ package compute
 
 import (
 	operation "github.com/yandex-cloud/go-genproto/yandex/cloud/operation"
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
 func (m *GetDiskRequest) SetDiskId(v string) {
@@ -85,6 +85,10 @@ func (m *CreateDiskRequest) SetBlockSize(v int64) {
 	m.BlockSize = v
 }
 
+func (m *CreateDiskRequest) SetDiskPlacementPolicy(v *DiskPlacementPolicy) {
+	m.DiskPlacementPolicy = v
+}
+
 func (m *CreateDiskMetadata) SetDiskId(v string) {
 	m.DiskId = v
 }
@@ -93,7 +97,7 @@ func (m *UpdateDiskRequest) SetDiskId(v string) {
 	m.DiskId = v
 }
 
-func (m *UpdateDiskRequest) SetUpdateMask(v *field_mask.FieldMask) {
+func (m *UpdateDiskRequest) SetUpdateMask(v *fieldmaskpb.FieldMask) {
 	m.UpdateMask = v
 }
 
@@ -111,6 +115,10 @@ func (m *UpdateDiskRequest) SetLabels(v map[string]string) {
 
 func (m *UpdateDiskRequest) SetSize(v int64) {
 	m.Size = v
+}
+
+func (m *UpdateDiskRequest) SetDiskPlacementPolicy(v *DiskPlacementPolicy) {
+	m.DiskPlacementPolicy = v
 }
 
 func (m *UpdateDiskMetadata) SetDiskId(v string) {
@@ -143,4 +151,24 @@ func (m *ListDiskOperationsResponse) SetOperations(v []*operation.Operation) {
 
 func (m *ListDiskOperationsResponse) SetNextPageToken(v string) {
 	m.NextPageToken = v
+}
+
+func (m *MoveDiskRequest) SetDiskId(v string) {
+	m.DiskId = v
+}
+
+func (m *MoveDiskRequest) SetDestinationFolderId(v string) {
+	m.DestinationFolderId = v
+}
+
+func (m *MoveDiskMetadata) SetDiskId(v string) {
+	m.DiskId = v
+}
+
+func (m *MoveDiskMetadata) SetSourceFolderId(v string) {
+	m.SourceFolderId = v
+}
+
+func (m *MoveDiskMetadata) SetDestinationFolderId(v string) {
+	m.DestinationFolderId = v
 }

@@ -36,13 +36,13 @@ type DescribePendingMaintenanceActionsInput struct {
 	// actions for. Supported filters:
 	//
 	// * db-cluster-id - Accepts DB cluster
-	// identifiers and DB cluster Amazon Resource Names (ARNs). The results list will
-	// only include pending maintenance actions for the DB clusters identified by these
+	// identifiers and DB cluster Amazon Resource Names (ARNs). The results list only
+	// includes pending maintenance actions for the DB clusters identified by these
 	// ARNs.
 	//
 	// * db-instance-id - Accepts DB instance identifiers and DB instance ARNs.
-	// The results list will only include pending maintenance actions for the DB
-	// instances identified by these ARNs.
+	// The results list only includes pending maintenance actions for the DB instances
+	// identified by these ARNs.
 	Filters []types.Filter
 
 	// An optional pagination token provided by a previous
@@ -197,12 +197,13 @@ func NewDescribePendingMaintenanceActionsPaginator(client DescribePendingMainten
 		client:    client,
 		params:    params,
 		firstPage: true,
+		nextToken: params.Marker,
 	}
 }
 
 // HasMorePages returns a boolean indicating whether more pages are available
 func (p *DescribePendingMaintenanceActionsPaginator) HasMorePages() bool {
-	return p.firstPage || p.nextToken != nil
+	return p.firstPage || (p.nextToken != nil && len(*p.nextToken) != 0)
 }
 
 // NextPage retrieves the next DescribePendingMaintenanceActions page.
@@ -229,7 +230,10 @@ func (p *DescribePendingMaintenanceActionsPaginator) NextPage(ctx context.Contex
 	prevToken := p.nextToken
 	p.nextToken = result.Marker
 
-	if p.options.StopOnDuplicateToken && prevToken != nil && p.nextToken != nil && *prevToken == *p.nextToken {
+	if p.options.StopOnDuplicateToken &&
+		prevToken != nil &&
+		p.nextToken != nil &&
+		*prevToken == *p.nextToken {
 		p.nextToken = nil
 	}
 

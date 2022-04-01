@@ -74,6 +74,113 @@ func (c *LifecyclePolicyServiceClient) List(ctx context.Context, in *containerre
 	return containerregistry.NewLifecyclePolicyServiceClient(conn).List(ctx, in, opts...)
 }
 
+type LifecyclePolicyIterator struct {
+	ctx  context.Context
+	opts []grpc.CallOption
+
+	err           error
+	started       bool
+	requestedSize int64
+	pageSize      int64
+
+	client  *LifecyclePolicyServiceClient
+	request *containerregistry.ListLifecyclePoliciesRequest
+
+	items []*containerregistry.LifecyclePolicy
+}
+
+func (c *LifecyclePolicyServiceClient) LifecyclePolicyIterator(ctx context.Context, req *containerregistry.ListLifecyclePoliciesRequest, opts ...grpc.CallOption) *LifecyclePolicyIterator {
+	var pageSize int64
+	const defaultPageSize = 1000
+	pageSize = req.PageSize
+	if pageSize == 0 {
+		pageSize = defaultPageSize
+	}
+	return &LifecyclePolicyIterator{
+		ctx:      ctx,
+		opts:     opts,
+		client:   c,
+		request:  req,
+		pageSize: pageSize,
+	}
+}
+
+func (it *LifecyclePolicyIterator) Next() bool {
+	if it.err != nil {
+		return false
+	}
+	if len(it.items) > 1 {
+		it.items[0] = nil
+		it.items = it.items[1:]
+		return true
+	}
+	it.items = nil // consume last item, if any
+
+	if it.started && it.request.PageToken == "" {
+		return false
+	}
+	it.started = true
+
+	if it.requestedSize == 0 || it.requestedSize > it.pageSize {
+		it.request.PageSize = it.pageSize
+	} else {
+		it.request.PageSize = it.requestedSize
+	}
+
+	response, err := it.client.List(it.ctx, it.request, it.opts...)
+	it.err = err
+	if err != nil {
+		return false
+	}
+
+	it.items = response.LifecyclePolicies
+	it.request.PageToken = response.NextPageToken
+	return len(it.items) > 0
+}
+
+func (it *LifecyclePolicyIterator) Take(size int64) ([]*containerregistry.LifecyclePolicy, error) {
+	if it.err != nil {
+		return nil, it.err
+	}
+
+	if size == 0 {
+		size = 1 << 32 // something insanely large
+	}
+	it.requestedSize = size
+	defer func() {
+		// reset iterator for future calls.
+		it.requestedSize = 0
+	}()
+
+	var result []*containerregistry.LifecyclePolicy
+
+	for it.requestedSize > 0 && it.Next() {
+		it.requestedSize--
+		result = append(result, it.Value())
+	}
+
+	if it.err != nil {
+		return nil, it.err
+	}
+
+	return result, nil
+}
+
+func (it *LifecyclePolicyIterator) TakeAll() ([]*containerregistry.LifecyclePolicy, error) {
+	return it.Take(0)
+}
+
+func (it *LifecyclePolicyIterator) Value() *containerregistry.LifecyclePolicy {
+	if len(it.items) == 0 {
+		panic("calling Value on empty iterator")
+	}
+	return it.items[0]
+}
+
+func (it *LifecyclePolicyIterator) Error() error {
+	return it.err
+}
+
 // ListDryRunResultAffectedImages implements containerregistry.LifecyclePolicyServiceClient
 func (c *LifecyclePolicyServiceClient) ListDryRunResultAffectedImages(ctx context.Context, in *containerregistry.ListDryRunLifecyclePolicyResultAffectedImagesRequest, opts ...grpc.CallOption) (*containerregistry.ListDryRunLifecyclePolicyResultAffectedImagesResponse, error) {
 	conn, err := c.getConn(ctx)
@@ -87,8 +194,10 @@ type LifecyclePolicyDryRunResultAffectedImagesIterator struct {
 	ctx  context.Context
 	opts []grpc.CallOption
 
-	err     error
-	started bool
+	err           error
+	started       bool
+	requestedSize int64
+	pageSize      int64
 
 	client  *LifecyclePolicyServiceClient
 	request *containerregistry.ListDryRunLifecyclePolicyResultAffectedImagesRequest
@@ -96,15 +205,19 @@ type LifecyclePolicyDryRunResultAffectedImagesIterator struct {
 	items []*containerregistry.Image
 }
 
-func (c *LifecyclePolicyServiceClient) LifecyclePolicyDryRunResultAffectedImagesIterator(ctx context.Context, dryRunLifecyclePolicyResultId string, opts ...grpc.CallOption) *LifecyclePolicyDryRunResultAffectedImagesIterator {
+func (c *LifecyclePolicyServiceClient) LifecyclePolicyDryRunResultAffectedImagesIterator(ctx context.Context, req *containerregistry.ListDryRunLifecyclePolicyResultAffectedImagesRequest, opts ...grpc.CallOption) *LifecyclePolicyDryRunResultAffectedImagesIterator {
+	var pageSize int64
+	const defaultPageSize = 1000
+	pageSize = req.PageSize
+	if pageSize == 0 {
+		pageSize = defaultPageSize
+	}
 	return &LifecyclePolicyDryRunResultAffectedImagesIterator{
-		ctx:    ctx,
-		opts:   opts,
-		client: c,
-		request: &containerregistry.ListDryRunLifecyclePolicyResultAffectedImagesRequest{
-			DryRunLifecyclePolicyResultId: dryRunLifecyclePolicyResultId,
-			PageSize:                      1000,
-		},
+		ctx:      ctx,
+		opts:     opts,
+		client:   c,
+		request:  req,
+		pageSize: pageSize,
 	}
 }
 
@@ -124,6 +237,12 @@ func (it *LifecyclePolicyDryRunResultAffectedImagesIterator) Next() bool {
 	}
 	it.started = true
 
+	if it.requestedSize == 0 || it.requestedSize > it.pageSize {
+		it.request.PageSize = it.pageSize
+	} else {
+		it.request.PageSize = it.requestedSize
+	}
+
 	response, err := it.client.ListDryRunResultAffectedImages(it.ctx, it.request, it.opts...)
 	it.err = err
 	if err != nil {
@@ -133,6 +252,38 @@ func (it *LifecyclePolicyDryRunResultAffectedImagesIterator) Next() bool {
 	it.items = response.AffectedImages
 	it.request.PageToken = response.NextPageToken
 	return len(it.items) > 0
+}
+
+func (it *LifecyclePolicyDryRunResultAffectedImagesIterator) Take(size int64) ([]*containerregistry.Image, error) {
+	if it.err != nil {
+		return nil, it.err
+	}
+
+	if size == 0 {
+		size = 1 << 32 // something insanely large
+	}
+	it.requestedSize = size
+	defer func() {
+		// reset iterator for future calls.
+		it.requestedSize = 0
+	}()
+
+	var result []*containerregistry.Image
+
+	for it.requestedSize > 0 && it.Next() {
+		it.requestedSize--
+		result = append(result, it.Value())
+	}
+
+	if it.err != nil {
+		return nil, it.err
+	}
+
+	return result, nil
+}
+
+func (it *LifecyclePolicyDryRunResultAffectedImagesIterator) TakeAll() ([]*containerregistry.Image, error) {
+	return it.Take(0)
 }
 
 func (it *LifecyclePolicyDryRunResultAffectedImagesIterator) Value() *containerregistry.Image {
@@ -159,8 +310,10 @@ type LifecyclePolicyDryRunResultsIterator struct {
 	ctx  context.Context
 	opts []grpc.CallOption
 
-	err     error
-	started bool
+	err           error
+	started       bool
+	requestedSize int64
+	pageSize      int64
 
 	client  *LifecyclePolicyServiceClient
 	request *containerregistry.ListDryRunLifecyclePolicyResultsRequest
@@ -168,15 +321,19 @@ type LifecyclePolicyDryRunResultsIterator struct {
 	items []*containerregistry.DryRunLifecyclePolicyResult
 }
 
-func (c *LifecyclePolicyServiceClient) LifecyclePolicyDryRunResultsIterator(ctx context.Context, lifecyclePolicyId string, opts ...grpc.CallOption) *LifecyclePolicyDryRunResultsIterator {
+func (c *LifecyclePolicyServiceClient) LifecyclePolicyDryRunResultsIterator(ctx context.Context, req *containerregistry.ListDryRunLifecyclePolicyResultsRequest, opts ...grpc.CallOption) *LifecyclePolicyDryRunResultsIterator {
+	var pageSize int64
+	const defaultPageSize = 1000
+	pageSize = req.PageSize
+	if pageSize == 0 {
+		pageSize = defaultPageSize
+	}
 	return &LifecyclePolicyDryRunResultsIterator{
-		ctx:    ctx,
-		opts:   opts,
-		client: c,
-		request: &containerregistry.ListDryRunLifecyclePolicyResultsRequest{
-			LifecyclePolicyId: lifecyclePolicyId,
-			PageSize:          1000,
-		},
+		ctx:      ctx,
+		opts:     opts,
+		client:   c,
+		request:  req,
+		pageSize: pageSize,
 	}
 }
 
@@ -196,6 +353,12 @@ func (it *LifecyclePolicyDryRunResultsIterator) Next() bool {
 	}
 	it.started = true
 
+	if it.requestedSize == 0 || it.requestedSize > it.pageSize {
+		it.request.PageSize = it.pageSize
+	} else {
+		it.request.PageSize = it.requestedSize
+	}
+
 	response, err := it.client.ListDryRunResults(it.ctx, it.request, it.opts...)
 	it.err = err
 	if err != nil {
@@ -205,6 +368,38 @@ func (it *LifecyclePolicyDryRunResultsIterator) Next() bool {
 	it.items = response.DryRunLifecyclePolicyResults
 	it.request.PageToken = response.NextPageToken
 	return len(it.items) > 0
+}
+
+func (it *LifecyclePolicyDryRunResultsIterator) Take(size int64) ([]*containerregistry.DryRunLifecyclePolicyResult, error) {
+	if it.err != nil {
+		return nil, it.err
+	}
+
+	if size == 0 {
+		size = 1 << 32 // something insanely large
+	}
+	it.requestedSize = size
+	defer func() {
+		// reset iterator for future calls.
+		it.requestedSize = 0
+	}()
+
+	var result []*containerregistry.DryRunLifecyclePolicyResult
+
+	for it.requestedSize > 0 && it.Next() {
+		it.requestedSize--
+		result = append(result, it.Value())
+	}
+
+	if it.err != nil {
+		return nil, it.err
+	}
+
+	return result, nil
+}
+
+func (it *LifecyclePolicyDryRunResultsIterator) TakeAll() ([]*containerregistry.DryRunLifecyclePolicyResult, error) {
+	return it.Take(0)
 }
 
 func (it *LifecyclePolicyDryRunResultsIterator) Value() *containerregistry.DryRunLifecyclePolicyResult {

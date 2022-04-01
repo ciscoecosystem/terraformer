@@ -4,7 +4,7 @@ package vpc
 
 import (
 	operation "github.com/yandex-cloud/go-genproto/yandex/cloud/operation"
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
 func (m *GetNetworkRequest) SetNetworkId(v string) {
@@ -59,7 +59,7 @@ func (m *UpdateNetworkRequest) SetNetworkId(v string) {
 	m.NetworkId = v
 }
 
-func (m *UpdateNetworkRequest) SetUpdateMask(v *field_mask.FieldMask) {
+func (m *UpdateNetworkRequest) SetUpdateMask(v *fieldmaskpb.FieldMask) {
 	m.UpdateMask = v
 }
 
@@ -104,6 +104,46 @@ func (m *ListNetworkSubnetsResponse) SetSubnets(v []*Subnet) {
 }
 
 func (m *ListNetworkSubnetsResponse) SetNextPageToken(v string) {
+	m.NextPageToken = v
+}
+
+func (m *ListNetworkSecurityGroupsRequest) SetNetworkId(v string) {
+	m.NetworkId = v
+}
+
+func (m *ListNetworkSecurityGroupsRequest) SetPageSize(v int64) {
+	m.PageSize = v
+}
+
+func (m *ListNetworkSecurityGroupsRequest) SetPageToken(v string) {
+	m.PageToken = v
+}
+
+func (m *ListNetworkSecurityGroupsResponse) SetSecurityGroups(v []*SecurityGroup) {
+	m.SecurityGroups = v
+}
+
+func (m *ListNetworkSecurityGroupsResponse) SetNextPageToken(v string) {
+	m.NextPageToken = v
+}
+
+func (m *ListNetworkRouteTablesRequest) SetNetworkId(v string) {
+	m.NetworkId = v
+}
+
+func (m *ListNetworkRouteTablesRequest) SetPageSize(v int64) {
+	m.PageSize = v
+}
+
+func (m *ListNetworkRouteTablesRequest) SetPageToken(v string) {
+	m.PageToken = v
+}
+
+func (m *ListNetworkRouteTablesResponse) SetRouteTables(v []*RouteTable) {
+	m.RouteTables = v
+}
+
+func (m *ListNetworkRouteTablesResponse) SetNextPageToken(v string) {
 	m.NextPageToken = v
 }
 

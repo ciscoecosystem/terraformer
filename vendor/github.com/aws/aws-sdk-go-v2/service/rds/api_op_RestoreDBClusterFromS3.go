@@ -21,7 +21,7 @@ import (
 // action to create DB instances for the restored DB cluster, specifying the
 // identifier of the restored DB cluster in DBClusterIdentifier. You can create DB
 // instances only after the RestoreDBClusterFromS3 action has completed and the DB
-// cluster is available. For more information on Amazon Aurora, see  What Is Amazon
+// cluster is available. For more information on Amazon Aurora, see  What is Amazon
 // Aurora?
 // (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html)
 // in the Amazon Aurora User Guide. This action only applies to Aurora DB clusters.
@@ -62,7 +62,7 @@ type RestoreDBClusterFromS3Input struct {
 
 	// The name of the database engine to be used for this DB cluster. Valid Values:
 	// aurora (for MySQL 5.6-compatible Aurora), aurora-mysql (for MySQL 5.7-compatible
-	// Aurora), and aurora-postgresql
+	// and MySQL 8.0-compatible Aurora), and aurora-postgresql
 	//
 	// This member is required.
 	Engine *string
@@ -148,7 +148,7 @@ type RestoreDBClusterFromS3Input struct {
 
 	// A DB subnet group to associate with the restored DB cluster. Constraints: If
 	// supplied, must match the name of an existing DBSubnetGroup. Example:
-	// mySubnetgroup
+	// mydbsubnetgroup
 	DBSubnetGroupName *string
 
 	// The database name for the restored DB cluster.
@@ -156,7 +156,7 @@ type RestoreDBClusterFromS3Input struct {
 
 	// A value that indicates whether the DB cluster has deletion protection enabled.
 	// The database can't be deleted when deletion protection is enabled. By default,
-	// deletion protection is disabled.
+	// deletion protection isn't enabled.
 	DeletionProtection *bool
 
 	// Specify the Active Directory directory ID to restore the DB cluster in. The
@@ -172,15 +172,17 @@ type RestoreDBClusterFromS3Input struct {
 	DomainIAMRoleName *string
 
 	// The list of logs that the restored DB cluster is to export to CloudWatch Logs.
-	// The values in the list depend on the DB engine being used. For more information,
-	// see Publishing Database Logs to Amazon CloudWatch Logs
+	// The values in the list depend on the DB engine being used. Aurora MySQL Possible
+	// values are audit, error, general, and slowquery. Aurora PostgreSQL Possible
+	// value is postgresql. For more information about exporting CloudWatch Logs for
+	// Amazon Aurora, see Publishing Database Logs to Amazon CloudWatch Logs
 	// (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch)
 	// in the Amazon Aurora User Guide.
 	EnableCloudwatchLogsExports []string
 
 	// A value that indicates whether to enable mapping of Amazon Web Services Identity
 	// and Access Management (IAM) accounts to database accounts. By default, mapping
-	// is disabled. For more information, see  IAM Database Authentication
+	// isn't enabled. For more information, see  IAM Database Authentication
 	// (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html)
 	// in the Amazon Aurora User Guide.
 	EnableIAMDatabaseAuthentication *bool
@@ -189,14 +191,14 @@ type RestoreDBClusterFromS3Input struct {
 	// engine versions for aurora (for MySQL 5.6-compatible Aurora), use the following
 	// command: aws rds describe-db-engine-versions --engine aurora --query
 	// "DBEngineVersions[].EngineVersion" To list all of the available engine versions
-	// for aurora-mysql (for MySQL 5.7-compatible Aurora), use the following command:
-	// aws rds describe-db-engine-versions --engine aurora-mysql --query
-	// "DBEngineVersions[].EngineVersion" To list all of the available engine versions
-	// for aurora-postgresql, use the following command: aws rds
+	// for aurora-mysql (for MySQL 5.7-compatible and MySQL 8.0-compatible Aurora), use
+	// the following command: aws rds describe-db-engine-versions --engine aurora-mysql
+	// --query "DBEngineVersions[].EngineVersion" To list all of the available engine
+	// versions for aurora-postgresql, use the following command: aws rds
 	// describe-db-engine-versions --engine aurora-postgresql --query
 	// "DBEngineVersions[].EngineVersion" Aurora MySQL Example: 5.6.10a,
-	// 5.6.mysql_aurora.1.19.2, 5.7.12, 5.7.mysql_aurora.2.04.5 Aurora PostgreSQL
-	// Example: 9.6.3, 10.7
+	// 5.6.mysql_aurora.1.19.2, 5.7.12, 5.7.mysql_aurora.2.04.5,
+	// 8.0.mysql_aurora.3.01.0 Aurora PostgreSQL Example: 9.6.3, 10.7
 	EngineVersion *string
 
 	// The Amazon Web Services KMS key identifier for an encrypted DB cluster. The
@@ -269,9 +271,22 @@ type RestoreDBClusterFromS3Input struct {
 
 type RestoreDBClusterFromS3Output struct {
 
-	// Contains the details of an Amazon Aurora DB cluster. This data type is used as a
-	// response element in the DescribeDBClusters, StopDBCluster, and StartDBCluster
-	// actions.
+	// Contains the details of an Amazon Aurora DB cluster or Multi-AZ DB cluster. For
+	// an Amazon Aurora DB cluster, this data type is used as a response element in the
+	// operations CreateDBCluster, DeleteDBCluster, DescribeDBClusters,
+	// FailoverDBCluster, ModifyDBCluster, PromoteReadReplicaDBCluster,
+	// RestoreDBClusterFromS3, RestoreDBClusterFromSnapshot,
+	// RestoreDBClusterToPointInTime, StartDBCluster, and StopDBCluster. For a Multi-AZ
+	// DB cluster, this data type is used as a response element in the operations
+	// CreateDBCluster, DeleteDBCluster, DescribeDBClusters, FailoverDBCluster,
+	// ModifyDBCluster, RebootDBCluster, RestoreDBClusterFromSnapshot, and
+	// RestoreDBClusterToPointInTime. For more information on Amazon Aurora DB
+	// clusters, see  What is Amazon Aurora?
+	// (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html)
+	// in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters,
+	// see  Multi-AZ deployments with two readable standby DB instances
+	// (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html)
+	// in the Amazon RDS User Guide.
 	DBCluster *types.DBCluster
 
 	// Metadata pertaining to the operation's result.

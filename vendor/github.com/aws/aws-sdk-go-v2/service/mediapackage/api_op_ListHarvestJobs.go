@@ -18,7 +18,7 @@ func (c *Client) ListHarvestJobs(ctx context.Context, params *ListHarvestJobsInp
 		params = &ListHarvestJobsInput{}
 	}
 
-	result, metadata, err := c.invokeOperation(ctx, "ListHarvestJobs", params, optFns, addOperationListHarvestJobsMiddlewares)
+	result, metadata, err := c.invokeOperation(ctx, "ListHarvestJobs", params, optFns, c.addOperationListHarvestJobsMiddlewares)
 	if err != nil {
 		return nil, err
 	}
@@ -42,6 +42,8 @@ type ListHarvestJobsInput struct {
 
 	// A token used to resume pagination from the end of a previous request.
 	NextToken *string
+
+	noSmithyDocumentSerde
 }
 
 type ListHarvestJobsOutput struct {
@@ -54,9 +56,11 @@ type ListHarvestJobsOutput struct {
 
 	// Metadata pertaining to the operation's result.
 	ResultMetadata middleware.Metadata
+
+	noSmithyDocumentSerde
 }
 
-func addOperationListHarvestJobsMiddlewares(stack *middleware.Stack, options Options) (err error) {
+func (c *Client) addOperationListHarvestJobsMiddlewares(stack *middleware.Stack, options Options) (err error) {
 	err = stack.Serialize.Add(&awsRestjson1_serializeOpListHarvestJobs{}, middleware.After)
 	if err != nil {
 		return err
@@ -163,12 +167,13 @@ func NewListHarvestJobsPaginator(client ListHarvestJobsAPIClient, params *ListHa
 		client:    client,
 		params:    params,
 		firstPage: true,
+		nextToken: params.NextToken,
 	}
 }
 
 // HasMorePages returns a boolean indicating whether more pages are available
 func (p *ListHarvestJobsPaginator) HasMorePages() bool {
-	return p.firstPage || p.nextToken != nil
+	return p.firstPage || (p.nextToken != nil && len(*p.nextToken) != 0)
 }
 
 // NextPage retrieves the next ListHarvestJobs page.
@@ -191,7 +196,10 @@ func (p *ListHarvestJobsPaginator) NextPage(ctx context.Context, optFns ...func(
 	prevToken := p.nextToken
 	p.nextToken = result.NextToken
 
-	if p.options.StopOnDuplicateToken && prevToken != nil && p.nextToken != nil && *prevToken == *p.nextToken {
+	if p.options.StopOnDuplicateToken &&
+		prevToken != nil &&
+		p.nextToken != nil &&
+		*prevToken == *p.nextToken {
 		p.nextToken = nil
 	}
 

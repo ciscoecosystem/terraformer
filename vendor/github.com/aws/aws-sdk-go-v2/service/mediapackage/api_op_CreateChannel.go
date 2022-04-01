@@ -17,7 +17,7 @@ func (c *Client) CreateChannel(ctx context.Context, params *CreateChannelInput, 
 		params = &CreateChannelInput{}
 	}
 
-	result, metadata, err := c.invokeOperation(ctx, "CreateChannel", params, optFns, addOperationCreateChannelMiddlewares)
+	result, metadata, err := c.invokeOperation(ctx, "CreateChannel", params, optFns, c.addOperationCreateChannelMiddlewares)
 	if err != nil {
 		return nil, err
 	}
@@ -41,6 +41,8 @@ type CreateChannelInput struct {
 
 	// A collection of tags associated with a resource
 	Tags map[string]string
+
+	noSmithyDocumentSerde
 }
 
 type CreateChannelOutput struct {
@@ -68,9 +70,11 @@ type CreateChannelOutput struct {
 
 	// Metadata pertaining to the operation's result.
 	ResultMetadata middleware.Metadata
+
+	noSmithyDocumentSerde
 }
 
-func addOperationCreateChannelMiddlewares(stack *middleware.Stack, options Options) (err error) {
+func (c *Client) addOperationCreateChannelMiddlewares(stack *middleware.Stack, options Options) (err error) {
 	err = stack.Serialize.Add(&awsRestjson1_serializeOpCreateChannel{}, middleware.After)
 	if err != nil {
 		return err

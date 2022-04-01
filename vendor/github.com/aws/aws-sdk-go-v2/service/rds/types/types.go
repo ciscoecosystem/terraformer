@@ -249,19 +249,19 @@ type ConnectionPoolConfiguration struct {
 	// initialization query
 	InitQuery *string
 
-	// The maximum size of the connection pool for each target in a target group. For
-	// Aurora MySQL, it is expressed as a percentage of the max_connections setting for
-	// the RDS DB instance or Aurora DB cluster used by the target group. Default: 100
+	// The maximum size of the connection pool for each target in a target group. The
+	// value is expressed as a percentage of the max_connections setting for the RDS DB
+	// instance or Aurora DB cluster used by the target group. Default: 100
 	// Constraints: between 1 and 100
 	MaxConnectionsPercent *int32
 
 	// Controls how actively the proxy closes idle database connections in the
-	// connection pool. A high value enables the proxy to leave a high percentage of
-	// idle connections open. A low value causes the proxy to close idle client
-	// connections and return the underlying database connections to the connection
-	// pool. For Aurora MySQL, it is expressed as a percentage of the max_connections
+	// connection pool. The value is expressed as a percentage of the max_connections
 	// setting for the RDS DB instance or Aurora DB cluster used by the target group.
-	// Default: 50 Constraints: between 0 and MaxConnectionsPercent
+	// With a high value, the proxy leaves a high percentage of idle database
+	// connections open. A low value causes the proxy to close more idle connections
+	// and return them to the database. Default: 50 Constraints: between 0 and
+	// MaxConnectionsPercent
 	MaxIdleConnectionsPercent *int32
 
 	// Each item in the list represents a class of SQL operations that normally cause
@@ -290,17 +290,17 @@ type ConnectionPoolConfigurationInfo struct {
 	// y=2.
 	InitQuery *string
 
-	// The maximum size of the connection pool for each target in a target group. For
-	// Aurora MySQL, it is expressed as a percentage of the max_connections setting for
-	// the RDS DB instance or Aurora DB cluster used by the target group.
+	// The maximum size of the connection pool for each target in a target group. The
+	// value is expressed as a percentage of the max_connections setting for the RDS DB
+	// instance or Aurora DB cluster used by the target group.
 	MaxConnectionsPercent int32
 
 	// Controls how actively the proxy closes idle database connections in the
-	// connection pool. A high value enables the proxy to leave a high percentage of
-	// idle connections open. A low value causes the proxy to close idle client
-	// connections and return the underlying database connections to the connection
-	// pool. For Aurora MySQL, it is expressed as a percentage of the max_connections
+	// connection pool. The value is expressed as a percentage of the max_connections
 	// setting for the RDS DB instance or Aurora DB cluster used by the target group.
+	// With a high value, the proxy leaves a high percentage of idle database
+	// connections open. A low value causes the proxy to close more idle connections
+	// and return them to the database.
 	MaxIdleConnectionsPercent int32
 
 	// Each item in the list represents a class of SQL operations that normally cause
@@ -336,9 +336,22 @@ type CustomAvailabilityZone struct {
 	noSmithyDocumentSerde
 }
 
-// Contains the details of an Amazon Aurora DB cluster. This data type is used as a
-// response element in the DescribeDBClusters, StopDBCluster, and StartDBCluster
-// actions.
+// Contains the details of an Amazon Aurora DB cluster or Multi-AZ DB cluster. For
+// an Amazon Aurora DB cluster, this data type is used as a response element in the
+// operations CreateDBCluster, DeleteDBCluster, DescribeDBClusters,
+// FailoverDBCluster, ModifyDBCluster, PromoteReadReplicaDBCluster,
+// RestoreDBClusterFromS3, RestoreDBClusterFromSnapshot,
+// RestoreDBClusterToPointInTime, StartDBCluster, and StopDBCluster. For a Multi-AZ
+// DB cluster, this data type is used as a response element in the operations
+// CreateDBCluster, DeleteDBCluster, DescribeDBClusters, FailoverDBCluster,
+// ModifyDBCluster, RebootDBCluster, RestoreDBClusterFromSnapshot, and
+// RestoreDBClusterToPointInTime. For more information on Amazon Aurora DB
+// clusters, see  What is Amazon Aurora?
+// (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html)
+// in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters,
+// see  Multi-AZ deployments with two readable standby DB instances
+// (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html)
+// in the Amazon RDS User Guide.
 type DBCluster struct {
 
 	// The name of the Amazon Kinesis data stream used for the database activity
@@ -370,6 +383,10 @@ type DBCluster struct {
 	// Services on your behalf.
 	AssociatedRoles []DBClusterRole
 
+	// A value that indicates that minor version patches are applied automatically.
+	// This setting is only for non-Aurora Multi-AZ DB clusters.
+	AutoMinorVersionUpgrade bool
+
 	// The time when a stopped DB cluster is restarted automatically.
 	AutomaticRestartTime *time.Time
 
@@ -387,9 +404,9 @@ type DBCluster struct {
 	// Specifies the number of days for which automatic DB snapshots are retained.
 	BackupRetentionPeriod *int32
 
-	// The current capacity of an Aurora Serverless DB cluster. The capacity is 0
-	// (zero) when the cluster is paused. For more information about Aurora Serverless,
-	// see Using Amazon Aurora Serverless
+	// The current capacity of an Aurora Serverless v1 DB cluster. The capacity is 0
+	// (zero) when the cluster is paused. For more information about Aurora Serverless
+	// v1, see Using Amazon Aurora Serverless v1
 	// (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html)
 	// in the Amazon Aurora User Guide.
 	Capacity *int32
@@ -422,6 +439,10 @@ type DBCluster struct {
 	// Contains a user-supplied DB cluster identifier. This identifier is the unique
 	// key that identifies a DB cluster.
 	DBClusterIdentifier *string
+
+	// The name of the compute and memory capacity class of the DB instance. This
+	// setting is only for non-Aurora Multi-AZ DB clusters.
+	DBClusterInstanceClass *string
 
 	// Provides the list of instances that make up the DB cluster.
 	DBClusterMembers []DBClusterMember
@@ -496,11 +517,11 @@ type DBCluster struct {
 	// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
 	HostedZoneId *string
 
-	// A value that indicates whether the HTTP endpoint for an Aurora Serverless DB
+	// A value that indicates whether the HTTP endpoint for an Aurora Serverless v1 DB
 	// cluster is enabled. When enabled, the HTTP endpoint provides a connectionless
-	// web service API for running SQL queries on the Aurora Serverless DB cluster. You
-	// can also query your database from inside the RDS console with the query editor.
-	// For more information, see Using the Data API for Aurora Serverless
+	// web service API for running SQL queries on the Aurora Serverless v1 DB cluster.
+	// You can also query your database from inside the RDS console with the query
+	// editor. For more information, see Using the Data API for Aurora Serverless v1
 	// (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html) in
 	// the Amazon Aurora User Guide.
 	HttpEndpointEnabled *bool
@@ -508,6 +529,10 @@ type DBCluster struct {
 	// A value that indicates whether the mapping of Amazon Web Services Identity and
 	// Access Management (IAM) accounts to database accounts is enabled.
 	IAMDatabaseAuthenticationEnabled *bool
+
+	// The Provisioned IOPS (I/O operations per second) value. This setting is only for
+	// non-Aurora Multi-AZ DB clusters.
+	Iops *int32
 
 	// If StorageEncrypted is enabled, the Amazon Web Services KMS key identifier for
 	// the encrypted DB cluster. The Amazon Web Services KMS key identifier is the key
@@ -521,6 +546,16 @@ type DBCluster struct {
 	// Contains the master username for the DB cluster.
 	MasterUsername *string
 
+	// The interval, in seconds, between points when Enhanced Monitoring metrics are
+	// collected for the DB cluster. This setting is only for non-Aurora Multi-AZ DB
+	// clusters.
+	MonitoringInterval *int32
+
+	// The ARN for the IAM role that permits RDS to send Enhanced Monitoring metrics to
+	// Amazon CloudWatch Logs. This setting is only for non-Aurora Multi-AZ DB
+	// clusters.
+	MonitoringRoleArn *string
+
 	// Specifies whether the DB cluster has instances in multiple Availability Zones.
 	MultiAZ *bool
 
@@ -532,6 +567,21 @@ type DBCluster struct {
 	// Specifies the progress of the operation as a percentage.
 	PercentProgress *string
 
+	// True if Performance Insights is enabled for the DB cluster, and otherwise false.
+	// This setting is only for non-Aurora Multi-AZ DB clusters.
+	PerformanceInsightsEnabled *bool
+
+	// The Amazon Web Services KMS key identifier for encryption of Performance
+	// Insights data. The Amazon Web Services KMS key identifier is the key ARN, key
+	// ID, alias ARN, or alias name for the KMS key. This setting is only for
+	// non-Aurora Multi-AZ DB clusters.
+	PerformanceInsightsKMSKeyId *string
+
+	// The amount of time, in days, to retain Performance Insights data. Valid values
+	// are 7 or 731 (2 years). This setting is only for non-Aurora Multi-AZ DB
+	// clusters.
+	PerformanceInsightsRetentionPeriod *int32
+
 	// Specifies the port that the database engine is listening on.
 	Port *int32
 
@@ -542,6 +592,18 @@ type DBCluster struct {
 	// Specifies the weekly time range during which system maintenance can occur, in
 	// Universal Coordinated Time (UTC).
 	PreferredMaintenanceWindow *string
+
+	// Specifies the accessibility options for the DB instance. When the DB instance is
+	// publicly accessible, its Domain Name System (DNS) endpoint resolves to the
+	// private IP address from within the DB instance's virtual private cloud (VPC). It
+	// resolves to the public IP address from outside of the DB instance's VPC. Access
+	// to the DB instance is ultimately controlled by the security group it uses. That
+	// public access is not permitted if the security group assigned to the DB instance
+	// doesn't permit it. When the DB instance isn't publicly accessible, it is an
+	// internal DB instance with a DNS name that resolves to a private IP address. For
+	// more information, see CreateDBInstance. This setting is only for non-Aurora
+	// Multi-AZ DB clusters.
+	PubliclyAccessible *bool
 
 	// Contains one or more identifiers of the read replicas associated with this DB
 	// cluster.
@@ -563,7 +625,7 @@ type DBCluster struct {
 	ReplicationSourceIdentifier *string
 
 	// Shows the scaling configuration for an Aurora DB cluster in serverless DB engine
-	// mode. For more information, see Using Amazon Aurora Serverless
+	// mode. For more information, see Using Amazon Aurora Serverless v1
 	// (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html)
 	// in the Amazon Aurora User Guide.
 	ScalingConfigurationInfo *ScalingConfigurationInfo
@@ -573,6 +635,10 @@ type DBCluster struct {
 
 	// Specifies whether the DB cluster is encrypted.
 	StorageEncrypted bool
+
+	// The storage type associated with the DB cluster. This setting is only for
+	// non-Aurora Multi-AZ DB clusters.
+	StorageType *string
 
 	// A list of tags. For more information, see Tagging Amazon RDS Resources
 	// (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in
@@ -837,7 +903,14 @@ type DBClusterSnapshot struct {
 	// value.
 	SourceDBClusterSnapshotArn *string
 
-	// Specifies the status of this DB cluster snapshot.
+	// Specifies the status of this DB cluster snapshot. Valid statuses are the
+	// following:
+	//
+	// * available
+	//
+	// * copying
+	//
+	// * creating
 	Status *string
 
 	// Specifies whether the DB cluster snapshot is encrypted.
@@ -968,6 +1041,10 @@ type DBEngineVersion struct {
 	// the CreateDBInstance action.
 	SupportedTimezones []Timezone
 
+	// A value that indicates whether the engine version supports Babelfish for Aurora
+	// PostgreSQL.
+	SupportsBabelfish bool
+
 	// A value that indicates whether you can use Aurora global databases with a
 	// specific DB engine version.
 	SupportsGlobalDatabases bool
@@ -995,7 +1072,11 @@ type DBEngineVersion struct {
 }
 
 // Contains the details of an Amazon RDS DB instance. This data type is used as a
-// response element in the DescribeDBInstances action.
+// response element in the operations CreateDBInstance,
+// CreateDBInstanceReadReplica, DeleteDBInstance, DescribeDBInstances,
+// ModifyDBInstance, PromoteReadReplica, RebootDBInstance,
+// RestoreDBInstanceFromDBSnapshot, RestoreDBInstanceFromS3,
+// RestoreDBInstanceToPointInTime, StartDBInstance, and StopDBInstance.
 type DBInstance struct {
 
 	// Indicates whether engine-native audit fields are included in the database
@@ -1048,6 +1129,10 @@ type DBInstance struct {
 	// Specifies the number of days for which automatic DB snapshots are retained.
 	BackupRetentionPeriod int32
 
+	// Specifies where automated backups and manual snapshots are stored: Amazon Web
+	// Services Outposts or the Amazon Web Services Region.
+	BackupTarget *string
+
 	// The identifier of the CA certificate for this DB instance.
 	CACertificateIdentifier *string
 
@@ -1077,7 +1162,7 @@ type DBInstance struct {
 	// For the list of permissions required for the IAM role, see
 	// Configure IAM and your VPC
 	// (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-setup-orcl.html#custom-setup-orcl.iam-vpc)
-	// in the Amazon Relational Database Service User Guide.
+	// in the Amazon RDS User Guide.
 	CustomIamInstanceProfile *string
 
 	// Specifies whether a customer-owned IP address (CoIP) is enabled for an RDS on
@@ -1276,21 +1361,22 @@ type DBInstance struct {
 	// in the Amazon Aurora User Guide.
 	PromotionTier *int32
 
-	// Specifies the accessibility options for the DB instance. When the DB instance is
-	// publicly accessible, its DNS endpoint resolves to the private IP address from
-	// within the DB instance's VPC, and to the public IP address from outside of the
-	// DB instance's VPC. Access to the DB instance is ultimately controlled by the
-	// security group it uses, and that public access is not permitted if the security
-	// group assigned to the DB instance doesn't permit it. When the DB instance isn't
-	// publicly accessible, it is an internal DB instance with a DNS name that resolves
-	// to a private IP address. For more information, see CreateDBInstance.
+	// Specifies the accessibility options for the DB instance. When the DB cluster is
+	// publicly accessible, its Domain Name System (DNS) endpoint resolves to the
+	// private IP address from within the DB cluster's virtual private cloud (VPC). It
+	// resolves to the public IP address from outside of the DB cluster's VPC. Access
+	// to the DB cluster is ultimately controlled by the security group it uses. That
+	// public access isn't permitted if the security group assigned to the DB cluster
+	// doesn't permit it. When the DB instance isn't publicly accessible, it is an
+	// internal DB instance with a DNS name that resolves to a private IP address. For
+	// more information, see CreateDBInstance.
 	PubliclyAccessible bool
 
 	// Contains one or more identifiers of Aurora DB clusters to which the RDS DB
 	// instance is replicated as a read replica. For example, when you create an Aurora
-	// read replica of an RDS MySQL DB instance, the Aurora MySQL DB cluster for the
-	// Aurora read replica is shown. This output does not contain information about
-	// cross region Aurora read replicas. Currently, each RDS DB instance can have only
+	// read replica of an RDS for MySQL DB instance, the Aurora MySQL DB cluster for
+	// the Aurora read replica is shown. This output doesn't contain information about
+	// cross-Region Aurora read replicas. Currently, each RDS DB instance can have only
 	// one Aurora read replica.
 	ReadReplicaDBClusterIdentifiers []string
 
@@ -1364,6 +1450,10 @@ type DBInstanceAutomatedBackup struct {
 
 	// The retention period for the automated backups.
 	BackupRetentionPeriod *int32
+
+	// Specifies where automated backups are stored: Amazon Web Services Outposts or
+	// the Amazon Web Services Region.
+	BackupTarget *string
 
 	// The Amazon Resource Name (ARN) for the automated backups.
 	DBInstanceArn *string
@@ -1897,6 +1987,10 @@ type DBSnapshot struct {
 	// Specifies when the snapshot was taken in Coordinated Universal Time (UTC).
 	// Changes for the copy when the snapshot is copied.
 	SnapshotCreateTime *time.Time
+
+	// Specifies where manual snapshots are stored: Amazon Web Services Outposts or the
+	// Amazon Web Services Region.
+	SnapshotTarget *string
 
 	// Provides the type of the DB snapshot.
 	SnapshotType *string
@@ -2804,6 +2898,13 @@ type OrderableDBInstanceOption struct {
 	// A list of the supported DB engine modes.
 	SupportedEngineModes []string
 
+	// Whether DB instances can be configured as a Multi-AZ DB cluster. For more
+	// information on Multi-AZ DB clusters, see  Multi-AZ deployments with two readable
+	// standby DB instances
+	// (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html)
+	// in the Amazon RDS User Guide.
+	SupportsClusters bool
+
 	// Indicates whether a DB instance supports Enhanced Monitoring at intervals from 1
 	// to 60 seconds.
 	SupportsEnhancedMonitoring bool
@@ -3222,8 +3323,8 @@ type RestoreWindow struct {
 	noSmithyDocumentSerde
 }
 
-// Contains the scaling configuration of an Aurora Serverless DB cluster. For more
-// information, see Using Amazon Aurora Serverless
+// Contains the scaling configuration of an Aurora Serverless v1 DB cluster. For
+// more information, see Using Amazon Aurora Serverless v1
 // (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html)
 // in the Amazon Aurora User Guide.
 type ScalingConfiguration struct {
@@ -3247,9 +3348,9 @@ type ScalingConfiguration struct {
 	// 384. The minimum capacity must be less than or equal to the maximum capacity.
 	MinCapacity *int32
 
-	// The amount of time, in seconds, that Aurora Serverless tries to find a scaling
-	// point to perform seamless scaling before enforcing the timeout action. The
-	// default is 300. Specify a value between 60 and 600 seconds.
+	// The amount of time, in seconds, that Aurora Serverless v1 tries to find a
+	// scaling point to perform seamless scaling before enforcing the timeout action.
+	// The default is 300. Specify a value between 60 and 600 seconds.
 	SecondsBeforeTimeout *int32
 
 	// The time, in seconds, before an Aurora DB cluster in serverless mode is paused.
@@ -3261,8 +3362,8 @@ type ScalingConfiguration struct {
 	// specified value as soon as possible. RollbackCapacityChange, the default,
 	// ignores the capacity change if a scaling point isn't found in the timeout
 	// period. If you specify ForceApplyCapacityChange, connections that prevent Aurora
-	// Serverless from finding a scaling point might be dropped. For more information,
-	// see  Autoscaling for Aurora Serverless
+	// Serverless v1 from finding a scaling point might be dropped. For more
+	// information, see  Autoscaling for Aurora Serverless v1
 	// (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.how-it-works.html#aurora-serverless.how-it-works.auto-scaling)
 	// in the Amazon Aurora User Guide.
 	TimeoutAction *string
@@ -3271,14 +3372,14 @@ type ScalingConfiguration struct {
 }
 
 // Shows the scaling configuration for an Aurora DB cluster in serverless DB engine
-// mode. For more information, see Using Amazon Aurora Serverless
+// mode. For more information, see Using Amazon Aurora Serverless v1
 // (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html)
 // in the Amazon Aurora User Guide.
 type ScalingConfigurationInfo struct {
 
 	// A value that indicates whether automatic pause is allowed for the Aurora DB
 	// cluster in serverless DB engine mode. When the value is set to false for an
-	// Aurora Serverless DB cluster, the DB cluster automatically resumes.
+	// Aurora Serverless v1 DB cluster, the DB cluster automatically resumes.
 	AutoPause *bool
 
 	// The maximum capacity for an Aurora DB cluster in serverless DB engine mode.
@@ -3297,7 +3398,7 @@ type ScalingConfigurationInfo struct {
 	SecondsUntilAutoPause *int32
 
 	// The action that occurs when Aurora times out while attempting to change the
-	// capacity of an Aurora Serverless cluster. The value is either
+	// capacity of an Aurora Serverless v1 cluster. The value is either
 	// ForceApplyCapacityChange or RollbackCapacityChange. ForceApplyCapacityChange,
 	// the default, sets the capacity to the specified value as soon as possible.
 	// RollbackCapacityChange ignores the capacity change if a scaling point isn't
@@ -3422,6 +3523,10 @@ type UpgradeTarget struct {
 
 	// A list of the supported DB engine modes for the target engine version.
 	SupportedEngineModes []string
+
+	// A value that indicates whether you can use Babelfish for Aurora PostgreSQL with
+	// the target engine version.
+	SupportsBabelfish *bool
 
 	// A value that indicates whether you can use Aurora global databases with the
 	// target engine version.

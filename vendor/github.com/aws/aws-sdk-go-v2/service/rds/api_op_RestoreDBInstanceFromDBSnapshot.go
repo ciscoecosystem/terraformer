@@ -85,8 +85,23 @@ type RestoreDBInstanceFromDBSnapshotInput struct {
 	// us-east-1a
 	AvailabilityZone *string
 
+	// Specifies where automated backups and manual snapshots are stored for the
+	// restored DB instance. Possible values are outposts (Amazon Web Services
+	// Outposts) and region (Amazon Web Services Region). The default is region. For
+	// more information, see Working with Amazon RDS on Amazon Web Services Outposts
+	// (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html) in
+	// the Amazon RDS User Guide.
+	BackupTarget *string
+
 	// A value that indicates whether to copy all tags from the restored DB instance to
-	// snapshots of the DB instance. By default, tags are not copied.
+	// snapshots of the DB instance. In most cases, tags aren't copied by default.
+	// However, when you restore a DB instance from a DB snapshot, RDS checks whether
+	// you specify new tags. If yes, the new tags are added to the restored DB
+	// instance. If there are no new tags, RDS looks for the tags from the source DB
+	// instance for the DB snapshot, and then adds those tags to the restored DB
+	// instance. For more information, see  Copying tags to DB instance snapshots
+	// (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html#USER_Tagging.CopyTags)
+	// in the Amazon RDS User Guide.
 	CopyTagsToSnapshot *bool
 
 	// The instance profile associated with the underlying Amazon EC2 instance of an
@@ -105,11 +120,10 @@ type RestoreDBInstanceFromDBSnapshotInput struct {
 	// For the list of permissions required for the IAM role, see
 	// Configure IAM and your VPC
 	// (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-setup-orcl.html#custom-setup-orcl.iam-vpc)
-	// in the Amazon Relational Database Service User Guide. This setting is required
-	// for RDS Custom.
+	// in the Amazon RDS User Guide. This setting is required for RDS Custom.
 	CustomIamInstanceProfile *string
 
-	// The compute and memory capacity of the Amazon RDS DB instance, for example,
+	// The compute and memory capacity of the Amazon RDS DB instance, for example
 	// db.m4.large. Not all DB instance classes are available in all Amazon Web
 	// Services Regions, or for all database engines. For the full list of DB instance
 	// classes, and availability for your engine, see DB Instance Class
@@ -141,12 +155,12 @@ type RestoreDBInstanceFromDBSnapshotInput struct {
 	DBParameterGroupName *string
 
 	// The DB subnet group name to use for the new instance. Constraints: If supplied,
-	// must match the name of an existing DBSubnetGroup. Example: mySubnetgroup
+	// must match the name of an existing DBSubnetGroup. Example: mydbsubnetgroup
 	DBSubnetGroupName *string
 
 	// A value that indicates whether the DB instance has deletion protection enabled.
 	// The database can't be deleted when deletion protection is enabled. By default,
-	// deletion protection is disabled. For more information, see  Deleting a DB
+	// deletion protection isn't enabled. For more information, see  Deleting a DB
 	// Instance
 	// (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_DeleteInstance.html).
 	DeletionProtection *bool
@@ -260,14 +274,14 @@ type RestoreDBInstanceFromDBSnapshotInput struct {
 	ProcessorFeatures []types.ProcessorFeature
 
 	// A value that indicates whether the DB instance is publicly accessible. When the
-	// DB instance is publicly accessible, its DNS endpoint resolves to the private IP
-	// address from within the DB instance's VPC, and to the public IP address from
-	// outside of the DB instance's VPC. Access to the DB instance is ultimately
-	// controlled by the security group it uses, and that public access is not
-	// permitted if the security group assigned to the DB instance doesn't permit it.
-	// When the DB instance isn't publicly accessible, it is an internal DB instance
-	// with a DNS name that resolves to a private IP address. For more information, see
-	// CreateDBInstance.
+	// DB instance is publicly accessible, its Domain Name System (DNS) endpoint
+	// resolves to the private IP address from within the DB instance's virtual private
+	// cloud (VPC). It resolves to the public IP address from outside of the DB
+	// instance's VPC. Access to the DB instance is ultimately controlled by the
+	// security group it uses. That public access is not permitted if the security
+	// group assigned to the DB instance doesn't permit it. When the DB instance isn't
+	// publicly accessible, it is an internal DB instance with a DNS name that resolves
+	// to a private IP address. For more information, see CreateDBInstance.
 	PubliclyAccessible *bool
 
 	// Specifies the storage type to be associated with the DB instance. Valid values:
@@ -302,7 +316,11 @@ type RestoreDBInstanceFromDBSnapshotInput struct {
 type RestoreDBInstanceFromDBSnapshotOutput struct {
 
 	// Contains the details of an Amazon RDS DB instance. This data type is used as a
-	// response element in the DescribeDBInstances action.
+	// response element in the operations CreateDBInstance,
+	// CreateDBInstanceReadReplica, DeleteDBInstance, DescribeDBInstances,
+	// ModifyDBInstance, PromoteReadReplica, RebootDBInstance,
+	// RestoreDBInstanceFromDBSnapshot, RestoreDBInstanceFromS3,
+	// RestoreDBInstanceToPointInTime, StartDBInstance, and StopDBInstance.
 	DBInstance *types.DBInstance
 
 	// Metadata pertaining to the operation's result.

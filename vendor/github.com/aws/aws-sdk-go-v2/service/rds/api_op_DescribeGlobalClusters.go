@@ -13,7 +13,7 @@ import (
 )
 
 // Returns information about Aurora global database clusters. This API supports
-// pagination. For more information on Amazon Aurora, see  What Is Amazon Aurora?
+// pagination. For more information on Amazon Aurora, see  What is Amazon Aurora?
 // (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html)
 // in the Amazon Aurora User Guide. This action only applies to Aurora DB clusters.
 func (c *Client) DescribeGlobalClusters(ctx context.Context, params *DescribeGlobalClustersInput, optFns ...func(*Options)) (*DescribeGlobalClustersOutput, error) {
@@ -188,12 +188,13 @@ func NewDescribeGlobalClustersPaginator(client DescribeGlobalClustersAPIClient, 
 		client:    client,
 		params:    params,
 		firstPage: true,
+		nextToken: params.Marker,
 	}
 }
 
 // HasMorePages returns a boolean indicating whether more pages are available
 func (p *DescribeGlobalClustersPaginator) HasMorePages() bool {
-	return p.firstPage || p.nextToken != nil
+	return p.firstPage || (p.nextToken != nil && len(*p.nextToken) != 0)
 }
 
 // NextPage retrieves the next DescribeGlobalClusters page.
@@ -220,7 +221,10 @@ func (p *DescribeGlobalClustersPaginator) NextPage(ctx context.Context, optFns .
 	prevToken := p.nextToken
 	p.nextToken = result.Marker
 
-	if p.options.StopOnDuplicateToken && prevToken != nil && p.nextToken != nil && *prevToken == *p.nextToken {
+	if p.options.StopOnDuplicateToken &&
+		prevToken != nil &&
+		p.nextToken != nil &&
+		*prevToken == *p.nextToken {
 		p.nextToken = nil
 	}
 

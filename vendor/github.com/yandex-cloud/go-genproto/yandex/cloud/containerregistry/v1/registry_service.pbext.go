@@ -3,7 +3,7 @@
 package containerregistry
 
 import (
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
 func (m *GetRegistryRequest) SetRegistryId(v string) {
@@ -54,7 +54,7 @@ func (m *UpdateRegistryRequest) SetRegistryId(v string) {
 	m.RegistryId = v
 }
 
-func (m *UpdateRegistryRequest) SetUpdateMask(v *field_mask.FieldMask) {
+func (m *UpdateRegistryRequest) SetUpdateMask(v *fieldmaskpb.FieldMask) {
 	m.UpdateMask = v
 }
 
@@ -75,5 +75,37 @@ func (m *DeleteRegistryRequest) SetRegistryId(v string) {
 }
 
 func (m *DeleteRegistryMetadata) SetRegistryId(v string) {
+	m.RegistryId = v
+}
+
+func (m *SetIpPermissionRequest) SetRegistryId(v string) {
+	m.RegistryId = v
+}
+
+func (m *SetIpPermissionRequest) SetIpPermission(v []*IpPermission) {
+	m.IpPermission = v
+}
+
+func (m *UpdateIpPermissionRequest) SetRegistryId(v string) {
+	m.RegistryId = v
+}
+
+func (m *UpdateIpPermissionRequest) SetIpPermissionDeltas(v []*IpPermissionDelta) {
+	m.IpPermissionDeltas = v
+}
+
+func (m *ListIpPermissionRequest) SetRegistryId(v string) {
+	m.RegistryId = v
+}
+
+func (m *ListIpPermissionsResponse) SetPermissions(v []*IpPermission) {
+	m.Permissions = v
+}
+
+func (m *SetIpPermissionMetadata) SetRegistryId(v string) {
+	m.RegistryId = v
+}
+
+func (m *UpdateIpPermissionMetadata) SetRegistryId(v string) {
 	m.RegistryId = v
 }

@@ -5,6 +5,7 @@ package ycsdk
 
 import (
 	"context"
+	"crypto"
 	"crypto/rsa"
 	"encoding/json"
 	"errors"
@@ -15,11 +16,12 @@ import (
 	"net/http/httputil"
 	"time"
 
-	jwt "github.com/dgrijalva/jwt-go"
-	"github.com/golang/protobuf/ptypes"
+	jwt "github.com/golang-jwt/jwt/v4"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/grpclog"
 	"google.golang.org/grpc/status"
+	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/types/known/timestamppb"
 
 	iampb "github.com/yandex-cloud/go-genproto/yandex/cloud/iam/v1"
 	"github.com/yandex-cloud/go-sdk/iamkey"
@@ -130,11 +132,11 @@ func (b *serviceAccountJWTBuilder) SignedToken() (string, error) {
 
 func (b *serviceAccountJWTBuilder) issueToken() *jwt.Token {
 	issuedAt := time.Now()
-	token := jwt.NewWithClaims(jwtSigningMethodPS256WithSaltLengthEqualsHash, jwt.StandardClaims{
+	token := jwt.NewWithClaims(jwtSigningMethodPS256WithSaltLengthEqualsHash, jwt.RegisteredClaims{
 		Issuer:    b.key.GetServiceAccountId(),
-		IssuedAt:  issuedAt.Unix(),
-		ExpiresAt: issuedAt.Add(time.Hour).Unix(),
-		Audience:  "https://iam.api.cloud.yandex.net/iam/v1/tokens",
+		IssuedAt:  jwt.NewNumericDate(issuedAt),
+		ExpiresAt: jwt.NewNumericDate(issuedAt.Add(time.Hour)),
+		Audience:  jwt.ClaimStrings{"https://iam.api.cloud.yandex.net/iam/v1/tokens"},
 	})
 	token.Header["kid"] = b.key.Id
 	return token
@@ -145,6 +147,7 @@ func (b *serviceAccountJWTBuilder) issueToken() *jwt.Token {
 var jwtSigningMethodPS256WithSaltLengthEqualsHash = &jwt.SigningMethodRSAPSS{
 	SigningMethodRSA: jwt.SigningMethodPS256.SigningMethodRSA,
 	Options: &rsa.PSSOptions{
+		Hash:       crypto.SHA256,
 		SaltLength: rsa.PSSSaltLengthEqualsHash,
 	},
 }
@@ -234,7 +237,7 @@ func (c *instanceServiceAccountCredentials) iamToken(ctx context.Context) (*iamp
 		grpclog.Errorf("Failed to unmarshal instance metadata service SA token response body.\nError: %s\nBody:\n%s", err, body)
 		return nil, sdkerrors.WithMessage(err, "body unmarshal failed")
 	}
-	expiresAt := ptypes.TimestampNow()
+	expiresAt := timestamppb.Now()
 	expiresAt.Seconds += tokenResponse.ExpiresIn - 1
 	expiresAt.Nanos = 0 // Truncate is for readability.
 	return &iampb.CreateIamTokenResponse{
@@ -274,4 +277,20 @@ func NewIAMTokenCredentials(iamToken string) NonExchangeableCredentials {
 	return &IAMTokenCredentials{
 		iamToken: iamToken,
 	}
+}
+
+// UserAccountKey returns credentials for the given IAM Key. The key is used to sign JWT tokens.
+// JWT tokens are exchanged for IAM Tokens used to authorize API calls.
+//
+// WARN: user account keys are not supported, and won't be supported for most users.
+func UserAccountKey(key *iamkey.Key) (Credentials, error) {
+	userAccountID := key.GetUserAccountId()
+	if userAccountID == "" {
+		return nil, fmt.Errorf("key should de issued for user account, but subject is %#v", key.Subject)
+	}
+
+	// User account key usage is same as service account key.
+	key = proto.Clone(key).(*iamkey.Key)
+	key.Subject = &iamkey.Key_ServiceAccountId{ServiceAccountId: userAccountID}
+	return ServiceAccountKey(key)
 }

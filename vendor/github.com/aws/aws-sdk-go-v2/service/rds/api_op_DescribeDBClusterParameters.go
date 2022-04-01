@@ -13,9 +13,12 @@ import (
 )
 
 // Returns the detailed parameter list for a particular DB cluster parameter group.
-// For more information on Amazon Aurora, see  What Is Amazon Aurora?
+// For more information on Amazon Aurora, see  What is Amazon Aurora?
 // (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html)
-// in the Amazon Aurora User Guide. This action only applies to Aurora DB clusters.
+// in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters,
+// see  Multi-AZ deployments with two readable standby DB instances
+// (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html)
+// in the Amazon RDS User Guide.
 func (c *Client) DescribeDBClusterParameters(ctx context.Context, params *DescribeDBClusterParametersInput, optFns ...func(*Options)) (*DescribeDBClusterParametersOutput, error) {
 	if params == nil {
 		params = &DescribeDBClusterParametersInput{}
@@ -70,7 +73,7 @@ type DescribeDBClusterParametersOutput struct {
 
 	// An optional pagination token provided by a previous DescribeDBClusterParameters
 	// request. If this parameter is specified, the response includes only records
-	// beyond the marker, up to the value specified by MaxRecords .
+	// beyond the marker, up to the value specified by MaxRecords.
 	Marker *string
 
 	// Provides a list of parameters for the DB cluster parameter group.
@@ -198,12 +201,13 @@ func NewDescribeDBClusterParametersPaginator(client DescribeDBClusterParametersA
 		client:    client,
 		params:    params,
 		firstPage: true,
+		nextToken: params.Marker,
 	}
 }
 
 // HasMorePages returns a boolean indicating whether more pages are available
 func (p *DescribeDBClusterParametersPaginator) HasMorePages() bool {
-	return p.firstPage || p.nextToken != nil
+	return p.firstPage || (p.nextToken != nil && len(*p.nextToken) != 0)
 }
 
 // NextPage retrieves the next DescribeDBClusterParameters page.
@@ -230,7 +234,10 @@ func (p *DescribeDBClusterParametersPaginator) NextPage(ctx context.Context, opt
 	prevToken := p.nextToken
 	p.nextToken = result.Marker
 
-	if p.options.StopOnDuplicateToken && prevToken != nil && p.nextToken != nil && *prevToken == *p.nextToken {
+	if p.options.StopOnDuplicateToken &&
+		prevToken != nil &&
+		p.nextToken != nil &&
+		*prevToken == *p.nextToken {
 		p.nextToken = nil
 	}
 

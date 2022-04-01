@@ -349,6 +349,9 @@ github.com/PaloAltoNetworks/pango/userid
 github.com/PaloAltoNetworks/pango/util
 github.com/PaloAltoNetworks/pango/version
 github.com/PaloAltoNetworks/pango/vsys
+# github.com/PuerkitoBio/rehttp v1.0.0
+## explicit
+github.com/PuerkitoBio/rehttp
 # github.com/SAP/go-hdb v0.105.2
 ## explicit; go 1.16
 # github.com/SermoDigital/jose v0.9.1
@@ -456,7 +459,7 @@ github.com/aws/aws-sdk-go/service/sso
 github.com/aws/aws-sdk-go/service/sso/ssoiface
 github.com/aws/aws-sdk-go/service/sts
 github.com/aws/aws-sdk-go/service/sts/stsiface
-# github.com/aws/aws-sdk-go-v2 v1.13.0
+# github.com/aws/aws-sdk-go-v2 v1.15.0
 ## explicit; go 1.15
 github.com/aws/aws-sdk-go-v2
 github.com/aws/aws-sdk-go-v2/aws
@@ -494,10 +497,10 @@ github.com/aws/aws-sdk-go-v2/credentials/stscreds
 # github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.0.5
 ## explicit; go 1.15
 github.com/aws/aws-sdk-go-v2/feature/ec2/imds
-# github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.4
+# github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.6
 ## explicit; go 1.15
 github.com/aws/aws-sdk-go-v2/internal/configsources
-# github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.2.0
+# github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.4.0
 ## explicit; go 1.15
 github.com/aws/aws-sdk-go-v2/internal/endpoints/v2
 # github.com/aws/aws-sdk-go-v2/internal/ini v1.2.2
@@ -624,7 +627,7 @@ github.com/aws/aws-sdk-go-v2/service/datapipeline/types
 github.com/aws/aws-sdk-go-v2/service/devicefarm
 github.com/aws/aws-sdk-go-v2/service/devicefarm/internal/endpoints
 github.com/aws/aws-sdk-go-v2/service/devicefarm/types
-# github.com/aws/aws-sdk-go-v2/service/docdb v1.9.0
+# github.com/aws/aws-sdk-go-v2/service/docdb v1.15.0
 ## explicit; go 1.15
 github.com/aws/aws-sdk-go-v2/service/docdb
 github.com/aws/aws-sdk-go-v2/service/docdb/internal/endpoints
@@ -713,7 +716,7 @@ github.com/aws/aws-sdk-go-v2/service/iam/types
 # github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.0.3
 ## explicit; go 1.15
 github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding
-# github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.5.0
+# github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.9.0
 ## explicit; go 1.15
 github.com/aws/aws-sdk-go-v2/service/internal/presigned-url
 # github.com/aws/aws-sdk-go-v2/service/internal/s3shared v1.2.1
@@ -747,7 +750,7 @@ github.com/aws/aws-sdk-go-v2/service/kms/types
 github.com/aws/aws-sdk-go-v2/service/lambda
 github.com/aws/aws-sdk-go-v2/service/lambda/internal/endpoints
 github.com/aws/aws-sdk-go-v2/service/lambda/types
-# github.com/aws/aws-sdk-go-v2/service/mediapackage v1.2.1
+# github.com/aws/aws-sdk-go-v2/service/mediapackage v1.15.0
 ## explicit; go 1.15
 github.com/aws/aws-sdk-go-v2/service/mediapackage
 github.com/aws/aws-sdk-go-v2/service/mediapackage/internal/endpoints
@@ -772,11 +775,16 @@ github.com/aws/aws-sdk-go-v2/service/organizations/types
 github.com/aws/aws-sdk-go-v2/service/qldb
 github.com/aws/aws-sdk-go-v2/service/qldb/internal/endpoints
 github.com/aws/aws-sdk-go-v2/service/qldb/types
-# github.com/aws/aws-sdk-go-v2/service/rds v1.11.0
+# github.com/aws/aws-sdk-go-v2/service/rds v1.18.1
 ## explicit; go 1.15
 github.com/aws/aws-sdk-go-v2/service/rds
 github.com/aws/aws-sdk-go-v2/service/rds/internal/endpoints
 github.com/aws/aws-sdk-go-v2/service/rds/types
+# github.com/aws/aws-sdk-go-v2/service/redshift v1.10.0
+## explicit; go 1.15
+github.com/aws/aws-sdk-go-v2/service/redshift
+github.com/aws/aws-sdk-go-v2/service/redshift/internal/endpoints
+github.com/aws/aws-sdk-go-v2/service/redshift/types
 # github.com/aws/aws-sdk-go-v2/service/resourcegroups v1.2.1
 ## explicit; go 1.15
 github.com/aws/aws-sdk-go-v2/service/resourcegroups
@@ -860,6 +868,11 @@ github.com/aws/aws-sdk-go-v2/service/waf/types
 github.com/aws/aws-sdk-go-v2/service/wafregional
 github.com/aws/aws-sdk-go-v2/service/wafregional/internal/endpoints
 github.com/aws/aws-sdk-go-v2/service/wafregional/types
+# github.com/aws/aws-sdk-go-v2/service/wafv2 v1.18.0
+## explicit; go 1.15
+github.com/aws/aws-sdk-go-v2/service/wafv2
+github.com/aws/aws-sdk-go-v2/service/wafv2/internal/endpoints
+github.com/aws/aws-sdk-go-v2/service/wafv2/types
 # github.com/aws/aws-sdk-go-v2/service/workspaces v1.2.1
 ## explicit; go 1.15
 github.com/aws/aws-sdk-go-v2/service/workspaces
@@ -870,7 +883,7 @@ github.com/aws/aws-sdk-go-v2/service/workspaces/types
 github.com/aws/aws-sdk-go-v2/service/xray
 github.com/aws/aws-sdk-go-v2/service/xray/internal/endpoints
 github.com/aws/aws-sdk-go-v2/service/xray/types
-# github.com/aws/smithy-go v1.10.0
+# github.com/aws/smithy-go v1.11.1
 ## explicit; go 1.15
 github.com/aws/smithy-go
 github.com/aws/smithy-go/document
@@ -967,9 +980,9 @@ github.com/dollarshaveclub/new-relic-synthetics-go/util
 ## explicit; go 1.13
 # github.com/elazarl/go-bindata-assetfs v1.0.1
 ## explicit
-# github.com/fastly/go-fastly/v5 v5.3.0
-## explicit; go 1.15
-github.com/fastly/go-fastly/v5/fastly
+# github.com/fastly/go-fastly/v6 v6.0.1
+## explicit; go 1.17
+github.com/fastly/go-fastly/v6/fastly
 # github.com/fatih/color v1.7.0
 ## explicit
 github.com/fatih/color
@@ -1016,28 +1029,28 @@ github.com/gofrs/uuid
 ## explicit; go 1.15
 github.com/gogo/protobuf/proto
 github.com/gogo/protobuf/sortkeys
+# github.com/golang-jwt/jwt/v4 v4.3.0
+## explicit; go 1.15
+github.com/golang-jwt/jwt/v4
 # github.com/golang/groupcache v0.0.0-20200121045136-8c9f03a8e57e
 ## explicit
 github.com/golang/groupcache/lru
 # github.com/golang/protobuf v1.5.2
 ## explicit; go 1.9
 github.com/golang/protobuf/internal/gengogrpc
-github.com/golang/protobuf/jsonpb
 github.com/golang/protobuf/proto
 github.com/golang/protobuf/protoc-gen-go
-github.com/golang/protobuf/protoc-gen-go/descriptor
 github.com/golang/protobuf/ptypes
 github.com/golang/protobuf/ptypes/any
 github.com/golang/protobuf/ptypes/duration
 github.com/golang/protobuf/ptypes/empty
 github.com/golang/protobuf/ptypes/struct
 github.com/golang/protobuf/ptypes/timestamp
-github.com/golang/protobuf/ptypes/wrappers
 # github.com/golang/snappy v0.0.3
 ## explicit
 github.com/golang/snappy
-# github.com/google/go-cmp v0.5.6
-## explicit; go 1.8
+# github.com/google/go-cmp v0.5.7
+## explicit; go 1.11
 github.com/google/go-cmp/cmp
 github.com/google/go-cmp/cmp/internal/diff
 github.com/google/go-cmp/cmp/internal/flags
@@ -1052,7 +1065,7 @@ github.com/google/go-querystring/query
 # github.com/google/gofuzz v1.1.0
 ## explicit; go 1.12
 github.com/google/gofuzz
-# github.com/google/jsonapi v0.0.0-20201022225600-f822737867f6
+# github.com/google/jsonapi v1.0.0
 ## explicit
 github.com/google/jsonapi
 # github.com/google/uuid v1.2.0
@@ -1087,7 +1100,7 @@ github.com/gorilla/websocket
 # github.com/grafana/grafana-api-golang-client v0.0.0-20210218192924-9ccd2365d2a6
 ## explicit; go 1.14
 github.com/grafana/grafana-api-golang-client
-# github.com/hashicorp/errwrap v1.0.0
+# github.com/hashicorp/errwrap v1.1.0
 ## explicit
 github.com/hashicorp/errwrap
 # github.com/hashicorp/go-azure-helpers v0.10.0
@@ -1106,8 +1119,8 @@ github.com/hashicorp/go-getter/helper/url
 github.com/hashicorp/go-hclog
 # github.com/hashicorp/go-memdb v1.3.2
 ## explicit; go 1.12
-# github.com/hashicorp/go-multierror v1.0.0
-## explicit
+# github.com/hashicorp/go-multierror v1.1.1
+## explicit; go 1.13
 github.com/hashicorp/go-multierror
 # github.com/hashicorp/go-plugin v1.4.1
 ## explicit; go 1.13
@@ -1331,7 +1344,7 @@ github.com/mitchellh/go-wordwrap
 # github.com/mitchellh/hashstructure v1.0.0
 ## explicit
 github.com/mitchellh/hashstructure
-# github.com/mitchellh/mapstructure v1.3.3
+# github.com/mitchellh/mapstructure v1.4.3
 ## explicit; go 1.14
 github.com/mitchellh/mapstructure
 # github.com/mitchellh/reflectwalk v1.0.2
@@ -1378,7 +1391,7 @@ github.com/okta/terraform-provider-okta/sdk
 ## explicit
 # github.com/opencontainers/runc v1.0.1
 ## explicit; go 1.13
-# github.com/opsgenie/opsgenie-go-sdk-v2 v1.2.8
+# github.com/opsgenie/opsgenie-go-sdk-v2 v1.2.9
 ## explicit; go 1.12
 github.com/opsgenie/opsgenie-go-sdk-v2/alert
 github.com/opsgenie/opsgenie-go-sdk-v2/client
@@ -1498,7 +1511,7 @@ github.com/xdg-go/scram
 # github.com/xdg-go/stringprep v1.0.2
 ## explicit; go 1.11
 github.com/xdg-go/stringprep
-# github.com/yandex-cloud/go-genproto v0.0.0-20200722140432-762fe965ce77
+# github.com/yandex-cloud/go-genproto v0.0.0-20220314102905-1acaee8ca7eb
 ## explicit
 github.com/yandex-cloud/go-genproto/yandex/cloud
 github.com/yandex-cloud/go-genproto/yandex/cloud/access
@@ -1506,10 +1519,17 @@ github.com/yandex-cloud/go-genproto/yandex/cloud/ai/stt/v2
 github.com/yandex-cloud/go-genproto/yandex/cloud/ai/translate/v2
 github.com/yandex-cloud/go-genproto/yandex/cloud/ai/vision/v1
 github.com/yandex-cloud/go-genproto/yandex/cloud/api
+github.com/yandex-cloud/go-genproto/yandex/cloud/apploadbalancer/v1
+github.com/yandex-cloud/go-genproto/yandex/cloud/billing/v1
+github.com/yandex-cloud/go-genproto/yandex/cloud/cdn/v1
+github.com/yandex-cloud/go-genproto/yandex/cloud/certificatemanager/v1
 github.com/yandex-cloud/go-genproto/yandex/cloud/compute/v1
 github.com/yandex-cloud/go-genproto/yandex/cloud/compute/v1/instancegroup
 github.com/yandex-cloud/go-genproto/yandex/cloud/containerregistry/v1
 github.com/yandex-cloud/go-genproto/yandex/cloud/dataproc/v1
+github.com/yandex-cloud/go-genproto/yandex/cloud/datatransfer/v1
+github.com/yandex-cloud/go-genproto/yandex/cloud/datatransfer/v1/endpoint
+github.com/yandex-cloud/go-genproto/yandex/cloud/dns/v1
 github.com/yandex-cloud/go-genproto/yandex/cloud/endpoint
 github.com/yandex-cloud/go-genproto/yandex/cloud/iam/v1
 github.com/yandex-cloud/go-genproto/yandex/cloud/iam/v1/awscompatibility
@@ -1517,9 +1537,15 @@ github.com/yandex-cloud/go-genproto/yandex/cloud/iot/devices/v1
 github.com/yandex-cloud/go-genproto/yandex/cloud/k8s/v1
 github.com/yandex-cloud/go-genproto/yandex/cloud/kms/v1
 github.com/yandex-cloud/go-genproto/yandex/cloud/loadbalancer/v1
+github.com/yandex-cloud/go-genproto/yandex/cloud/lockbox/v1
+github.com/yandex-cloud/go-genproto/yandex/cloud/logging/v1
 github.com/yandex-cloud/go-genproto/yandex/cloud/marketplace/v1/metering
 github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/clickhouse/v1
 github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/clickhouse/v1/config
+github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/elasticsearch/v1
+github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/elasticsearch/v1/config
+github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/greenplum/v1
+github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/kafka/v1
 github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mongodb/v1
 github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mongodb/v1/config
 github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mysql/v1
@@ -1528,24 +1554,43 @@ github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/postgresql/v1
 github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/postgresql/v1/config
 github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/redis/v1
 github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/redis/v1/config
+github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/sqlserver/v1
+github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/sqlserver/v1/config
+github.com/yandex-cloud/go-genproto/yandex/cloud/oauth
 github.com/yandex-cloud/go-genproto/yandex/cloud/operation
+github.com/yandex-cloud/go-genproto/yandex/cloud/organizationmanager/v1
+github.com/yandex-cloud/go-genproto/yandex/cloud/organizationmanager/v1/saml
+github.com/yandex-cloud/go-genproto/yandex/cloud/quota
 github.com/yandex-cloud/go-genproto/yandex/cloud/reference
 github.com/yandex-cloud/go-genproto/yandex/cloud/resourcemanager/v1
+github.com/yandex-cloud/go-genproto/yandex/cloud/serverless/apigateway/v1
+github.com/yandex-cloud/go-genproto/yandex/cloud/serverless/containers/v1
 github.com/yandex-cloud/go-genproto/yandex/cloud/serverless/functions/v1
+github.com/yandex-cloud/go-genproto/yandex/cloud/serverless/mdbproxy/v1
 github.com/yandex-cloud/go-genproto/yandex/cloud/serverless/triggers/v1
 github.com/yandex-cloud/go-genproto/yandex/cloud/vpc/v1
-# github.com/yandex-cloud/go-sdk v0.0.0-20200722140627-2194e5077f13
-## explicit; go 1.13
+github.com/yandex-cloud/go-genproto/yandex/cloud/ydb/v1
+# github.com/yandex-cloud/go-sdk v0.0.0-20220314105123-d0c2a928feb6
+## explicit; go 1.15
 github.com/yandex-cloud/go-sdk
 github.com/yandex-cloud/go-sdk/dial
 github.com/yandex-cloud/go-sdk/gen/ai/stt
 github.com/yandex-cloud/go-sdk/gen/ai/translate
 github.com/yandex-cloud/go-sdk/gen/ai/vision
 github.com/yandex-cloud/go-sdk/gen/apiendpoint
+github.com/yandex-cloud/go-sdk/gen/apigateway
+github.com/yandex-cloud/go-sdk/gen/apploadbalancer
+github.com/yandex-cloud/go-sdk/gen/billing
+github.com/yandex-cloud/go-sdk/gen/cdn
+github.com/yandex-cloud/go-sdk/gen/certificatemanager
+github.com/yandex-cloud/go-sdk/gen/certificatemanagerdata
 github.com/yandex-cloud/go-sdk/gen/compute
 github.com/yandex-cloud/go-sdk/gen/compute/instancegroup
 github.com/yandex-cloud/go-sdk/gen/containerregistry
+github.com/yandex-cloud/go-sdk/gen/containers
 github.com/yandex-cloud/go-sdk/gen/dataproc
+github.com/yandex-cloud/go-sdk/gen/datatransfer
+github.com/yandex-cloud/go-sdk/gen/dns
 github.com/yandex-cloud/go-sdk/gen/functions
 github.com/yandex-cloud/go-sdk/gen/iam
 github.com/yandex-cloud/go-sdk/gen/iam/awscompatibility
@@ -1554,16 +1599,29 @@ github.com/yandex-cloud/go-sdk/gen/kms
 github.com/yandex-cloud/go-sdk/gen/kmscrypto
 github.com/yandex-cloud/go-sdk/gen/kubernetes
 github.com/yandex-cloud/go-sdk/gen/loadbalancer
+github.com/yandex-cloud/go-sdk/gen/lockboxpayload
+github.com/yandex-cloud/go-sdk/gen/lockboxsecret
+github.com/yandex-cloud/go-sdk/gen/logging
+github.com/yandex-cloud/go-sdk/gen/logingestion
+github.com/yandex-cloud/go-sdk/gen/logreading
 github.com/yandex-cloud/go-sdk/gen/marketplace/metering
 github.com/yandex-cloud/go-sdk/gen/mdb/clickhouse
+github.com/yandex-cloud/go-sdk/gen/mdb/elasticsearch
+github.com/yandex-cloud/go-sdk/gen/mdb/greenplum
+github.com/yandex-cloud/go-sdk/gen/mdb/kafka
 github.com/yandex-cloud/go-sdk/gen/mdb/mongodb
 github.com/yandex-cloud/go-sdk/gen/mdb/mysql
 github.com/yandex-cloud/go-sdk/gen/mdb/postgresql
 github.com/yandex-cloud/go-sdk/gen/mdb/redis
+github.com/yandex-cloud/go-sdk/gen/mdb/sqlserver
+github.com/yandex-cloud/go-sdk/gen/mdbproxy
 github.com/yandex-cloud/go-sdk/gen/operation
+github.com/yandex-cloud/go-sdk/gen/organizationmanager
+github.com/yandex-cloud/go-sdk/gen/organizationmanager/saml
 github.com/yandex-cloud/go-sdk/gen/resourcemanager
 github.com/yandex-cloud/go-sdk/gen/triggers
 github.com/yandex-cloud/go-sdk/gen/vpc
+github.com/yandex-cloud/go-sdk/gen/ydb
 github.com/yandex-cloud/go-sdk/iamkey
 github.com/yandex-cloud/go-sdk/operation
 github.com/yandex-cloud/go-sdk/pkg/grpcclient
@@ -1665,12 +1723,13 @@ golang.org/x/crypto/scrypt
 ## explicit; go 1.11
 golang.org/x/lint
 golang.org/x/lint/golint
-# golang.org/x/mod v0.4.1
-## explicit; go 1.12
+# golang.org/x/mod v0.5.1
+## explicit; go 1.17
+golang.org/x/mod/internal/lazyregexp
 golang.org/x/mod/module
 golang.org/x/mod/semver
-# golang.org/x/net v0.0.0-20210428140749-89ef3d95e781
-## explicit; go 1.11
+# golang.org/x/net v0.0.0-20220225172249-27dd8689420f
+## explicit; go 1.17
 golang.org/x/net/context
 golang.org/x/net/context/ctxhttp
 golang.org/x/net/http/httpguts
@@ -1695,7 +1754,7 @@ golang.org/x/oauth2/jwt
 ## explicit
 golang.org/x/sync/errgroup
 golang.org/x/sync/semaphore
-# golang.org/x/sys v0.0.0-20210616094352-59db8d763f22
+# golang.org/x/sys v0.0.0-20220315194320-039c03cc5b86
 ## explicit; go 1.17
 golang.org/x/sys/execabs
 golang.org/x/sys/internal/unsafeheader
@@ -1703,11 +1762,11 @@ golang.org/x/sys/plan9
 golang.org/x/sys/unix
 golang.org/x/sys/windows
 golang.org/x/sys/windows/registry
-# golang.org/x/term v0.0.0-20210220032956-6a3ed077a48d
-## explicit; go 1.11
+# golang.org/x/term v0.0.0-20210927222741-03fcf44c2211
+## explicit; go 1.17
 golang.org/x/term
-# golang.org/x/text v0.3.6
-## explicit; go 1.11
+# golang.org/x/text v0.3.7
+## explicit; go 1.17
 golang.org/x/text/cases
 golang.org/x/text/internal
 golang.org/x/text/internal/language
@@ -1724,8 +1783,8 @@ golang.org/x/text/width
 # golang.org/x/time v0.0.0-20210220033141-f8bda1e9f3ba
 ## explicit
 golang.org/x/time/rate
-# golang.org/x/tools v0.1.0
-## explicit; go 1.12
+# golang.org/x/tools v0.1.8
+## explicit; go 1.17
 golang.org/x/tools/cmd/cover
 golang.org/x/tools/cmd/goimports
 golang.org/x/tools/cover
@@ -1740,6 +1799,7 @@ golang.org/x/tools/internal/fastwalk
 golang.org/x/tools/internal/gocommand
 golang.org/x/tools/internal/gopathwalk
 golang.org/x/tools/internal/imports
+golang.org/x/tools/internal/typeparams
 # golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1
 ## explicit; go 1.11
 golang.org/x/xerrors
@@ -1818,8 +1878,8 @@ google.golang.org/appengine/internal/socket
 google.golang.org/appengine/internal/urlfetch
 google.golang.org/appengine/socket
 google.golang.org/appengine/urlfetch
-# google.golang.org/genproto v0.0.0-20210226172003-ab064af71705
-## explicit; go 1.11
+# google.golang.org/genproto v0.0.0-20220314164441-57ef72a4c106
+## explicit; go 1.15
 google.golang.org/genproto/googleapis/api
 google.golang.org/genproto/googleapis/api/annotations
 google.golang.org/genproto/googleapis/api/distribution
@@ -1833,6 +1893,7 @@ google.golang.org/genproto/googleapis/iam/admin/v1
 google.golang.org/genproto/googleapis/iam/v1
 google.golang.org/genproto/googleapis/logging/type
 google.golang.org/genproto/googleapis/logging/v2
+google.golang.org/genproto/googleapis/longrunning
 google.golang.org/genproto/googleapis/monitoring/v3
 google.golang.org/genproto/googleapis/rpc/code
 google.golang.org/genproto/googleapis/rpc/context/attribute_context
@@ -1843,8 +1904,8 @@ google.golang.org/genproto/googleapis/type/dayofweek
 google.golang.org/genproto/googleapis/type/expr
 google.golang.org/genproto/googleapis/type/timeofday
 google.golang.org/genproto/protobuf/field_mask
-# google.golang.org/grpc v1.35.0
-## explicit; go 1.11
+# google.golang.org/grpc v1.45.0
+## explicit; go 1.14
 google.golang.org/grpc
 google.golang.org/grpc/attributes
 google.golang.org/grpc/backoff
@@ -1866,6 +1927,7 @@ google.golang.org/grpc/credentials/alts/internal/handshaker
 google.golang.org/grpc/credentials/alts/internal/handshaker/service
 google.golang.org/grpc/credentials/alts/internal/proto/grpc_gcp
 google.golang.org/grpc/credentials/google
+google.golang.org/grpc/credentials/insecure
 google.golang.org/grpc/credentials/oauth
 google.golang.org/grpc/encoding
 google.golang.org/grpc/encoding/proto
@@ -1880,6 +1942,7 @@ google.golang.org/grpc/internal/buffer
 google.golang.org/grpc/internal/channelz
 google.golang.org/grpc/internal/credentials
 google.golang.org/grpc/internal/envconfig
+google.golang.org/grpc/internal/googlecloud
 google.golang.org/grpc/internal/grpclog
 google.golang.org/grpc/internal/grpcrand
 google.golang.org/grpc/internal/grpcsync
@@ -1904,7 +1967,7 @@ google.golang.org/grpc/serviceconfig
 google.golang.org/grpc/stats
 google.golang.org/grpc/status
 google.golang.org/grpc/tap
-# google.golang.org/protobuf v1.26.0
+# google.golang.org/protobuf v1.27.1
 ## explicit; go 1.9
 google.golang.org/protobuf/cmd/protoc-gen-go/internal_gengo
 google.golang.org/protobuf/compiler/protogen
@@ -1945,6 +2008,12 @@ google.golang.org/protobuf/types/known/structpb
 google.golang.org/protobuf/types/known/timestamppb
 google.golang.org/protobuf/types/known/wrapperspb
 google.golang.org/protobuf/types/pluginpb
+# gopkg.in/auth0.v5 v5.21.1
+## explicit; go 1.12
+gopkg.in/auth0.v5
+gopkg.in/auth0.v5/internal/client
+gopkg.in/auth0.v5/internal/tag
+gopkg.in/auth0.v5/management
 # gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c
 ## explicit; go 1.11
 # gopkg.in/go-playground/assert.v1 v1.2.1

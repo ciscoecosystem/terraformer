@@ -21,7 +21,7 @@ func (c *Client) RotateChannelCredentials(ctx context.Context, params *RotateCha
 		params = &RotateChannelCredentialsInput{}
 	}
 
-	result, metadata, err := c.invokeOperation(ctx, "RotateChannelCredentials", params, optFns, addOperationRotateChannelCredentialsMiddlewares)
+	result, metadata, err := c.invokeOperation(ctx, "RotateChannelCredentials", params, optFns, c.addOperationRotateChannelCredentialsMiddlewares)
 	if err != nil {
 		return nil, err
 	}
@@ -37,6 +37,8 @@ type RotateChannelCredentialsInput struct {
 	//
 	// This member is required.
 	Id *string
+
+	noSmithyDocumentSerde
 }
 
 type RotateChannelCredentialsOutput struct {
@@ -64,9 +66,11 @@ type RotateChannelCredentialsOutput struct {
 
 	// Metadata pertaining to the operation's result.
 	ResultMetadata middleware.Metadata
+
+	noSmithyDocumentSerde
 }
 
-func addOperationRotateChannelCredentialsMiddlewares(stack *middleware.Stack, options Options) (err error) {
+func (c *Client) addOperationRotateChannelCredentialsMiddlewares(stack *middleware.Stack, options Options) (err error) {
 	err = stack.Serialize.Add(&awsRestjson1_serializeOpRotateChannelCredentials{}, middleware.After)
 	if err != nil {
 		return err

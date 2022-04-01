@@ -3,7 +3,7 @@
 package compute
 
 import (
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func (m *Instance) SetId(v string) {
@@ -14,7 +14,7 @@ func (m *Instance) SetFolderId(v string) {
 	m.FolderId = v
 }
 
-func (m *Instance) SetCreatedAt(v *timestamp.Timestamp) {
+func (m *Instance) SetCreatedAt(v *timestamppb.Timestamp) {
 	m.CreatedAt = v
 }
 
@@ -56,6 +56,10 @@ func (m *Instance) SetBootDisk(v *AttachedDisk) {
 
 func (m *Instance) SetSecondaryDisks(v []*AttachedDisk) {
 	m.SecondaryDisks = v
+}
+
+func (m *Instance) SetFilesystems(v []*AttachedFilesystem) {
+	m.Filesystems = v
 }
 
 func (m *Instance) SetNetworkInterfaces(v []*NetworkInterface) {
@@ -114,6 +118,18 @@ func (m *AttachedDisk) SetDiskId(v string) {
 	m.DiskId = v
 }
 
+func (m *AttachedFilesystem) SetMode(v AttachedFilesystem_Mode) {
+	m.Mode = v
+}
+
+func (m *AttachedFilesystem) SetDeviceName(v string) {
+	m.DeviceName = v
+}
+
+func (m *AttachedFilesystem) SetFilesystemId(v string) {
+	m.FilesystemId = v
+}
+
 func (m *NetworkInterface) SetIndex(v string) {
 	m.Index = v
 }
@@ -146,12 +162,36 @@ func (m *PrimaryAddress) SetOneToOneNat(v *OneToOneNat) {
 	m.OneToOneNat = v
 }
 
+func (m *PrimaryAddress) SetDnsRecords(v []*DnsRecord) {
+	m.DnsRecords = v
+}
+
 func (m *OneToOneNat) SetAddress(v string) {
 	m.Address = v
 }
 
 func (m *OneToOneNat) SetIpVersion(v IpVersion) {
 	m.IpVersion = v
+}
+
+func (m *OneToOneNat) SetDnsRecords(v []*DnsRecord) {
+	m.DnsRecords = v
+}
+
+func (m *DnsRecord) SetFqdn(v string) {
+	m.Fqdn = v
+}
+
+func (m *DnsRecord) SetDnsZoneId(v string) {
+	m.DnsZoneId = v
+}
+
+func (m *DnsRecord) SetTtl(v int64) {
+	m.Ttl = v
+}
+
+func (m *DnsRecord) SetPtr(v bool) {
+	m.Ptr = v
 }
 
 func (m *SchedulingPolicy) SetPreemptible(v bool) {
@@ -164,4 +204,20 @@ func (m *NetworkSettings) SetType(v NetworkSettings_Type) {
 
 func (m *PlacementPolicy) SetPlacementGroupId(v string) {
 	m.PlacementGroupId = v
+}
+
+func (m *PlacementPolicy) SetHostAffinityRules(v []*PlacementPolicy_HostAffinityRule) {
+	m.HostAffinityRules = v
+}
+
+func (m *PlacementPolicy_HostAffinityRule) SetKey(v string) {
+	m.Key = v
+}
+
+func (m *PlacementPolicy_HostAffinityRule) SetOp(v PlacementPolicy_HostAffinityRule_Operator) {
+	m.Op = v
+}
+
+func (m *PlacementPolicy_HostAffinityRule) SetValues(v []string) {
+	m.Values = v
 }

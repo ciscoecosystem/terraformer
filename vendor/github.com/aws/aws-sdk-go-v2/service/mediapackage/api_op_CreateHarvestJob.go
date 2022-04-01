@@ -17,7 +17,7 @@ func (c *Client) CreateHarvestJob(ctx context.Context, params *CreateHarvestJobI
 		params = &CreateHarvestJobInput{}
 	}
 
-	result, metadata, err := c.invokeOperation(ctx, "CreateHarvestJob", params, optFns, addOperationCreateHarvestJobMiddlewares)
+	result, metadata, err := c.invokeOperation(ctx, "CreateHarvestJob", params, optFns, c.addOperationCreateHarvestJobMiddlewares)
 	if err != nil {
 		return nil, err
 	}
@@ -57,6 +57,8 @@ type CreateHarvestJobInput struct {
 	//
 	// This member is required.
 	StartTime *string
+
+	noSmithyDocumentSerde
 }
 
 type CreateHarvestJobOutput struct {
@@ -95,9 +97,11 @@ type CreateHarvestJobOutput struct {
 
 	// Metadata pertaining to the operation's result.
 	ResultMetadata middleware.Metadata
+
+	noSmithyDocumentSerde
 }
 
-func addOperationCreateHarvestJobMiddlewares(stack *middleware.Stack, options Options) (err error) {
+func (c *Client) addOperationCreateHarvestJobMiddlewares(stack *middleware.Stack, options Options) (err error) {
 	err = stack.Serialize.Add(&awsRestjson1_serializeOpCreateHarvestJob{}, middleware.After)
 	if err != nil {
 		return err

@@ -4,7 +4,7 @@ package dataproc
 
 import (
 	operation "github.com/yandex-cloud/go-genproto/yandex/cloud/operation"
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
 func (m *GetClusterRequest) SetClusterId(v string) {
@@ -55,6 +55,14 @@ func (m *CreateSubclusterConfigSpec) SetHostsCount(v int64) {
 	m.HostsCount = v
 }
 
+func (m *CreateSubclusterConfigSpec) SetAssignPublicIp(v bool) {
+	m.AssignPublicIp = v
+}
+
+func (m *CreateSubclusterConfigSpec) SetAutoscalingConfig(v *AutoscalingConfig) {
+	m.AutoscalingConfig = v
+}
+
 func (m *UpdateSubclusterConfigSpec) SetId(v string) {
 	m.Id = v
 }
@@ -71,6 +79,10 @@ func (m *UpdateSubclusterConfigSpec) SetHostsCount(v int64) {
 	m.HostsCount = v
 }
 
+func (m *UpdateSubclusterConfigSpec) SetAutoscalingConfig(v *AutoscalingConfig) {
+	m.AutoscalingConfig = v
+}
+
 func (m *CreateClusterConfigSpec) SetVersionId(v string) {
 	m.VersionId = v
 }
@@ -85,6 +97,10 @@ func (m *CreateClusterConfigSpec) SetSubclustersSpec(v []*CreateSubclusterConfig
 
 func (m *UpdateClusterConfigSpec) SetSubclustersSpec(v []*UpdateSubclusterConfigSpec) {
 	m.SubclustersSpec = v
+}
+
+func (m *UpdateClusterConfigSpec) SetHadoop(v *HadoopConfig) {
+	m.Hadoop = v
 }
 
 func (m *CreateClusterRequest) SetFolderId(v string) {
@@ -123,6 +139,22 @@ func (m *CreateClusterRequest) SetUiProxy(v bool) {
 	m.UiProxy = v
 }
 
+func (m *CreateClusterRequest) SetSecurityGroupIds(v []string) {
+	m.SecurityGroupIds = v
+}
+
+func (m *CreateClusterRequest) SetHostGroupIds(v []string) {
+	m.HostGroupIds = v
+}
+
+func (m *CreateClusterRequest) SetDeletionProtection(v bool) {
+	m.DeletionProtection = v
+}
+
+func (m *CreateClusterRequest) SetLogGroupId(v string) {
+	m.LogGroupId = v
+}
+
 func (m *CreateClusterMetadata) SetClusterId(v string) {
 	m.ClusterId = v
 }
@@ -131,7 +163,7 @@ func (m *UpdateClusterRequest) SetClusterId(v string) {
 	m.ClusterId = v
 }
 
-func (m *UpdateClusterRequest) SetUpdateMask(v *field_mask.FieldMask) {
+func (m *UpdateClusterRequest) SetUpdateMask(v *fieldmaskpb.FieldMask) {
 	m.UpdateMask = v
 }
 
@@ -165,6 +197,18 @@ func (m *UpdateClusterRequest) SetDecommissionTimeout(v int64) {
 
 func (m *UpdateClusterRequest) SetUiProxy(v bool) {
 	m.UiProxy = v
+}
+
+func (m *UpdateClusterRequest) SetSecurityGroupIds(v []string) {
+	m.SecurityGroupIds = v
+}
+
+func (m *UpdateClusterRequest) SetDeletionProtection(v bool) {
+	m.DeletionProtection = v
+}
+
+func (m *UpdateClusterRequest) SetLogGroupId(v string) {
+	m.LogGroupId = v
 }
 
 func (m *UpdateClusterMetadata) SetClusterId(v string) {

@@ -18,7 +18,7 @@ func (c *Client) ListChannels(ctx context.Context, params *ListChannelsInput, op
 		params = &ListChannelsInput{}
 	}
 
-	result, metadata, err := c.invokeOperation(ctx, "ListChannels", params, optFns, addOperationListChannelsMiddlewares)
+	result, metadata, err := c.invokeOperation(ctx, "ListChannels", params, optFns, c.addOperationListChannelsMiddlewares)
 	if err != nil {
 		return nil, err
 	}
@@ -35,6 +35,8 @@ type ListChannelsInput struct {
 
 	// A token used to resume pagination from the end of a previous request.
 	NextToken *string
+
+	noSmithyDocumentSerde
 }
 
 type ListChannelsOutput struct {
@@ -47,9 +49,11 @@ type ListChannelsOutput struct {
 
 	// Metadata pertaining to the operation's result.
 	ResultMetadata middleware.Metadata
+
+	noSmithyDocumentSerde
 }
 
-func addOperationListChannelsMiddlewares(stack *middleware.Stack, options Options) (err error) {
+func (c *Client) addOperationListChannelsMiddlewares(stack *middleware.Stack, options Options) (err error) {
 	err = stack.Serialize.Add(&awsRestjson1_serializeOpListChannels{}, middleware.After)
 	if err != nil {
 		return err
@@ -155,12 +159,13 @@ func NewListChannelsPaginator(client ListChannelsAPIClient, params *ListChannels
 		client:    client,
 		params:    params,
 		firstPage: true,
+		nextToken: params.NextToken,
 	}
 }
 
 // HasMorePages returns a boolean indicating whether more pages are available
 func (p *ListChannelsPaginator) HasMorePages() bool {
-	return p.firstPage || p.nextToken != nil
+	return p.firstPage || (p.nextToken != nil && len(*p.nextToken) != 0)
 }
 
 // NextPage retrieves the next ListChannels page.
@@ -183,7 +188,10 @@ func (p *ListChannelsPaginator) NextPage(ctx context.Context, optFns ...func(*Op
 	prevToken := p.nextToken
 	p.nextToken = result.NextToken
 
-	if p.options.StopOnDuplicateToken && prevToken != nil && p.nextToken != nil && *prevToken == *p.nextToken {
+	if p.options.StopOnDuplicateToken &&
+		prevToken != nil &&
+		p.nextToken != nil &&
+		*prevToken == *p.nextToken {
 		p.nextToken = nil
 	}
 

@@ -17,7 +17,7 @@ func (c *Client) UpdateOriginEndpoint(ctx context.Context, params *UpdateOriginE
 		params = &UpdateOriginEndpointInput{}
 	}
 
-	result, metadata, err := c.invokeOperation(ctx, "UpdateOriginEndpoint", params, optFns, addOperationUpdateOriginEndpointMiddlewares)
+	result, metadata, err := c.invokeOperation(ctx, "UpdateOriginEndpoint", params, optFns, c.addOperationUpdateOriginEndpointMiddlewares)
 	if err != nil {
 		return nil, err
 	}
@@ -74,6 +74,8 @@ type UpdateOriginEndpointInput struct {
 	// A list of source IP CIDR blocks that will be allowed to access the
 	// OriginEndpoint.
 	Whitelist []string
+
+	noSmithyDocumentSerde
 }
 
 type UpdateOriginEndpointOutput struct {
@@ -135,9 +137,11 @@ type UpdateOriginEndpointOutput struct {
 
 	// Metadata pertaining to the operation's result.
 	ResultMetadata middleware.Metadata
+
+	noSmithyDocumentSerde
 }
 
-func addOperationUpdateOriginEndpointMiddlewares(stack *middleware.Stack, options Options) (err error) {
+func (c *Client) addOperationUpdateOriginEndpointMiddlewares(stack *middleware.Stack, options Options) (err error) {
 	err = stack.Serialize.Add(&awsRestjson1_serializeOpUpdateOriginEndpoint{}, middleware.After)
 	if err != nil {
 		return err

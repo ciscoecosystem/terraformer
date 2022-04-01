@@ -19,9 +19,13 @@ import (
 )
 
 // Returns information about DB cluster snapshots. This API action supports
-// pagination. For more information on Amazon Aurora, see  What Is Amazon Aurora?
+// pagination. For more information on Amazon Aurora DB clusters, see  What is
+// Amazon Aurora?
 // (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html)
-// in the Amazon Aurora User Guide. This action only applies to Aurora DB clusters.
+// in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters,
+// see  Multi-AZ deployments with two readable standby DB instances
+// (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html)
+// in the Amazon RDS User Guide.
 func (c *Client) DescribeDBClusterSnapshots(ctx context.Context, params *DescribeDBClusterSnapshotsInput, optFns ...func(*Options)) (*DescribeDBClusterSnapshotsOutput, error) {
 	if params == nil {
 		params = &DescribeDBClusterSnapshotsInput{}
@@ -264,12 +268,13 @@ func NewDescribeDBClusterSnapshotsPaginator(client DescribeDBClusterSnapshotsAPI
 		client:    client,
 		params:    params,
 		firstPage: true,
+		nextToken: params.Marker,
 	}
 }
 
 // HasMorePages returns a boolean indicating whether more pages are available
 func (p *DescribeDBClusterSnapshotsPaginator) HasMorePages() bool {
-	return p.firstPage || p.nextToken != nil
+	return p.firstPage || (p.nextToken != nil && len(*p.nextToken) != 0)
 }
 
 // NextPage retrieves the next DescribeDBClusterSnapshots page.
@@ -296,7 +301,10 @@ func (p *DescribeDBClusterSnapshotsPaginator) NextPage(ctx context.Context, optF
 	prevToken := p.nextToken
 	p.nextToken = result.Marker
 
-	if p.options.StopOnDuplicateToken && prevToken != nil && p.nextToken != nil && *prevToken == *p.nextToken {
+	if p.options.StopOnDuplicateToken &&
+		prevToken != nil &&
+		p.nextToken != nil &&
+		*prevToken == *p.nextToken {
 		p.nextToken = nil
 	}
 
@@ -366,8 +374,17 @@ func NewDBClusterSnapshotAvailableWaiter(client DescribeDBClusterSnapshotsAPICli
 // maxWaitDur is the maximum wait duration the waiter will wait. The maxWaitDur is
 // required and must be greater than zero.
 func (w *DBClusterSnapshotAvailableWaiter) Wait(ctx context.Context, params *DescribeDBClusterSnapshotsInput, maxWaitDur time.Duration, optFns ...func(*DBClusterSnapshotAvailableWaiterOptions)) error {
+	_, err := w.WaitForOutput(ctx, params, maxWaitDur, optFns...)
+	return err
+}
+
+// WaitForOutput calls the waiter function for DBClusterSnapshotAvailable waiter
+// and returns the output of the successful operation. The maxWaitDur is the
+// maximum wait duration the waiter will wait. The maxWaitDur is required and must
+// be greater than zero.
+func (w *DBClusterSnapshotAvailableWaiter) WaitForOutput(ctx context.Context, params *DescribeDBClusterSnapshotsInput, maxWaitDur time.Duration, optFns ...func(*DBClusterSnapshotAvailableWaiterOptions)) (*DescribeDBClusterSnapshotsOutput, error) {
 	if maxWaitDur <= 0 {
-		return fmt.Errorf("maximum wait time for waiter must be greater than zero")
+		return nil, fmt.Errorf("maximum wait time for waiter must be greater than zero")
 	}
 
 	options := w.options
@@ -380,7 +397,7 @@ func (w *DBClusterSnapshotAvailableWaiter) Wait(ctx context.Context, params *Des
 	}
 
 	if options.MinDelay > options.MaxDelay {
-		return fmt.Errorf("minimum waiter delay %v must be lesser than or equal to maximum waiter delay of %v.", options.MinDelay, options.MaxDelay)
+		return nil, fmt.Errorf("minimum waiter delay %v must be lesser than or equal to maximum waiter delay of %v.", options.MinDelay, options.MaxDelay)
 	}
 
 	ctx, cancelFn := context.WithTimeout(ctx, maxWaitDur)
@@ -408,10 +425,10 @@ func (w *DBClusterSnapshotAvailableWaiter) Wait(ctx context.Context, params *Des
 
 		retryable, err := options.Retryable(ctx, params, out, err)
 		if err != nil {
-			return err
+			return nil, err
 		}
 		if !retryable {
-			return nil
+			return out, nil
 		}
 
 		remainingTime -= time.Since(start)
@@ -424,16 +441,16 @@ func (w *DBClusterSnapshotAvailableWaiter) Wait(ctx context.Context, params *Des
 			attempt, options.MinDelay, options.MaxDelay, remainingTime,
 		)
 		if err != nil {
-			return fmt.Errorf("error computing waiter delay, %w", err)
+			return nil, fmt.Errorf("error computing waiter delay, %w", err)
 		}
 
 		remainingTime -= delay
 		// sleep for the delay amount before invoking a request
 		if err := smithytime.SleepWithContext(ctx, delay); err != nil {
-			return fmt.Errorf("request cancelled while waiting, %w", err)
+			return nil, fmt.Errorf("request cancelled while waiting, %w", err)
 		}
 	}
-	return fmt.Errorf("exceeded max wait time for DBClusterSnapshotAvailable waiter")
+	return nil, fmt.Errorf("exceeded max wait time for DBClusterSnapshotAvailable waiter")
 }
 
 func dBClusterSnapshotAvailableStateRetryable(ctx context.Context, input *DescribeDBClusterSnapshotsInput, output *DescribeDBClusterSnapshotsOutput, err error) (bool, error) {
@@ -654,8 +671,17 @@ func NewDBClusterSnapshotDeletedWaiter(client DescribeDBClusterSnapshotsAPIClien
 // maxWaitDur is the maximum wait duration the waiter will wait. The maxWaitDur is
 // required and must be greater than zero.
 func (w *DBClusterSnapshotDeletedWaiter) Wait(ctx context.Context, params *DescribeDBClusterSnapshotsInput, maxWaitDur time.Duration, optFns ...func(*DBClusterSnapshotDeletedWaiterOptions)) error {
+	_, err := w.WaitForOutput(ctx, params, maxWaitDur, optFns...)
+	return err
+}
+
+// WaitForOutput calls the waiter function for DBClusterSnapshotDeleted waiter and
+// returns the output of the successful operation. The maxWaitDur is the maximum
+// wait duration the waiter will wait. The maxWaitDur is required and must be
+// greater than zero.
+func (w *DBClusterSnapshotDeletedWaiter) WaitForOutput(ctx context.Context, params *DescribeDBClusterSnapshotsInput, maxWaitDur time.Duration, optFns ...func(*DBClusterSnapshotDeletedWaiterOptions)) (*DescribeDBClusterSnapshotsOutput, error) {
 	if maxWaitDur <= 0 {
-		return fmt.Errorf("maximum wait time for waiter must be greater than zero")
+		return nil, fmt.Errorf("maximum wait time for waiter must be greater than zero")
 	}
 
 	options := w.options
@@ -668,7 +694,7 @@ func (w *DBClusterSnapshotDeletedWaiter) Wait(ctx context.Context, params *Descr
 	}
 
 	if options.MinDelay > options.MaxDelay {
-		return fmt.Errorf("minimum waiter delay %v must be lesser than or equal to maximum waiter delay of %v.", options.MinDelay, options.MaxDelay)
+		return nil, fmt.Errorf("minimum waiter delay %v must be lesser than or equal to maximum waiter delay of %v.", options.MinDelay, options.MaxDelay)
 	}
 
 	ctx, cancelFn := context.WithTimeout(ctx, maxWaitDur)
@@ -696,10 +722,10 @@ func (w *DBClusterSnapshotDeletedWaiter) Wait(ctx context.Context, params *Descr
 
 		retryable, err := options.Retryable(ctx, params, out, err)
 		if err != nil {
-			return err
+			return nil, err
 		}
 		if !retryable {
-			return nil
+			return out, nil
 		}
 
 		remainingTime -= time.Since(start)
@@ -712,16 +738,16 @@ func (w *DBClusterSnapshotDeletedWaiter) Wait(ctx context.Context, params *Descr
 			attempt, options.MinDelay, options.MaxDelay, remainingTime,
 		)
 		if err != nil {
-			return fmt.Errorf("error computing waiter delay, %w", err)
+			return nil, fmt.Errorf("error computing waiter delay, %w", err)
 		}
 
 		remainingTime -= delay
 		// sleep for the delay amount before invoking a request
 		if err := smithytime.SleepWithContext(ctx, delay); err != nil {
-			return fmt.Errorf("request cancelled while waiting, %w", err)
+			return nil, fmt.Errorf("request cancelled while waiting, %w", err)
 		}
 	}
-	return fmt.Errorf("exceeded max wait time for DBClusterSnapshotDeleted waiter")
+	return nil, fmt.Errorf("exceeded max wait time for DBClusterSnapshotDeleted waiter")
 }
 
 func dBClusterSnapshotDeletedStateRetryable(ctx context.Context, input *DescribeDBClusterSnapshotsInput, output *DescribeDBClusterSnapshotsOutput, err error) (bool, error) {

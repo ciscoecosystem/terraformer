@@ -3,11 +3,11 @@
 package mysql
 
 import (
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	config "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mysql/v1/config"
 	operation "github.com/yandex-cloud/go-genproto/yandex/cloud/operation"
 	timeofday "google.golang.org/genproto/googleapis/type/timeofday"
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func (m *GetClusterRequest) SetClusterId(v string) {
@@ -78,6 +78,14 @@ func (m *CreateClusterRequest) SetNetworkId(v string) {
 	m.NetworkId = v
 }
 
+func (m *CreateClusterRequest) SetSecurityGroupIds(v []string) {
+	m.SecurityGroupIds = v
+}
+
+func (m *CreateClusterRequest) SetDeletionProtection(v bool) {
+	m.DeletionProtection = v
+}
+
 func (m *CreateClusterMetadata) SetClusterId(v string) {
 	m.ClusterId = v
 }
@@ -86,7 +94,7 @@ func (m *UpdateClusterRequest) SetClusterId(v string) {
 	m.ClusterId = v
 }
 
-func (m *UpdateClusterRequest) SetUpdateMask(v *field_mask.FieldMask) {
+func (m *UpdateClusterRequest) SetUpdateMask(v *fieldmaskpb.FieldMask) {
 	m.UpdateMask = v
 }
 
@@ -108,6 +116,14 @@ func (m *UpdateClusterRequest) SetName(v string) {
 
 func (m *UpdateClusterRequest) SetMaintenanceWindow(v *MaintenanceWindow) {
 	m.MaintenanceWindow = v
+}
+
+func (m *UpdateClusterRequest) SetSecurityGroupIds(v []string) {
+	m.SecurityGroupIds = v
+}
+
+func (m *UpdateClusterRequest) SetDeletionProtection(v bool) {
+	m.DeletionProtection = v
 }
 
 func (m *UpdateClusterMetadata) SetClusterId(v string) {
@@ -134,7 +150,7 @@ func (m *RestoreClusterRequest) SetBackupId(v string) {
 	m.BackupId = v
 }
 
-func (m *RestoreClusterRequest) SetTime(v *timestamp.Timestamp) {
+func (m *RestoreClusterRequest) SetTime(v *timestamppb.Timestamp) {
 	m.Time = v
 }
 
@@ -170,6 +186,10 @@ func (m *RestoreClusterRequest) SetFolderId(v string) {
 	m.FolderId = v
 }
 
+func (m *RestoreClusterRequest) SetSecurityGroupIds(v []string) {
+	m.SecurityGroupIds = v
+}
+
 func (m *RestoreClusterMetadata) SetClusterId(v string) {
 	m.ClusterId = v
 }
@@ -198,7 +218,7 @@ func (m *RescheduleMaintenanceRequest) SetRescheduleType(v RescheduleMaintenance
 	m.RescheduleType = v
 }
 
-func (m *RescheduleMaintenanceRequest) SetDelayedUntil(v *timestamp.Timestamp) {
+func (m *RescheduleMaintenanceRequest) SetDelayedUntil(v *timestamppb.Timestamp) {
 	m.DelayedUntil = v
 }
 
@@ -206,11 +226,11 @@ func (m *RescheduleMaintenanceMetadata) SetClusterId(v string) {
 	m.ClusterId = v
 }
 
-func (m *RescheduleMaintenanceMetadata) SetDelayedUntil(v *timestamp.Timestamp) {
+func (m *RescheduleMaintenanceMetadata) SetDelayedUntil(v *timestamppb.Timestamp) {
 	m.DelayedUntil = v
 }
 
-func (m *LogRecord) SetTimestamp(v *timestamp.Timestamp) {
+func (m *LogRecord) SetTimestamp(v *timestamppb.Timestamp) {
 	m.Timestamp = v
 }
 
@@ -230,11 +250,11 @@ func (m *ListClusterLogsRequest) SetServiceType(v ListClusterLogsRequest_Service
 	m.ServiceType = v
 }
 
-func (m *ListClusterLogsRequest) SetFromTime(v *timestamp.Timestamp) {
+func (m *ListClusterLogsRequest) SetFromTime(v *timestamppb.Timestamp) {
 	m.FromTime = v
 }
 
-func (m *ListClusterLogsRequest) SetToTime(v *timestamp.Timestamp) {
+func (m *ListClusterLogsRequest) SetToTime(v *timestamppb.Timestamp) {
 	m.ToTime = v
 }
 
@@ -278,16 +298,20 @@ func (m *StreamClusterLogsRequest) SetServiceType(v StreamClusterLogsRequest_Ser
 	m.ServiceType = v
 }
 
-func (m *StreamClusterLogsRequest) SetFromTime(v *timestamp.Timestamp) {
+func (m *StreamClusterLogsRequest) SetFromTime(v *timestamppb.Timestamp) {
 	m.FromTime = v
 }
 
-func (m *StreamClusterLogsRequest) SetToTime(v *timestamp.Timestamp) {
+func (m *StreamClusterLogsRequest) SetToTime(v *timestamppb.Timestamp) {
 	m.ToTime = v
 }
 
 func (m *StreamClusterLogsRequest) SetRecordToken(v string) {
 	m.RecordToken = v
+}
+
+func (m *StreamClusterLogsRequest) SetFilter(v string) {
+	m.Filter = v
 }
 
 func (m *ListClusterOperationsRequest) SetClusterId(v string) {
@@ -418,12 +442,44 @@ func (m *MoveClusterMetadata) SetDestinationFolderId(v string) {
 	m.DestinationFolderId = v
 }
 
+func (m *UpdateClusterHostsRequest) SetClusterId(v string) {
+	m.ClusterId = v
+}
+
+func (m *UpdateClusterHostsRequest) SetUpdateHostSpecs(v []*UpdateHostSpec) {
+	m.UpdateHostSpecs = v
+}
+
 func (m *UpdateClusterHostsMetadata) SetClusterId(v string) {
 	m.ClusterId = v
 }
 
 func (m *UpdateClusterHostsMetadata) SetHostNames(v []string) {
 	m.HostNames = v
+}
+
+func (m *UpdateHostSpec) SetHostName(v string) {
+	m.HostName = v
+}
+
+func (m *UpdateHostSpec) SetReplicationSource(v string) {
+	m.ReplicationSource = v
+}
+
+func (m *UpdateHostSpec) SetUpdateMask(v *fieldmaskpb.FieldMask) {
+	m.UpdateMask = v
+}
+
+func (m *UpdateHostSpec) SetBackupPriority(v int64) {
+	m.BackupPriority = v
+}
+
+func (m *UpdateHostSpec) SetAssignPublicIp(v bool) {
+	m.AssignPublicIp = v
+}
+
+func (m *UpdateHostSpec) SetPriority(v int64) {
+	m.Priority = v
 }
 
 func (m *HostSpec) SetZoneId(v string) {
@@ -436,6 +492,18 @@ func (m *HostSpec) SetSubnetId(v string) {
 
 func (m *HostSpec) SetAssignPublicIp(v bool) {
 	m.AssignPublicIp = v
+}
+
+func (m *HostSpec) SetReplicationSource(v string) {
+	m.ReplicationSource = v
+}
+
+func (m *HostSpec) SetBackupPriority(v int64) {
+	m.BackupPriority = v
+}
+
+func (m *HostSpec) SetPriority(v int64) {
+	m.Priority = v
 }
 
 type ConfigSpec_MysqlConfig = isConfigSpec_MysqlConfig

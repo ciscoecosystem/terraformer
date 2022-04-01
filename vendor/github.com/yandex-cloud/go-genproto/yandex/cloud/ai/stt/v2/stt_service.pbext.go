@@ -3,7 +3,7 @@
 package stt
 
 import (
-	duration "github.com/golang/protobuf/ptypes/duration"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
 )
 
 func (m *LongRunningRecognitionRequest) SetConfig(v *RecognitionConfig) {
@@ -102,6 +102,10 @@ func (m *RecognitionSpec) SetRawResults(v bool) {
 	m.RawResults = v
 }
 
+func (m *RecognitionSpec) SetLiteratureText(v bool) {
+	m.LiteratureText = v
+}
+
 func (m *SpeechRecognitionChunk) SetAlternatives(v []*SpeechRecognitionAlternative) {
 	m.Alternatives = v
 }
@@ -134,11 +138,11 @@ func (m *SpeechRecognitionAlternative) SetWords(v []*WordInfo) {
 	m.Words = v
 }
 
-func (m *WordInfo) SetStartTime(v *duration.Duration) {
+func (m *WordInfo) SetStartTime(v *durationpb.Duration) {
 	m.StartTime = v
 }
 
-func (m *WordInfo) SetEndTime(v *duration.Duration) {
+func (m *WordInfo) SetEndTime(v *durationpb.Duration) {
 	m.EndTime = v
 }
 

@@ -83,6 +83,15 @@ func (c *RegistryServiceClient) Get(ctx context.Context, in *devices.GetRegistry
 	return devices.NewRegistryServiceClient(conn).Get(ctx, in, opts...)
 }
 
+// GetByName implements devices.RegistryServiceClient
+func (c *RegistryServiceClient) GetByName(ctx context.Context, in *devices.GetByNameRegistryRequest, opts ...grpc.CallOption) (*devices.Registry, error) {
+	conn, err := c.getConn(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return devices.NewRegistryServiceClient(conn).GetByName(ctx, in, opts...)
+}
+
 // List implements devices.RegistryServiceClient
 func (c *RegistryServiceClient) List(ctx context.Context, in *devices.ListRegistriesRequest, opts ...grpc.CallOption) (*devices.ListRegistriesResponse, error) {
 	conn, err := c.getConn(ctx)
@@ -96,8 +105,10 @@ type RegistryIterator struct {
 	ctx  context.Context
 	opts []grpc.CallOption
 
-	err     error
-	started bool
+	err           error
+	started       bool
+	requestedSize int64
+	pageSize      int64
 
 	client  *RegistryServiceClient
 	request *devices.ListRegistriesRequest
@@ -105,15 +116,19 @@ type RegistryIterator struct {
 	items []*devices.Registry
 }
 
-func (c *RegistryServiceClient) RegistryIterator(ctx context.Context, folderId string, opts ...grpc.CallOption) *RegistryIterator {
+func (c *RegistryServiceClient) RegistryIterator(ctx context.Context, req *devices.ListRegistriesRequest, opts ...grpc.CallOption) *RegistryIterator {
+	var pageSize int64
+	const defaultPageSize = 1000
+	pageSize = req.PageSize
+	if pageSize == 0 {
+		pageSize = defaultPageSize
+	}
 	return &RegistryIterator{
-		ctx:    ctx,
-		opts:   opts,
-		client: c,
-		request: &devices.ListRegistriesRequest{
-			FolderId: folderId,
-			PageSize: 1000,
-		},
+		ctx:      ctx,
+		opts:     opts,
+		client:   c,
+		request:  req,
+		pageSize: pageSize,
 	}
 }
 
@@ -133,6 +148,12 @@ func (it *RegistryIterator) Next() bool {
 	}
 	it.started = true
 
+	if it.requestedSize == 0 || it.requestedSize > it.pageSize {
+		it.request.PageSize = it.pageSize
+	} else {
+		it.request.PageSize = it.requestedSize
+	}
+
 	response, err := it.client.List(it.ctx, it.request, it.opts...)
 	it.err = err
 	if err != nil {
@@ -142,6 +163,38 @@ func (it *RegistryIterator) Next() bool {
 	it.items = response.Registries
 	it.request.PageToken = response.NextPageToken
 	return len(it.items) > 0
+}
+
+func (it *RegistryIterator) Take(size int64) ([]*devices.Registry, error) {
+	if it.err != nil {
+		return nil, it.err
+	}
+
+	if size == 0 {
+		size = 1 << 32 // something insanely large
+	}
+	it.requestedSize = size
+	defer func() {
+		// reset iterator for future calls.
+		it.requestedSize = 0
+	}()
+
+	var result []*devices.Registry
+
+	for it.requestedSize > 0 && it.Next() {
+		it.requestedSize--
+		result = append(result, it.Value())
+	}
+
+	if it.err != nil {
+		return nil, it.err
+	}
+
+	return result, nil
+}
+
+func (it *RegistryIterator) TakeAll() ([]*devices.Registry, error) {
+	return it.Take(0)
 }
 
 func (it *RegistryIterator) Value() *devices.Registry {
@@ -168,8 +221,10 @@ type RegistryCertificatesIterator struct {
 	ctx  context.Context
 	opts []grpc.CallOption
 
-	err     error
-	started bool
+	err           error
+	started       bool
+	requestedSize int64
+	pageSize      int64
 
 	client  *RegistryServiceClient
 	request *devices.ListRegistryCertificatesRequest
@@ -177,14 +232,19 @@ type RegistryCertificatesIterator struct {
 	items []*devices.RegistryCertificate
 }
 
-func (c *RegistryServiceClient) RegistryCertificatesIterator(ctx context.Context, registryId string, opts ...grpc.CallOption) *RegistryCertificatesIterator {
+func (c *RegistryServiceClient) RegistryCertificatesIterator(ctx context.Context, req *devices.ListRegistryCertificatesRequest, opts ...grpc.CallOption) *RegistryCertificatesIterator {
+	var pageSize int64
+	const defaultPageSize = 1000
+
+	if pageSize == 0 {
+		pageSize = defaultPageSize
+	}
 	return &RegistryCertificatesIterator{
-		ctx:    ctx,
-		opts:   opts,
-		client: c,
-		request: &devices.ListRegistryCertificatesRequest{
-			RegistryId: registryId,
-		},
+		ctx:      ctx,
+		opts:     opts,
+		client:   c,
+		request:  req,
+		pageSize: pageSize,
 	}
 }
 
@@ -214,6 +274,38 @@ func (it *RegistryCertificatesIterator) Next() bool {
 	return len(it.items) > 0
 }
 
+func (it *RegistryCertificatesIterator) Take(size int64) ([]*devices.RegistryCertificate, error) {
+	if it.err != nil {
+		return nil, it.err
+	}
+
+	if size == 0 {
+		size = 1 << 32 // something insanely large
+	}
+	it.requestedSize = size
+	defer func() {
+		// reset iterator for future calls.
+		it.requestedSize = 0
+	}()
+
+	var result []*devices.RegistryCertificate
+
+	for it.requestedSize > 0 && it.Next() {
+		it.requestedSize--
+		result = append(result, it.Value())
+	}
+
+	if it.err != nil {
+		return nil, it.err
+	}
+
+	return result, nil
+}
+
+func (it *RegistryCertificatesIterator) TakeAll() ([]*devices.RegistryCertificate, error) {
+	return it.Take(0)
+}
+
 func (it *RegistryCertificatesIterator) Value() *devices.RegistryCertificate {
 	if len(it.items) == 0 {
 		panic("calling Value on empty iterator")
@@ -238,8 +330,10 @@ type RegistryDeviceTopicAliasesIterator struct {
 	ctx  context.Context
 	opts []grpc.CallOption
 
-	err     error
-	started bool
+	err           error
+	started       bool
+	requestedSize int64
+	pageSize      int64
 
 	client  *RegistryServiceClient
 	request *devices.ListDeviceTopicAliasesRequest
@@ -247,15 +341,19 @@ type RegistryDeviceTopicAliasesIterator struct {
 	items []*devices.DeviceAlias
 }
 
-func (c *RegistryServiceClient) RegistryDeviceTopicAliasesIterator(ctx context.Context, registryId string, opts ...grpc.CallOption) *RegistryDeviceTopicAliasesIterator {
+func (c *RegistryServiceClient) RegistryDeviceTopicAliasesIterator(ctx context.Context, req *devices.ListDeviceTopicAliasesRequest, opts ...grpc.CallOption) *RegistryDeviceTopicAliasesIterator {
+	var pageSize int64
+	const defaultPageSize = 1000
+	pageSize = req.PageSize
+	if pageSize == 0 {
+		pageSize = defaultPageSize
+	}
 	return &RegistryDeviceTopicAliasesIterator{
-		ctx:    ctx,
-		opts:   opts,
-		client: c,
-		request: &devices.ListDeviceTopicAliasesRequest{
-			RegistryId: registryId,
-			PageSize:   1000,
-		},
+		ctx:      ctx,
+		opts:     opts,
+		client:   c,
+		request:  req,
+		pageSize: pageSize,
 	}
 }
 
@@ -275,6 +373,12 @@ func (it *RegistryDeviceTopicAliasesIterator) Next() bool {
 	}
 	it.started = true
 
+	if it.requestedSize == 0 || it.requestedSize > it.pageSize {
+		it.request.PageSize = it.pageSize
+	} else {
+		it.request.PageSize = it.requestedSize
+	}
+
 	response, err := it.client.ListDeviceTopicAliases(it.ctx, it.request, it.opts...)
 	it.err = err
 	if err != nil {
@@ -284,6 +388,38 @@ func (it *RegistryDeviceTopicAliasesIterator) Next() bool {
 	it.items = response.Aliases
 	it.request.PageToken = response.NextPageToken
 	return len(it.items) > 0
+}
+
+func (it *RegistryDeviceTopicAliasesIterator) Take(size int64) ([]*devices.DeviceAlias, error) {
+	if it.err != nil {
+		return nil, it.err
+	}
+
+	if size == 0 {
+		size = 1 << 32 // something insanely large
+	}
+	it.requestedSize = size
+	defer func() {
+		// reset iterator for future calls.
+		it.requestedSize = 0
+	}()
+
+	var result []*devices.DeviceAlias
+
+	for it.requestedSize > 0 && it.Next() {
+		it.requestedSize--
+		result = append(result, it.Value())
+	}
+
+	if it.err != nil {
+		return nil, it.err
+	}
+
+	return result, nil
+}
+
+func (it *RegistryDeviceTopicAliasesIterator) TakeAll() ([]*devices.DeviceAlias, error) {
+	return it.Take(0)
 }
 
 func (it *RegistryDeviceTopicAliasesIterator) Value() *devices.DeviceAlias {
@@ -310,8 +446,10 @@ type RegistryOperationsIterator struct {
 	ctx  context.Context
 	opts []grpc.CallOption
 
-	err     error
-	started bool
+	err           error
+	started       bool
+	requestedSize int64
+	pageSize      int64
 
 	client  *RegistryServiceClient
 	request *devices.ListRegistryOperationsRequest
@@ -319,15 +457,19 @@ type RegistryOperationsIterator struct {
 	items []*operation.Operation
 }
 
-func (c *RegistryServiceClient) RegistryOperationsIterator(ctx context.Context, registryId string, opts ...grpc.CallOption) *RegistryOperationsIterator {
+func (c *RegistryServiceClient) RegistryOperationsIterator(ctx context.Context, req *devices.ListRegistryOperationsRequest, opts ...grpc.CallOption) *RegistryOperationsIterator {
+	var pageSize int64
+	const defaultPageSize = 1000
+	pageSize = req.PageSize
+	if pageSize == 0 {
+		pageSize = defaultPageSize
+	}
 	return &RegistryOperationsIterator{
-		ctx:    ctx,
-		opts:   opts,
-		client: c,
-		request: &devices.ListRegistryOperationsRequest{
-			RegistryId: registryId,
-			PageSize:   1000,
-		},
+		ctx:      ctx,
+		opts:     opts,
+		client:   c,
+		request:  req,
+		pageSize: pageSize,
 	}
 }
 
@@ -347,6 +489,12 @@ func (it *RegistryOperationsIterator) Next() bool {
 	}
 	it.started = true
 
+	if it.requestedSize == 0 || it.requestedSize > it.pageSize {
+		it.request.PageSize = it.pageSize
+	} else {
+		it.request.PageSize = it.requestedSize
+	}
+
 	response, err := it.client.ListOperations(it.ctx, it.request, it.opts...)
 	it.err = err
 	if err != nil {
@@ -356,6 +504,38 @@ func (it *RegistryOperationsIterator) Next() bool {
 	it.items = response.Operations
 	it.request.PageToken = response.NextPageToken
 	return len(it.items) > 0
+}
+
+func (it *RegistryOperationsIterator) Take(size int64) ([]*operation.Operation, error) {
+	if it.err != nil {
+		return nil, it.err
+	}
+
+	if size == 0 {
+		size = 1 << 32 // something insanely large
+	}
+	it.requestedSize = size
+	defer func() {
+		// reset iterator for future calls.
+		it.requestedSize = 0
+	}()
+
+	var result []*operation.Operation
+
+	for it.requestedSize > 0 && it.Next() {
+		it.requestedSize--
+		result = append(result, it.Value())
+	}
+
+	if it.err != nil {
+		return nil, it.err
+	}
+
+	return result, nil
+}
+
+func (it *RegistryOperationsIterator) TakeAll() ([]*operation.Operation, error) {
+	return it.Take(0)
 }
 
 func (it *RegistryOperationsIterator) Value() *operation.Operation {
@@ -382,8 +562,10 @@ type RegistryPasswordsIterator struct {
 	ctx  context.Context
 	opts []grpc.CallOption
 
-	err     error
-	started bool
+	err           error
+	started       bool
+	requestedSize int64
+	pageSize      int64
 
 	client  *RegistryServiceClient
 	request *devices.ListRegistryPasswordsRequest
@@ -391,14 +573,19 @@ type RegistryPasswordsIterator struct {
 	items []*devices.RegistryPassword
 }
 
-func (c *RegistryServiceClient) RegistryPasswordsIterator(ctx context.Context, registryId string, opts ...grpc.CallOption) *RegistryPasswordsIterator {
+func (c *RegistryServiceClient) RegistryPasswordsIterator(ctx context.Context, req *devices.ListRegistryPasswordsRequest, opts ...grpc.CallOption) *RegistryPasswordsIterator {
+	var pageSize int64
+	const defaultPageSize = 1000
+
+	if pageSize == 0 {
+		pageSize = defaultPageSize
+	}
 	return &RegistryPasswordsIterator{
-		ctx:    ctx,
-		opts:   opts,
-		client: c,
-		request: &devices.ListRegistryPasswordsRequest{
-			RegistryId: registryId,
-		},
+		ctx:      ctx,
+		opts:     opts,
+		client:   c,
+		request:  req,
+		pageSize: pageSize,
 	}
 }
 
@@ -426,6 +613,38 @@ func (it *RegistryPasswordsIterator) Next() bool {
 
 	it.items = response.Passwords
 	return len(it.items) > 0
+}
+
+func (it *RegistryPasswordsIterator) Take(size int64) ([]*devices.RegistryPassword, error) {
+	if it.err != nil {
+		return nil, it.err
+	}
+
+	if size == 0 {
+		size = 1 << 32 // something insanely large
+	}
+	it.requestedSize = size
+	defer func() {
+		// reset iterator for future calls.
+		it.requestedSize = 0
+	}()
+
+	var result []*devices.RegistryPassword
+
+	for it.requestedSize > 0 && it.Next() {
+		it.requestedSize--
+		result = append(result, it.Value())
+	}
+
+	if it.err != nil {
+		return nil, it.err
+	}
+
+	return result, nil
+}
+
+func (it *RegistryPasswordsIterator) TakeAll() ([]*devices.RegistryPassword, error) {
+	return it.Take(0)
 }
 
 func (it *RegistryPasswordsIterator) Value() *devices.RegistryPassword {

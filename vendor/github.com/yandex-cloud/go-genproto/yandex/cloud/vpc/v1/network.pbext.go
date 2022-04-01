@@ -3,7 +3,7 @@
 package vpc
 
 import (
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func (m *Network) SetId(v string) {
@@ -14,7 +14,7 @@ func (m *Network) SetFolderId(v string) {
 	m.FolderId = v
 }
 
-func (m *Network) SetCreatedAt(v *timestamp.Timestamp) {
+func (m *Network) SetCreatedAt(v *timestamppb.Timestamp) {
 	m.CreatedAt = v
 }
 
@@ -28,4 +28,8 @@ func (m *Network) SetDescription(v string) {
 
 func (m *Network) SetLabels(v map[string]string) {
 	m.Labels = v
+}
+
+func (m *Network) SetDefaultSecurityGroupId(v string) {
+	m.DefaultSecurityGroupId = v
 }

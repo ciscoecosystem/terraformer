@@ -17,7 +17,7 @@ func (c *Client) CreateOriginEndpoint(ctx context.Context, params *CreateOriginE
 		params = &CreateOriginEndpointInput{}
 	}
 
-	result, metadata, err := c.invokeOperation(ctx, "CreateOriginEndpoint", params, optFns, addOperationCreateOriginEndpointMiddlewares)
+	result, metadata, err := c.invokeOperation(ctx, "CreateOriginEndpoint", params, optFns, c.addOperationCreateOriginEndpointMiddlewares)
 	if err != nil {
 		return nil, err
 	}
@@ -85,6 +85,8 @@ type CreateOriginEndpointInput struct {
 	// A list of source IP CIDR blocks that will be allowed to access the
 	// OriginEndpoint.
 	Whitelist []string
+
+	noSmithyDocumentSerde
 }
 
 type CreateOriginEndpointOutput struct {
@@ -146,9 +148,11 @@ type CreateOriginEndpointOutput struct {
 
 	// Metadata pertaining to the operation's result.
 	ResultMetadata middleware.Metadata
+
+	noSmithyDocumentSerde
 }
 
-func addOperationCreateOriginEndpointMiddlewares(stack *middleware.Stack, options Options) (err error) {
+func (c *Client) addOperationCreateOriginEndpointMiddlewares(stack *middleware.Stack, options Options) (err error) {
 	err = stack.Serialize.Add(&awsRestjson1_serializeOpCreateOriginEndpoint{}, middleware.After)
 	if err != nil {
 		return err
