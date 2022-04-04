@@ -19,68 +19,68 @@ func (a *UserGenerator) InitResources() error {
 		return err
 	}
 
-	userName := models.G(con, "username")
-	password := models.G(con, "password")
-	id := models.G(con, "id")
+	usersLen := len(con.S("users").Data().([]interface{}))
 
-	var firstName, lastName, emailAddress, phoneNumber, accountStatus, domain string
+	for i := 0; i < usersLen; i++ {
+		userCont := con.S("users").Index(i)
+		userName := models.G(userCont, "username")
+		password := models.G(userCont, "password")
+		id := models.G(userCont, "id")
 
-	if con.Exists("firstName") {
-		firstName = models.G(con, "firstName")
-	}
-	if con.Exists("lastName") {
-		lastName = models.G(con, "lastName")
-	}
-	if con.Exists("emailAddress") {
-		emailAddress = models.G(con, "emailAddress")
-	}
-	if con.Exists("phoneNumber") {
-		phoneNumber = models.G(con, "phoneNumber")
-	}
-	if con.Exists("accountStatus") {
-		accountStatus = models.G(con, "accountStatus")
-	}
-	if con.Exists("domain") {
-		domain = models.G(con, "domain")
-	}
+		var firstName, lastName, emailAddress, phoneNumber, accountStatus, domain string
 
-	rolesLen := len(con.S("roles").Data().([]interface{}))
-	roles := make([]interface{}, 0)
-	roleId := ""
-	for i := 0; i < rolesLen; i++ {
-		roleCont := con.S("roles").Index(i)
-
-		map_role := make(map[string]interface{})
-
-		map_role["roleid"] = models.G(roleCont, "roleId")
-		map_role["access_type"] = models.G(roleCont, "access_type")
-		roles = append(roles, map_role)
-		if i == 0 {
-			roleId = models.G(roleCont, "roleId")
+		if userCont.Exists("firstName") {
+			firstName = models.G(userCont, "firstName")
 		}
+		if userCont.Exists("lastName") {
+			lastName = models.G(userCont, "lastName")
+		}
+		if userCont.Exists("emailAddress") {
+			emailAddress = models.G(userCont, "emailAddress")
+		}
+		if userCont.Exists("phoneNumber") {
+			phoneNumber = models.G(userCont, "phoneNumber")
+		}
+		if userCont.Exists("accountStatus") {
+			accountStatus = models.G(userCont, "accountStatus")
+		}
+		if userCont.Exists("domain") {
+			domain = models.G(userCont, "domain")
+		}
+
+		rolesLen := len(userCont.S("roles").Data().([]interface{}))
+		roles := make([]interface{}, 0)
+		for j := 0; j < rolesLen; j++ {
+			roleCont := userCont.S("roles").Index(j)
+
+			map_role := make(map[string]interface{})
+
+			map_role["roleid"] = models.G(roleCont, "roleId")
+			map_role["access_type"] = models.G(roleCont, "access_type")
+			roles = append(roles, map_role)
+		}
+		resource := terraformutils.NewResource(
+			id,
+			id,
+			"mso_user",
+			"mso",
+			map[string]string{
+				"username":       userName,
+				"user_password":  password,
+				"first_name":     firstName,
+				"last_name":      lastName,
+				"email":          emailAddress,
+				"phone":          phoneNumber,
+				"account_status": accountStatus,
+				"domain":         domain,
+			},
+			[]string{},
+			map[string]interface{}{
+				"roles": roles,
+			},
+		)
+		resource.SlowQueryRequired = SlowQueryRequired
+		a.Resources = append(a.Resources, resource)
 	}
-	resourceName := roleId
-	resource := terraformutils.NewResource(
-		id,
-		resourceName,
-		"mso_user",
-		"mso",
-		map[string]string{
-			"username":       userName,
-			"user_password":  password,
-			"first_name":     firstName,
-			"last_name":      lastName,
-			"email":          emailAddress,
-			"phone":          phoneNumber,
-			"account_status": accountStatus,
-			"domain":         domain,
-		},
-		[]string{},
-		map[string]interface{}{
-			"roles": roles,
-		},
-	)
-	resource.SlowQueryRequired = SlowQueryRequired
-	a.Resources = append(a.Resources, resource)
 	return nil
 }
