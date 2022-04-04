@@ -402,5 +402,6 @@ func (p *MSOProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"dhcp_relay_policy_provider":            &DhcpRelayPolicyProviderGenerator{},
 		"schema_site_l3out":                     &SchemaSiteL3outGenerator{},
 		"schema_site_service_graph_node":        &SchemaSiteServiceGraphNodeGenerator{},
+		"user":                                  &UserGenerator{},
 	}
 }
