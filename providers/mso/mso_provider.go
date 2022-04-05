@@ -294,6 +294,15 @@ func (p MSOProvider) GetResourceConnections() map[string]map[string][]string {
 			"service_node_type":             []string{"service_node_type", "name"},
 			"schema_template_service_graph": []string{"service_graph_name", "service_graph_name"},
 		},
+		"schema_template_contract_service_graph": {
+			"schema":                        []string{"schema_id", "id"},
+			"site":                          []string{"site_id", "id"},
+			"schema_template":               []string{"template_name", "name"},
+			"schema_template_contract":      []string{"name", "contract_name"},
+			"schema_template_service_graph": []string{"service_graph_name", "service_graph_name"},
+			"provider_connector_bd_name":    []string{"provider_connector_bd_name", "name"},
+			"consumer_connector_bd_name":    []string{"consumer_connector_bd_name", "name"},
+		},
 	}
 }
 
@@ -402,6 +411,7 @@ func (p *MSOProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"dhcp_relay_policy_provider":            &DhcpRelayPolicyProviderGenerator{},
 		"schema_site_l3out":                     &SchemaSiteL3outGenerator{},
 		"schema_site_service_graph_node":        &SchemaSiteServiceGraphNodeGenerator{},
+		"schema_template_contract_service_graph": &SchemaTemplateContractServiceGraph{},
 		"user":                                  &UserGenerator{},
 	}
 }
