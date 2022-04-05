@@ -99,7 +99,7 @@ type DescribeDBInstanceAutomatedBackupsOutput struct {
 
 	// An optional pagination token provided by a previous request. If this parameter
 	// is specified, the response includes only records beyond the marker, up to the
-	// value specified by MaxRecords .
+	// value specified by MaxRecords.
 	Marker *string
 
 	// Metadata pertaining to the operation's result.
@@ -223,12 +223,13 @@ func NewDescribeDBInstanceAutomatedBackupsPaginator(client DescribeDBInstanceAut
 		client:    client,
 		params:    params,
 		firstPage: true,
+		nextToken: params.Marker,
 	}
 }
 
 // HasMorePages returns a boolean indicating whether more pages are available
 func (p *DescribeDBInstanceAutomatedBackupsPaginator) HasMorePages() bool {
-	return p.firstPage || p.nextToken != nil
+	return p.firstPage || (p.nextToken != nil && len(*p.nextToken) != 0)
 }
 
 // NextPage retrieves the next DescribeDBInstanceAutomatedBackups page.
@@ -255,7 +256,10 @@ func (p *DescribeDBInstanceAutomatedBackupsPaginator) NextPage(ctx context.Conte
 	prevToken := p.nextToken
 	p.nextToken = result.Marker
 
-	if p.options.StopOnDuplicateToken && prevToken != nil && p.nextToken != nil && *prevToken == *p.nextToken {
+	if p.options.StopOnDuplicateToken &&
+		prevToken != nil &&
+		p.nextToken != nil &&
+		*prevToken == *p.nextToken {
 		p.nextToken = nil
 	}
 

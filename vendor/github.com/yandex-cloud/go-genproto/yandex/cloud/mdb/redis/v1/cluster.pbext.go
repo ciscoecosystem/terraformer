@@ -3,9 +3,10 @@
 package redis
 
 import (
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	config "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/redis/v1/config"
 	timeofday "google.golang.org/genproto/googleapis/type/timeofday"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
+	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 func (m *Cluster) SetId(v string) {
@@ -16,7 +17,7 @@ func (m *Cluster) SetFolderId(v string) {
 	m.FolderId = v
 }
 
-func (m *Cluster) SetCreatedAt(v *timestamp.Timestamp) {
+func (m *Cluster) SetCreatedAt(v *timestamppb.Timestamp) {
 	m.CreatedAt = v
 }
 
@@ -68,6 +69,22 @@ func (m *Cluster) SetPlannedOperation(v *MaintenanceOperation) {
 	m.PlannedOperation = v
 }
 
+func (m *Cluster) SetSecurityGroupIds(v []string) {
+	m.SecurityGroupIds = v
+}
+
+func (m *Cluster) SetTlsEnabled(v bool) {
+	m.TlsEnabled = v
+}
+
+func (m *Cluster) SetDeletionProtection(v bool) {
+	m.DeletionProtection = v
+}
+
+func (m *Cluster) SetPersistenceMode(v Cluster_PersistenceMode) {
+	m.PersistenceMode = v
+}
+
 func (m *Monitoring) SetName(v string) {
 	m.Name = v
 }
@@ -99,6 +116,12 @@ func (m *ClusterConfig) SetRedisConfig_5_0(v *config.RedisConfigSet5_0) {
 func (m *ClusterConfig) SetRedisConfig_6_0(v *config.RedisConfigSet6_0) {
 	m.RedisConfig = &ClusterConfig_RedisConfig_6_0{
 		RedisConfig_6_0: v,
+	}
+}
+
+func (m *ClusterConfig) SetRedisConfig_6_2(v *config.RedisConfigSet6_2) {
+	m.RedisConfig = &ClusterConfig_RedisConfig_6_2{
+		RedisConfig_6_2: v,
 	}
 }
 
@@ -158,6 +181,14 @@ func (m *Host) SetShardName(v string) {
 	m.ShardName = v
 }
 
+func (m *Host) SetReplicaPriority(v *wrapperspb.Int64Value) {
+	m.ReplicaPriority = v
+}
+
+func (m *Host) SetAssignPublicIp(v bool) {
+	m.AssignPublicIp = v
+}
+
 func (m *Service) SetType(v Service_Type) {
 	m.Type = v
 }
@@ -172,6 +203,10 @@ func (m *Resources) SetResourcePresetId(v string) {
 
 func (m *Resources) SetDiskSize(v int64) {
 	m.DiskSize = v
+}
+
+func (m *Resources) SetDiskTypeId(v string) {
+	m.DiskTypeId = v
 }
 
 func (m *Access) SetDataLens(v bool) {

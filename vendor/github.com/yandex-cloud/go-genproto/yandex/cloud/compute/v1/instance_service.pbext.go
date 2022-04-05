@@ -4,7 +4,7 @@ package compute
 
 import (
 	operation "github.com/yandex-cloud/go-genproto/yandex/cloud/operation"
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
 func (m *GetInstanceRequest) SetInstanceId(v string) {
@@ -79,6 +79,10 @@ func (m *CreateInstanceRequest) SetSecondaryDiskSpecs(v []*AttachedDiskSpec) {
 	m.SecondaryDiskSpecs = v
 }
 
+func (m *CreateInstanceRequest) SetFilesystemSpecs(v []*AttachedFilesystemSpec) {
+	m.FilesystemSpecs = v
+}
+
 func (m *CreateInstanceRequest) SetNetworkInterfaceSpecs(v []*NetworkInterfaceSpec) {
 	m.NetworkInterfaceSpecs = v
 }
@@ -111,7 +115,7 @@ func (m *UpdateInstanceRequest) SetInstanceId(v string) {
 	m.InstanceId = v
 }
 
-func (m *UpdateInstanceRequest) SetUpdateMask(v *field_mask.FieldMask) {
+func (m *UpdateInstanceRequest) SetUpdateMask(v *fieldmaskpb.FieldMask) {
 	m.UpdateMask = v
 }
 
@@ -149,6 +153,10 @@ func (m *UpdateInstanceRequest) SetNetworkSettings(v *NetworkSettings) {
 
 func (m *UpdateInstanceRequest) SetPlacementPolicy(v *PlacementPolicy) {
 	m.PlacementPolicy = v
+}
+
+func (m *UpdateInstanceRequest) SetSchedulingPolicy(v *SchedulingPolicy) {
+	m.SchedulingPolicy = v
 }
 
 func (m *UpdateInstanceMetadata) SetInstanceId(v string) {
@@ -261,6 +269,52 @@ func (m *DetachInstanceDiskMetadata) SetDiskId(v string) {
 	m.DiskId = v
 }
 
+func (m *AttachInstanceFilesystemRequest) SetInstanceId(v string) {
+	m.InstanceId = v
+}
+
+func (m *AttachInstanceFilesystemRequest) SetAttachedFilesystemSpec(v *AttachedFilesystemSpec) {
+	m.AttachedFilesystemSpec = v
+}
+
+func (m *AttachInstanceFilesystemMetadata) SetInstanceId(v string) {
+	m.InstanceId = v
+}
+
+func (m *AttachInstanceFilesystemMetadata) SetFilesystemId(v string) {
+	m.FilesystemId = v
+}
+
+type DetachInstanceFilesystemRequest_Filesystem = isDetachInstanceFilesystemRequest_Filesystem
+
+func (m *DetachInstanceFilesystemRequest) SetFilesystem(v DetachInstanceFilesystemRequest_Filesystem) {
+	m.Filesystem = v
+}
+
+func (m *DetachInstanceFilesystemRequest) SetInstanceId(v string) {
+	m.InstanceId = v
+}
+
+func (m *DetachInstanceFilesystemRequest) SetFilesystemId(v string) {
+	m.Filesystem = &DetachInstanceFilesystemRequest_FilesystemId{
+		FilesystemId: v,
+	}
+}
+
+func (m *DetachInstanceFilesystemRequest) SetDeviceName(v string) {
+	m.Filesystem = &DetachInstanceFilesystemRequest_DeviceName{
+		DeviceName: v,
+	}
+}
+
+func (m *DetachInstanceFilesystemMetadata) SetInstanceId(v string) {
+	m.InstanceId = v
+}
+
+func (m *DetachInstanceFilesystemMetadata) SetFilesystemId(v string) {
+	m.FilesystemId = v
+}
+
 func (m *AddInstanceOneToOneNatRequest) SetInstanceId(v string) {
 	m.InstanceId = v
 }
@@ -305,7 +359,7 @@ func (m *UpdateInstanceNetworkInterfaceRequest) SetNetworkInterfaceIndex(v strin
 	m.NetworkInterfaceIndex = v
 }
 
-func (m *UpdateInstanceNetworkInterfaceRequest) SetUpdateMask(v *field_mask.FieldMask) {
+func (m *UpdateInstanceNetworkInterfaceRequest) SetUpdateMask(v *fieldmaskpb.FieldMask) {
 	m.UpdateMask = v
 }
 
@@ -421,6 +475,14 @@ func (m *AttachedDiskSpec_DiskSpec) SetSize(v int64) {
 	m.Size = v
 }
 
+func (m *AttachedDiskSpec_DiskSpec) SetBlockSize(v int64) {
+	m.BlockSize = v
+}
+
+func (m *AttachedDiskSpec_DiskSpec) SetDiskPlacementPolicy(v *DiskPlacementPolicy) {
+	m.DiskPlacementPolicy = v
+}
+
 func (m *AttachedDiskSpec_DiskSpec) SetImageId(v string) {
 	m.Source = &AttachedDiskSpec_DiskSpec_ImageId{
 		ImageId: v,
@@ -431,6 +493,18 @@ func (m *AttachedDiskSpec_DiskSpec) SetSnapshotId(v string) {
 	m.Source = &AttachedDiskSpec_DiskSpec_SnapshotId{
 		SnapshotId: v,
 	}
+}
+
+func (m *AttachedFilesystemSpec) SetMode(v AttachedFilesystemSpec_Mode) {
+	m.Mode = v
+}
+
+func (m *AttachedFilesystemSpec) SetDeviceName(v string) {
+	m.DeviceName = v
+}
+
+func (m *AttachedFilesystemSpec) SetFilesystemId(v string) {
+	m.FilesystemId = v
 }
 
 func (m *NetworkInterfaceSpec) SetSubnetId(v string) {
@@ -457,10 +531,54 @@ func (m *PrimaryAddressSpec) SetOneToOneNatSpec(v *OneToOneNatSpec) {
 	m.OneToOneNatSpec = v
 }
 
+func (m *PrimaryAddressSpec) SetDnsRecordSpecs(v []*DnsRecordSpec) {
+	m.DnsRecordSpecs = v
+}
+
 func (m *OneToOneNatSpec) SetIpVersion(v IpVersion) {
 	m.IpVersion = v
 }
 
 func (m *OneToOneNatSpec) SetAddress(v string) {
 	m.Address = v
+}
+
+func (m *OneToOneNatSpec) SetDnsRecordSpecs(v []*DnsRecordSpec) {
+	m.DnsRecordSpecs = v
+}
+
+func (m *DnsRecordSpec) SetFqdn(v string) {
+	m.Fqdn = v
+}
+
+func (m *DnsRecordSpec) SetDnsZoneId(v string) {
+	m.DnsZoneId = v
+}
+
+func (m *DnsRecordSpec) SetTtl(v int64) {
+	m.Ttl = v
+}
+
+func (m *DnsRecordSpec) SetPtr(v bool) {
+	m.Ptr = v
+}
+
+func (m *MoveInstanceRequest) SetInstanceId(v string) {
+	m.InstanceId = v
+}
+
+func (m *MoveInstanceRequest) SetDestinationFolderId(v string) {
+	m.DestinationFolderId = v
+}
+
+func (m *MoveInstanceMetadata) SetInstanceId(v string) {
+	m.InstanceId = v
+}
+
+func (m *MoveInstanceMetadata) SetSourceFolderId(v string) {
+	m.SourceFolderId = v
+}
+
+func (m *MoveInstanceMetadata) SetDestinationFolderId(v string) {
+	m.DestinationFolderId = v
 }

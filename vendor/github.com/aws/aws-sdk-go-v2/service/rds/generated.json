@@ -9,6 +9,7 @@
     },
     "files": [
         "api_client.go",
+        "api_client_test.go",
         "api_op_AddRoleToDBCluster.go",
         "api_op_AddRoleToDBInstance.go",
         "api_op_AddSourceIdentifierToSubscription.go",
@@ -128,6 +129,7 @@
         "api_op_PromoteReadReplica.go",
         "api_op_PromoteReadReplicaDBCluster.go",
         "api_op_PurchaseReservedDBInstancesOffering.go",
+        "api_op_RebootDBCluster.go",
         "api_op_RebootDBInstance.go",
         "api_op_RegisterDBProxyTargets.go",
         "api_op_RemoveFromGlobalCluster.go",

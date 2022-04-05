@@ -13,18 +13,20 @@ import (
 )
 
 // Creates a custom DB engine version (CEV). A CEV is a binary volume snapshot of a
-// database engine and specific AMI. The only supported engine is Oracle Database
-// 19c Enterprise Edition with the January 2021 or later RU/RUR. For more
-// information, see  Amazon RDS Custom requirements and limitations
-// (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-cev.html#custom-cev.preparing.manifest)
-// in the Amazon RDS User Guide. Amazon RDS, which is a fully managed service,
-// supplies the Amazon Machine Image (AMI) and database software. The Amazon RDS
-// database software is preinstalled, so you need only select a DB engine and
-// version, and create your database. With Amazon RDS Custom, you upload your
-// database installation files in Amazon S3. For more information, see  Preparing
-// to create a CEV
-// (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-cev.html#custom-cev.html#custom-cev.preparing)
-// in the Amazon RDS User Guide. When you create a custom engine version, you
+// database engine and specific AMI. The supported engines are the following:
+//
+// *
+// Oracle Database 12.1 Enterprise Edition with the January 2021 or later RU/RUR
+//
+// *
+// Oracle Database 19c Enterprise Edition with the January 2021 or later
+// RU/RUR
+//
+// Amazon RDS, which is a fully managed service, supplies the Amazon
+// Machine Image (AMI) and database software. The Amazon RDS database software is
+// preinstalled, so you need only select a DB engine and version, and create your
+// database. With Amazon RDS Custom for Oracle, you upload your database
+// installation files in Amazon S3. When you create a custom engine version, you
 // specify the files in a JSON document called a CEV manifest. This document
 // describes installation .zip files stored in Amazon S3. RDS Custom creates your
 // CEV from the installation files that you provided. This service model is called
@@ -72,9 +74,9 @@ type CreateCustomDBEngineVersionInput struct {
 	Engine *string
 
 	// The name of your CEV. The name format is 19.customized_string . For example, a
-	// valid name is 19.my_cev1. This setting is required for RDS Custom, but optional
-	// for Amazon RDS. The combination of Engine and EngineVersion is unique per
-	// customer per Region.
+	// valid name is 19.my_cev1. This setting is required for RDS Custom for Oracle,
+	// but optional for Amazon RDS. The combination of Engine and EngineVersion is
+	// unique per customer per Region.
 	//
 	// This member is required.
 	EngineVersion *string
@@ -199,6 +201,10 @@ type CreateCustomDBEngineVersionOutput struct {
 	// A list of the time zones supported by this engine for the Timezone parameter of
 	// the CreateDBInstance action.
 	SupportedTimezones []types.Timezone
+
+	// A value that indicates whether the engine version supports Babelfish for Aurora
+	// PostgreSQL.
+	SupportsBabelfish bool
 
 	// A value that indicates whether you can use Aurora global databases with a
 	// specific DB engine version.

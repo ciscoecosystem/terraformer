@@ -3,8 +3,8 @@
 package instancegroup
 
 import (
-	duration "github.com/golang/protobuf/ptypes/duration"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func (m *InstanceGroup) SetId(v string) {
@@ -15,7 +15,7 @@ func (m *InstanceGroup) SetFolderId(v string) {
 	m.FolderId = v
 }
 
-func (m *InstanceGroup) SetCreatedAt(v *timestamp.Timestamp) {
+func (m *InstanceGroup) SetCreatedAt(v *timestamppb.Timestamp) {
 	m.CreatedAt = v
 }
 
@@ -77,6 +77,22 @@ func (m *InstanceGroup) SetVariables(v []*Variable) {
 
 func (m *InstanceGroup) SetDeletionProtection(v bool) {
 	m.DeletionProtection = v
+}
+
+func (m *InstanceGroup) SetApplicationLoadBalancerSpec(v *ApplicationLoadBalancerSpec) {
+	m.ApplicationLoadBalancerSpec = v
+}
+
+func (m *InstanceGroup) SetApplicationLoadBalancerState(v *ApplicationLoadBalancerState) {
+	m.ApplicationLoadBalancerState = v
+}
+
+func (m *ApplicationLoadBalancerState) SetTargetGroupId(v string) {
+	m.TargetGroupId = v
+}
+
+func (m *ApplicationLoadBalancerState) SetStatusMessage(v string) {
+	m.StatusMessage = v
 }
 
 func (m *Variable) SetKey(v string) {
@@ -181,15 +197,15 @@ func (m *ScalePolicy_AutoScale) SetMaxSize(v int64) {
 	m.MaxSize = v
 }
 
-func (m *ScalePolicy_AutoScale) SetMeasurementDuration(v *duration.Duration) {
+func (m *ScalePolicy_AutoScale) SetMeasurementDuration(v *durationpb.Duration) {
 	m.MeasurementDuration = v
 }
 
-func (m *ScalePolicy_AutoScale) SetWarmupDuration(v *duration.Duration) {
+func (m *ScalePolicy_AutoScale) SetWarmupDuration(v *durationpb.Duration) {
 	m.WarmupDuration = v
 }
 
-func (m *ScalePolicy_AutoScale) SetStabilizationDuration(v *duration.Duration) {
+func (m *ScalePolicy_AutoScale) SetStabilizationDuration(v *durationpb.Duration) {
 	m.StabilizationDuration = v
 }
 
@@ -203,6 +219,10 @@ func (m *ScalePolicy_AutoScale) SetCpuUtilizationRule(v *ScalePolicy_CpuUtilizat
 
 func (m *ScalePolicy_AutoScale) SetCustomRules(v []*ScalePolicy_CustomRule) {
 	m.CustomRules = v
+}
+
+func (m *ScalePolicy_AutoScale) SetAutoScaleType(v ScalePolicy_AutoScale_AutoScaleType) {
+	m.AutoScaleType = v
 }
 
 func (m *ScalePolicy_CpuUtilizationRule) SetUtilizationTarget(v float64) {
@@ -229,6 +249,14 @@ func (m *ScalePolicy_CustomRule) SetTarget(v float64) {
 	m.Target = v
 }
 
+func (m *ScalePolicy_CustomRule) SetFolderId(v string) {
+	m.FolderId = v
+}
+
+func (m *ScalePolicy_CustomRule) SetService(v string) {
+	m.Service = v
+}
+
 func (m *ScalePolicy_FixedScale) SetSize(v int64) {
 	m.Size = v
 }
@@ -249,8 +277,12 @@ func (m *DeployPolicy) SetMaxExpansion(v int64) {
 	m.MaxExpansion = v
 }
 
-func (m *DeployPolicy) SetStartupDuration(v *duration.Duration) {
+func (m *DeployPolicy) SetStartupDuration(v *durationpb.Duration) {
 	m.StartupDuration = v
+}
+
+func (m *DeployPolicy) SetStrategy(v DeployPolicy_Strategy) {
+	m.Strategy = v
 }
 
 func (m *AllocationPolicy) SetZones(v []*AllocationPolicy_Zone) {
@@ -311,6 +343,30 @@ func (m *InstanceTemplate) SetName(v string) {
 
 func (m *InstanceTemplate) SetHostname(v string) {
 	m.Hostname = v
+}
+
+func (m *InstanceTemplate) SetPlacementPolicy(v *PlacementPolicy) {
+	m.PlacementPolicy = v
+}
+
+func (m *PlacementPolicy) SetPlacementGroupId(v string) {
+	m.PlacementGroupId = v
+}
+
+func (m *PlacementPolicy) SetHostAffinityRules(v []*PlacementPolicy_HostAffinityRule) {
+	m.HostAffinityRules = v
+}
+
+func (m *PlacementPolicy_HostAffinityRule) SetKey(v string) {
+	m.Key = v
+}
+
+func (m *PlacementPolicy_HostAffinityRule) SetOp(v PlacementPolicy_HostAffinityRule_Operator) {
+	m.Op = v
+}
+
+func (m *PlacementPolicy_HostAffinityRule) SetValues(v []string) {
+	m.Values = v
 }
 
 func (m *ResourcesSpec) SetMemory(v int64) {
@@ -403,8 +459,40 @@ func (m *PrimaryAddressSpec) SetOneToOneNatSpec(v *OneToOneNatSpec) {
 	m.OneToOneNatSpec = v
 }
 
+func (m *PrimaryAddressSpec) SetDnsRecordSpecs(v []*DnsRecordSpec) {
+	m.DnsRecordSpecs = v
+}
+
+func (m *PrimaryAddressSpec) SetAddress(v string) {
+	m.Address = v
+}
+
 func (m *OneToOneNatSpec) SetIpVersion(v IpVersion) {
 	m.IpVersion = v
+}
+
+func (m *OneToOneNatSpec) SetAddress(v string) {
+	m.Address = v
+}
+
+func (m *OneToOneNatSpec) SetDnsRecordSpecs(v []*DnsRecordSpec) {
+	m.DnsRecordSpecs = v
+}
+
+func (m *DnsRecordSpec) SetFqdn(v string) {
+	m.Fqdn = v
+}
+
+func (m *DnsRecordSpec) SetDnsZoneId(v string) {
+	m.DnsZoneId = v
+}
+
+func (m *DnsRecordSpec) SetTtl(v int64) {
+	m.Ttl = v
+}
+
+func (m *DnsRecordSpec) SetPtr(v bool) {
+	m.Ptr = v
 }
 
 func (m *SchedulingPolicy) SetPreemptible(v bool) {
@@ -419,6 +507,10 @@ func (m *LoadBalancerSpec) SetTargetGroupSpec(v *TargetGroupSpec) {
 	m.TargetGroupSpec = v
 }
 
+func (m *LoadBalancerSpec) SetMaxOpeningTrafficDuration(v *durationpb.Duration) {
+	m.MaxOpeningTrafficDuration = v
+}
+
 func (m *TargetGroupSpec) SetName(v string) {
 	m.Name = v
 }
@@ -431,8 +523,32 @@ func (m *TargetGroupSpec) SetLabels(v map[string]string) {
 	m.Labels = v
 }
 
+func (m *ApplicationLoadBalancerSpec) SetTargetGroupSpec(v *ApplicationTargetGroupSpec) {
+	m.TargetGroupSpec = v
+}
+
+func (m *ApplicationLoadBalancerSpec) SetMaxOpeningTrafficDuration(v *durationpb.Duration) {
+	m.MaxOpeningTrafficDuration = v
+}
+
+func (m *ApplicationTargetGroupSpec) SetName(v string) {
+	m.Name = v
+}
+
+func (m *ApplicationTargetGroupSpec) SetDescription(v string) {
+	m.Description = v
+}
+
+func (m *ApplicationTargetGroupSpec) SetLabels(v map[string]string) {
+	m.Labels = v
+}
+
 func (m *HealthChecksSpec) SetHealthCheckSpecs(v []*HealthCheckSpec) {
 	m.HealthCheckSpecs = v
+}
+
+func (m *HealthChecksSpec) SetMaxCheckingHealthDuration(v *durationpb.Duration) {
+	m.MaxCheckingHealthDuration = v
 }
 
 type HealthCheckSpec_HealthCheckOptions = isHealthCheckSpec_HealthCheckOptions
@@ -441,11 +557,11 @@ func (m *HealthCheckSpec) SetHealthCheckOptions(v HealthCheckSpec_HealthCheckOpt
 	m.HealthCheckOptions = v
 }
 
-func (m *HealthCheckSpec) SetInterval(v *duration.Duration) {
+func (m *HealthCheckSpec) SetInterval(v *durationpb.Duration) {
 	m.Interval = v
 }
 
-func (m *HealthCheckSpec) SetTimeout(v *duration.Duration) {
+func (m *HealthCheckSpec) SetTimeout(v *durationpb.Duration) {
 	m.Timeout = v
 }
 
@@ -513,7 +629,7 @@ func (m *ManagedInstance) SetNetworkInterfaces(v []*NetworkInterface) {
 	m.NetworkInterfaces = v
 }
 
-func (m *ManagedInstance) SetStatusChangedAt(v *timestamp.Timestamp) {
+func (m *ManagedInstance) SetStatusChangedAt(v *timestamppb.Timestamp) {
 	m.StatusChangedAt = v
 }
 
@@ -545,6 +661,10 @@ func (m *PrimaryAddress) SetOneToOneNat(v *OneToOneNat) {
 	m.OneToOneNat = v
 }
 
+func (m *PrimaryAddress) SetDnsRecords(v []*DnsRecord) {
+	m.DnsRecords = v
+}
+
 func (m *OneToOneNat) SetAddress(v string) {
 	m.Address = v
 }
@@ -553,7 +673,27 @@ func (m *OneToOneNat) SetIpVersion(v IpVersion) {
 	m.IpVersion = v
 }
 
-func (m *LogRecord) SetTimestamp(v *timestamp.Timestamp) {
+func (m *OneToOneNat) SetDnsRecords(v []*DnsRecord) {
+	m.DnsRecords = v
+}
+
+func (m *DnsRecord) SetFqdn(v string) {
+	m.Fqdn = v
+}
+
+func (m *DnsRecord) SetDnsZoneId(v string) {
+	m.DnsZoneId = v
+}
+
+func (m *DnsRecord) SetTtl(v int64) {
+	m.Ttl = v
+}
+
+func (m *DnsRecord) SetPtr(v bool) {
+	m.Ptr = v
+}
+
+func (m *LogRecord) SetTimestamp(v *timestamppb.Timestamp) {
 	m.Timestamp = v
 }
 

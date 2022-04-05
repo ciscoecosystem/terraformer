@@ -14,11 +14,11 @@ import (
 )
 
 // Returns events related to DB instances, DB clusters, DB parameter groups, DB
-// security groups, DB snapshots, and DB cluster snapshots for the past 14 days.
-// Events specific to a particular DB instances, DB clusters, DB parameter groups,
-// DB security groups, DB snapshots, and DB cluster snapshots group can be obtained
-// by providing the name as a parameter. By default, the past hour of events are
-// returned.
+// security groups, DB snapshots, DB cluster snapshots, and RDS Proxies for the
+// past 14 days. Events specific to a particular DB instance, DB cluster, DB
+// parameter group, DB security group, DB snapshot, DB cluster snapshot group, or
+// RDS Proxy can be obtained by providing the name as a parameter. By default, RDS
+// returns events that were generated in the past hour.
 func (c *Client) DescribeEvents(ctx context.Context, params *DescribeEventsInput, optFns ...func(*Options)) (*DescribeEventsOutput, error) {
 	if params == nil {
 		params = &DescribeEventsInput{}
@@ -88,6 +88,9 @@ type DescribeEventsInput struct {
 	// * If the source type is a DB
 	// cluster snapshot, a DBClusterSnapshotIdentifier value must be supplied.
 	//
+	// * If
+	// the source type is an RDS Proxy, a DBProxyName value must be supplied.
+	//
 	// * Can't
 	// end with a hyphen or contain two consecutive hyphens.
 	SourceIdentifier *string
@@ -112,7 +115,7 @@ type DescribeEventsOutput struct {
 
 	// An optional pagination token provided by a previous Events request. If this
 	// parameter is specified, the response includes only records beyond the marker, up
-	// to the value specified by MaxRecords .
+	// to the value specified by MaxRecords.
 	Marker *string
 
 	// Metadata pertaining to the operation's result.
@@ -234,12 +237,13 @@ func NewDescribeEventsPaginator(client DescribeEventsAPIClient, params *Describe
 		client:    client,
 		params:    params,
 		firstPage: true,
+		nextToken: params.Marker,
 	}
 }
 
 // HasMorePages returns a boolean indicating whether more pages are available
 func (p *DescribeEventsPaginator) HasMorePages() bool {
-	return p.firstPage || p.nextToken != nil
+	return p.firstPage || (p.nextToken != nil && len(*p.nextToken) != 0)
 }
 
 // NextPage retrieves the next DescribeEvents page.
@@ -266,7 +270,10 @@ func (p *DescribeEventsPaginator) NextPage(ctx context.Context, optFns ...func(*
 	prevToken := p.nextToken
 	p.nextToken = result.Marker
 
-	if p.options.StopOnDuplicateToken && prevToken != nil && p.nextToken != nil && *prevToken == *p.nextToken {
+	if p.options.StopOnDuplicateToken &&
+		prevToken != nil &&
+		p.nextToken != nil &&
+		*prevToken == *p.nextToken {
 		p.nextToken = nil
 	}
 

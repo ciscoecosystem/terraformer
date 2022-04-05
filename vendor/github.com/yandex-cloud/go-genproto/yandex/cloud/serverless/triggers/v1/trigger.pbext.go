@@ -3,8 +3,9 @@
 package triggers
 
 import (
-	duration "github.com/golang/protobuf/ptypes/duration"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	v1 "github.com/yandex-cloud/go-genproto/yandex/cloud/logging/v1"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func (m *Trigger) SetId(v string) {
@@ -15,7 +16,7 @@ func (m *Trigger) SetFolderId(v string) {
 	m.FolderId = v
 }
 
-func (m *Trigger) SetCreatedAt(v *timestamp.Timestamp) {
+func (m *Trigger) SetCreatedAt(v *timestamppb.Timestamp) {
 	m.CreatedAt = v
 }
 
@@ -81,6 +82,24 @@ func (m *Trigger_Rule) SetCloudLogs(v *Trigger_CloudLogs) {
 	}
 }
 
+func (m *Trigger_Rule) SetLogging(v *Trigger_Logging) {
+	m.Rule = &Trigger_Rule_Logging{
+		Logging: v,
+	}
+}
+
+func (m *Trigger_Rule) SetBillingBudget(v *BillingBudget) {
+	m.Rule = &Trigger_Rule_BillingBudget{
+		BillingBudget: v,
+	}
+}
+
+func (m *Trigger_Rule) SetDataStream(v *DataStream) {
+	m.Rule = &Trigger_Rule_DataStream{
+		DataStream: v,
+	}
+}
+
 type Trigger_Timer_Action = isTrigger_Timer_Action
 
 func (m *Trigger_Timer) SetAction(v Trigger_Timer_Action) {
@@ -103,6 +122,12 @@ func (m *Trigger_Timer) SetInvokeFunctionWithRetry(v *InvokeFunctionWithRetry) {
 	}
 }
 
+func (m *Trigger_Timer) SetInvokeContainerWithRetry(v *InvokeContainerWithRetry) {
+	m.Action = &Trigger_Timer_InvokeContainerWithRetry{
+		InvokeContainerWithRetry: v,
+	}
+}
+
 type Trigger_MessageQueue_Action = isTrigger_MessageQueue_Action
 
 func (m *Trigger_MessageQueue) SetAction(v Trigger_MessageQueue_Action) {
@@ -121,13 +146,19 @@ func (m *Trigger_MessageQueue) SetBatchSettings(v *BatchSettings) {
 	m.BatchSettings = v
 }
 
-func (m *Trigger_MessageQueue) SetVisibilityTimeout(v *duration.Duration) {
+func (m *Trigger_MessageQueue) SetVisibilityTimeout(v *durationpb.Duration) {
 	m.VisibilityTimeout = v
 }
 
 func (m *Trigger_MessageQueue) SetInvokeFunction(v *InvokeFunctionOnce) {
 	m.Action = &Trigger_MessageQueue_InvokeFunction{
 		InvokeFunction: v,
+	}
+}
+
+func (m *Trigger_MessageQueue) SetInvokeContainer(v *InvokeContainerOnce) {
+	m.Action = &Trigger_MessageQueue_InvokeContainer{
+		InvokeContainer: v,
 	}
 }
 
@@ -152,6 +183,12 @@ func (m *Trigger_IoTMessage) SetMqttTopic(v string) {
 func (m *Trigger_IoTMessage) SetInvokeFunction(v *InvokeFunctionWithRetry) {
 	m.Action = &Trigger_IoTMessage_InvokeFunction{
 		InvokeFunction: v,
+	}
+}
+
+func (m *Trigger_IoTMessage) SetInvokeContainer(v *InvokeContainerWithRetry) {
+	m.Action = &Trigger_IoTMessage_InvokeContainer{
+		InvokeContainer: v,
 	}
 }
 
@@ -183,6 +220,12 @@ func (m *Trigger_ObjectStorage) SetInvokeFunction(v *InvokeFunctionWithRetry) {
 	}
 }
 
+func (m *Trigger_ObjectStorage) SetInvokeContainer(v *InvokeContainerWithRetry) {
+	m.Action = &Trigger_ObjectStorage_InvokeContainer{
+		InvokeContainer: v,
+	}
+}
+
 type Trigger_ContainerRegistry_Action = isTrigger_ContainerRegistry_Action
 
 func (m *Trigger_ContainerRegistry) SetAction(v Trigger_ContainerRegistry_Action) {
@@ -211,6 +254,12 @@ func (m *Trigger_ContainerRegistry) SetInvokeFunction(v *InvokeFunctionWithRetry
 	}
 }
 
+func (m *Trigger_ContainerRegistry) SetInvokeContainer(v *InvokeContainerWithRetry) {
+	m.Action = &Trigger_ContainerRegistry_InvokeContainer{
+		InvokeContainer: v,
+	}
+}
+
 type Trigger_CloudLogs_Action = isTrigger_CloudLogs_Action
 
 func (m *Trigger_CloudLogs) SetAction(v Trigger_CloudLogs_Action) {
@@ -228,6 +277,50 @@ func (m *Trigger_CloudLogs) SetBatchSettings(v *CloudLogsBatchSettings) {
 func (m *Trigger_CloudLogs) SetInvokeFunction(v *InvokeFunctionWithRetry) {
 	m.Action = &Trigger_CloudLogs_InvokeFunction{
 		InvokeFunction: v,
+	}
+}
+
+func (m *Trigger_CloudLogs) SetInvokeContainer(v *InvokeContainerWithRetry) {
+	m.Action = &Trigger_CloudLogs_InvokeContainer{
+		InvokeContainer: v,
+	}
+}
+
+type Trigger_Logging_Action = isTrigger_Logging_Action
+
+func (m *Trigger_Logging) SetAction(v Trigger_Logging_Action) {
+	m.Action = v
+}
+
+func (m *Trigger_Logging) SetLogGroupId(v string) {
+	m.LogGroupId = v
+}
+
+func (m *Trigger_Logging) SetResourceType(v []string) {
+	m.ResourceType = v
+}
+
+func (m *Trigger_Logging) SetResourceId(v []string) {
+	m.ResourceId = v
+}
+
+func (m *Trigger_Logging) SetLevels(v []v1.LogLevel_Level) {
+	m.Levels = v
+}
+
+func (m *Trigger_Logging) SetBatchSettings(v *LoggingBatchSettings) {
+	m.BatchSettings = v
+}
+
+func (m *Trigger_Logging) SetInvokeFunction(v *InvokeFunctionWithRetry) {
+	m.Action = &Trigger_Logging_InvokeFunction{
+		InvokeFunction: v,
+	}
+}
+
+func (m *Trigger_Logging) SetInvokeContainer(v *InvokeContainerWithRetry) {
+	m.Action = &Trigger_Logging_InvokeContainer{
+		InvokeContainer: v,
 	}
 }
 
@@ -263,6 +356,38 @@ func (m *InvokeFunctionWithRetry) SetDeadLetterQueue(v *PutQueueMessage) {
 	m.DeadLetterQueue = v
 }
 
+func (m *InvokeContainerOnce) SetContainerId(v string) {
+	m.ContainerId = v
+}
+
+func (m *InvokeContainerOnce) SetPath(v string) {
+	m.Path = v
+}
+
+func (m *InvokeContainerOnce) SetServiceAccountId(v string) {
+	m.ServiceAccountId = v
+}
+
+func (m *InvokeContainerWithRetry) SetContainerId(v string) {
+	m.ContainerId = v
+}
+
+func (m *InvokeContainerWithRetry) SetPath(v string) {
+	m.Path = v
+}
+
+func (m *InvokeContainerWithRetry) SetServiceAccountId(v string) {
+	m.ServiceAccountId = v
+}
+
+func (m *InvokeContainerWithRetry) SetRetrySettings(v *RetrySettings) {
+	m.RetrySettings = v
+}
+
+func (m *InvokeContainerWithRetry) SetDeadLetterQueue(v *PutQueueMessage) {
+	m.DeadLetterQueue = v
+}
+
 func (m *PutQueueMessage) SetQueueId(v string) {
 	m.QueueId = v
 }
@@ -275,7 +400,7 @@ func (m *BatchSettings) SetSize(v int64) {
 	m.Size = v
 }
 
-func (m *BatchSettings) SetCutoff(v *duration.Duration) {
+func (m *BatchSettings) SetCutoff(v *durationpb.Duration) {
 	m.Cutoff = v
 }
 
@@ -283,7 +408,15 @@ func (m *CloudLogsBatchSettings) SetSize(v int64) {
 	m.Size = v
 }
 
-func (m *CloudLogsBatchSettings) SetCutoff(v *duration.Duration) {
+func (m *CloudLogsBatchSettings) SetCutoff(v *durationpb.Duration) {
+	m.Cutoff = v
+}
+
+func (m *LoggingBatchSettings) SetSize(v int64) {
+	m.Size = v
+}
+
+func (m *LoggingBatchSettings) SetCutoff(v *durationpb.Duration) {
 	m.Cutoff = v
 }
 
@@ -291,6 +424,78 @@ func (m *RetrySettings) SetRetryAttempts(v int64) {
 	m.RetryAttempts = v
 }
 
-func (m *RetrySettings) SetInterval(v *duration.Duration) {
+func (m *RetrySettings) SetInterval(v *durationpb.Duration) {
 	m.Interval = v
+}
+
+type BillingBudget_Action = isBillingBudget_Action
+
+func (m *BillingBudget) SetAction(v BillingBudget_Action) {
+	m.Action = v
+}
+
+func (m *BillingBudget) SetBillingAccountId(v string) {
+	m.BillingAccountId = v
+}
+
+func (m *BillingBudget) SetBudgetId(v string) {
+	m.BudgetId = v
+}
+
+func (m *BillingBudget) SetInvokeFunction(v *InvokeFunctionWithRetry) {
+	m.Action = &BillingBudget_InvokeFunction{
+		InvokeFunction: v,
+	}
+}
+
+func (m *BillingBudget) SetInvokeContainer(v *InvokeContainerWithRetry) {
+	m.Action = &BillingBudget_InvokeContainer{
+		InvokeContainer: v,
+	}
+}
+
+func (m *DataStreamBatchSettings) SetSize(v int64) {
+	m.Size = v
+}
+
+func (m *DataStreamBatchSettings) SetCutoff(v *durationpb.Duration) {
+	m.Cutoff = v
+}
+
+type DataStream_Action = isDataStream_Action
+
+func (m *DataStream) SetAction(v DataStream_Action) {
+	m.Action = v
+}
+
+func (m *DataStream) SetEndpoint(v string) {
+	m.Endpoint = v
+}
+
+func (m *DataStream) SetDatabase(v string) {
+	m.Database = v
+}
+
+func (m *DataStream) SetStream(v string) {
+	m.Stream = v
+}
+
+func (m *DataStream) SetServiceAccountId(v string) {
+	m.ServiceAccountId = v
+}
+
+func (m *DataStream) SetBatchSettings(v *DataStreamBatchSettings) {
+	m.BatchSettings = v
+}
+
+func (m *DataStream) SetInvokeFunction(v *InvokeFunctionWithRetry) {
+	m.Action = &DataStream_InvokeFunction{
+		InvokeFunction: v,
+	}
+}
+
+func (m *DataStream) SetInvokeContainer(v *InvokeContainerWithRetry) {
+	m.Action = &DataStream_InvokeContainer{
+		InvokeContainer: v,
+	}
 }

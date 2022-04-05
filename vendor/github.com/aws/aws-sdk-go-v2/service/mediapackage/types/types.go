@@ -2,6 +2,10 @@
 
 package types
 
+import (
+	smithydocument "github.com/aws/smithy-go/document"
+)
+
 // CDN Authorization credentials
 type Authorization struct {
 
@@ -17,6 +21,8 @@ type Authorization struct {
 	//
 	// This member is required.
 	SecretsRoleArn *string
+
+	noSmithyDocumentSerde
 }
 
 // A Channel resource configuration.
@@ -42,6 +48,8 @@ type Channel struct {
 
 	// A collection of tags associated with a resource
 	Tags map[string]string
+
+	noSmithyDocumentSerde
 }
 
 // A Common Media Application Format (CMAF) encryption configuration.
@@ -53,8 +61,15 @@ type CmafEncryption struct {
 	// This member is required.
 	SpekeKeyProvider *SpekeKeyProvider
 
+	// An optional 128-bit, 16-byte hex value represented by a 32-character string,
+	// used in conjunction with the key for encrypting blocks. If you don't specify a
+	// value, then MediaPackage creates the constant initialization vector (IV).
+	ConstantInitializationVector *string
+
 	// Time (in seconds) between each encryption key rotation.
 	KeyRotationIntervalSeconds int32
+
+	noSmithyDocumentSerde
 }
 
 // A Common Media Application Format (CMAF) packaging configuration.
@@ -76,6 +91,8 @@ type CmafPackage struct {
 
 	// A StreamSelection configuration.
 	StreamSelection *StreamSelection
+
+	noSmithyDocumentSerde
 }
 
 // A Common Media Application Format (CMAF) packaging configuration.
@@ -97,6 +114,8 @@ type CmafPackageCreateOrUpdateParameters struct {
 
 	// A StreamSelection configuration.
 	StreamSelection *StreamSelection
+
+	noSmithyDocumentSerde
 }
 
 // A Dynamic Adaptive Streaming over HTTP (DASH) encryption configuration.
@@ -110,6 +129,8 @@ type DashEncryption struct {
 
 	// Time (in seconds) between each encryption key rotation.
 	KeyRotationIntervalSeconds int32
+
+	noSmithyDocumentSerde
 }
 
 // A Dynamic Adaptive Streaming over HTTP (DASH) packaging configuration.
@@ -188,6 +209,8 @@ type DashPackage struct {
 	// Specifies the value attribute of the UTCTiming field when utcTiming is set to
 	// HTTP-ISO or HTTP-HEAD
 	UtcTimingUri *string
+
+	noSmithyDocumentSerde
 }
 
 // Configure egress access logging.
@@ -195,6 +218,32 @@ type EgressAccessLogs struct {
 
 	// Customize the log group name.
 	LogGroupName *string
+
+	noSmithyDocumentSerde
+}
+
+// Use encryptionContractConfiguration to configure one or more content encryption
+// keys for your endpoints that use SPEKE 2.0. The encryption contract defines
+// which content keys are used to encrypt the audio and video tracks in your
+// stream. To configure the encryption contract, specify which audio and video
+// encryption presets to use. Note the following considerations when using
+// encryptionContractConfiguration: encryptionContractConfiguration can be used for
+// DASH or CMAF endpoints that use SPEKE 2.0. SPEKE 2.0 relies on the CPIX 2.3
+// specification. You must disable key rotation for this endpoint by setting
+// keyRotationIntervalSeconds to 0.
+type EncryptionContractConfiguration struct {
+
+	// A collection of audio encryption presets.
+	//
+	// This member is required.
+	PresetSpeke20Audio PresetSpeke20Audio
+
+	// A collection of video encryption presets.
+	//
+	// This member is required.
+	PresetSpeke20Video PresetSpeke20Video
+
+	noSmithyDocumentSerde
 }
 
 // A HarvestJob resource configuration
@@ -231,6 +280,8 @@ type HarvestJob struct {
 	// listen for HarvestJobs as they succeed or fail. In the event of failure, the
 	// CloudWatch Event will include an explanation of why the HarvestJob failed.
 	Status Status
+
+	noSmithyDocumentSerde
 }
 
 // An HTTP Live Streaming (HLS) encryption configuration.
@@ -254,6 +305,8 @@ type HlsEncryption struct {
 
 	// When enabled, the EXT-X-KEY tag will be repeated in output manifests.
 	RepeatExtXKey bool
+
+	noSmithyDocumentSerde
 }
 
 // An HTTP Live Streaming (HLS) ingest resource configuration.
@@ -261,6 +314,8 @@ type HlsIngest struct {
 
 	// A list of endpoints to which the source stream should be sent.
 	IngestEndpoints []IngestEndpoint
+
+	noSmithyDocumentSerde
 }
 
 // A HTTP Live Streaming (HLS) manifest configuration.
@@ -309,6 +364,8 @@ type HlsManifest struct {
 
 	// The URL of the packaged OriginEndpoint for consumption.
 	Url *string
+
+	noSmithyDocumentSerde
 }
 
 // A HTTP Live Streaming (HLS) manifest configuration.
@@ -371,6 +428,8 @@ type HlsManifestCreateOrUpdateParameters struct {
 	// is found in HTTP Live Streaming (HLS) input, it will be passed through to HLS
 	// output.
 	ProgramDateTimeIntervalSeconds int32
+
+	noSmithyDocumentSerde
 }
 
 // An HTTP Live Streaming (HLS) packaging configuration.
@@ -406,6 +465,10 @@ type HlsPackage struct {
 	// An HTTP Live Streaming (HLS) encryption configuration.
 	Encryption *HlsEncryption
 
+	// When enabled, MediaPackage passes through digital video broadcasting (DVB)
+	// subtitles into the output.
+	IncludeDvbSubtitles bool
+
 	// When enabled, an I-Frame only stream will be included in the output.
 	IncludeIframeOnlyStream bool
 
@@ -436,6 +499,8 @@ type HlsPackage struct {
 
 	// When enabled, audio streams will be placed in rendition groups in the output.
 	UseAudioRenditionGroup bool
+
+	noSmithyDocumentSerde
 }
 
 // An endpoint for ingesting source content for a Channel.
@@ -452,6 +517,8 @@ type IngestEndpoint struct {
 
 	// The system generated username for ingest authentication.
 	Username *string
+
+	noSmithyDocumentSerde
 }
 
 // Configure ingress access logging.
@@ -459,6 +526,8 @@ type IngressAccessLogs struct {
 
 	// Customize the log group name.
 	LogGroupName *string
+
+	noSmithyDocumentSerde
 }
 
 // A Microsoft Smooth Streaming (MSS) encryption configuration.
@@ -469,6 +538,8 @@ type MssEncryption struct {
 	//
 	// This member is required.
 	SpekeKeyProvider *SpekeKeyProvider
+
+	noSmithyDocumentSerde
 }
 
 // A Microsoft Smooth Streaming (MSS) packaging configuration.
@@ -485,6 +556,8 @@ type MssPackage struct {
 
 	// A StreamSelection configuration.
 	StreamSelection *StreamSelection
+
+	noSmithyDocumentSerde
 }
 
 // An OriginEndpoint resource configuration.
@@ -544,6 +617,8 @@ type OriginEndpoint struct {
 	// A list of source IP CIDR blocks that will be allowed to access the
 	// OriginEndpoint.
 	Whitelist []string
+
+	noSmithyDocumentSerde
 }
 
 // Configuration parameters for where in an S3 bucket to place the harvested
@@ -565,6 +640,8 @@ type S3Destination struct {
 	//
 	// This member is required.
 	RoleArn *string
+
+	noSmithyDocumentSerde
 }
 
 // A configuration for accessing an external Secure Packager and Encoder Key
@@ -596,6 +673,19 @@ type SpekeKeyProvider struct {
 	// MediaPackage will use for enforcing secure end-to-end data transfer with the key
 	// provider service.
 	CertificateArn *string
+
+	// Use encryptionContractConfiguration to configure one or more content encryption
+	// keys for your endpoints that use SPEKE 2.0. The encryption contract defines
+	// which content keys are used to encrypt the audio and video tracks in your
+	// stream. To configure the encryption contract, specify which audio and video
+	// encryption presets to use. Note the following considerations when using
+	// encryptionContractConfiguration: encryptionContractConfiguration can be used for
+	// DASH or CMAF endpoints that use SPEKE 2.0. SPEKE 2.0 relies on the CPIX 2.3
+	// specification. You must disable key rotation for this endpoint by setting
+	// keyRotationIntervalSeconds to 0.
+	EncryptionContractConfiguration *EncryptionContractConfiguration
+
+	noSmithyDocumentSerde
 }
 
 // A StreamSelection configuration.
@@ -609,4 +699,8 @@ type StreamSelection struct {
 
 	// A directive that determines the order of streams in the output.
 	StreamOrder StreamOrder
+
+	noSmithyDocumentSerde
 }
+
+type noSmithyDocumentSerde = smithydocument.NoSerde

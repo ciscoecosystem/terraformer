@@ -54,7 +54,7 @@ func (a *SchemaTemplateANPEPGContractGenerator) InitResources() error {
 						contractRefSplitted := strings.Split(contractRef, "/")
 						contractName := contractRefSplitted[len(contractRefSplitted)-1]
 						relationShipType := models.G(contractCont, "relationshipType")
-						name := schemaId + "_" + templateName + "_" + anpName + "_" + epgName + "_" + contractName
+						name := schemaId + "_" + templateName + "_" + anpName + "_" + epgName + "_" + contractName + "_" + relationShipType
 						resource := terraformutils.NewResource(
 							schemaId,
 							name,

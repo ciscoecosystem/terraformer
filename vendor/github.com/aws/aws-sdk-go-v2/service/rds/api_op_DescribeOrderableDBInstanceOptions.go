@@ -12,7 +12,8 @@ import (
 	smithyhttp "github.com/aws/smithy-go/transport/http"
 )
 
-// Returns a list of orderable DB instance options for the specified engine.
+// Returns a list of orderable DB instance options for the specified DB engine, DB
+// engine version, and DB instance class.
 func (c *Client) DescribeOrderableDBInstanceOptions(ctx context.Context, params *DescribeOrderableDBInstanceOptionsInput, optFns ...func(*Options)) (*DescribeOrderableDBInstanceOptionsOutput, error) {
 	if params == nil {
 		params = &DescribeOrderableDBInstanceOptionsInput{}
@@ -37,33 +38,34 @@ type DescribeOrderableDBInstanceOptionsInput struct {
 	// aurora (for MySQL 5.6-compatible Aurora)
 	//
 	// * aurora-mysql (for MySQL
-	// 5.7-compatible Aurora)
+	// 5.7-compatible and MySQL 8.0-compatible Aurora)
 	//
 	// * aurora-postgresql
 	//
-	// * mariadb
+	// *
+	// mariadb
 	//
 	// * mysql
 	//
 	// * oracle-ee
 	//
-	// *
-	// oracle-ee-cdb
+	// * oracle-ee-cdb
 	//
 	// * oracle-se2
 	//
-	// * oracle-se2-cdb
+	// *
+	// oracle-se2-cdb
 	//
 	// * postgres
 	//
 	// * sqlserver-ee
 	//
-	// *
-	// sqlserver-se
+	// * sqlserver-se
 	//
 	// * sqlserver-ex
 	//
-	// * sqlserver-web
+	// *
+	// sqlserver-web
 	//
 	// This member is required.
 	Engine *string
@@ -93,7 +95,7 @@ type DescribeOrderableDBInstanceOptionsInput struct {
 	// An optional pagination token provided by a previous
 	// DescribeOrderableDBInstanceOptions request. If this parameter is specified, the
 	// response includes only records beyond the marker, up to the value specified by
-	// MaxRecords .
+	// MaxRecords.
 	Marker *string
 
 	// The maximum number of records to include in the response. If more records exist
@@ -116,7 +118,7 @@ type DescribeOrderableDBInstanceOptionsOutput struct {
 
 	// An optional pagination token provided by a previous OrderableDBInstanceOptions
 	// request. If this parameter is specified, the response includes only records
-	// beyond the marker, up to the value specified by MaxRecords .
+	// beyond the marker, up to the value specified by MaxRecords.
 	Marker *string
 
 	// An OrderableDBInstanceOption structure containing information about orderable
@@ -245,12 +247,13 @@ func NewDescribeOrderableDBInstanceOptionsPaginator(client DescribeOrderableDBIn
 		client:    client,
 		params:    params,
 		firstPage: true,
+		nextToken: params.Marker,
 	}
 }
 
 // HasMorePages returns a boolean indicating whether more pages are available
 func (p *DescribeOrderableDBInstanceOptionsPaginator) HasMorePages() bool {
-	return p.firstPage || p.nextToken != nil
+	return p.firstPage || (p.nextToken != nil && len(*p.nextToken) != 0)
 }
 
 // NextPage retrieves the next DescribeOrderableDBInstanceOptions page.
@@ -277,7 +280,10 @@ func (p *DescribeOrderableDBInstanceOptionsPaginator) NextPage(ctx context.Conte
 	prevToken := p.nextToken
 	p.nextToken = result.Marker
 
-	if p.options.StopOnDuplicateToken && prevToken != nil && p.nextToken != nil && *prevToken == *p.nextToken {
+	if p.options.StopOnDuplicateToken &&
+		prevToken != nil &&
+		p.nextToken != nil &&
+		*prevToken == *p.nextToken {
 		p.nextToken = nil
 	}
 

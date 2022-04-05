@@ -14,18 +14,24 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/credentials/insecure"
 
 	"github.com/yandex-cloud/go-genproto/yandex/cloud/endpoint"
 	iampb "github.com/yandex-cloud/go-genproto/yandex/cloud/iam/v1"
 	"github.com/yandex-cloud/go-genproto/yandex/cloud/operation"
+	_ "github.com/yandex-cloud/go-genproto/yandex/cloud/quota" // Used in Operation.error.details
 	"github.com/yandex-cloud/go-sdk/dial"
 	apiendpoint "github.com/yandex-cloud/go-sdk/gen/apiendpoint"
 	"github.com/yandex-cloud/go-sdk/gen/compute"
+	"github.com/yandex-cloud/go-sdk/gen/dns"
 	"github.com/yandex-cloud/go-sdk/gen/iam"
 	k8s "github.com/yandex-cloud/go-sdk/gen/kubernetes"
 	gen_operation "github.com/yandex-cloud/go-sdk/gen/operation"
+	"github.com/yandex-cloud/go-sdk/gen/organizationmanager"
+	organizationmanagersaml "github.com/yandex-cloud/go-sdk/gen/organizationmanager/saml"
 	"github.com/yandex-cloud/go-sdk/gen/resourcemanager"
 	"github.com/yandex-cloud/go-sdk/gen/vpc"
+	"github.com/yandex-cloud/go-sdk/gen/ydb"
 	sdk_operation "github.com/yandex-cloud/go-sdk/operation"
 	"github.com/yandex-cloud/go-sdk/pkg/grpcclient"
 	"github.com/yandex-cloud/go-sdk/pkg/sdkerrors"
@@ -37,17 +43,20 @@ type Endpoint string
 const (
 	DefaultPageSize int64 = 1000
 
-	ComputeServiceID            Endpoint = "compute"
-	IAMServiceID                Endpoint = "iam"
-	OperationServiceID          Endpoint = "operation"
-	ResourceManagementServiceID Endpoint = "resource-manager"
-	StorageServiceID            Endpoint = "storage"
-	SerialSSHServiceID          Endpoint = "serialssh"
+	ComputeServiceID                Endpoint = "compute"
+	IAMServiceID                    Endpoint = "iam"
+	OperationServiceID              Endpoint = "operation"
+	OrganizationManagementServiceID Endpoint = "organization-manager"
+	ResourceManagementServiceID     Endpoint = "resource-manager"
+	StorageServiceID                Endpoint = "storage"
+	SerialSSHServiceID              Endpoint = "serialssh"
 	// revive:disable:var-naming
 	ApiEndpointServiceID Endpoint = "endpoint"
 	// revive:enable:var-naming
 	VpcServiceID        Endpoint = "vpc"
 	KubernetesServiceID Endpoint = "managed-kubernetes"
+	DNSServiceID        Endpoint = "dns"
+	YDBServiceID        Endpoint = "ydb"
 )
 
 // Config is a config that is used to create SDK instance.
@@ -101,17 +110,23 @@ func Build(ctx context.Context, conf Config, customOpts ...grpc.DialOption) (*SD
 	default:
 		return nil, fmt.Errorf("unsupported credentials type %T", creds)
 	}
+	sdk := &SDK{
+		cc:   nil, // Later
+		conf: conf,
+	}
+	tokenMiddleware := NewIAMTokenMiddleware(sdk, now)
 	var dialOpts []grpc.DialOption
+	dialOpts = append(dialOpts,
+		grpc.WithContextDialer(dial.NewProxyDialer(dial.NewDialer())),
+		grpc.WithChainUnaryInterceptor(tokenMiddleware.InterceptUnary),
+		grpc.WithChainStreamInterceptor(tokenMiddleware.InterceptStream),
+	)
 
-	dialOpts = append(dialOpts, grpc.WithContextDialer(dial.NewProxyDialer(dial.NewDialer())))
-
-	rpcCreds := newRPCCredentials(conf.Plaintext)
-	dialOpts = append(dialOpts, grpc.WithPerRPCCredentials(rpcCreds))
 	if conf.DialContextTimeout > 0 {
 		dialOpts = append(dialOpts, grpc.WithBlock(), grpc.WithTimeout(conf.DialContextTimeout)) // nolint
 	}
 	if conf.Plaintext {
-		dialOpts = append(dialOpts, grpc.WithInsecure())
+		dialOpts = append(dialOpts, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	} else {
 		tlsConfig := conf.TLSConfig
 		if tlsConfig == nil {
@@ -122,19 +137,18 @@ func Build(ctx context.Context, conf Config, customOpts ...grpc.DialOption) (*SD
 	}
 	// Append custom options after default, to allow to customize dialer and etc.
 	dialOpts = append(dialOpts, customOpts...)
-
-	cc := grpcclient.NewLazyConnContext(grpcclient.DialOptions(dialOpts...))
-	sdk := &SDK{
-		cc:   cc,
-		conf: conf,
-	}
-	rpcCreds.Init(sdk.CreateIAMToken)
+	sdk.cc = grpcclient.NewLazyConnContext(grpcclient.DialOptions(dialOpts...))
 	return sdk, nil
 }
 
 // Shutdown shutdowns SDK and closes all open connections.
 func (sdk *SDK) Shutdown(ctx context.Context) error {
 	return sdk.cc.Shutdown(ctx)
+}
+
+func (sdk *SDK) CheckEndpointConnection(ctx context.Context, endpoint Endpoint) error {
+	_, err := sdk.getConn(endpoint)(ctx)
+	return err
 }
 
 // WrapOperation wraps operation proto message to
@@ -179,6 +193,14 @@ func (sdk *SDK) Operation() *gen_operation.OperationServiceClient {
 	return group.Operation()
 }
 
+func (sdk *SDK) OrganizationManager() *organizationmanager.OrganizationManager {
+	return organizationmanager.NewOrganizationManager(sdk.getConn(OrganizationManagementServiceID))
+}
+
+func (sdk *SDK) OrganizationManagerSAML() *organizationmanagersaml.OrganizationManagerSAML {
+	return organizationmanagersaml.NewOrganizationManagerSAML(sdk.getConn(OrganizationManagementServiceID))
+}
+
 // ResourceManager returns ResourceManager object that is used to operate on Folders and Clouds
 func (sdk *SDK) ResourceManager() *resourcemanager.ResourceManager {
 	return resourcemanager.NewResourceManager(sdk.getConn(ResourceManagementServiceID))
@@ -198,9 +220,19 @@ func (sdk *SDK) Kubernetes() *k8s.Kubernetes {
 	return k8s.NewKubernetes(sdk.getConn(KubernetesServiceID))
 }
 
+//DNS returns DNS object that is used to operate on Yandex DNS
+func (sdk *SDK) DNS() *dns.DNS {
+	return dns.NewDNS(sdk.getConn(DNSServiceID))
+}
+
 // AI returns AI object that is used to do AI stuff.
 func (sdk *SDK) AI() *AI {
 	return &AI{sdk: sdk}
+}
+
+// YDB returns object for Yandex Database operations.
+func (sdk *SDK) YDB() *ydb.YDB {
+	return ydb.NewYDB(sdk.getConn(YDBServiceID))
 }
 
 func (sdk *SDK) Resolve(ctx context.Context, r ...Resolver) error {
@@ -306,3 +338,18 @@ func (sdk *SDK) CreateIAMToken(ctx context.Context) (*iampb.CreateIamTokenRespon
 		return nil, fmt.Errorf("credentials type %T is not supported yet", creds)
 	}
 }
+
+func (sdk *SDK) CreateIAMTokenForServiceAccount(ctx context.Context, serviceAccountID string) (*iampb.CreateIamTokenResponse, error) {
+	token, err := sdk.IAM().IamToken().CreateForServiceAccount(ctx, &iampb.CreateIamTokenForServiceAccountRequest{
+		ServiceAccountId: serviceAccountID,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &iampb.CreateIamTokenResponse{
+		IamToken:  token.IamToken,
+		ExpiresAt: token.ExpiresAt,
+	}, nil
+}
+
+var now = time.Now

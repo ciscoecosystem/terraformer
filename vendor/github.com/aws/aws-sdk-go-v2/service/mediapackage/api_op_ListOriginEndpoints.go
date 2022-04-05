@@ -18,7 +18,7 @@ func (c *Client) ListOriginEndpoints(ctx context.Context, params *ListOriginEndp
 		params = &ListOriginEndpointsInput{}
 	}
 
-	result, metadata, err := c.invokeOperation(ctx, "ListOriginEndpoints", params, optFns, addOperationListOriginEndpointsMiddlewares)
+	result, metadata, err := c.invokeOperation(ctx, "ListOriginEndpoints", params, optFns, c.addOperationListOriginEndpointsMiddlewares)
 	if err != nil {
 		return nil, err
 	}
@@ -39,6 +39,8 @@ type ListOriginEndpointsInput struct {
 
 	// A token used to resume pagination from the end of a previous request.
 	NextToken *string
+
+	noSmithyDocumentSerde
 }
 
 type ListOriginEndpointsOutput struct {
@@ -51,9 +53,11 @@ type ListOriginEndpointsOutput struct {
 
 	// Metadata pertaining to the operation's result.
 	ResultMetadata middleware.Metadata
+
+	noSmithyDocumentSerde
 }
 
-func addOperationListOriginEndpointsMiddlewares(stack *middleware.Stack, options Options) (err error) {
+func (c *Client) addOperationListOriginEndpointsMiddlewares(stack *middleware.Stack, options Options) (err error) {
 	err = stack.Serialize.Add(&awsRestjson1_serializeOpListOriginEndpoints{}, middleware.After)
 	if err != nil {
 		return err
@@ -161,12 +165,13 @@ func NewListOriginEndpointsPaginator(client ListOriginEndpointsAPIClient, params
 		client:    client,
 		params:    params,
 		firstPage: true,
+		nextToken: params.NextToken,
 	}
 }
 
 // HasMorePages returns a boolean indicating whether more pages are available
 func (p *ListOriginEndpointsPaginator) HasMorePages() bool {
-	return p.firstPage || p.nextToken != nil
+	return p.firstPage || (p.nextToken != nil && len(*p.nextToken) != 0)
 }
 
 // NextPage retrieves the next ListOriginEndpoints page.
@@ -189,7 +194,10 @@ func (p *ListOriginEndpointsPaginator) NextPage(ctx context.Context, optFns ...f
 	prevToken := p.nextToken
 	p.nextToken = result.NextToken
 
-	if p.options.StopOnDuplicateToken && prevToken != nil && p.nextToken != nil && *prevToken == *p.nextToken {
+	if p.options.StopOnDuplicateToken &&
+		prevToken != nil &&
+		p.nextToken != nil &&
+		*prevToken == *p.nextToken {
 		p.nextToken = nil
 	}
 

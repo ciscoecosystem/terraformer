@@ -16,7 +16,7 @@ func (c *Client) DeleteOriginEndpoint(ctx context.Context, params *DeleteOriginE
 		params = &DeleteOriginEndpointInput{}
 	}
 
-	result, metadata, err := c.invokeOperation(ctx, "DeleteOriginEndpoint", params, optFns, addOperationDeleteOriginEndpointMiddlewares)
+	result, metadata, err := c.invokeOperation(ctx, "DeleteOriginEndpoint", params, optFns, c.addOperationDeleteOriginEndpointMiddlewares)
 	if err != nil {
 		return nil, err
 	}
@@ -32,14 +32,18 @@ type DeleteOriginEndpointInput struct {
 	//
 	// This member is required.
 	Id *string
+
+	noSmithyDocumentSerde
 }
 
 type DeleteOriginEndpointOutput struct {
 	// Metadata pertaining to the operation's result.
 	ResultMetadata middleware.Metadata
+
+	noSmithyDocumentSerde
 }
 
-func addOperationDeleteOriginEndpointMiddlewares(stack *middleware.Stack, options Options) (err error) {
+func (c *Client) addOperationDeleteOriginEndpointMiddlewares(stack *middleware.Stack, options Options) (err error) {
 	err = stack.Serialize.Add(&awsRestjson1_serializeOpDeleteOriginEndpoint{}, middleware.After)
 	if err != nil {
 		return err

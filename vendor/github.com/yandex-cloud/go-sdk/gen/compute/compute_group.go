@@ -52,3 +52,23 @@ func (c *Compute) Zone() *ZoneServiceClient {
 func (c *Compute) PlacementGroup() *PlacementGroupServiceClient {
 	return &PlacementGroupServiceClient{getConn: c.getConn}
 }
+
+// HostGroup gets HostGroupService client
+func (c *Compute) HostGroup() *HostGroupServiceClient {
+	return &HostGroupServiceClient{getConn: c.getConn}
+}
+
+// HostType gets HostTypeService client
+func (c *Compute) HostType() *HostTypeServiceClient {
+	return &HostTypeServiceClient{getConn: c.getConn}
+}
+
+// DiskPlacementGroup gets DiskPlacementGroupService client
+func (c *Compute) DiskPlacementGroup() *DiskPlacementGroupServiceClient {
+	return &DiskPlacementGroupServiceClient{getConn: c.getConn}
+}
+
+// Filesystem gets FilesystemService client
+func (c *Compute) Filesystem() *FilesystemServiceClient {
+	return &FilesystemServiceClient{getConn: c.getConn}
+}

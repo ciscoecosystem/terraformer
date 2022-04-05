@@ -4,7 +4,7 @@ package k8s
 
 import (
 	operation "github.com/yandex-cloud/go-genproto/yandex/cloud/operation"
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
 func (m *GetClusterRequest) SetClusterId(v string) {
@@ -47,10 +47,6 @@ func (m *StopClusterRequest) SetClusterId(v string) {
 	m.ClusterId = v
 }
 
-func (m *StopClusterRequest) SetServiceAccountId(v string) {
-	m.ServiceAccountId = v
-}
-
 func (m *StopClusterMetadata) SetClusterId(v string) {
 	m.ClusterId = v
 }
@@ -73,7 +69,7 @@ func (m *UpdateClusterRequest) SetClusterId(v string) {
 	m.ClusterId = v
 }
 
-func (m *UpdateClusterRequest) SetUpdateMask(v *field_mask.FieldMask) {
+func (m *UpdateClusterRequest) SetUpdateMask(v *fieldmaskpb.FieldMask) {
 	m.UpdateMask = v
 }
 
@@ -111,12 +107,20 @@ func (m *UpdateClusterRequest) SetNetworkPolicy(v *NetworkPolicy) {
 	m.NetworkPolicy = v
 }
 
+func (m *UpdateClusterRequest) SetIpAllocationPolicy(v *IPAllocationPolicy) {
+	m.IpAllocationPolicy = v
+}
+
 func (m *MasterUpdateSpec) SetVersion(v *UpdateVersionSpec) {
 	m.Version = v
 }
 
 func (m *MasterUpdateSpec) SetMaintenancePolicy(v *MasterMaintenancePolicy) {
 	m.MaintenancePolicy = v
+}
+
+func (m *MasterUpdateSpec) SetSecurityGroupIds(v []string) {
+	m.SecurityGroupIds = v
 }
 
 func (m *UpdateClusterMetadata) SetClusterId(v string) {
@@ -127,6 +131,12 @@ type CreateClusterRequest_InternetGateway = isCreateClusterRequest_InternetGatew
 
 func (m *CreateClusterRequest) SetInternetGateway(v CreateClusterRequest_InternetGateway) {
 	m.InternetGateway = v
+}
+
+type CreateClusterRequest_NetworkImplementation = isCreateClusterRequest_NetworkImplementation
+
+func (m *CreateClusterRequest) SetNetworkImplementation(v CreateClusterRequest_NetworkImplementation) {
+	m.NetworkImplementation = v
 }
 
 func (m *CreateClusterRequest) SetFolderId(v string) {
@@ -181,6 +191,12 @@ func (m *CreateClusterRequest) SetNetworkPolicy(v *NetworkPolicy) {
 
 func (m *CreateClusterRequest) SetKmsProvider(v *KMSProvider) {
 	m.KmsProvider = v
+}
+
+func (m *CreateClusterRequest) SetCilium(v *Cilium) {
+	m.NetworkImplementation = &CreateClusterRequest_Cilium{
+		Cilium: v,
+	}
 }
 
 func (m *CreateClusterMetadata) SetClusterId(v string) {
@@ -283,6 +299,10 @@ func (m *MasterSpec) SetVersion(v string) {
 
 func (m *MasterSpec) SetMaintenancePolicy(v *MasterMaintenancePolicy) {
 	m.MaintenancePolicy = v
+}
+
+func (m *MasterSpec) SetSecurityGroupIds(v []string) {
+	m.SecurityGroupIds = v
 }
 
 func (m *ZonalMasterSpec) SetZoneId(v string) {

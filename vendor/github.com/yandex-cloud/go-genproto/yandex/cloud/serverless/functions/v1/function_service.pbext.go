@@ -3,10 +3,10 @@
 package functions
 
 import (
-	duration "github.com/golang/protobuf/ptypes/duration"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	operation "github.com/yandex-cloud/go-genproto/yandex/cloud/operation"
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func (m *GetFunctionRequest) SetFunctionId(v string) {
@@ -73,7 +73,7 @@ func (m *UpdateFunctionRequest) SetFunctionId(v string) {
 	m.FunctionId = v
 }
 
-func (m *UpdateFunctionRequest) SetUpdateMask(v *field_mask.FieldMask) {
+func (m *UpdateFunctionRequest) SetUpdateMask(v *fieldmaskpb.FieldMask) {
 	m.UpdateMask = v
 }
 
@@ -193,7 +193,7 @@ func (m *CreateFunctionVersionRequest) SetResources(v *Resources) {
 	m.Resources = v
 }
 
-func (m *CreateFunctionVersionRequest) SetExecutionTimeout(v *duration.Duration) {
+func (m *CreateFunctionVersionRequest) SetExecutionTimeout(v *durationpb.Duration) {
 	m.ExecutionTimeout = v
 }
 
@@ -229,6 +229,14 @@ func (m *CreateFunctionVersionRequest) SetTag(v []string) {
 
 func (m *CreateFunctionVersionRequest) SetConnectivity(v *Connectivity) {
 	m.Connectivity = v
+}
+
+func (m *CreateFunctionVersionRequest) SetNamedServiceAccounts(v map[string]string) {
+	m.NamedServiceAccounts = v
+}
+
+func (m *CreateFunctionVersionRequest) SetSecrets(v []*Secret) {
+	m.Secrets = v
 }
 
 func (m *CreateFunctionVersionMetadata) SetFunctionVersionId(v string) {
@@ -299,10 +307,66 @@ func (m *ListFunctionTagHistoryResponse_FunctionTagHistoryRecord) SetTag(v strin
 	m.Tag = v
 }
 
-func (m *ListFunctionTagHistoryResponse_FunctionTagHistoryRecord) SetEffectiveFrom(v *timestamp.Timestamp) {
+func (m *ListFunctionTagHistoryResponse_FunctionTagHistoryRecord) SetEffectiveFrom(v *timestamppb.Timestamp) {
 	m.EffectiveFrom = v
 }
 
-func (m *ListFunctionTagHistoryResponse_FunctionTagHistoryRecord) SetEffectiveTo(v *timestamp.Timestamp) {
+func (m *ListFunctionTagHistoryResponse_FunctionTagHistoryRecord) SetEffectiveTo(v *timestamppb.Timestamp) {
 	m.EffectiveTo = v
+}
+
+func (m *ListScalingPoliciesRequest) SetFunctionId(v string) {
+	m.FunctionId = v
+}
+
+func (m *ListScalingPoliciesRequest) SetPageSize(v int64) {
+	m.PageSize = v
+}
+
+func (m *ListScalingPoliciesRequest) SetPageToken(v string) {
+	m.PageToken = v
+}
+
+func (m *ListScalingPoliciesResponse) SetScalingPolicies(v []*ScalingPolicy) {
+	m.ScalingPolicies = v
+}
+
+func (m *ListScalingPoliciesResponse) SetNextPageToken(v string) {
+	m.NextPageToken = v
+}
+
+func (m *SetScalingPolicyRequest) SetFunctionId(v string) {
+	m.FunctionId = v
+}
+
+func (m *SetScalingPolicyRequest) SetTag(v string) {
+	m.Tag = v
+}
+
+func (m *SetScalingPolicyRequest) SetProvisionedInstancesCount(v int64) {
+	m.ProvisionedInstancesCount = v
+}
+
+func (m *SetScalingPolicyRequest) SetZoneInstancesLimit(v int64) {
+	m.ZoneInstancesLimit = v
+}
+
+func (m *SetScalingPolicyRequest) SetZoneRequestsLimit(v int64) {
+	m.ZoneRequestsLimit = v
+}
+
+func (m *SetScalingPolicyMetadata) SetFunctionId(v string) {
+	m.FunctionId = v
+}
+
+func (m *RemoveScalingPolicyRequest) SetFunctionId(v string) {
+	m.FunctionId = v
+}
+
+func (m *RemoveScalingPolicyRequest) SetTag(v string) {
+	m.Tag = v
+}
+
+func (m *RemoveScalingPolicyMetadata) SetFunctionId(v string) {
+	m.FunctionId = v
 }

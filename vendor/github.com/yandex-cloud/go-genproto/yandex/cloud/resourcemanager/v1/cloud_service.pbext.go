@@ -4,7 +4,8 @@ package resourcemanager
 
 import (
 	operation "github.com/yandex-cloud/go-genproto/yandex/cloud/operation"
-	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func (m *GetCloudRequest) SetCloudId(v string) {
@@ -23,12 +24,36 @@ func (m *ListCloudsRequest) SetFilter(v string) {
 	m.Filter = v
 }
 
+func (m *ListCloudsRequest) SetOrganizationId(v string) {
+	m.OrganizationId = v
+}
+
 func (m *ListCloudsResponse) SetClouds(v []*Cloud) {
 	m.Clouds = v
 }
 
 func (m *ListCloudsResponse) SetNextPageToken(v string) {
 	m.NextPageToken = v
+}
+
+func (m *CreateCloudRequest) SetOrganizationId(v string) {
+	m.OrganizationId = v
+}
+
+func (m *CreateCloudRequest) SetName(v string) {
+	m.Name = v
+}
+
+func (m *CreateCloudRequest) SetDescription(v string) {
+	m.Description = v
+}
+
+func (m *CreateCloudRequest) SetLabels(v map[string]string) {
+	m.Labels = v
+}
+
+func (m *CreateCloudMetadata) SetCloudId(v string) {
+	m.CloudId = v
 }
 
 func (m *ListCloudOperationsRequest) SetCloudId(v string) {
@@ -55,7 +80,7 @@ func (m *UpdateCloudRequest) SetCloudId(v string) {
 	m.CloudId = v
 }
 
-func (m *UpdateCloudRequest) SetUpdateMask(v *field_mask.FieldMask) {
+func (m *UpdateCloudRequest) SetUpdateMask(v *fieldmaskpb.FieldMask) {
 	m.UpdateMask = v
 }
 
@@ -67,6 +92,26 @@ func (m *UpdateCloudRequest) SetDescription(v string) {
 	m.Description = v
 }
 
+func (m *UpdateCloudRequest) SetLabels(v map[string]string) {
+	m.Labels = v
+}
+
 func (m *UpdateCloudMetadata) SetCloudId(v string) {
 	m.CloudId = v
+}
+
+func (m *DeleteCloudRequest) SetCloudId(v string) {
+	m.CloudId = v
+}
+
+func (m *DeleteCloudRequest) SetDeleteAfter(v *timestamppb.Timestamp) {
+	m.DeleteAfter = v
+}
+
+func (m *DeleteCloudMetadata) SetCloudId(v string) {
+	m.CloudId = v
+}
+
+func (m *DeleteCloudMetadata) SetDeleteAfter(v *timestamppb.Timestamp) {
+	m.DeleteAfter = v
 }

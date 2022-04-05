@@ -20,7 +20,7 @@ import (
 // calls from the API gateway that accesses your Amazon S3 bucket. These calls
 // originate from the MediaImport service for the ModifyCustomDbEngineVersion
 // event. For more information, see Modifying CEV status
-// (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-cev.html#custom-cev.preparing.manifest)
+// (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-cev.html#custom-cev.modify)
 // in the Amazon RDS User Guide.
 func (c *Client) ModifyCustomDBEngineVersion(ctx context.Context, params *ModifyCustomDBEngineVersionInput, optFns ...func(*Options)) (*ModifyCustomDBEngineVersionOutput, error) {
 	if params == nil {
@@ -45,8 +45,8 @@ type ModifyCustomDBEngineVersionInput struct {
 	Engine *string
 
 	// The custom engine version (CEV) that you want to modify. This option is required
-	// for RDS Custom, but optional for Amazon RDS. The combination of Engine and
-	// EngineVersion is unique per customer per Amazon Web Services Region.
+	// for RDS Custom for Oracle, but optional for Amazon RDS. The combination of
+	// Engine and EngineVersion is unique per customer per Amazon Web Services Region.
 	//
 	// This member is required.
 	EngineVersion *string
@@ -143,6 +143,10 @@ type ModifyCustomDBEngineVersionOutput struct {
 	// A list of the time zones supported by this engine for the Timezone parameter of
 	// the CreateDBInstance action.
 	SupportedTimezones []types.Timezone
+
+	// A value that indicates whether the engine version supports Babelfish for Aurora
+	// PostgreSQL.
+	SupportsBabelfish bool
 
 	// A value that indicates whether you can use Aurora global databases with a
 	// specific DB engine version.

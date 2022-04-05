@@ -38,6 +38,15 @@ func (c *InstanceServiceClient) AttachDisk(ctx context.Context, in *compute.Atta
 	return compute.NewInstanceServiceClient(conn).AttachDisk(ctx, in, opts...)
 }
 
+// AttachFilesystem implements compute.InstanceServiceClient
+func (c *InstanceServiceClient) AttachFilesystem(ctx context.Context, in *compute.AttachInstanceFilesystemRequest, opts ...grpc.CallOption) (*operation.Operation, error) {
+	conn, err := c.getConn(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return compute.NewInstanceServiceClient(conn).AttachFilesystem(ctx, in, opts...)
+}
+
 // Create implements compute.InstanceServiceClient
 func (c *InstanceServiceClient) Create(ctx context.Context, in *compute.CreateInstanceRequest, opts ...grpc.CallOption) (*operation.Operation, error) {
 	conn, err := c.getConn(ctx)
@@ -63,6 +72,15 @@ func (c *InstanceServiceClient) DetachDisk(ctx context.Context, in *compute.Deta
 		return nil, err
 	}
 	return compute.NewInstanceServiceClient(conn).DetachDisk(ctx, in, opts...)
+}
+
+// DetachFilesystem implements compute.InstanceServiceClient
+func (c *InstanceServiceClient) DetachFilesystem(ctx context.Context, in *compute.DetachInstanceFilesystemRequest, opts ...grpc.CallOption) (*operation.Operation, error) {
+	conn, err := c.getConn(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return compute.NewInstanceServiceClient(conn).DetachFilesystem(ctx, in, opts...)
 }
 
 // Get implements compute.InstanceServiceClient
@@ -96,8 +114,10 @@ type InstanceIterator struct {
 	ctx  context.Context
 	opts []grpc.CallOption
 
-	err     error
-	started bool
+	err           error
+	started       bool
+	requestedSize int64
+	pageSize      int64
 
 	client  *InstanceServiceClient
 	request *compute.ListInstancesRequest
@@ -105,15 +125,19 @@ type InstanceIterator struct {
 	items []*compute.Instance
 }
 
-func (c *InstanceServiceClient) InstanceIterator(ctx context.Context, folderId string, opts ...grpc.CallOption) *InstanceIterator {
+func (c *InstanceServiceClient) InstanceIterator(ctx context.Context, req *compute.ListInstancesRequest, opts ...grpc.CallOption) *InstanceIterator {
+	var pageSize int64
+	const defaultPageSize = 1000
+	pageSize = req.PageSize
+	if pageSize == 0 {
+		pageSize = defaultPageSize
+	}
 	return &InstanceIterator{
-		ctx:    ctx,
-		opts:   opts,
-		client: c,
-		request: &compute.ListInstancesRequest{
-			FolderId: folderId,
-			PageSize: 1000,
-		},
+		ctx:      ctx,
+		opts:     opts,
+		client:   c,
+		request:  req,
+		pageSize: pageSize,
 	}
 }
 
@@ -133,6 +157,12 @@ func (it *InstanceIterator) Next() bool {
 	}
 	it.started = true
 
+	if it.requestedSize == 0 || it.requestedSize > it.pageSize {
+		it.request.PageSize = it.pageSize
+	} else {
+		it.request.PageSize = it.requestedSize
+	}
+
 	response, err := it.client.List(it.ctx, it.request, it.opts...)
 	it.err = err
 	if err != nil {
@@ -142,6 +172,38 @@ func (it *InstanceIterator) Next() bool {
 	it.items = response.Instances
 	it.request.PageToken = response.NextPageToken
 	return len(it.items) > 0
+}
+
+func (it *InstanceIterator) Take(size int64) ([]*compute.Instance, error) {
+	if it.err != nil {
+		return nil, it.err
+	}
+
+	if size == 0 {
+		size = 1 << 32 // something insanely large
+	}
+	it.requestedSize = size
+	defer func() {
+		// reset iterator for future calls.
+		it.requestedSize = 0
+	}()
+
+	var result []*compute.Instance
+
+	for it.requestedSize > 0 && it.Next() {
+		it.requestedSize--
+		result = append(result, it.Value())
+	}
+
+	if it.err != nil {
+		return nil, it.err
+	}
+
+	return result, nil
+}
+
+func (it *InstanceIterator) TakeAll() ([]*compute.Instance, error) {
+	return it.Take(0)
 }
 
 func (it *InstanceIterator) Value() *compute.Instance {
@@ -168,8 +230,10 @@ type InstanceOperationsIterator struct {
 	ctx  context.Context
 	opts []grpc.CallOption
 
-	err     error
-	started bool
+	err           error
+	started       bool
+	requestedSize int64
+	pageSize      int64
 
 	client  *InstanceServiceClient
 	request *compute.ListInstanceOperationsRequest
@@ -177,15 +241,19 @@ type InstanceOperationsIterator struct {
 	items []*operation.Operation
 }
 
-func (c *InstanceServiceClient) InstanceOperationsIterator(ctx context.Context, instanceId string, opts ...grpc.CallOption) *InstanceOperationsIterator {
+func (c *InstanceServiceClient) InstanceOperationsIterator(ctx context.Context, req *compute.ListInstanceOperationsRequest, opts ...grpc.CallOption) *InstanceOperationsIterator {
+	var pageSize int64
+	const defaultPageSize = 1000
+	pageSize = req.PageSize
+	if pageSize == 0 {
+		pageSize = defaultPageSize
+	}
 	return &InstanceOperationsIterator{
-		ctx:    ctx,
-		opts:   opts,
-		client: c,
-		request: &compute.ListInstanceOperationsRequest{
-			InstanceId: instanceId,
-			PageSize:   1000,
-		},
+		ctx:      ctx,
+		opts:     opts,
+		client:   c,
+		request:  req,
+		pageSize: pageSize,
 	}
 }
 
@@ -205,6 +273,12 @@ func (it *InstanceOperationsIterator) Next() bool {
 	}
 	it.started = true
 
+	if it.requestedSize == 0 || it.requestedSize > it.pageSize {
+		it.request.PageSize = it.pageSize
+	} else {
+		it.request.PageSize = it.requestedSize
+	}
+
 	response, err := it.client.ListOperations(it.ctx, it.request, it.opts...)
 	it.err = err
 	if err != nil {
@@ -216,6 +290,38 @@ func (it *InstanceOperationsIterator) Next() bool {
 	return len(it.items) > 0
 }
 
+func (it *InstanceOperationsIterator) Take(size int64) ([]*operation.Operation, error) {
+	if it.err != nil {
+		return nil, it.err
+	}
+
+	if size == 0 {
+		size = 1 << 32 // something insanely large
+	}
+	it.requestedSize = size
+	defer func() {
+		// reset iterator for future calls.
+		it.requestedSize = 0
+	}()
+
+	var result []*operation.Operation
+
+	for it.requestedSize > 0 && it.Next() {
+		it.requestedSize--
+		result = append(result, it.Value())
+	}
+
+	if it.err != nil {
+		return nil, it.err
+	}
+
+	return result, nil
+}
+
+func (it *InstanceOperationsIterator) TakeAll() ([]*operation.Operation, error) {
+	return it.Take(0)
+}
+
 func (it *InstanceOperationsIterator) Value() *operation.Operation {
 	if len(it.items) == 0 {
 		panic("calling Value on empty iterator")
@@ -225,6 +331,15 @@ func (it *InstanceOperationsIterator) Value() *operation.Operation {
 
 func (it *InstanceOperationsIterator) Error() error {
 	return it.err
+}
+
+// Move implements compute.InstanceServiceClient
+func (c *InstanceServiceClient) Move(ctx context.Context, in *compute.MoveInstanceRequest, opts ...grpc.CallOption) (*operation.Operation, error) {
+	conn, err := c.getConn(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return compute.NewInstanceServiceClient(conn).Move(ctx, in, opts...)
 }
 
 // RemoveOneToOneNat implements compute.InstanceServiceClient

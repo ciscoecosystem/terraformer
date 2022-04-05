@@ -65,7 +65,7 @@ type ModifyDBInstanceInput struct {
 	// an outage and are applied on the next call to RebootDBInstance, or the next
 	// failure reboot. Review the table of parameters in Modifying a DB Instance
 	// (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.DBInstance.Modifying.html)
-	// in the Amazon RDS User Guide. to see the impact of enabling or disabling
+	// in the Amazon RDS User Guide to see the impact of enabling or disabling
 	// ApplyImmediately for each modified parameter and to determine when the changes
 	// are applied.
 	ApplyImmediately bool
@@ -112,13 +112,13 @@ type ModifyDBInstanceInput struct {
 	//
 	// * It must be a value from 0 to 35. It can't be set to 0 if
 	// the DB instance is a source to read replicas. It can't be set to 0 or 35 for an
-	// RDS Custom DB instance.
+	// RDS Custom for Oracle DB instance.
 	//
-	// * It can be specified for a MySQL read replica only if
-	// the source is running MySQL 5.6 or later.
+	// * It can be specified for a MySQL read
+	// replica only if the source is running MySQL 5.6 or later.
 	//
-	// * It can be specified for a
-	// PostgreSQL read replica only if the source is running PostgreSQL 9.3.5.
+	// * It can be specified
+	// for a PostgreSQL read replica only if the source is running PostgreSQL 9.3.5.
 	BackupRetentionPeriod *int32
 
 	// Specifies the certificate to associate with the DB instance. This setting
@@ -161,15 +161,15 @@ type ModifyDBInstanceInput struct {
 	// more information, see ModifyDBCluster.
 	CopyTagsToSnapshot *bool
 
-	// The new compute and memory capacity of the DB instance, for example,
-	// db.m4.large. Not all DB instance classes are available in all Amazon Web
-	// Services Regions, or for all database engines. For the full list of DB instance
-	// classes, and availability for your engine, see DB Instance Class
+	// The new compute and memory capacity of the DB instance, for example db.m4.large.
+	// Not all DB instance classes are available in all Amazon Web Services Regions, or
+	// for all database engines. For the full list of DB instance classes, and
+	// availability for your engine, see DB Instance Class
 	// (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html)
 	// in the Amazon RDS User Guide. If you modify the DB instance class, an outage
 	// occurs during the change. The change is applied during the next maintenance
 	// window, unless ApplyImmediately is enabled for this request. This setting
-	// doesn't apply to RDS Custom. Default: Uses existing setting
+	// doesn't apply to RDS Custom for Oracle. Default: Uses existing setting
 	DBInstanceClass *string
 
 	// The name of the DB parameter group to apply to the DB instance. Changing this
@@ -213,12 +213,12 @@ type ModifyDBInstanceInput struct {
 	// the change. The change is applied during the next maintenance window, unless you
 	// enable ApplyImmediately. This parameter doesn't apply to RDS Custom.
 	// Constraints: If supplied, must match the name of an existing DBSubnetGroup.
-	// Example: mySubnetGroup
+	// Example: mydbsubnetgroup
 	DBSubnetGroupName *string
 
 	// A value that indicates whether the DB instance has deletion protection enabled.
 	// The database can't be deleted when deletion protection is enabled. By default,
-	// deletion protection is disabled. For more information, see  Deleting a DB
+	// deletion protection isn't enabled. For more information, see  Deleting a DB
 	// Instance
 	// (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_DeleteInstance.html).
 	DeletionProtection *bool
@@ -252,7 +252,7 @@ type ModifyDBInstanceInput struct {
 
 	// A value that indicates whether to enable mapping of Amazon Web Services Identity
 	// and Access Management (IAM) accounts to database accounts. By default, mapping
-	// is disabled. This setting doesn't apply to Amazon Aurora. Mapping Amazon Web
+	// isn't enabled. This setting doesn't apply to Amazon Aurora. Mapping Amazon Web
 	// Services IAM accounts to database accounts is managed by the DB cluster. For
 	// more information about IAM database authentication, see  IAM Database
 	// Authentication for MySQL and PostgreSQL
@@ -263,8 +263,7 @@ type ModifyDBInstanceInput struct {
 	// A value that indicates whether to enable Performance Insights for the DB
 	// instance. For more information, see Using Amazon Performance Insights
 	// (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.html)
-	// in the Amazon Relational Database Service User Guide. This setting doesn't apply
-	// to RDS Custom.
+	// in the Amazon RDS User Guide.. This setting doesn't apply to RDS Custom.
 	EnablePerformanceInsights *bool
 
 	// The version number of the database engine to upgrade to. Changing this parameter
@@ -276,8 +275,8 @@ type ModifyDBInstanceInput struct {
 	// that DB parameter group family. If you specify only a major version, Amazon RDS
 	// will update the DB instance to the default minor version if the current minor
 	// version is lower. For information about valid engine versions, see
-	// CreateDBInstance, or call DescribeDBEngineVersions. In RDS Custom, this
-	// parameter is supported for read replicas only if they are in the
+	// CreateDBInstance, or call DescribeDBEngineVersions. In RDS Custom for Oracle,
+	// this parameter is supported for read replicas only if they are in the
 	// PATCH_DB_FAILURE lifecycle.
 	EngineVersion *string
 
@@ -449,18 +448,18 @@ type ModifyDBInstanceInput struct {
 	PromotionTier *int32
 
 	// A value that indicates whether the DB instance is publicly accessible. When the
-	// DB instance is publicly accessible, its DNS endpoint resolves to the private IP
-	// address from within the DB instance's VPC, and to the public IP address from
-	// outside of the DB instance's VPC. Access to the DB instance is ultimately
-	// controlled by the security group it uses, and that public access is not
-	// permitted if the security group assigned to the DB instance doesn't permit it.
-	// When the DB instance isn't publicly accessible, it is an internal DB instance
-	// with a DNS name that resolves to a private IP address. PubliclyAccessible only
-	// applies to DB instances in a VPC. The DB instance must be part of a public
-	// subnet and PubliclyAccessible must be enabled for it to be publicly accessible.
-	// Changes to the PubliclyAccessible parameter are applied immediately regardless
-	// of the value of the ApplyImmediately parameter. This setting doesn't apply to
-	// RDS Custom.
+	// DB cluster is publicly accessible, its Domain Name System (DNS) endpoint
+	// resolves to the private IP address from within the DB cluster's virtual private
+	// cloud (VPC). It resolves to the public IP address from outside of the DB
+	// cluster's VPC. Access to the DB cluster is ultimately controlled by the security
+	// group it uses. That public access isn't permitted if the security group assigned
+	// to the DB cluster doesn't permit it. When the DB instance isn't publicly
+	// accessible, it is an internal DB instance with a DNS name that resolves to a
+	// private IP address. PubliclyAccessible only applies to DB instances in a VPC.
+	// The DB instance must be part of a public subnet and PubliclyAccessible must be
+	// enabled for it to be publicly accessible. Changes to the PubliclyAccessible
+	// parameter are applied immediately regardless of the value of the
+	// ApplyImmediately parameter.
 	PubliclyAccessible *bool
 
 	// A value that sets the open mode of a replica database to either mounted or
@@ -526,7 +525,11 @@ type ModifyDBInstanceInput struct {
 type ModifyDBInstanceOutput struct {
 
 	// Contains the details of an Amazon RDS DB instance. This data type is used as a
-	// response element in the DescribeDBInstances action.
+	// response element in the operations CreateDBInstance,
+	// CreateDBInstanceReadReplica, DeleteDBInstance, DescribeDBInstances,
+	// ModifyDBInstance, PromoteReadReplica, RebootDBInstance,
+	// RestoreDBInstanceFromDBSnapshot, RestoreDBInstanceFromS3,
+	// RestoreDBInstanceToPointInTime, StartDBInstance, and StopDBInstance.
 	DBInstance *types.DBInstance
 
 	// Metadata pertaining to the operation's result.

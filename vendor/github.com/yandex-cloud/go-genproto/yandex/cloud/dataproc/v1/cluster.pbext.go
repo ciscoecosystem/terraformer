@@ -3,7 +3,7 @@
 package dataproc
 
 import (
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func (m *Cluster) SetId(v string) {
@@ -14,7 +14,7 @@ func (m *Cluster) SetFolderId(v string) {
 	m.FolderId = v
 }
 
-func (m *Cluster) SetCreatedAt(v *timestamp.Timestamp) {
+func (m *Cluster) SetCreatedAt(v *timestamppb.Timestamp) {
 	m.CreatedAt = v
 }
 
@@ -62,6 +62,22 @@ func (m *Cluster) SetUiProxy(v bool) {
 	m.UiProxy = v
 }
 
+func (m *Cluster) SetSecurityGroupIds(v []string) {
+	m.SecurityGroupIds = v
+}
+
+func (m *Cluster) SetHostGroupIds(v []string) {
+	m.HostGroupIds = v
+}
+
+func (m *Cluster) SetDeletionProtection(v bool) {
+	m.DeletionProtection = v
+}
+
+func (m *Cluster) SetLogGroupId(v string) {
+	m.LogGroupId = v
+}
+
 func (m *Monitoring) SetName(v string) {
 	m.Name = v
 }
@@ -86,10 +102,26 @@ func (m *HadoopConfig) SetSshPublicKeys(v []string) {
 	m.SshPublicKeys = v
 }
 
+func (m *HadoopConfig) SetInitializationActions(v []*InitializationAction) {
+	m.InitializationActions = v
+}
+
 func (m *ClusterConfig) SetVersionId(v string) {
 	m.VersionId = v
 }
 
 func (m *ClusterConfig) SetHadoop(v *HadoopConfig) {
 	m.Hadoop = v
+}
+
+func (m *InitializationAction) SetUri(v string) {
+	m.Uri = v
+}
+
+func (m *InitializationAction) SetArgs(v []string) {
+	m.Args = v
+}
+
+func (m *InitializationAction) SetTimeout(v int64) {
+	m.Timeout = v
 }

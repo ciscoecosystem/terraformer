@@ -3,9 +3,9 @@
 package mysql
 
 import (
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	config "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mysql/v1/config"
 	timeofday "google.golang.org/genproto/googleapis/type/timeofday"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func (m *Cluster) SetId(v string) {
@@ -16,7 +16,7 @@ func (m *Cluster) SetFolderId(v string) {
 	m.FolderId = v
 }
 
-func (m *Cluster) SetCreatedAt(v *timestamp.Timestamp) {
+func (m *Cluster) SetCreatedAt(v *timestamppb.Timestamp) {
 	m.CreatedAt = v
 }
 
@@ -62,6 +62,14 @@ func (m *Cluster) SetMaintenanceWindow(v *MaintenanceWindow) {
 
 func (m *Cluster) SetPlannedOperation(v *MaintenanceOperation) {
 	m.PlannedOperation = v
+}
+
+func (m *Cluster) SetSecurityGroupIds(v []string) {
+	m.SecurityGroupIds = v
+}
+
+func (m *Cluster) SetDeletionProtection(v bool) {
+	m.DeletionProtection = v
 }
 
 func (m *Monitoring) SetName(v string) {
@@ -146,6 +154,18 @@ func (m *Host) SetAssignPublicIp(v bool) {
 	m.AssignPublicIp = v
 }
 
+func (m *Host) SetReplicationSource(v string) {
+	m.ReplicationSource = v
+}
+
+func (m *Host) SetBackupPriority(v int64) {
+	m.BackupPriority = v
+}
+
+func (m *Host) SetPriority(v int64) {
+	m.Priority = v
+}
+
 func (m *Service) SetType(v Service_Type) {
 	m.Type = v
 }
@@ -168,4 +188,20 @@ func (m *Resources) SetDiskTypeId(v string) {
 
 func (m *Access) SetDataLens(v bool) {
 	m.DataLens = v
+}
+
+func (m *Access) SetWebSql(v bool) {
+	m.WebSql = v
+}
+
+func (m *PerformanceDiagnostics) SetEnabled(v bool) {
+	m.Enabled = v
+}
+
+func (m *PerformanceDiagnostics) SetSessionsSamplingInterval(v int64) {
+	m.SessionsSamplingInterval = v
+}
+
+func (m *PerformanceDiagnostics) SetStatementsSamplingInterval(v int64) {
+	m.StatementsSamplingInterval = v
 }

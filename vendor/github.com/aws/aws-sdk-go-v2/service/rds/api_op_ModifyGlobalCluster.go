@@ -13,7 +13,7 @@ import (
 
 // Modify a setting for an Amazon Aurora global cluster. You can change one or more
 // database configuration parameters by specifying these parameters and the new
-// values in the request. For more information on Amazon Aurora, see  What Is
+// values in the request. For more information on Amazon Aurora, see  What is
 // Amazon Aurora?
 // (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html)
 // in the Amazon Aurora User Guide. This action only applies to Aurora DB clusters.
@@ -53,13 +53,13 @@ type ModifyGlobalClusterInput struct {
 	// available engine versions for aurora (for MySQL 5.6-compatible Aurora), use the
 	// following command: aws rds describe-db-engine-versions --engine aurora --query
 	// '*[]|[?SupportsGlobalDatabases == `true`].[EngineVersion]' To list all of the
-	// available engine versions for aurora-mysql (for MySQL 5.7-compatible Aurora),
-	// use the following command: aws rds describe-db-engine-versions --engine
-	// aurora-mysql --query '*[]|[?SupportsGlobalDatabases == `true`].[EngineVersion]'
-	// To list all of the available engine versions for aurora-postgresql, use the
-	// following command: aws rds describe-db-engine-versions --engine
-	// aurora-postgresql --query '*[]|[?SupportsGlobalDatabases ==
-	// `true`].[EngineVersion]'
+	// available engine versions for aurora-mysql (for MySQL 5.7-compatible and MySQL
+	// 8.0-compatible Aurora), use the following command: aws rds
+	// describe-db-engine-versions --engine aurora-mysql --query
+	// '*[]|[?SupportsGlobalDatabases == `true`].[EngineVersion]' To list all of the
+	// available engine versions for aurora-postgresql, use the following command: aws
+	// rds describe-db-engine-versions --engine aurora-postgresql --query
+	// '*[]|[?SupportsGlobalDatabases == `true`].[EngineVersion]'
 	EngineVersion *string
 
 	// The DB cluster identifier for the global cluster being modified. This parameter

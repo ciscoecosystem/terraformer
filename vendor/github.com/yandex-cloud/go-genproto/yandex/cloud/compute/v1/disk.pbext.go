@@ -3,7 +3,7 @@
 package compute
 
 import (
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type Disk_Source = isDisk_Source
@@ -20,7 +20,7 @@ func (m *Disk) SetFolderId(v string) {
 	m.FolderId = v
 }
 
-func (m *Disk) SetCreatedAt(v *timestamp.Timestamp) {
+func (m *Disk) SetCreatedAt(v *timestamppb.Timestamp) {
 	m.CreatedAt = v
 }
 
@@ -74,4 +74,12 @@ func (m *Disk) SetSourceSnapshotId(v string) {
 
 func (m *Disk) SetInstanceIds(v []string) {
 	m.InstanceIds = v
+}
+
+func (m *Disk) SetDiskPlacementPolicy(v *DiskPlacementPolicy) {
+	m.DiskPlacementPolicy = v
+}
+
+func (m *DiskPlacementPolicy) SetPlacementGroupId(v string) {
+	m.PlacementGroupId = v
 }

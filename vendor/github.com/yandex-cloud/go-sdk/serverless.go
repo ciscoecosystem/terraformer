@@ -1,7 +1,10 @@
 package ycsdk
 
 import (
+	"github.com/yandex-cloud/go-sdk/gen/apigateway"
+	"github.com/yandex-cloud/go-sdk/gen/containers"
 	"github.com/yandex-cloud/go-sdk/gen/functions"
+	"github.com/yandex-cloud/go-sdk/gen/mdbproxy"
 	"github.com/yandex-cloud/go-sdk/gen/triggers"
 )
 
@@ -10,8 +13,11 @@ type Serverless struct {
 }
 
 const (
-	FunctionServiceID Endpoint = "serverless-functions"
-	TriggerServiceID  Endpoint = "serverless-triggers"
+	FunctionServiceID             Endpoint = "serverless-functions"
+	TriggerServiceID              Endpoint = "serverless-triggers"
+	APIGatewayServiceID           Endpoint = "serverless-apigateway"
+	MDBProxyServiceID             Endpoint = "mdbproxy"
+	ServerlessContainersServiceID Endpoint = "serverless-containers"
 )
 
 func (s *Serverless) Functions() *functions.Function {
@@ -20,4 +26,16 @@ func (s *Serverless) Functions() *functions.Function {
 
 func (s *Serverless) Triggers() *triggers.Trigger {
 	return triggers.NewTrigger(s.sdk.getConn(TriggerServiceID))
+}
+
+func (s *Serverless) APIGateway() *apigateway.Apigateway {
+	return apigateway.NewApigateway(s.sdk.getConn(APIGatewayServiceID))
+}
+
+func (s *Serverless) MDBProxy() *mdbproxy.Proxy {
+	return mdbproxy.NewProxy(s.sdk.getConn(MDBProxyServiceID))
+}
+
+func (s *Serverless) Containers() *containers.Container {
+	return containers.NewContainer(s.sdk.getConn(ServerlessContainersServiceID))
 }

@@ -3,7 +3,7 @@
 package k8s
 
 import (
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func (m *Node) SetStatus(v Node_Status) {
@@ -70,11 +70,11 @@ func (m *Condition) SetMessage(v string) {
 	m.Message = v
 }
 
-func (m *Condition) SetLastHeartbeatTime(v *timestamp.Timestamp) {
+func (m *Condition) SetLastHeartbeatTime(v *timestamppb.Timestamp) {
 	m.LastHeartbeatTime = v
 }
 
-func (m *Condition) SetLastTransitionTime(v *timestamp.Timestamp) {
+func (m *Condition) SetLastTransitionTime(v *timestamppb.Timestamp) {
 	m.LastTransitionTime = v
 }
 
@@ -122,6 +122,46 @@ func (m *NodeTemplate) SetSchedulingPolicy(v *SchedulingPolicy) {
 	m.SchedulingPolicy = v
 }
 
+func (m *NodeTemplate) SetNetworkInterfaceSpecs(v []*NetworkInterfaceSpec) {
+	m.NetworkInterfaceSpecs = v
+}
+
+func (m *NodeTemplate) SetPlacementPolicy(v *PlacementPolicy) {
+	m.PlacementPolicy = v
+}
+
+func (m *NodeTemplate) SetNetworkSettings(v *NodeTemplate_NetworkSettings) {
+	m.NetworkSettings = v
+}
+
+func (m *NodeTemplate) SetContainerRuntimeSettings(v *NodeTemplate_ContainerRuntimeSettings) {
+	m.ContainerRuntimeSettings = v
+}
+
+func (m *NodeTemplate_NetworkSettings) SetType(v NodeTemplate_NetworkSettings_Type) {
+	m.Type = v
+}
+
+func (m *NodeTemplate_ContainerRuntimeSettings) SetType(v NodeTemplate_ContainerRuntimeSettings_Type) {
+	m.Type = v
+}
+
+func (m *NetworkInterfaceSpec) SetSubnetIds(v []string) {
+	m.SubnetIds = v
+}
+
+func (m *NetworkInterfaceSpec) SetPrimaryV4AddressSpec(v *NodeAddressSpec) {
+	m.PrimaryV4AddressSpec = v
+}
+
+func (m *NetworkInterfaceSpec) SetPrimaryV6AddressSpec(v *NodeAddressSpec) {
+	m.PrimaryV6AddressSpec = v
+}
+
+func (m *NetworkInterfaceSpec) SetSecurityGroupIds(v []string) {
+	m.SecurityGroupIds = v
+}
+
 func (m *NodeAddressSpec) SetOneToOneNatSpec(v *OneToOneNatSpec) {
 	m.OneToOneNatSpec = v
 }
@@ -156,4 +196,8 @@ func (m *DiskSpec) SetDiskSize(v int64) {
 
 func (m *SchedulingPolicy) SetPreemptible(v bool) {
 	m.Preemptible = v
+}
+
+func (m *PlacementPolicy) SetPlacementGroupId(v string) {
+	m.PlacementGroupId = v
 }

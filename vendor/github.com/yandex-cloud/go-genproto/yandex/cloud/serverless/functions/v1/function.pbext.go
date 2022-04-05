@@ -3,8 +3,8 @@
 package functions
 
 import (
-	duration "github.com/golang/protobuf/ptypes/duration"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func (m *Function) SetId(v string) {
@@ -15,7 +15,7 @@ func (m *Function) SetFolderId(v string) {
 	m.FolderId = v
 }
 
-func (m *Function) SetCreatedAt(v *timestamp.Timestamp) {
+func (m *Function) SetCreatedAt(v *timestamppb.Timestamp) {
 	m.CreatedAt = v
 }
 
@@ -55,7 +55,7 @@ func (m *Version) SetDescription(v string) {
 	m.Description = v
 }
 
-func (m *Version) SetCreatedAt(v *timestamp.Timestamp) {
+func (m *Version) SetCreatedAt(v *timestamppb.Timestamp) {
 	m.CreatedAt = v
 }
 
@@ -71,7 +71,7 @@ func (m *Version) SetResources(v *Resources) {
 	m.Resources = v
 }
 
-func (m *Version) SetExecutionTimeout(v *duration.Duration) {
+func (m *Version) SetExecutionTimeout(v *durationpb.Duration) {
 	m.ExecutionTimeout = v
 }
 
@@ -103,6 +103,14 @@ func (m *Version) SetConnectivity(v *Connectivity) {
 	m.Connectivity = v
 }
 
+func (m *Version) SetNamedServiceAccounts(v map[string]string) {
+	m.NamedServiceAccounts = v
+}
+
+func (m *Version) SetSecrets(v []*Secret) {
+	m.Secrets = v
+}
+
 func (m *Resources) SetMemory(v int64) {
 	m.Memory = v
 }
@@ -125,4 +133,56 @@ func (m *Connectivity) SetNetworkId(v string) {
 
 func (m *Connectivity) SetSubnetId(v []string) {
 	m.SubnetId = v
+}
+
+func (m *ScalingPolicy) SetFunctionId(v string) {
+	m.FunctionId = v
+}
+
+func (m *ScalingPolicy) SetTag(v string) {
+	m.Tag = v
+}
+
+func (m *ScalingPolicy) SetCreatedAt(v *timestamppb.Timestamp) {
+	m.CreatedAt = v
+}
+
+func (m *ScalingPolicy) SetModifiedAt(v *timestamppb.Timestamp) {
+	m.ModifiedAt = v
+}
+
+func (m *ScalingPolicy) SetProvisionedInstancesCount(v int64) {
+	m.ProvisionedInstancesCount = v
+}
+
+func (m *ScalingPolicy) SetZoneInstancesLimit(v int64) {
+	m.ZoneInstancesLimit = v
+}
+
+func (m *ScalingPolicy) SetZoneRequestsLimit(v int64) {
+	m.ZoneRequestsLimit = v
+}
+
+type Secret_Reference = isSecret_Reference
+
+func (m *Secret) SetReference(v Secret_Reference) {
+	m.Reference = v
+}
+
+func (m *Secret) SetId(v string) {
+	m.Id = v
+}
+
+func (m *Secret) SetVersionId(v string) {
+	m.VersionId = v
+}
+
+func (m *Secret) SetKey(v string) {
+	m.Key = v
+}
+
+func (m *Secret) SetEnvironmentVariable(v string) {
+	m.Reference = &Secret_EnvironmentVariable{
+		EnvironmentVariable: v,
+	}
 }

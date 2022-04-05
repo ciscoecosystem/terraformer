@@ -3,7 +3,7 @@
 package dataproc
 
 import (
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type Job_JobSpec = isJob_JobSpec
@@ -20,15 +20,15 @@ func (m *Job) SetClusterId(v string) {
 	m.ClusterId = v
 }
 
-func (m *Job) SetCreatedAt(v *timestamp.Timestamp) {
+func (m *Job) SetCreatedAt(v *timestamppb.Timestamp) {
 	m.CreatedAt = v
 }
 
-func (m *Job) SetStartedAt(v *timestamp.Timestamp) {
+func (m *Job) SetStartedAt(v *timestamppb.Timestamp) {
 	m.StartedAt = v
 }
 
-func (m *Job) SetFinishedAt(v *timestamp.Timestamp) {
+func (m *Job) SetFinishedAt(v *timestamppb.Timestamp) {
 	m.FinishedAt = v
 }
 
@@ -66,6 +66,26 @@ func (m *Job) SetHiveJob(v *HiveJob) {
 	m.JobSpec = &Job_HiveJob{
 		HiveJob: v,
 	}
+}
+
+func (m *Job) SetApplicationInfo(v *ApplicationInfo) {
+	m.ApplicationInfo = v
+}
+
+func (m *ApplicationAttempt) SetId(v string) {
+	m.Id = v
+}
+
+func (m *ApplicationAttempt) SetAmContainerId(v string) {
+	m.AmContainerId = v
+}
+
+func (m *ApplicationInfo) SetId(v string) {
+	m.Id = v
+}
+
+func (m *ApplicationInfo) SetApplicationAttempts(v []*ApplicationAttempt) {
+	m.ApplicationAttempts = v
 }
 
 type MapreduceJob_Driver = isMapreduceJob_Driver
@@ -134,6 +154,18 @@ func (m *SparkJob) SetMainClass(v string) {
 	m.MainClass = v
 }
 
+func (m *SparkJob) SetPackages(v []string) {
+	m.Packages = v
+}
+
+func (m *SparkJob) SetRepositories(v []string) {
+	m.Repositories = v
+}
+
+func (m *SparkJob) SetExcludePackages(v []string) {
+	m.ExcludePackages = v
+}
+
 func (m *PysparkJob) SetArgs(v []string) {
 	m.Args = v
 }
@@ -160,6 +192,18 @@ func (m *PysparkJob) SetMainPythonFileUri(v string) {
 
 func (m *PysparkJob) SetPythonFileUris(v []string) {
 	m.PythonFileUris = v
+}
+
+func (m *PysparkJob) SetPackages(v []string) {
+	m.Packages = v
+}
+
+func (m *PysparkJob) SetRepositories(v []string) {
+	m.Repositories = v
+}
+
+func (m *PysparkJob) SetExcludePackages(v []string) {
+	m.ExcludePackages = v
 }
 
 func (m *QueryList) SetQueries(v []string) {

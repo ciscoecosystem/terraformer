@@ -18,7 +18,7 @@ func (c *Client) RotateIngestEndpointCredentials(ctx context.Context, params *Ro
 		params = &RotateIngestEndpointCredentialsInput{}
 	}
 
-	result, metadata, err := c.invokeOperation(ctx, "RotateIngestEndpointCredentials", params, optFns, addOperationRotateIngestEndpointCredentialsMiddlewares)
+	result, metadata, err := c.invokeOperation(ctx, "RotateIngestEndpointCredentials", params, optFns, c.addOperationRotateIngestEndpointCredentialsMiddlewares)
 	if err != nil {
 		return nil, err
 	}
@@ -39,6 +39,8 @@ type RotateIngestEndpointCredentialsInput struct {
 	//
 	// This member is required.
 	IngestEndpointId *string
+
+	noSmithyDocumentSerde
 }
 
 type RotateIngestEndpointCredentialsOutput struct {
@@ -66,9 +68,11 @@ type RotateIngestEndpointCredentialsOutput struct {
 
 	// Metadata pertaining to the operation's result.
 	ResultMetadata middleware.Metadata
+
+	noSmithyDocumentSerde
 }
 
-func addOperationRotateIngestEndpointCredentialsMiddlewares(stack *middleware.Stack, options Options) (err error) {
+func (c *Client) addOperationRotateIngestEndpointCredentialsMiddlewares(stack *middleware.Stack, options Options) (err error) {
 	err = stack.Serialize.Add(&awsRestjson1_serializeOpRotateIngestEndpointCredentials{}, middleware.After)
 	if err != nil {
 		return err

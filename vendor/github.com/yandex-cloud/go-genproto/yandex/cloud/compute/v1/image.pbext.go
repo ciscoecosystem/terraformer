@@ -3,7 +3,7 @@
 package compute
 
 import (
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func (m *Image) SetId(v string) {
@@ -14,7 +14,7 @@ func (m *Image) SetFolderId(v string) {
 	m.FolderId = v
 }
 
-func (m *Image) SetCreatedAt(v *timestamp.Timestamp) {
+func (m *Image) SetCreatedAt(v *timestamppb.Timestamp) {
 	m.CreatedAt = v
 }
 
@@ -52,6 +52,10 @@ func (m *Image) SetStatus(v Image_Status) {
 
 func (m *Image) SetOs(v *Os) {
 	m.Os = v
+}
+
+func (m *Image) SetPooled(v bool) {
+	m.Pooled = v
 }
 
 func (m *Os) SetType(v Os_Type) {

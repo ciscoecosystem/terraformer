@@ -12,10 +12,14 @@ import (
 	smithyhttp "github.com/aws/smithy-go/transport/http"
 )
 
-// Returns information about provisioned Aurora DB clusters. This API supports
-// pagination. For more information on Amazon Aurora, see  What Is Amazon Aurora?
+// Returns information about Amazon Aurora DB clusters and Multi-AZ DB clusters.
+// This API supports pagination. For more information on Amazon Aurora DB clusters,
+// see  What is Amazon Aurora?
 // (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html)
-// in the Amazon Aurora User Guide. This operation can also return information for
+// in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters,
+// see  Multi-AZ deployments with two readable standby DB instances
+// (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html)
+// in the Amazon RDS User Guide. This operation can also return information for
 // Amazon Neptune DB instances and Amazon DocumentDB instances.
 func (c *Client) DescribeDBClusters(ctx context.Context, params *DescribeDBClustersInput, optFns ...func(*Options)) (*DescribeDBClustersOutput, error) {
 	if params == nil {
@@ -47,20 +51,19 @@ type DescribeDBClustersInput struct {
 	// filters:
 	//
 	// * clone-group-id - Accepts clone group identifiers. The results list
-	// will only include information about the DB clusters associated with these clone
+	// only includes information about the DB clusters associated with these clone
 	// groups.
 	//
 	// * db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon
-	// Resource Names (ARNs). The results list will only include information about the
-	// DB clusters identified by these ARNs.
+	// Resource Names (ARNs). The results list only includes information about the DB
+	// clusters identified by these ARNs.
 	//
 	// * domain - Accepts Active Directory
-	// directory IDs. The results list will only include information about the DB
-	// clusters associated with these domains.
+	// directory IDs. The results list only includes information about the DB clusters
+	// associated with these domains.
 	//
-	// * engine - Accepts engine names. The
-	// results list will only include information about the DB clusters for these
-	// engines.
+	// * engine - Accepts engine names. The results
+	// list only includes information about the DB clusters for these engines.
 	Filters []types.Filter
 
 	// Optional Boolean parameter that specifies whether the output includes
@@ -210,12 +213,13 @@ func NewDescribeDBClustersPaginator(client DescribeDBClustersAPIClient, params *
 		client:    client,
 		params:    params,
 		firstPage: true,
+		nextToken: params.Marker,
 	}
 }
 
 // HasMorePages returns a boolean indicating whether more pages are available
 func (p *DescribeDBClustersPaginator) HasMorePages() bool {
-	return p.firstPage || p.nextToken != nil
+	return p.firstPage || (p.nextToken != nil && len(*p.nextToken) != 0)
 }
 
 // NextPage retrieves the next DescribeDBClusters page.
@@ -242,7 +246,10 @@ func (p *DescribeDBClustersPaginator) NextPage(ctx context.Context, optFns ...fu
 	prevToken := p.nextToken
 	p.nextToken = result.Marker
 
-	if p.options.StopOnDuplicateToken && prevToken != nil && p.nextToken != nil && *prevToken == *p.nextToken {
+	if p.options.StopOnDuplicateToken &&
+		prevToken != nil &&
+		p.nextToken != nil &&
+		*prevToken == *p.nextToken {
 		p.nextToken = nil
 	}
 

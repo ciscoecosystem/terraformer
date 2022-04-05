@@ -15,7 +15,7 @@ func (c *Client) TagResource(ctx context.Context, params *TagResourceInput, optF
 		params = &TagResourceInput{}
 	}
 
-	result, metadata, err := c.invokeOperation(ctx, "TagResource", params, optFns, addOperationTagResourceMiddlewares)
+	result, metadata, err := c.invokeOperation(ctx, "TagResource", params, optFns, c.addOperationTagResourceMiddlewares)
 	if err != nil {
 		return nil, err
 	}
@@ -32,14 +32,18 @@ type TagResourceInput struct {
 
 	// This member is required.
 	Tags map[string]string
+
+	noSmithyDocumentSerde
 }
 
 type TagResourceOutput struct {
 	// Metadata pertaining to the operation's result.
 	ResultMetadata middleware.Metadata
+
+	noSmithyDocumentSerde
 }
 
-func addOperationTagResourceMiddlewares(stack *middleware.Stack, options Options) (err error) {
+func (c *Client) addOperationTagResourceMiddlewares(stack *middleware.Stack, options Options) (err error) {
 	err = stack.Serialize.Add(&awsRestjson1_serializeOpTagResource{}, middleware.After)
 	if err != nil {
 		return err
