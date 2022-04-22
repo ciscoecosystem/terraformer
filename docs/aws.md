@@ -22,6 +22,15 @@ terraformer import aws --resources=cloudfront --profile=prod
 ```
 In that case terraformer will not know with which region resources are associated with and will not assume any region. That scenario is useful in case of global resources (e.g. CloudFront distributions or Route 53 records) and when region is passed implicitly through environmental variables or metadata service.
 
+Examples to import other resources-
+
+ * Security Group-
+```
+terraformer import aws --resources=sg --regions=us-east-1
+```
+
+
+
 #### Supported services
 
 *   `accessanalyzer`
@@ -132,6 +141,7 @@ In that case terraformer will not know with which region resources are associate
     * `aws_eip`
 *   `eks`
     * `aws_eks_cluster`
+    * `aws_eks_node_group`
 *   `elasticache`
     * `aws_elasticache_cluster`
     * `aws_elasticache_parameter_group`
@@ -298,6 +308,19 @@ In that case terraformer will not know with which region resources are associate
     * `aws_wafregional_sql_injection_match_set`
     * `aws_wafregional_web_acl`
     * `aws_wafregional_xss_match_set`
+*   `wafv2_cloudfront`
+    * `aws_wafv2_ip_set`
+    * `aws_wafv2_regex_pattern_set`
+    * `aws_wafv2_rule_group`
+    * `aws_wafv2_web_acl`
+    * `aws_wafv2_web_acl_logging_configuration`
+*   `wafv2_regional`
+    * `aws_wafv2_ip_set`
+    * `aws_wafv2_regex_pattern_set`
+    * `aws_wafv2_rule_group`
+    * `aws_wafv2_web_acl`
+    * `aws_wafv2_web_acl_association`
+    * `aws_wafv2_web_acl_logging_configuration`
 *   `vpc`
     * `aws_vpc`
 *   `vpc_peering`
@@ -347,7 +370,7 @@ This command imports ec2 instance having name as Terraformer.
 ```
 terraformer import aws --resources=ec2_instance --filter="Name=id;Value=i-0xxxxxxxxx" --regions=us-east-1
 ```
-This command imports ec2 instance having insatnce-id as i-0xxxxxxxxx.
+This command imports ec2 instance having instance-id as i-0xxxxxxxxx.
 
 Due to fact API Gateway generates a lot of resources, it's possible to issue a filtering query to retrieve resources related to a given REST API by tags. To fetch resources related to a REST API resource with a tag `STAGE` and value `dev`, add parameter `--filter="Type=api_gateway_rest_api;Name=tags.STAGE;Value=dev"`.
 

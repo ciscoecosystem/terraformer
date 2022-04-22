@@ -30,12 +30,13 @@ A CLI tool that generates `tf`/`json` and `tfstate` files based on existing infr
         * [Equinix Metal](/docs/equinixmetal.md)
         * [Fastly](/docs/fastly.md)
         * [Heroku](/docs/heroku.md)
+        * [LaunchDarkly](/docs/launchdarkly.md)
         * [Linode](/docs/linode.md)
         * [NS1](/docs/ns1.md)
         * [OpenStack](/docs/openstack.md)
         * [TencentCloud](/docs/tencentcloud.md)
         * [Vultr](/docs/vultr.md)
-        * [Yandex.Cloud](/docs/yandex.md)
+        * [Yandex Cloud](/docs/yandex.md)
     * Infrastructure Software
         * [Kubernetes](/docs/kubernetes.md)
         * [OctopusDeploy](/docs/octopus.md)
@@ -64,6 +65,8 @@ A CLI tool that generates `tf`/`json` and `tfstate` files based on existing infr
         * [Vault](/docs/vault.md)
     * Identity
         * [Okta](/docs/okta.md)
+        * [Auth0](/docs/auth0.md)
+        * [AzureAD](/docs/azuread.md)
 - [Contributing](#contributing)
 - [Developing](#developing)
 - [Infrastructure](#infrastructure)
@@ -129,6 +132,14 @@ Use `Type` when you need to filter only one of several types of resources. Multi
 terraformer import aws -r sg,vpc --filter Type=sg;Name=vpc_id;Value=VPC_ID --filter Type=vpc;Name=id;Value=VPC_ID
 ```
 Notice how the `Name` is different for `sg` than it is for `vpc`.
+
+##### Migration state version
+For terraform >= 0.13, you can use `replace-provider` to migrate state from previous versions.
+
+Example usage:
+```
+terraform state replace-provider -auto-approve "registry.terraform.io/-/aws" "hashicorp/aws"
+```
 
 ##### Resource ID
 
@@ -200,7 +211,7 @@ It's possible to combine `--compact` `--path-pattern` parameters together.
 From source:
 1.  Run `git clone <terraformer repo> && cd terraformer/`
 2.  Run `go mod download`
-3.  Run `go build -v` for all providers OR build with one provider 
+3.  Run `go build -v` for all providers OR build with one provider
 `go run build/main.go {google,aws,azure,kubernetes,etc}`
 4.  Run ```terraform init``` against a ```versions.tf``` file to install the plugins required for your platform. For example, if you need plugins for the google provider, ```versions.tf``` should contain:
 
@@ -237,6 +248,14 @@ curl -LO https://github.com/GoogleCloudPlatform/terraformer/releases/download/$(
 chmod +x terraformer-${PROVIDER}-darwin-amd64
 sudo mv terraformer-${PROVIDER}-darwin-amd64 /usr/local/bin/terraformer
 ```
+* Windows
+1. Install Terraform - https://www.terraform.io/downloads
+2. Download exe file for required provider from here - https://github.com/GoogleCloudPlatform/terraformer/releases
+3. Add the exe file path to path variable
+4. Create a folder and initialize the terraform provider and run terraformer commands from there
+   * For AWS -  refer https://learn.hashicorp.com/tutorials/terraform/aws-build?in=terraform/aws-get-started
+
+
 
 #### Using a package manager
 
@@ -255,6 +274,7 @@ Links to download Terraform Providers:
 * Cloud
     * DigitalOcean provider >1.9.1 - [here](https://releases.hashicorp.com/terraform-provider-digitalocean/)
     * Heroku provider >2.2.1 - [here](https://releases.hashicorp.com/terraform-provider-heroku/)
+    * LaunchDarkly provider >=2.1.1 - [here](https://releases.hashicorp.com/terraform-provider-launchdarkly/)
     * Linode provider >1.8.0 - [here](https://releases.hashicorp.com/terraform-provider-linode/)
     * OpenStack provider >1.21.1 - [here](https://releases.hashicorp.com/terraform-provider-openstack/)
     * TencentCloud provider >1.50.0 - [here](https://releases.hashicorp.com/terraform-provider-tencentcloud/)
@@ -284,11 +304,21 @@ Links to download Terraform Providers:
     * Xen Orchestra provider >= 0.18.0 - [here](https://github.com/ddelnano/terraform-provider-xenorchestra)
     * GmailFilter provider >= 1.0.1 - [here](https://github.com/yamamoto-febc/terraform-provider-gmailfilter)
     * Vault provider - [here](https://github.com/hashicorp/terraform-provider-vault)
+    * Auth0 provider - [here](https://github.com/alexkappa/terraform-provider-auth0)
+    * AzureAD provider - [here](https://github.com/hashicorp/terraform-provider-azuread)
 
 Information on provider plugins:
 https://www.terraform.io/docs/configuration/providers.html
 
 
+## High-Level steps to add new provider
+ * Initialize provider details in cmd/root.go and create a provider initialization file in the terraformer/cmd folder
+ * Create a folder under terraformer/providers/ for your provider
+ * Create two files under this folder
+   * <provide_name>_provider.go
+   * <provide_name>_service.go
+* Initialize all provider's supported services in <provide_name>_provider.go file
+* Create script for each supported service in same folder
 
 ## Contributing
 
@@ -349,7 +379,7 @@ Look for S3 support in terraforming here and official S3 support
 Terraforming lacks full coverage for resources - as an example you can see that 70% of S3 options are not supported:
 
 * terraforming - https://github.com/dtan4/terraforming/blob/master/lib/terraforming/template/tf/s3.erb
-* official S3 support - https://www.terraform.io/docs/providers/aws/r/s3_bucket.html
+* official S3 support - https://www.terraform.io/docs/providers/aws/r/s3_bucket
 
 ## Stargazers over time
 
