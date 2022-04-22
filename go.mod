@@ -19,6 +19,7 @@ require (
 	github.com/IBM/networking-go-sdk v0.28.0
 	github.com/IBM/platform-services-go-sdk v0.19.1
 	github.com/IBM/vpc-go-sdk v0.4.1
+	github.com/Jeffail/gabs v1.4.0
 	github.com/Nvveen/Gotty v0.0.0-20120604004816-cd527374f1e5 // indirect
 	github.com/OctopusDeploy/go-octopusdeploy v1.6.0
 	github.com/PaloAltoNetworks/pango v0.6.0
