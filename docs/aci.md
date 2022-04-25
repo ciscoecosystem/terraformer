@@ -17,8 +17,6 @@ terraformer import aci --help
 ```
 #### Supported services
 
-* `access_switch_policy_group`
-* `l3_interface_policy`
 * `tenant`
     * `action_rule_profile`
     * `monitoring_policy`
@@ -164,7 +162,8 @@ terraformer import aci --help
 * `fc_domain`
 * `pod_maintenance_group`
     * `maintenance_group_node`
-
+* `access_switch_policy_group`
+* `l3_interface_policy`
 
 #### Attribute filters
 
