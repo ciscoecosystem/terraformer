@@ -521,5 +521,7 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"fc_domain":                                &FCDomainGenerator{},
 		"leaf_profile":                             &LeafProfileGenerator{},
 		"pod_maintenance_group":                    &PodMaintenanceGroupGenerator{},
+		"l3_interface_policy":                      &L3InterfacePolicyGenerator{},
+		"access_switch_policy_group":               &AccessSwitchPolicyGroupGenerator{},
 	}
 }

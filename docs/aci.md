@@ -17,6 +17,8 @@ terraformer import aci --help
 ```
 #### Supported services
 
+* `access_switch_policy_group`
+* `l3_interface_policy`
 * `tenant`
     * `action_rule_profile`
     * `monitoring_policy`
