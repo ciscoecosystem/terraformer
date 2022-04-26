@@ -326,6 +326,9 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"vrf_snmp_context_community": {
 			"vrf_snmp_context": []string{"vrf_snmp_context_dn", "id"},
 		},
+		"user_security_domain": {
+			"local_user": []string{"local_user_dn", "id"},
+		},
 	}
 }
 
@@ -533,5 +536,8 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"fabric_node_control":                      &FabricNodeControlGenerator{},
 		"vrf_snmp_context":                         &SNMPContextProfileGenerator{},
 		"vrf_snmp_context_community":               &SNMPCommunityGenerator{},
+		"coop_policy":                              &COOPGroupPolicyGenerator{},
+		"port_tracking":                            &PortTrackingGenerator{},
+		"user_security_domain":                     &UserDomainGenerator{},
 	}
 }
