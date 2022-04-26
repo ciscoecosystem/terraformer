@@ -320,6 +320,12 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"l3out_hsrp_secondary_vip": {
 			"l3out_hsrp_interface_group": []string{"l3out_hsrp_interface_group_dn", "id"},
 		},
+		"vrf_snmp_context": {
+			"vrf": []string{"vrf_dn", "id"},
+		},
+		"vrf_snmp_context_community": {
+			"vrf_snmp_context": []string{"vrf_snmp_context_dn", "id"},
+		},
 	}
 }
 
@@ -525,5 +531,7 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"access_switch_policy_group":               &AccessSwitchPolicyGroupGenerator{},
 		"mgmt_preference":                          &MgmtconnectivitypreferenceGenerator{},
 		"fabric_node_control":                      &FabricNodeControlGenerator{},
+		"vrf_snmp_context":                         &SNMPContextProfileGenerator{},
+		"vrf_snmp_context_community":               &SNMPCommunityGenerator{},
 	}
 }

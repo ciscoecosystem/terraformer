@@ -34,6 +34,8 @@ terraformer import aci --help
             * `epg_to_static_path`
     * `vrf`
         * `any`
+        * `vrf_snmp_context`
+            * `vrf_snmp_context_community`
     * `bgp_route_control_profile`
     * `cloud_context_profile`
          * `cloud_cidr_pool`
