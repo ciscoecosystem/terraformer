@@ -14,11 +14,14 @@ type SNMPCommunityGenerator struct {
 }
 
 func (a *SNMPCommunityGenerator) InitResources() error {
-	client, err := a.createClient()
-	if err != nil {
-		return err
+	if clientImpl == nil {
+		_, err := a.createClient()
+		if err != nil {
+			return err
+		}
 	}
 
+	client := clientImpl
 	baseURL := "/api/node/class"
 	dnURL := fmt.Sprintf("%s/%s.json", baseURL, sNMPCommunityClassName)
 
@@ -39,7 +42,7 @@ func (a *SNMPCommunityGenerator) InitResources() error {
 		if filterChildrenDn(SNMPCommunityDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
 				SNMPCommunityDN,
-				name,
+				resourceNamefromDn(sNMPCommunityClassName, SNMPCommunityDN, i),
 				"aci_vrf_snmp_context_community",
 				"aci",
 				map[string]string{

@@ -14,11 +14,14 @@ type UserDomainGenerator struct {
 }
 
 func (a *UserDomainGenerator) InitResources() error {
-	client, err := a.createClient()
-	if err != nil {
-		return err
+	if clientImpl == nil {
+		_, err := a.createClient()
+		if err != nil {
+			return err
+		}
 	}
 
+	client := clientImpl
 	baseURL := "/api/node/class"
 	dnURL := fmt.Sprintf("%s/%s.json", baseURL, userDomainClassName)
 
@@ -39,7 +42,7 @@ func (a *UserDomainGenerator) InitResources() error {
 		if filterChildrenDn(UserDomainDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
 				UserDomainDN,
-				UserDomainDN,
+				resourceNamefromDn(userDomainClassName, UserDomainDN, i),
 				"aci_user_security_domain",
 				"aci",
 				map[string]string{

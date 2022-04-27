@@ -14,11 +14,14 @@ type COOPGroupPolicyGenerator struct {
 }
 
 func (a *COOPGroupPolicyGenerator) InitResources() error {
-	client, err := a.createClient()
-	if err != nil {
-		return err
+	if clientImpl == nil {
+		_, err := a.createClient()
+		if err != nil {
+			return err
+		}
 	}
 
+	client := clientImpl
 	baseURL := "/api/node/class"
 	dnURL := fmt.Sprintf("%s/%s.json", baseURL, cOOPGroupPolicyClassName)
 
@@ -35,11 +38,10 @@ func (a *COOPGroupPolicyGenerator) InitResources() error {
 	for i := 0; i < COOPGroupPolicyCount; i++ {
 		COOPGroupPolicyAttr := COOPGroupPolicyCont.S("imdata").Index(i).S(cOOPGroupPolicyClassName, "attributes")
 		COOPGroupPolicyDN := G(COOPGroupPolicyAttr, "dn")
-		name := G(COOPGroupPolicyAttr, "name")
 		if filterChildrenDn(COOPGroupPolicyDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
 				COOPGroupPolicyDN,
-				name,
+				resourceNamefromDn(cOOPGroupPolicyClassName, COOPGroupPolicyDN, i),
 				"aci_coop_policy",
 				"aci",
 				map[string]string{},

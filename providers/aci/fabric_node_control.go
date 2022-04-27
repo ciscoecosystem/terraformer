@@ -14,11 +14,14 @@ type FabricNodeControlGenerator struct {
 }
 
 func (a *FabricNodeControlGenerator) InitResources() error {
-	client, err := a.createClient()
-	if err != nil {
-		return err
+	if clientImpl == nil {
+		_, err := a.createClient()
+		if err != nil {
+			return err
+		}
 	}
 
+	client := clientImpl
 	baseURL := "/api/node/class"
 	dnURL := fmt.Sprintf("%s/%s.json", baseURL, fabricNodeControlClassName)
 
@@ -35,11 +38,10 @@ func (a *FabricNodeControlGenerator) InitResources() error {
 	for i := 0; i < FabricNodeControlCount; i++ {
 		FabricNodeControlAttr := FabricNodeControlCont.S("imdata").Index(i).S(fabricNodeControlClassName, "attributes")
 		FabricNodeControlDN := G(FabricNodeControlAttr, "dn")
-		name := G(FabricNodeControlAttr, "name")
 		if filterChildrenDn(FabricNodeControlDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
 				FabricNodeControlDN,
-				name,
+				resourceNamefromDn(fabricNodeControlClassName, FabricNodeControlDN, i),
 				"aci_fabric_node_control",
 				"aci",
 				map[string]string{},
