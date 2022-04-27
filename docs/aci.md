@@ -174,6 +174,7 @@ terraformer import aci --help
 * `encryption_key`
 * `port_tracking`
 * `coop_policy`
+* `error_disable_recovery`
 * `managed_node_connectivity_group`
 * `spine_switch_policy_group`
 #### Attribute filters

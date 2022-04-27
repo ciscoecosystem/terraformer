@@ -544,6 +544,7 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"coop_policy":                              &COOPGroupPolicyGenerator{},
 		"port_tracking":                            &PortTrackingGenerator{},
 		"user_security_domain":                     &UserDomainGenerator{},
+		"error_disable_recovery":                   &ErrorDisabledRecoveryPolicyGenerator{},
 		"bfd_interface_policy":                     &BFDInterfacePolicyGenerator{},
 		"managed_node_connectivity_group":          &ManagedNodeConnectivityGroupGenerator{},
 		"spine_switch_policy_group":                &SpineSwitchPolicyGroupGenerator{},
