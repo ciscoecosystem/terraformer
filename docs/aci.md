@@ -169,6 +169,8 @@ terraformer import aci --help
 * `l3_interface_policy`
 * `mgmt_preference`
 * `fabric_node_control`
+* `fabric_wide_settings`
+* `encryption_key`
 * `port_tracking`
 * `coop_policy`
 #### Attribute filters
