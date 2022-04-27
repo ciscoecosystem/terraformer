@@ -329,6 +329,9 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"user_security_domain": {
 			"local_user": []string{"local_user_dn", "id"},
 		},
+		"bfd_interface_policy": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
 	}
 }
 
@@ -536,9 +539,14 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"fabric_node_control":                      &FabricNodeControlGenerator{},
 		"vrf_snmp_context":                         &SNMPContextProfileGenerator{},
 		"vrf_snmp_context_community":               &SNMPCommunityGenerator{},
+		"fabric_wide_settings":                     &fabricWideSettingsPolicyGenerator{},
+		"encryption_key":                           &AESEncryptionPassphraseandKeysforConfigExportandImportGenerator{},
 		"coop_policy":                              &COOPGroupPolicyGenerator{},
 		"port_tracking":                            &PortTrackingGenerator{},
 		"user_security_domain":                     &UserDomainGenerator{},
 		"error_disable_recovery":                   &ErrorDisabledRecoveryPolicyGenerator{},
+		"bfd_interface_policy":                     &BFDInterfacePolicyGenerator{},
+		"managed_node_connectivity_group":          &ManagedNodeConnectivityGroupGenerator{},
+		"spine_switch_policy_group":                &SpineSwitchPolicyGroupGenerator{},
 	}
 }
