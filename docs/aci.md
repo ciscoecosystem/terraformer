@@ -168,6 +168,8 @@ terraformer import aci --help
 * `l3_interface_policy`
 * `mgmt_preference`
 * `fabric_node_control`
+* `fabric_wide_settings`
+* `encryption_key`
 #### Attribute filters
 
 Attribute filters allow filtering across different resource types by their attributes.

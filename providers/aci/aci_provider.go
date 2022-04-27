@@ -533,5 +533,7 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"fabric_node_control":                      &FabricNodeControlGenerator{},
 		"vrf_snmp_context":                         &SNMPContextProfileGenerator{},
 		"vrf_snmp_context_community":               &SNMPCommunityGenerator{},
+		"fabric_wide_settings":                     &fabricWideSettingsPolicyGenerator{},
+		"encryption_key":                           &AESEncryptionPassphraseandKeysforConfigExportandImportGenerator{},
 	}
 }
