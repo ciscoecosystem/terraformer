@@ -14,11 +14,14 @@ type SNMPContextProfileGenerator struct {
 }
 
 func (a *SNMPContextProfileGenerator) InitResources() error {
-	client, err := a.createClient()
-	if err != nil {
-		return err
+	if clientImpl == nil {
+		_, err := a.createClient()
+		if err != nil {
+			return err
+		}
 	}
 
+	client := clientImpl
 	baseURL := "/api/node/class"
 	dnURL := fmt.Sprintf("%s/%s.json", baseURL, sNMPContextProfileClassName)
 
@@ -38,7 +41,7 @@ func (a *SNMPContextProfileGenerator) InitResources() error {
 		if filterChildrenDn(SNMPContextProfileDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
 				SNMPContextProfileDN,
-				SNMPContextProfileDN,
+				resourceNamefromDn(sNMPContextProfileClassName, SNMPContextProfileDN, i),
 				"aci_vrf_snmp_context",
 				"aci",
 				map[string]string{

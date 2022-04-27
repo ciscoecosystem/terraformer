@@ -3,6 +3,7 @@ package aci
 import (
 	"fmt"
 	"strconv"
+
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
 )
 
@@ -13,10 +14,14 @@ type AccessSwitchPolicyGroupGenerator struct {
 }
 
 func (a *AccessSwitchPolicyGroupGenerator) InitResources() error {
-	client, err := a.createClient()
-	if err != nil {
-		return err
+	if clientImpl == nil {
+		_, err := a.createClient()
+		if err != nil {
+			return err
+		}
 	}
+
+	client := clientImpl
 	baseURL := "/api/node/class"
 	dnURL := fmt.Sprintf("%s/%s.json", baseURL, accessSwitchPolicyGroupClassName)
 	AccessSwitchPolicyGroupCont, err := client.GetViaURL(dnURL)
@@ -30,17 +35,14 @@ func (a *AccessSwitchPolicyGroupGenerator) InitResources() error {
 	for i := 0; i < AccessSwitchPolicyGroupCount; i++ {
 		AccessSwitchPolicyGroupAttr := AccessSwitchPolicyGroupCont.S("imdata").Index(i).S(accessSwitchPolicyGroupClassName, "attributes")
 		AccessSwitchPolicyGroupDN := G(AccessSwitchPolicyGroupAttr, "dn")
-		name := G(AccessSwitchPolicyGroupAttr, "name")
 		if filterChildrenDn(AccessSwitchPolicyGroupDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
 				AccessSwitchPolicyGroupDN,
-				name,
+				resourceNamefromDn(accessSwitchPolicyGroupClassName, AccessSwitchPolicyGroupDN, i),
 				"aci_access_switch_policy_group",
 				"aci",
 				map[string]string{},
-				[]string{
-					"description",
-				},
+				[]string{},
 				map[string]interface{}{},
 			)
 			resource.SlowQueryRequired = true

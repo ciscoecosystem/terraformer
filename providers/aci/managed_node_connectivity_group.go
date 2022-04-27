@@ -3,6 +3,7 @@ package aci
 import (
 	"fmt"
 	"strconv"
+
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
 )
 
@@ -13,10 +14,14 @@ type ManagedNodeConnectivityGroupGenerator struct {
 }
 
 func (a *ManagedNodeConnectivityGroupGenerator) InitResources() error {
-	client, err := a.createClient()
-	if err != nil {
-		return err
+	if clientImpl == nil {
+		_, err := a.createClient()
+		if err != nil {
+			return err
+		}
 	}
+
+	client := clientImpl
 	baseURL := "/api/node/class"
 	dnURL := fmt.Sprintf("%s/%s.json", baseURL, managedNodeConnectivityGroupClassName)
 	ManagedNodeConnectivityGroupCont, err := client.GetViaURL(dnURL)
@@ -29,24 +34,20 @@ func (a *ManagedNodeConnectivityGroupGenerator) InitResources() error {
 	}
 	for i := 0; i < ManagedNodeConnectivityGroupCount; i++ {
 		ManagedNodeConnectivityGroupAttr := ManagedNodeConnectivityGroupCont.S("imdata").Index(i).S(managedNodeConnectivityGroupClassName, "attributes")
-		ManagedNodeConnectivityGroupDN := G(ManagedNodeConnectivityGroupAttr,"dn")
-		name := G(ManagedNodeConnectivityGroupAttr,"name")
+		ManagedNodeConnectivityGroupDN := G(ManagedNodeConnectivityGroupAttr, "dn")
 		if filterChildrenDn(ManagedNodeConnectivityGroupDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
-					ManagedNodeConnectivityGroupDN,
-					name,
-					"aci_managed_node_connectivity_group",
-					"aci",
-					map[string]string{
-					},
-					[]string{
-						"description",
-					},
-					map[string]interface{}{},
-				)
-				resource.SlowQueryRequired = true
-				a.Resources = append(a.Resources, resource)
-		}	
+				ManagedNodeConnectivityGroupDN,
+				resourceNamefromDn(managedNodeConnectivityGroupClassName, ManagedNodeConnectivityGroupDN, i),
+				"aci_managed_node_connectivity_group",
+				"aci",
+				map[string]string{},
+				[]string{},
+				map[string]interface{}{},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

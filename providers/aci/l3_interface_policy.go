@@ -3,6 +3,7 @@ package aci
 import (
 	"fmt"
 	"strconv"
+
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
 )
 
@@ -13,10 +14,14 @@ type L3InterfacePolicyGenerator struct {
 }
 
 func (a *L3InterfacePolicyGenerator) InitResources() error {
-	client, err := a.createClient()
-	if err != nil {
-		return err
+	if clientImpl == nil {
+		_, err := a.createClient()
+		if err != nil {
+			return err
+		}
 	}
+
+	client := clientImpl
 	baseURL := "/api/node/class"
 	dnURL := fmt.Sprintf("%s/%s.json", baseURL, l3InterfacePolicyClassName)
 	L3InterfacePolicyCont, err := client.GetViaURL(dnURL)
@@ -30,17 +35,14 @@ func (a *L3InterfacePolicyGenerator) InitResources() error {
 	for i := 0; i < L3InterfacePolicyCount; i++ {
 		L3InterfacePolicyAttr := L3InterfacePolicyCont.S("imdata").Index(i).S(l3InterfacePolicyClassName, "attributes")
 		L3InterfacePolicyDN := G(L3InterfacePolicyAttr, "dn")
-		name := G(L3InterfacePolicyAttr, "name")
 		if filterChildrenDn(L3InterfacePolicyDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
 				L3InterfacePolicyDN,
-				name,
+				resourceNamefromDn(l3InterfacePolicyClassName, L3InterfacePolicyDN, i),
 				"aci_l3_interface_policy",
 				"aci",
 				map[string]string{},
-				[]string{
-					"description",
-				},
+				[]string{},
 				map[string]interface{}{},
 			)
 			resource.SlowQueryRequired = true
