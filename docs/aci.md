@@ -171,6 +171,7 @@ terraformer import aci --help
 * `fabric_node_control`
 * `port_tracking`
 * `coop_policy`
+* `error_disable_recovery`
 #### Attribute filters
 
 Attribute filters allow filtering across different resource types by their attributes.
