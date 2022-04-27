@@ -177,6 +177,7 @@ terraformer import aci --help
 * `error_disable_recovery`
 * `managed_node_connectivity_group`
 * `spine_switch_policy_group`
+* `duo_provider_group`
 #### Attribute filters
 
 Attribute filters allow filtering across different resource types by their attributes.
