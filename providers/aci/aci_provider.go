@@ -539,5 +539,6 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"coop_policy":                              &COOPGroupPolicyGenerator{},
 		"port_tracking":                            &PortTrackingGenerator{},
 		"user_security_domain":                     &UserDomainGenerator{},
+		"error_disable_recovery":                   &ErrorDisabledRecoveryPolicyGenerator{},
 	}
 }
