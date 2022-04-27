@@ -14,11 +14,14 @@ type PortTrackingGenerator struct {
 }
 
 func (a *PortTrackingGenerator) InitResources() error {
-	client, err := a.createClient()
-	if err != nil {
-		return err
+	if clientImpl == nil {
+		_, err := a.createClient()
+		if err != nil {
+			return err
+		}
 	}
 
+	client := clientImpl
 	baseURL := "/api/node/class"
 	dnURL := fmt.Sprintf("%s/%s.json", baseURL, portTrackingClassName)
 
@@ -35,11 +38,10 @@ func (a *PortTrackingGenerator) InitResources() error {
 	for i := 0; i < PortTrackingCount; i++ {
 		PortTrackingAttr := PortTrackingCont.S("imdata").Index(i).S(portTrackingClassName, "attributes")
 		PortTrackingDN := G(PortTrackingAttr, "dn")
-		name := G(PortTrackingAttr, "name")
 		if filterChildrenDn(PortTrackingDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
 				PortTrackingDN,
-				name,
+				resourceNamefromDn(portTrackingClassName, PortTrackingDN, i),
 				"aci_port_tracking",
 				"aci",
 				map[string]string{},

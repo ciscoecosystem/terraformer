@@ -548,5 +548,6 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"bfd_interface_policy":                     &BFDInterfacePolicyGenerator{},
 		"managed_node_connectivity_group":          &ManagedNodeConnectivityGroupGenerator{},
 		"spine_switch_policy_group":                &SpineSwitchPolicyGroupGenerator{},
+		"console_authentication":                   &ConsoleAuthenticationMethodGenerator{},
 	}
 }

@@ -14,11 +14,14 @@ type MgmtconnectivitypreferenceGenerator struct {
 }
 
 func (a *MgmtconnectivitypreferenceGenerator) InitResources() error {
-	client, err := a.createClient()
-	if err != nil {
-		return err
+	if clientImpl == nil {
+		_, err := a.createClient()
+		if err != nil {
+			return err
+		}
 	}
 
+	client := clientImpl
 	baseURL := "/api/node/class"
 	dnURL := fmt.Sprintf("%s/%s.json", baseURL, mgmtconnectivitypreferenceClassName)
 
@@ -38,7 +41,7 @@ func (a *MgmtconnectivitypreferenceGenerator) InitResources() error {
 		if filterChildrenDn(MgmtconnectivitypreferenceDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
 				MgmtconnectivitypreferenceDN,
-				MgmtconnectivitypreferenceDN,
+				resourceNamefromDn(mgmtconnectivitypreferenceClassName, MgmtconnectivitypreferenceDN, i),
 				"aci_mgmt_preference",
 				"aci",
 				map[string]string{},
