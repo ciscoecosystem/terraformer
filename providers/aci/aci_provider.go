@@ -332,6 +332,9 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"bfd_interface_policy": {
 			"tenant": []string{"tenant_dn", "id"},
 		},
+		"user_security_domain_role": {
+			"user_security_domain": []string{"user_domain_dn", "id"},
+		},
 	}
 }
 
@@ -554,5 +557,8 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"tacacs_accounting":                        &TACACSMonitoringDestinationGroupGenerator{},
 		"rsa_provider":                             &RSAProviderGenerator{},
 		"saml_provider_group":                      &SAMLProviderGroupGenerator{},
+		"user_security_domain_role":                &UserRoleGenerator{},
+		"mcp_instance_policy":                      &MiscablingProtocolInstancePolicyGenerator{},
+		"qos_instance_policy":                      &QOSInstancePolicyGenerator{},
 	}
 }
