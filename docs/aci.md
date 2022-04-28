@@ -148,6 +148,7 @@ terraformer import aci --help
 * `local_user`
     * `x509_certificate`
     * `user_security_domain`
+        * `user_security_domain_role`
 * `trigger_scheduler`
 * `spanning_tree_interface_policy`
 * `maintenance_policy`
@@ -182,6 +183,9 @@ terraformer import aci --help
 * `tacacs_accounting`
 * `rsa_provider`
 * `saml_provider_group`
+* `console_authentication`
+* `qos_instance_policy`
+* `mcp_instance_policy`
 #### Attribute filters
 
 Attribute filters allow filtering across different resource types by their attributes.
