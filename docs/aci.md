@@ -178,6 +178,10 @@ terraformer import aci --help
 * `managed_node_connectivity_group`
 * `spine_switch_policy_group`
 * `duo_provider_group`
+* `ldap_provider`
+* `tacacs_accounting`
+* `rsa_provider`
+* `saml_provider_group`
 #### Attribute filters
 
 Attribute filters allow filtering across different resource types by their attributes.

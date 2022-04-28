@@ -550,5 +550,9 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"spine_switch_policy_group":                &SpineSwitchPolicyGroupGenerator{},
 		"duo_provider_group":                       &DuoProviderGroupGenerator{},
 		"console_authentication":                   &ConsoleAuthenticationMethodGenerator{},
+		"ldap_provider":                            &LDAPProviderGenerator{},
+		"tacacs_accounting":                        &TACACSMonitoringDestinationGroupGenerator{},
+		"rsa_provider":                             &RSAProviderGenerator{},
+		"saml_provider_group":                      &SAMLProviderGroupGenerator{},
 	}
 }
