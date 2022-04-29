@@ -186,6 +186,8 @@ terraformer import aci --help
 * `console_authentication`
 * `qos_instance_policy`
 * `mcp_instance_policy`
+* `ldap_group_map`
+    * `ldap_group_map_rule_to_group_map`
 #### Attribute filters
 
 Attribute filters allow filtering across different resource types by their attributes.

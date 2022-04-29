@@ -335,6 +335,9 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"user_security_domain_role": {
 			"user_security_domain": []string{"user_domain_dn", "id"},
 		},
+		"ldap_group_map_rule_to_group_map": {
+			"ldap_group_map": []string{"ldap_group_map_dn", "id"},
+		},
 	}
 }
 
@@ -560,5 +563,7 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"user_security_domain_role":                &UserRoleGenerator{},
 		"mcp_instance_policy":                      &MiscablingProtocolInstancePolicyGenerator{},
 		"qos_instance_policy":                      &QOSInstancePolicyGenerator{},
+		"ldap_group_map":                           &LDAPGroupMapGenerator{},
+		"ldap_group_map_rule_to_group_map":         &LDAPGroupMaprulerefGenerator{},
 	}
 }
