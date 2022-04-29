@@ -320,6 +320,12 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"l3out_hsrp_secondary_vip": {
 			"l3out_hsrp_interface_group": []string{"l3out_hsrp_interface_group_dn", "id"},
 		},
+		"aci_mgmt_zone": {
+			"aci_managed_node_connectivity_group": []string{"aci_managed_node_connectivity_group_dn", "id"},
+		},
+		"aci_recurring_window": {
+			"trigger_schedular": []string{"trigger_schedular_dn", "id"},
+		},
 	}
 }
 
@@ -525,5 +531,8 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"access_switch_policy_group":               &AccessSwitchPolicyGroupGenerator{},
 		"mgmt_preference":                          &MgmtconnectivitypreferenceGenerator{},
 		"fabric_node_control":                      &FabricNodeControlGenerator{},
+		"vpc_domain_policy":                        &VPCDomainPolicyGenerator{},
+		"mgmt_zone":                                &OOBManagedNodesZoneGenerator{},
+		"recurring_window":                         &RecurringWindowGenerator{},
 	}
 }
