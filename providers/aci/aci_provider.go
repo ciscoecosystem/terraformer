@@ -338,6 +338,12 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"ldap_group_map_rule_to_group_map": {
 			"ldap_group_map": []string{"ldap_group_map_dn", "id"},
 		},
+		"aci_mgmt_zone": {
+			"aci_managed_node_connectivity_group": []string{"aci_managed_node_connectivity_group_dn", "id"},
+		},
+		"aci_recurring_window": {
+			"trigger_schedular": []string{"trigger_schedular_dn", "id"},
+		},
 	}
 }
 
@@ -565,5 +571,8 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"qos_instance_policy":                      &QOSInstancePolicyGenerator{},
 		"ldap_group_map":                           &LDAPGroupMapGenerator{},
 		"ldap_group_map_rule_to_group_map":         &LDAPGroupMaprulerefGenerator{},
+		"vpc_domain_policy":                        &VPCDomainPolicyGenerator{},
+		"mgmt_zone":                                &OOBManagedNodesZoneGenerator{},
+		"recurring_window":                         &RecurringWindowGenerator{},
 	}
 }
