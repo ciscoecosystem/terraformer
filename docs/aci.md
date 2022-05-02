@@ -197,7 +197,9 @@ terraformer import aci --help
 * `vpc_domain_policy`
 * `managed_node_connectivity_group`
     * `aci_mgmt_zone`
-
+* `vpc_domain_policy`
+* `managed_node_connectivity_group`
+    * `aci_mgmt_zone`
 #### Attribute filters
 
 Attribute filters allow filtering across different resource types by their attributes.
