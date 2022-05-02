@@ -36,6 +36,7 @@ terraformer import aci --help
         * `any`
         * `vrf_snmp_context`
             * `vrf_snmp_context_community`
+        * `vrf_to_bgp_address_family_context`
     * `bgp_route_control_profile`
     * `cloud_context_profile`
          * `cloud_cidr_pool`
@@ -181,6 +182,7 @@ terraformer import aci --help
 * `duo_provider_group`
 * `ldap_provider`
 * `tacacs_accounting`
+    * `tacacs_accounting_destination`
 * `rsa_provider`
 * `saml_provider_group`
 * `console_authentication`
@@ -188,6 +190,9 @@ terraformer import aci --help
 * `mcp_instance_policy`
 * `ldap_group_map`
     * `ldap_group_map_rule_to_group_map`
+* `file_remote_path`
+* `radius_provider_group`
+* `saml_provider`
 #### Attribute filters
 
 Attribute filters allow filtering across different resource types by their attributes.

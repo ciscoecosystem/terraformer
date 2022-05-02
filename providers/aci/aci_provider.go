@@ -338,6 +338,13 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"ldap_group_map_rule_to_group_map": {
 			"ldap_group_map": []string{"ldap_group_map_dn", "id"},
 		},
+		"tacacs_accounting_destination": {
+			"tacacs_accounting": []string{"tacacs_accounting_dn", "id"},
+		},
+		"vrf_to_bgp_address_family_context": {
+			"vrf":                        []string{"vrf_dn", "id"},
+			"bgp_address_family_context": []string{"bgp_address_family_context_dn", "id"},
+		},
 	}
 }
 
@@ -565,5 +572,10 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"qos_instance_policy":                      &QOSInstancePolicyGenerator{},
 		"ldap_group_map":                           &LDAPGroupMapGenerator{},
 		"ldap_group_map_rule_to_group_map":         &LDAPGroupMaprulerefGenerator{},
+		"file_remote_path":                         &RemotePathofaFileGenerator{},
+		"radius_provider_group":                    &RadiusProviderGroupGenerator{},
+		"saml_provider":                            &SAMLProviderGenerator{},
+		"tacacs_accounting_destination":            &TACACSDestinationGenerator{},
+		"vrf_to_bgp_address_family_context":        &BGPAddressFamilyContextPolicyGenerator{},
 	}
 }
