@@ -151,6 +151,7 @@ terraformer import aci --help
     * `user_security_domain`
         * `user_security_domain_role`
 * `trigger_scheduler`
+    *  `aci_recurring_window`
 * `spanning_tree_interface_policy`
 * `maintenance_policy`
 * `configuration_export_policy`
@@ -193,6 +194,10 @@ terraformer import aci --help
 * `file_remote_path`
 * `radius_provider_group`
 * `saml_provider`
+* `vpc_domain_policy`
+* `managed_node_connectivity_group`
+    * `aci_mgmt_zone`
+
 #### Attribute filters
 
 Attribute filters allow filtering across different resource types by their attributes.
