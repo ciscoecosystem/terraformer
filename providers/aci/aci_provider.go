@@ -355,6 +355,9 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 			"l3_outside": []string{"parent_dn", "id"},
 			"tenant":     []string{"parent_dn", "id"},
 		},
+		"action_rule_additional_communities": {
+			"action_rule_profile": []string{"action_rule_profile_dn", "id"},
+		},
 	}
 }
 
@@ -591,5 +594,6 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"tacacs_accounting_destination":            &TACACSDestinationGenerator{},
 		"vrf_to_bgp_address_family_context":        &BGPAddressFamilyContextPolicyGenerator{},
 		"route_control_profile":                    &RouteControlProfileGenerator{},
+		"action_rule_additional_communities":       &RtctrlSetAddCommGenerator{},
 	}
 }
