@@ -19,6 +19,7 @@ terraformer import aci --help
 
 * `tenant`
     * `action_rule_profile`
+        * `action_rule_additional_communities`
     * `monitoring_policy`
     * `cloud_applicationcontainer`
         * `cloud_epg`
