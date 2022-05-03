@@ -603,5 +603,8 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"endpoint_loop_protection":                 &EPLoopProtectionPolicyGenerator{},
 		"endpoint_controls":                        &EndpointControlPolicyGenerator{},
 		"endpoint_ip_aging_profile":                &IPAgingPolicyGenerator{},
+		"tacacs_source":                            &TACACSSourceGenerator{},
+		"login_domain_provider":                    &ProviderGroupMemberGenerator{},
+		"radius_provider":                          &RADIUSProviderGenerator{},
 	}
 }
