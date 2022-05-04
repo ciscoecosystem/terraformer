@@ -595,5 +595,8 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"vrf_to_bgp_address_family_context":        &BGPAddressFamilyContextPolicyGenerator{},
 		"route_control_profile":                    &RouteControlProfileGenerator{},
 		"action_rule_additional_communities":       &RtctrlSetAddCommGenerator{},
+		"endpoint_loop_protection":                 &EPLoopProtectionPolicyGenerator{},
+		"endpoint_controls":                        &EndpointControlPolicyGenerator{},
+		"endpoint_ip_aging_profile":                &IPAgingPolicyGenerator{},
 	}
 }
