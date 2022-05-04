@@ -354,6 +354,13 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"match_rule": {
 			"tenant": []string{"tenant_dn", "id"},
 		},
+		"route_control_profile": {
+			"l3_outside": []string{"parent_dn", "id"},
+			"tenant":     []string{"parent_dn", "id"},
+		},
+		"action_rule_additional_communities": {
+			"action_rule_profile": []string{"action_rule_profile_dn", "id"},
+		},
 	}
 }
 
@@ -592,5 +599,10 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"match_rule":                               &MatchRuleGenerator{},
 		"route_control_context":                    &RouteControlContextGenerator{},
 		"annotation":                               &TagGenerator{},
+		"route_control_profile":                    &RouteControlProfileGenerator{},
+		"action_rule_additional_communities":       &RtctrlSetAddCommGenerator{},
+		"endpoint_loop_protection":                 &EPLoopProtectionPolicyGenerator{},
+		"endpoint_controls":                        &EndpointControlPolicyGenerator{},
+		"endpoint_ip_aging_profile":                &IPAgingPolicyGenerator{},
 	}
 }

@@ -19,6 +19,7 @@ terraformer import aci --help
 
 * `tenant`
     * `action_rule_profile`
+        * `action_rule_additional_communities`
     * `monitoring_policy`
     * `cloud_applicationcontainer`
         * `cloud_epg`
@@ -105,6 +106,7 @@ terraformer import aci --help
         * `span_sourcedestination_group_match_label`
     * `end_point_retention_policy`
     * `bfd_interface_policy`
+    * `route_control_profile`
 * `vpc_explicit_protection_group`
 * `l3_domain_profile`
 * `vmm_domain`
@@ -200,6 +202,10 @@ terraformer import aci --help
 * `vpc_domain_policy`
 * `managed_node_connectivity_group`
     * `aci_mgmt_zone`
+* `endpoint_loop_protection`
+* `endpoint_controls`
+* `endpoint_ip_aging_profile`
+
 #### Attribute filters
 
 Attribute filters allow filtering across different resource types by their attributes.
