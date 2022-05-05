@@ -627,6 +627,8 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"tag":                                      &tagOriginalGenerator{},
 		"aaep_to_domain":                           &DomainGenerator{},
 		"spine_access_port_selector":               &SpineAccessPortSelectorGenerator{},
+		"endpoint_loop_protection":                 &EPLoopProtectionPolicyGenerator{},
+		"endpoint_controls":                        &EndpointControlPolicyGenerator{},
 		"endpoint_ip_aging_profile":                &IPAgingPolicyGenerator{},
 		"tacacs_source":                            &TACACSSourceGenerator{},
 		"login_domain_provider":                    &ProviderGroupMemberGenerator{},
