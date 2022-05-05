@@ -597,7 +597,6 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"tacacs_accounting_destination":            &TACACSDestinationGenerator{},
 		"vrf_to_bgp_address_family_context":        &BGPAddressFamilyContextPolicyGenerator{},
 		"match_rule":                               &MatchRuleGenerator{},
-		"route_control_context":                    &RouteControlContextGenerator{},
 		"annotation":                               &TagGenerator{},
 		"route_control_profile":                    &RouteControlProfileGenerator{},
 		"action_rule_additional_communities":       &RtctrlSetAddCommGenerator{},
