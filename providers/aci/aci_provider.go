@@ -351,6 +351,9 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"aci_recurring_window": {
 			"trigger_schedular": []string{"trigger_schedular_dn", "id"},
 		},
+		"match_rule": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
 		"route_control_profile": {
 			"l3_outside": []string{"parent_dn", "id"},
 			"tenant":     []string{"parent_dn", "id"},
@@ -593,6 +596,8 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"saml_provider":                            &SAMLProviderGenerator{},
 		"tacacs_accounting_destination":            &TACACSDestinationGenerator{},
 		"vrf_to_bgp_address_family_context":        &BGPAddressFamilyContextPolicyGenerator{},
+		"match_rule":                               &MatchRuleGenerator{},
+		"annotation":                               &TagGenerator{},
 		"route_control_profile":                    &RouteControlProfileGenerator{},
 		"action_rule_additional_communities":       &RtctrlSetAddCommGenerator{},
 		"endpoint_loop_protection":                 &EPLoopProtectionPolicyGenerator{},

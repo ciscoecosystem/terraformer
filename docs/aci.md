@@ -107,6 +107,7 @@ terraformer import aci --help
     * `end_point_retention_policy`
     * `bfd_interface_policy`
     * `route_control_profile`
+    * `match_rule`
 * `vpc_explicit_protection_group`
 * `l3_domain_profile`
 * `vmm_domain`
@@ -205,6 +206,7 @@ terraformer import aci --help
 * `endpoint_loop_protection`
 * `endpoint_controls`
 * `endpoint_ip_aging_profile`
+* `annotation`
 
 #### Attribute filters
 
