@@ -108,6 +108,7 @@ terraformer import aci --help
     * `end_point_retention_policy`
     * `bfd_interface_policy`
     * `route_control_profile`
+        * `route_control_context`
     * `match_rule`
 * `vpc_explicit_protection_group`
 * `l3_domain_profile`
