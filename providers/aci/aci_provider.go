@@ -361,6 +361,15 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"action_rule_additional_communities": {
 			"action_rule_profile": []string{"action_rule_profile_dn", "id"},
 		},
+		"tacacs_source": {
+			"monitoring_policy": []string{"parent_dn", "id"},
+		},
+		"login_domain_provider": {
+			"duo_provider_group":    []string{"parent_dn", "id"},
+			"saml_provider_group":   []string{"parent_dn", "id"},
+			"tacacs_provider_group": []string{"parent_dn", "id"},
+			"radius_provider_group": []string{"parent_dn", "id"},
+		},
 	}
 }
 
@@ -603,5 +612,9 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"endpoint_loop_protection":                 &EPLoopProtectionPolicyGenerator{},
 		"endpoint_controls":                        &EndpointControlPolicyGenerator{},
 		"endpoint_ip_aging_profile":                &IPAgingPolicyGenerator{},
+		"tacacs_source":                            &TACACSSourceGenerator{},
+		"login_domain_provider":                    &ProviderGroupMemberGenerator{},
+		"radius_provider":                          &RADIUSProviderGenerator{},
+		"interface_blacklist":                      &OutofServiceFabricPathGenerator{},
 	}
 }
