@@ -7,13 +7,13 @@ import (
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
 )
 
-const tagClassName = "tagTag"
+const tagOriginalClassName = "tagTag"
 
-type TagGenerator struct {
+type tagOriginalGenerator struct {
 	ACIService
 }
 
-func (a *TagGenerator) InitResources() error {
+func (a *tagOriginalGenerator) InitResources() error {
 	if clientImpl == nil {
 		_, err := a.createClient()
 		if err != nil {
@@ -24,7 +24,7 @@ func (a *TagGenerator) InitResources() error {
 	client := clientImpl
 
 	baseURL := "/api/node/class"
-	dnURL := fmt.Sprintf("%s/%s.json", baseURL, tagClassName)
+	dnURL := fmt.Sprintf("%s/%s.json", baseURL, tagOriginalClassName)
 
 	TagCont, err := client.GetViaURL(dnURL)
 	if err != nil {
@@ -37,13 +37,13 @@ func (a *TagGenerator) InitResources() error {
 	}
 
 	for i := 0; i < TagCount; i++ {
-		TagAttr := TagCont.S("imdata").Index(i).S(tagClassName, "attributes")
+		TagAttr := TagCont.S("imdata").Index(i).S(tagOriginalClassName, "attributes")
 		TagDN := G(TagAttr, "dn")
 		key := G(TagAttr, "key")
 		if filterChildrenDn(TagDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
 				TagDN,
-				resourceNamefromDn(tagClassName, TagDN, i),
+				resourceNamefromDn(tagOriginalClassName, TagDN, i),
 				"aci_tag",
 				"aci",
 				map[string]string{

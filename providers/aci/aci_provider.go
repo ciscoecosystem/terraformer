@@ -624,7 +624,7 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"route_control_profile":                    &RouteControlProfileGenerator{},
 		"route_control_context":                    &RouteControlContextGenerator{},
 		"action_rule_additional_communities":       &RtctrlSetAddCommGenerator{},
-		"tag":                                      &TagGenerator{},
+		"tag":                                      &tagOriginalGenerator{},
 		"aaep_to_domain":                           &DomainGenerator{},
 		"spine_access_port_selector":               &SpineAccessPortSelectorGenerator{},
 		"endpoint_ip_aging_profile":                &IPAgingPolicyGenerator{},
