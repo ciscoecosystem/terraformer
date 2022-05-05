@@ -212,6 +212,9 @@ terraformer import aci --help
 * `annotation`
 * `interface_blacklist`
 * `radius_provider`
+* `default_authentication`
+* `tacacs_provider`
+* `tacacs_provider_group`
 
 #### Attribute filters
 
