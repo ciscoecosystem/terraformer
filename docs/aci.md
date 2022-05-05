@@ -21,6 +21,7 @@ terraformer import aci --help
     * `action_rule_profile`
         * `action_rule_additional_communities`
     * `monitoring_policy`
+        * `tacacs_source`
     * `cloud_applicationcontainer`
         * `cloud_epg`
             * `cloud_endpoint_selector`
@@ -184,6 +185,7 @@ terraformer import aci --help
 * `managed_node_connectivity_group`
 * `spine_switch_policy_group`
 * `duo_provider_group`
+    * `login_domain_provider`
 * `ldap_provider`
 * `tacacs_accounting`
     * `tacacs_accounting_destination`
@@ -207,6 +209,8 @@ terraformer import aci --help
 * `endpoint_controls`
 * `endpoint_ip_aging_profile`
 * `annotation`
+* `interface_blacklist`
+* `radius_provider`
 
 #### Attribute filters
 
