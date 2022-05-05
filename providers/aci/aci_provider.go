@@ -351,9 +351,16 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"aci_recurring_window": {
 			"trigger_schedular": []string{"trigger_schedular_dn", "id"},
 		},
+		"match_rule": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
 		"route_control_profile": {
 			"l3_outside": []string{"parent_dn", "id"},
 			"tenant":     []string{"parent_dn", "id"},
+		},
+		"route_control_context": {
+			"route_control_profile": []string{"route_control_profile_dn", "id"},
+			"set_rule":              []string{"action_rule_profile_dn", "id"},
 		},
 		"action_rule_additional_communities": {
 			"action_rule_profile": []string{"action_rule_profile_dn", "id"},
@@ -367,6 +374,15 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 			"l2_domain":                        []string{"domain_dn", "id"},
 			"fc_domain":                        []string{"domain_dn", "id"},
 			"vmm_domain":                       []string{"domain_dn", "id"},
+		},
+		"tacacs_source": {
+			"monitoring_policy": []string{"parent_dn", "id"},
+		},
+		"login_domain_provider": {
+			"duo_provider_group":    []string{"parent_dn", "id"},
+			"saml_provider_group":   []string{"parent_dn", "id"},
+			"tacacs_provider_group": []string{"parent_dn", "id"},
+			"radius_provider_group": []string{"parent_dn", "id"},
 		},
 	}
 }
@@ -603,10 +619,18 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"saml_provider":                            &SAMLProviderGenerator{},
 		"tacacs_accounting_destination":            &TACACSDestinationGenerator{},
 		"vrf_to_bgp_address_family_context":        &BGPAddressFamilyContextPolicyGenerator{},
+		"match_rule":                               &MatchRuleGenerator{},
+		"annotation":                               &TagGenerator{},
 		"route_control_profile":                    &RouteControlProfileGenerator{},
+		"route_control_context":                    &RouteControlContextGenerator{},
 		"action_rule_additional_communities":       &RtctrlSetAddCommGenerator{},
 		"tag":                                      &TagGenerator{},
-		"spine_access_port_selector":               &SpineAccessPortSelectorGenerator{},
 		"aaep_to_domain":                           &DomainGenerator{},
+		"spine_access_port_selector":               &SpineAccessPortSelectorGenerator{},
+		"endpoint_ip_aging_profile":                &IPAgingPolicyGenerator{},
+		"tacacs_source":                            &TACACSSourceGenerator{},
+		"login_domain_provider":                    &ProviderGroupMemberGenerator{},
+		"radius_provider":                          &RADIUSProviderGenerator{},
+		"interface_blacklist":                      &OutofServiceFabricPathGenerator{},
 	}
 }
