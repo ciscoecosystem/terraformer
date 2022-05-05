@@ -358,6 +358,16 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"action_rule_additional_communities": {
 			"action_rule_profile": []string{"action_rule_profile_dn", "id"},
 		},
+		"spine_access_port_selector": {
+			"spine_interface_profile": []string{"spine_interface_profile_dn", "id"},
+		},
+		"aaep_to_domain": {
+			"attachable_access_entity_profile": []string{"attachable_access_entity_profile_dn", "id"},
+			"l3_domain_profile":                []string{"domain_dn", "id"},
+			"l2_domain":                        []string{"domain_dn", "id"},
+			"fc_domain":                        []string{"domain_dn", "id"},
+			"vmm_domain":                       []string{"domain_dn", "id"},
+		},
 	}
 }
 
@@ -595,5 +605,8 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"vrf_to_bgp_address_family_context":        &BGPAddressFamilyContextPolicyGenerator{},
 		"route_control_profile":                    &RouteControlProfileGenerator{},
 		"action_rule_additional_communities":       &RtctrlSetAddCommGenerator{},
+		"tag":                                      &TagGenerator{},
+		"spine_access_port_selector":               &SpineAccessPortSelectorGenerator{},
+		"aaep_to_domain":                           &DomainGenerator{},
 	}
 }
