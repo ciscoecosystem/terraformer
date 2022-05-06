@@ -384,6 +384,12 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 			"tacacs_provider_group": []string{"parent_dn", "id"},
 			"radius_provider_group": []string{"parent_dn", "id"},
 		},
+		"match_regex_community_terms": {
+			"match_rule": []string{"match_rule_dn", "id"},
+		},
+		"match_route_destination_rule": {
+			"match_rule": []string{"match_rule_dn", "id"},
+		},
 	}
 }
 
@@ -637,5 +643,10 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"default_authentication":                   &DefaultAuthenticationMethodforallLoginsGenerator{},
 		"tacacs_provider":                          &TACACSPlusProviderGenerator{},
 		"tacacs_provider_group":                    &TACACSPlusProviderGroupGenerator{},
+		"ldap_group_map_rule":                      &LDAPGroupMapRuleGenerator{},
+		"authentication_properties":                &AAAAuthenticationGenerator{},
+		"isis_domain_policy":                       &ISISDomainPolicyGenerator{},
+		"match_regex_community_terms":				&MatchRuleBasedonCommunityRegularExpressionGenerator{},
+		"match_route_destination_rule":				&MatchRouteDestinationRuleGenerator{},
 	}
 }
