@@ -634,5 +634,8 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"login_domain_provider":                    &ProviderGroupMemberGenerator{},
 		"radius_provider":                          &RADIUSProviderGenerator{},
 		"interface_blacklist":                      &OutofServiceFabricPathGenerator{},
+		"default_authentication":                   &DefaultAuthenticationMethodforallLoginsGenerator{},
+		"tacacs_provider":                          &TACACSPlusProviderGenerator{},
+		"tacacs_provider_group":                    &TACACSPlusProviderGroupGenerator{},
 	}
 }
