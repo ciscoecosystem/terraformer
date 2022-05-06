@@ -345,11 +345,11 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 			"vrf":                        []string{"vrf_dn", "id"},
 			"bgp_address_family_context": []string{"bgp_address_family_context_dn", "id"},
 		},
-		"aci_mgmt_zone": {
-			"aci_managed_node_connectivity_group": []string{"aci_managed_node_connectivity_group_dn", "id"},
+		"mgmt_zone": {
+			"managed_node_connectivity_group": []string{"managed_node_connectivity_group_dn", "id"},
 		},
-		"aci_recurring_window": {
-			"trigger_schedular": []string{"trigger_schedular_dn", "id"},
+		"recurring_window": {
+			"trigger_scheduler": []string{"trigger_scheduler_dn", "id"},
 		},
 		"match_rule": {
 			"tenant": []string{"tenant_dn", "id"},
