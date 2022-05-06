@@ -365,6 +365,16 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"action_rule_additional_communities": {
 			"action_rule_profile": []string{"action_rule_profile_dn", "id"},
 		},
+		"spine_access_port_selector": {
+			"spine_interface_profile": []string{"spine_interface_profile_dn", "id"},
+		},
+		"aaep_to_domain": {
+			"attachable_access_entity_profile": []string{"attachable_access_entity_profile_dn", "id"},
+			"l3_domain_profile":                []string{"domain_dn", "id"},
+			"l2_domain":                        []string{"domain_dn", "id"},
+			"fc_domain":                        []string{"domain_dn", "id"},
+			"vmm_domain":                       []string{"domain_dn", "id"},
+		},
 		"tacacs_source": {
 			"monitoring_policy": []string{"parent_dn", "id"},
 		},
@@ -614,6 +624,9 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"route_control_profile":                    &RouteControlProfileGenerator{},
 		"route_control_context":                    &RouteControlContextGenerator{},
 		"action_rule_additional_communities":       &RtctrlSetAddCommGenerator{},
+		"tag":                                      &tagOriginalGenerator{},
+		"aaep_to_domain":                           &DomainGenerator{},
+		"spine_access_port_selector":               &SpineAccessPortSelectorGenerator{},
 		"endpoint_loop_protection":                 &EPLoopProtectionPolicyGenerator{},
 		"endpoint_controls":                        &EndpointControlPolicyGenerator{},
 		"endpoint_ip_aging_profile":                &IPAgingPolicyGenerator{},

@@ -121,6 +121,7 @@ terraformer import aci --help
     * `access_generic`
         * `epgs_using_function`
     * `vlan_encapsulationfor_vxlan_traffic`
+    * `aaep_to_domain`
 * `leaf_interface_profile`
     * `access_port_selector`
         * `access_group`
@@ -147,6 +148,7 @@ terraformer import aci --help
     * `spine_switch_association`
     * `spine_port_selector`
 * `spine_interface_profile`
+    * `spine_access_port_selector`
 * `spine_port_policy_group`
 * `fabric_if_pol`
 * `node_mgmt_epg`
@@ -212,6 +214,7 @@ terraformer import aci --help
 * `annotation`
 * `interface_blacklist`
 * `radius_provider`
+* `tag`
 
 #### Attribute filters
 
