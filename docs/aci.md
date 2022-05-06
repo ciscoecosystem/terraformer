@@ -110,6 +110,8 @@ terraformer import aci --help
     * `route_control_profile`
         * `route_control_context`
     * `match_rule`
+        * `match_regex_community_terms`
+        * `match_route_destination_rule`
 * `vpc_explicit_protection_group`
 * `l3_domain_profile`
 * `vmm_domain`
@@ -218,6 +220,9 @@ terraformer import aci --help
 * `tacacs_provider`
 * `tacacs_provider_group`
 * `tag`
+* `ldap_group_map_rule`
+* `authentication_properties`
+* `isis_domain_policy`
 
 #### Attribute filters
 
