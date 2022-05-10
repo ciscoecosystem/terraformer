@@ -34,6 +34,7 @@ terraformer import aci --help
             * `epg_to_contract`
             * `epg_to_domain`
             * `epg_to_static_path`
+            * `epg_to_contract_interface`
     * `vrf`
         * `any`
         * `vrf_snmp_context`
@@ -149,6 +150,7 @@ terraformer import aci --help
 * `spine_profile`
     * `spine_switch_association`
     * `spine_port_selector`
+    * `spine_interface_profile_selector`
 * `spine_interface_profile`
     * `spine_access_port_selector`
 * `spine_port_policy_group`
