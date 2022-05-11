@@ -38,20 +38,20 @@ func (a *UserManagementGenerator) InitResources() error {
 
 	for i := 0; i < UserManagementCount; i++ {
 		UserManagementAttr := UserManagementCont.S("imdata").Index(i).S(userManagementClassName, "attributes")
-		UserManagementDN := G(UserManagementAttr,"dn")
+		UserManagementDN := G(UserManagementAttr, "dn")
 		if filterChildrenDn(UserManagementDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
-					UserManagementDN,
-					resourceNamefromDn(userManagementClassName,UserManagementDN,i),
-					"aci_global_security",
-					"aci",
-					map[string]string{},
-					[]string{},
-					map[string]interface{}{},
-				)
-				resource.SlowQueryRequired = true
-				a.Resources = append(a.Resources, resource)
-		}	
+				UserManagementDN,
+				resourceNamefromDn(userManagementClassName, UserManagementDN, i),
+				"aci_global_security",
+				"aci",
+				map[string]string{},
+				[]string{},
+				map[string]interface{}{},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }
