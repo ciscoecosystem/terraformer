@@ -38,21 +38,20 @@ func (a *LoginDomainGenerator) InitResources() error {
 
 	for i := 0; i < LoginDomainCount; i++ {
 		LoginDomainAttr := LoginDomainCont.S("imdata").Index(i).S(loginDomainClassName, "attributes")
-		LoginDomainDN := G(LoginDomainAttr,"dn")
-		name := G(LoginDomainAttr,"name")
+		LoginDomainDN := G(LoginDomainAttr, "dn")
 		if filterChildrenDn(LoginDomainDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
-					LoginDomainDN,
-					resourceNamefromDn(loginDomainClassName,LoginDomainDN,i),
-					"aci_login_domain",
-					"aci",
-					map[string]string{},
-					[]string{},
-					map[string]interface{}{},
-				)
-				resource.SlowQueryRequired = true
-				a.Resources = append(a.Resources, resource)
-		}	
+				LoginDomainDN,
+				resourceNamefromDn(loginDomainClassName, LoginDomainDN, i),
+				"aci_login_domain",
+				"aci",
+				map[string]string{},
+				[]string{},
+				map[string]interface{}{},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }
