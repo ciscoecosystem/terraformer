@@ -661,8 +661,8 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"match_route_destination_rule":             &MatchRouteDestinationRuleGenerator{},
 		"epg_to_contract_interface":                &ContractInterfaceGenerator{},
 		"spine_interface_profile_selector":         &InterfaceProfileGenerator{},
-		"global_security":			    &UserManagementGenerator{},
-		"match_community_terms":		    &MatchCommunityTermGenerator{},
-		"login_domain":				    &LoginDomainGenerator{},
+		"global_security":                          &UserManagementGenerator{},
+		"match_community_terms":                    &MatchCommunityTermGenerator{},
+		"login_domain":                             &LoginDomainGenerator{},
 	}
 }
