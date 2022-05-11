@@ -398,6 +398,9 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"match_route_destination_rule": {
 			"match_rule": []string{"match_rule_dn", "id"},
 		},
+		"match_community_terms": {
+			"match_rule": []string{"match_rule_dn", "id"},
+		},
 	}
 }
 
@@ -658,5 +661,8 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"match_route_destination_rule":             &MatchRouteDestinationRuleGenerator{},
 		"epg_to_contract_interface":                &ContractInterfaceGenerator{},
 		"spine_interface_profile_selector":         &InterfaceProfileGenerator{},
+		"global_security":							&UserManagementGenerator{},
+		"match_community_terms":					&MatchCommunityTermGenerator{},
+		"login_domain":								&LoginDomainGenerator{},
 	}
 }
