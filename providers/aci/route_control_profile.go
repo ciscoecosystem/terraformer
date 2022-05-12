@@ -49,9 +49,7 @@ func (a *RouteControlProfileGenerator) InitResources() error {
 				map[string]string{
 					"parent_dn": GetParentDn(RouteControlProfileDN, fmt.Sprintf("/prof-%s", name)),
 				},
-				[]string{
-					"description",
-				},
+				[]string{},
 				map[string]interface{}{},
 			)
 			resource.SlowQueryRequired = true
