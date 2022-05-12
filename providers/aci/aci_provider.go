@@ -357,7 +357,7 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 			"managed_node_connectivity_group": []string{"managed_node_connectivity_group_dn", "id"},
 		},
 		"recurring_window": {
-			"trigger_scheduler": []string{"trigger_scheduler_dn", "id"},
+			"trigger_scheduler": []string{"scheduler_dn", "id"},
 		},
 		"match_rule": {
 			"tenant": []string{"tenant_dn", "id"},
