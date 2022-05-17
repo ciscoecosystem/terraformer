@@ -38,20 +38,20 @@ func (a *ISISDomainPolicyGenerator) InitResources() error {
 
 	for i := 0; i < ISISDomainPolicyCount; i++ {
 		ISISDomainPolicyAttr := ISISDomainPolicyCont.S("imdata").Index(i).S(iSISDomainPolicyClassName, "attributes")
-		ISISDomainPolicyDN := G(ISISDomainPolicyAttr,"dn")
-		if filterChildrenDn(ISISDomainPolicyDN, client.parentResource) != "" {
+		ISISDomainPolicyDN := G(ISISDomainPolicyAttr, "dn")
+		if filterChildrenDn(ISISDomainPolicyDN, client.parentResource) != "" && ISISDomainPolicyDN == "uni/fabric/isisDomP-default" {
 			resource := terraformutils.NewResource(
-					ISISDomainPolicyDN,
-					resourceNamefromDn(iSISDomainPolicyClassName,ISISDomainPolicyDN,i),
-					"aci_isis_domain_policy",
-					"aci",
-					map[string]string{},
-					[]string{},
-					map[string]interface{}{},
-				)
-				resource.SlowQueryRequired = true
-				a.Resources = append(a.Resources, resource)
-		}	
+				ISISDomainPolicyDN,
+				resourceNamefromDn(iSISDomainPolicyClassName, ISISDomainPolicyDN, i),
+				"aci_isis_domain_policy",
+				"aci",
+				map[string]string{},
+				[]string{},
+				map[string]interface{}{},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }
