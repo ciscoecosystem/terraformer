@@ -166,8 +166,8 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 			"application_epg": []string{"application_epg_dn", "id"},
 		},
 		"epg_to_contract_interface": {
-			"application_epg":    []string{"application_epg_dn", "id"},
-			"contract_interface": []string{"imported_contract_dn", "id"},
+			"application_epg":   []string{"application_epg_dn", "id"},
+			"imported_contract": []string{"contract_interface_dn", "id"},
 		},
 		"imported_contract": {
 			"tenant": []string{"tenant_dn", "id"},
@@ -261,8 +261,8 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 			"spine_profile": []string{"spine_profile_dn", "id"},
 		},
 		"spine_interface_profile_selector": {
-			"spine_profile": []string{"spine_profile_dn", "id"},
-			"tDn":           []string{"tdn", "id"},
+			"spine_profile":           []string{"spine_profile_dn", "id"},
+			"spine_interface_profile": []string{"tdn", "id"},
 		},
 		"epgs_using_function": {
 			"access_generic": []string{"access_generic_dn", "id"},
