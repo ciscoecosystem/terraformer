@@ -33,20 +33,20 @@ func (a *SAMLProviderGenerator) InitResources() error {
 	}
 	for i := 0; i < samlProviderCount; i++ {
 		samlProviderAttr := samlProviderCont.S("imdata").Index(i).S(samlProviderClassName, "attributes")
-		samlProviderDN := G(samlProviderAttr,"dn")
+		samlProviderDN := G(samlProviderAttr, "dn")
 		if filterChildrenDn(samlProviderDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
-					samlProviderDN,
-					resourceNamefromDn(samlProviderClassName,samlProviderDN,i),
-					"aci_saml_provider",
-					"aci",
-					map[string]string{},
-					[]string{},
-					map[string]interface{}{},
-				)
-				resource.SlowQueryRequired = true
-				a.Resources = append(a.Resources, resource)
-		}	
+				samlProviderDN,
+				resourceNamefromDn(samlProviderClassName, samlProviderDN, i),
+				"aci_saml_provider",
+				"aci",
+				map[string]string{},
+				[]string{},
+				map[string]interface{}{},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

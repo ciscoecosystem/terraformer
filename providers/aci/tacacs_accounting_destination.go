@@ -34,24 +34,24 @@ func (a *TACACSDestinationGenerator) InitResources() error {
 	}
 	for i := 0; i < TACACSDestinationCount; i++ {
 		TACACSDestinationAttr := TACACSDestinationCont.S("imdata").Index(i).S(TACACSDestinationClassName, "attributes")
-		TACACSDestinationDN := G(TACACSDestinationAttr,"dn")
-		host := G(TACACSDestinationAttr,"host")
-		port := G(TACACSDestinationAttr,"port")
+		TACACSDestinationDN := G(TACACSDestinationAttr, "dn")
+		host := G(TACACSDestinationAttr, "host")
+		port := G(TACACSDestinationAttr, "port")
 		if filterChildrenDn(TACACSDestinationDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
-					TACACSDestinationDN,
-					resourceNamefromDn(TACACSDestinationClassName,TACACSDestinationDN,i),
-					"aci_tacacs_accounting_destination",
-					"aci",
-					map[string]string{
-						"tacacs_accounting_dn": GetParentDn(TACACSDestinationDN, fmt.Sprintf("/tacacsdest-%s-port-%s", host,port)),
-					},
-					[]string{},
-					map[string]interface{}{},
-				)
-				resource.SlowQueryRequired = true
-				a.Resources = append(a.Resources, resource)
-		}	
+				TACACSDestinationDN,
+				resourceNamefromDn(TACACSDestinationClassName, TACACSDestinationDN, i),
+				"aci_tacacs_accounting_destination",
+				"aci",
+				map[string]string{
+					"tacacs_accounting_dn": GetParentDn(TACACSDestinationDN, fmt.Sprintf("/tacacsdest-%s-port-%s", host, port)),
+				},
+				[]string{},
+				map[string]interface{}{},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

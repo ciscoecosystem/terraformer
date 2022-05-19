@@ -38,23 +38,23 @@ func (a *MatchRuleBasedonCommunityRegularExpressionGenerator) InitResources() er
 
 	for i := 0; i < MatchRuleBasedonCommunityRegularExpressionCount; i++ {
 		MatchRuleBasedonCommunityRegularExpressionAttr := MatchRuleBasedonCommunityRegularExpressionCont.S("imdata").Index(i).S(matchRuleBasedonCommunityRegularExpressionClassName, "attributes")
-		MatchRuleBasedonCommunityRegularExpressionDN := G(MatchRuleBasedonCommunityRegularExpressionAttr,"dn")
-		commType := G(MatchRuleBasedonCommunityRegularExpressionAttr,"commType")
+		MatchRuleBasedonCommunityRegularExpressionDN := G(MatchRuleBasedonCommunityRegularExpressionAttr, "dn")
+		commType := G(MatchRuleBasedonCommunityRegularExpressionAttr, "commType")
 		if filterChildrenDn(MatchRuleBasedonCommunityRegularExpressionDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
-					MatchRuleBasedonCommunityRegularExpressionDN,
-					resourceNamefromDn(matchRuleBasedonCommunityRegularExpressionClassName,MatchRuleBasedonCommunityRegularExpressionDN,i),
-					"aci_match_regex_community_terms",
-					"aci",
-					map[string]string{
-						"match_rule_dn": GetParentDn(MatchRuleBasedonCommunityRegularExpressionDN, fmt.Sprintf("/commrxtrm-%s", commType)),
-					},
-					[]string{},
-					map[string]interface{}{},
-				)
-				resource.SlowQueryRequired = true
-				a.Resources = append(a.Resources, resource)
-		}	
+				MatchRuleBasedonCommunityRegularExpressionDN,
+				resourceNamefromDn(matchRuleBasedonCommunityRegularExpressionClassName, MatchRuleBasedonCommunityRegularExpressionDN, i),
+				"aci_match_regex_community_terms",
+				"aci",
+				map[string]string{
+					"match_rule_dn": GetParentDn(MatchRuleBasedonCommunityRegularExpressionDN, fmt.Sprintf("/commrxtrm-%s", commType)),
+				},
+				[]string{},
+				map[string]interface{}{},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

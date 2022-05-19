@@ -33,20 +33,20 @@ func (a *RadiusProviderGroupGenerator) InitResources() error {
 	}
 	for i := 0; i < radiusProviderGroupCount; i++ {
 		radiusProviderGroupAttr := radiusProviderGroupCont.S("imdata").Index(i).S(radiusProviderGroupClassName, "attributes")
-		radiusProviderGroupDN := G(radiusProviderGroupAttr,"dn")
+		radiusProviderGroupDN := G(radiusProviderGroupAttr, "dn")
 		if filterChildrenDn(radiusProviderGroupDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
-					radiusProviderGroupDN,
-					resourceNamefromDn(radiusProviderGroupClassName,radiusProviderGroupDN,i),
-					"aci_radius_provider_group",
-					"aci",
-					map[string]string{},
-					[]string{},
-					map[string]interface{}{},
-				)
-				resource.SlowQueryRequired = true
-				a.Resources = append(a.Resources, resource)
-		}	
+				radiusProviderGroupDN,
+				resourceNamefromDn(radiusProviderGroupClassName, radiusProviderGroupDN, i),
+				"aci_radius_provider_group",
+				"aci",
+				map[string]string{},
+				[]string{},
+				map[string]interface{}{},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

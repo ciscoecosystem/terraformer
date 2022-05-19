@@ -8,6 +8,7 @@ import (
 )
 
 const aAAAuthenticationClassName = "aaaAuthRealm"
+
 type AAAAuthenticationGenerator struct {
 	ACIService
 }
@@ -35,21 +36,20 @@ func (a *AAAAuthenticationGenerator) InitResources() error {
 	}
 	for i := 0; i < AAAAuthenticationCount; i++ {
 		AAAAuthenticationAttr := AAAAuthenticationCont.S("imdata").Index(i).S(aAAAuthenticationClassName, "attributes")
-		AAAAuthenticationDN := G(AAAAuthenticationAttr,"dn")
+		AAAAuthenticationDN := G(AAAAuthenticationAttr, "dn")
 		if filterChildrenDn(AAAAuthenticationDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
-					AAAAuthenticationDN,
-					resourceNamefromDn(aAAAuthenticationClassName,AAAAuthenticationDN,i),
-					"aci_authentication_properties",
-					"aci",
-					map[string]string{
-					},
-					[]string{},
-					map[string]interface{}{},
-				)
-				resource.SlowQueryRequired = true
-				a.Resources = append(a.Resources, resource)
-		}	
+				AAAAuthenticationDN,
+				resourceNamefromDn(aAAAuthenticationClassName, AAAAuthenticationDN, i),
+				"aci_authentication_properties",
+				"aci",
+				map[string]string{},
+				[]string{},
+				map[string]interface{}{},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

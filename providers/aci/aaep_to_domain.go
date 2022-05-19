@@ -40,7 +40,6 @@ func (a *DomainGenerator) InitResources() error {
 		DomainAttr := DomainCont.S("imdata").Index(i).S(domainClassName, "attributes")
 		DomainDN := G(DomainAttr, "dn")
 		tDn := G(DomainAttr, "tDn")
-		fmt.Printf("ParentDN: %v\n", GetParentDn(DomainDN, fmt.Sprintf("/rsdomP-[%s]", tDn)))
 		if filterChildrenDn(DomainDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
 				DomainDN,

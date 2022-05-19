@@ -39,7 +39,6 @@ func (a *EPLoopProtectionPolicyGenerator) InitResources() error {
 	for i := 0; i < EPLoopProtectionPolicyCount; i++ {
 		EPLoopProtectionPolicyAttr := EPLoopProtectionPolicyCont.S("imdata").Index(i).S(ePLoopProtectionPolicyClassName, "attributes")
 		EPLoopProtectionPolicyDN := G(EPLoopProtectionPolicyAttr, "dn")
-		//name := G(EPLoopProtectionPolicyAttr, "name")
 		if filterChildrenDn(EPLoopProtectionPolicyDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
 				EPLoopProtectionPolicyDN,

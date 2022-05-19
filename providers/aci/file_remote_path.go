@@ -33,21 +33,20 @@ func (a *RemotePathofaFileGenerator) InitResources() error {
 	}
 	for i := 0; i < RemotePathofaFileCount; i++ {
 		RemotePathofaFileAttr := RemotePathofaFileCont.S("imdata").Index(i).S(remotePathofaFileClassName, "attributes")
-		RemotePathofaFileDN := G(RemotePathofaFileAttr,"dn")
+		RemotePathofaFileDN := G(RemotePathofaFileAttr, "dn")
 		if filterChildrenDn(RemotePathofaFileDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
-					RemotePathofaFileDN,
-					resourceNamefromDn(remotePathofaFileClassName,RemotePathofaFileDN,i),
-					"aci_file_remote_path",
-					"aci",
-					map[string]string{
-					},
-					[]string{},
-					map[string]interface{}{},
-				)
-				resource.SlowQueryRequired = true
-				a.Resources = append(a.Resources, resource)
-		}	
+				RemotePathofaFileDN,
+				resourceNamefromDn(remotePathofaFileClassName, RemotePathofaFileDN, i),
+				"aci_file_remote_path",
+				"aci",
+				map[string]string{},
+				[]string{},
+				map[string]interface{}{},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }

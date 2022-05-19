@@ -33,24 +33,24 @@ func (a *BGPAddressFamilyContextPolicyGenerator) InitResources() error {
 	}
 	for i := 0; i < BGPAddressFamilyContextPolicyCount; i++ {
 		BGPAddressFamilyContextPolicyAttr := BGPAddressFamilyContextPolicyCont.S("imdata").Index(i).S(bGPAddressFamilyContextPolicyClassName, "attributes")
-		BGPAddressFamilyContextPolicyDN := G(BGPAddressFamilyContextPolicyAttr,"dn")
-		tnBgpCtxAfPolName := G(BGPAddressFamilyContextPolicyAttr,"tnBgpCtxAfPolName")
-		af := G(BGPAddressFamilyContextPolicyAttr,"af")
+		BGPAddressFamilyContextPolicyDN := G(BGPAddressFamilyContextPolicyAttr, "dn")
+		tnBgpCtxAfPolName := G(BGPAddressFamilyContextPolicyAttr, "tnBgpCtxAfPolName")
+		af := G(BGPAddressFamilyContextPolicyAttr, "af")
 		if filterChildrenDn(BGPAddressFamilyContextPolicyDN, client.parentResource) != "" {
 			resource := terraformutils.NewResource(
-					BGPAddressFamilyContextPolicyDN,
-					resourceNamefromDn(bGPAddressFamilyContextPolicyClassName,BGPAddressFamilyContextPolicyDN,i),
-					"aci_vrf_to_bgp_address_family_context",
-					"aci",
-					map[string]string{
-						"vrf_dn": GetParentDn(BGPAddressFamilyContextPolicyDN, fmt.Sprintf("/rsctxToBgpCtxAfPol-[%s]-%s", tnBgpCtxAfPolName,af)),
-					},
-					[]string{},
-					map[string]interface{}{},
-				)
-				resource.SlowQueryRequired = true
-				a.Resources = append(a.Resources, resource)
-		}	
+				BGPAddressFamilyContextPolicyDN,
+				resourceNamefromDn(bGPAddressFamilyContextPolicyClassName, BGPAddressFamilyContextPolicyDN, i),
+				"aci_vrf_to_bgp_address_family_context",
+				"aci",
+				map[string]string{
+					"vrf_dn": GetParentDn(BGPAddressFamilyContextPolicyDN, fmt.Sprintf("/rsctxToBgpCtxAfPol-[%s]-%s", tnBgpCtxAfPolName, af)),
+				},
+				[]string{},
+				map[string]interface{}{},
+			)
+			resource.SlowQueryRequired = true
+			a.Resources = append(a.Resources, resource)
+		}
 	}
 	return nil
 }
