@@ -190,7 +190,6 @@ terraformer import aci --help
 * `port_tracking`
 * `coop_policy`
 * `error_disable_recovery`
-* `managed_node_connectivity_group`
 * `spine_switch_policy_group`
 * `duo_provider_group`
     * `login_domain_provider`
@@ -211,8 +210,6 @@ terraformer import aci --help
 * `managed_node_connectivity_group`
     * `aci_mgmt_zone`
 * `vpc_domain_policy`
-* `managed_node_connectivity_group`
-    * `aci_mgmt_zone`
 * `endpoint_loop_protection`
 * `endpoint_controls`
 * `endpoint_ip_aging_profile`
