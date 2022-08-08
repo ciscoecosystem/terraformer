@@ -87,6 +87,8 @@ func providerImporterSubcommands() []func(options ImportOptions) *cobra.Command 
 		// ACI
 		newCmdACIImporter,
 		newCmdAuth0Importer,
+		// ACI
+		newCmdACIImporter,
 	}
 }
 
@@ -137,6 +139,8 @@ func providerGenerators() map[string]func() terraformutils.ProviderGenerator {
 		// ACI
 		newACIProvider,
 		newAuth0Provider,
+		// ACI
+		newACIProvider,
 	} {
 		list[providerGen().GetName()] = providerGen
 	}
