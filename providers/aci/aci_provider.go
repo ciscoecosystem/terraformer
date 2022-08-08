@@ -165,6 +165,10 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"epg_to_static_path": {
 			"application_epg": []string{"application_epg_dn", "id"},
 		},
+		"epg_to_contract_interface": {
+			"application_epg":   []string{"application_epg_dn", "id"},
+			"imported_contract": []string{"contract_interface_dn", "id"},
+		},
 		"imported_contract": {
 			"tenant": []string{"tenant_dn", "id"},
 		},
@@ -256,6 +260,10 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		"spine_port_selector": {
 			"spine_profile": []string{"spine_profile_dn", "id"},
 		},
+		"spine_interface_profile_selector": {
+			"spine_profile":           []string{"spine_profile_dn", "id"},
+			"spine_interface_profile": []string{"tdn", "id"},
+		},
 		"epgs_using_function": {
 			"access_generic": []string{"access_generic_dn", "id"},
 		},
@@ -319,6 +327,79 @@ func (p ACIProvider) GetResourceConnections() map[string]map[string][]string {
 		},
 		"l3out_hsrp_secondary_vip": {
 			"l3out_hsrp_interface_group": []string{"l3out_hsrp_interface_group_dn", "id"},
+		},
+		"vrf_snmp_context": {
+			"vrf": []string{"vrf_dn", "id"},
+		},
+		"vrf_snmp_context_community": {
+			"vrf_snmp_context": []string{"vrf_snmp_context_dn", "id"},
+		},
+		"user_security_domain": {
+			"local_user": []string{"local_user_dn", "id"},
+		},
+		"bfd_interface_policy": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"user_security_domain_role": {
+			"user_security_domain": []string{"user_domain_dn", "id"},
+		},
+		"ldap_group_map_rule_to_group_map": {
+			"ldap_group_map": []string{"ldap_group_map_dn", "id"},
+		},
+		"tacacs_accounting_destination": {
+			"tacacs_accounting": []string{"tacacs_accounting_dn", "id"},
+		},
+		"vrf_to_bgp_address_family_context": {
+			"vrf":                        []string{"vrf_dn", "id"},
+			"bgp_address_family_context": []string{"bgp_address_family_context_dn", "id"},
+		},
+		"mgmt_zone": {
+			"managed_node_connectivity_group": []string{"managed_node_connectivity_group_dn", "id"},
+		},
+		"recurring_window": {
+			"trigger_scheduler": []string{"scheduler_dn", "id"},
+		},
+		"match_rule": {
+			"tenant": []string{"tenant_dn", "id"},
+		},
+		"route_control_profile": {
+			"l3_outside": []string{"parent_dn", "id"},
+			"tenant":     []string{"parent_dn", "id"},
+		},
+		"route_control_context": {
+			"route_control_profile": []string{"route_control_profile_dn", "id"},
+			"set_rule":              []string{"action_rule_profile_dn", "id"},
+		},
+		"action_rule_additional_communities": {
+			"action_rule_profile": []string{"action_rule_profile_dn", "id"},
+		},
+		"spine_access_port_selector": {
+			"spine_interface_profile": []string{"spine_interface_profile_dn", "id"},
+		},
+		"aaep_to_domain": {
+			"attachable_access_entity_profile": []string{"attachable_access_entity_profile_dn", "id"},
+			"l3_domain_profile":                []string{"domain_dn", "id"},
+			"l2_domain":                        []string{"domain_dn", "id"},
+			"fc_domain":                        []string{"domain_dn", "id"},
+			"vmm_domain":                       []string{"domain_dn", "id"},
+		},
+		"tacacs_source": {
+			"monitoring_policy": []string{"parent_dn", "id"},
+		},
+		"login_domain_provider": {
+			"duo_provider_group":    []string{"parent_dn", "id"},
+			"saml_provider_group":   []string{"parent_dn", "id"},
+			"tacacs_provider_group": []string{"parent_dn", "id"},
+			"radius_provider_group": []string{"parent_dn", "id"},
+		},
+		"match_regex_community_terms": {
+			"match_rule": []string{"match_rule_dn", "id"},
+		},
+		"match_route_destination_rule": {
+			"match_rule": []string{"match_rule_dn", "id"},
+		},
+		"match_community_terms": {
+			"match_rule": []string{"match_rule_dn", "id"},
 		},
 	}
 }
@@ -521,5 +602,67 @@ func (p *ACIProvider) GetSupportedService() map[string]terraformutils.ServiceGen
 		"fc_domain":                                &FCDomainGenerator{},
 		"leaf_profile":                             &LeafProfileGenerator{},
 		"pod_maintenance_group":                    &PodMaintenanceGroupGenerator{},
+		"l3_interface_policy":                      &L3InterfacePolicyGenerator{},
+		"access_switch_policy_group":               &AccessSwitchPolicyGroupGenerator{},
+		"mgmt_preference":                          &MgmtconnectivitypreferenceGenerator{},
+		"fabric_node_control":                      &FabricNodeControlGenerator{},
+		"vrf_snmp_context":                         &SNMPContextProfileGenerator{},
+		"vrf_snmp_context_community":               &SNMPCommunityGenerator{},
+		"fabric_wide_settings":                     &fabricWideSettingsPolicyGenerator{},
+		"encryption_key":                           &AESEncryptionPassphraseandKeysforConfigExportandImportGenerator{},
+		"coop_policy":                              &COOPGroupPolicyGenerator{},
+		"port_tracking":                            &PortTrackingGenerator{},
+		"user_security_domain":                     &UserDomainGenerator{},
+		"error_disable_recovery":                   &ErrorDisabledRecoveryPolicyGenerator{},
+		"bfd_interface_policy":                     &BFDInterfacePolicyGenerator{},
+		"managed_node_connectivity_group":          &ManagedNodeConnectivityGroupGenerator{},
+		"spine_switch_policy_group":                &SpineSwitchPolicyGroupGenerator{},
+		"duo_provider_group":                       &DuoProviderGroupGenerator{},
+		"console_authentication":                   &ConsoleAuthenticationMethodGenerator{},
+		"ldap_provider":                            &LDAPProviderGenerator{},
+		"tacacs_accounting":                        &TACACSMonitoringDestinationGroupGenerator{},
+		"rsa_provider":                             &RSAProviderGenerator{},
+		"saml_provider_group":                      &SAMLProviderGroupGenerator{},
+		"user_security_domain_role":                &UserRoleGenerator{},
+		"mcp_instance_policy":                      &MiscablingProtocolInstancePolicyGenerator{},
+		"qos_instance_policy":                      &QOSInstancePolicyGenerator{},
+		"ldap_group_map":                           &LDAPGroupMapGenerator{},
+		"ldap_group_map_rule_to_group_map":         &LDAPGroupMaprulerefGenerator{},
+		"vpc_domain_policy":                        &VPCDomainPolicyGenerator{},
+		"mgmt_zone":                                &OOBManagedNodesZoneGenerator{},
+		"recurring_window":                         &RecurringWindowGenerator{},
+		"file_remote_path":                         &RemotePathofaFileGenerator{},
+		"radius_provider_group":                    &RadiusProviderGroupGenerator{},
+		"saml_provider":                            &SAMLProviderGenerator{},
+		"tacacs_accounting_destination":            &TACACSDestinationGenerator{},
+		"vrf_to_bgp_address_family_context":        &BGPAddressFamilyContextPolicyGenerator{},
+		"match_rule":                               &MatchRuleGenerator{},
+		"annotation":                               &TagGenerator{},
+		"route_control_profile":                    &RouteControlProfileGenerator{},
+		"route_control_context":                    &RouteControlContextGenerator{},
+		"action_rule_additional_communities":       &RtctrlSetAddCommGenerator{},
+		"tag":                                      &tagOriginalGenerator{},
+		"aaep_to_domain":                           &DomainGenerator{},
+		"spine_access_port_selector":               &SpineAccessPortSelectorGenerator{},
+		"endpoint_loop_protection":                 &EPLoopProtectionPolicyGenerator{},
+		"endpoint_controls":                        &EndpointControlPolicyGenerator{},
+		"endpoint_ip_aging_profile":                &IPAgingPolicyGenerator{},
+		"tacacs_source":                            &TACACSSourceGenerator{},
+		"login_domain_provider":                    &ProviderGroupMemberGenerator{},
+		"radius_provider":                          &RADIUSProviderGenerator{},
+		"interface_blacklist":                      &OutofServiceFabricPathGenerator{},
+		"default_authentication":                   &DefaultAuthenticationMethodforallLoginsGenerator{},
+		"tacacs_provider":                          &TACACSPlusProviderGenerator{},
+		"tacacs_provider_group":                    &TACACSPlusProviderGroupGenerator{},
+		"ldap_group_map_rule":                      &LDAPGroupMapRuleGenerator{},
+		"authentication_properties":                &AAAAuthenticationGenerator{},
+		"isis_domain_policy":                       &ISISDomainPolicyGenerator{},
+		"match_regex_community_terms":              &MatchRuleBasedonCommunityRegularExpressionGenerator{},
+		"match_route_destination_rule":             &MatchRouteDestinationRuleGenerator{},
+		"epg_to_contract_interface":                &ContractInterfaceGenerator{},
+		"spine_interface_profile_selector":         &InterfaceProfileGenerator{},
+		"global_security":                          &UserManagementGenerator{},
+		"match_community_terms":                    &MatchCommunityTermGenerator{},
+		"login_domain":                             &LoginDomainGenerator{},
 	}
 }

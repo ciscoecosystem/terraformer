@@ -84,6 +84,8 @@ func providerImporterSubcommands() []func(options ImportOptions) *cobra.Command 
 		newCmdGmailfilterImporter,
 		newCmdVaultImporter,
 		newCmdOktaImporter,
+		// ACI
+		newCmdACIImporter,
 		newCmdAuth0Importer,
 		// ACI
 		newCmdACIImporter,
@@ -134,6 +136,8 @@ func providerGenerators() map[string]func() terraformutils.ProviderGenerator {
 		newGmailfilterProvider,
 		newVaultProvider,
 		newOktaProvider,
+		// ACI
+		newACIProvider,
 		newAuth0Provider,
 		// ACI
 		newACIProvider,

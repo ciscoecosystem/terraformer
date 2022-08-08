@@ -19,7 +19,9 @@ terraformer import aci --help
 
 * `tenant`
     * `action_rule_profile`
+        * `action_rule_additional_communities`
     * `monitoring_policy`
+        * `tacacs_source`
     * `cloud_applicationcontainer`
         * `cloud_epg`
             * `cloud_endpoint_selector`
@@ -32,8 +34,12 @@ terraformer import aci --help
             * `epg_to_contract`
             * `epg_to_domain`
             * `epg_to_static_path`
+            * `epg_to_contract_interface`
     * `vrf`
         * `any`
+        * `vrf_snmp_context`
+            * `vrf_snmp_context_community`
+        * `vrf_to_bgp_address_family_context`
     * `bgp_route_control_profile`
     * `cloud_context_profile`
          * `cloud_cidr_pool`
@@ -101,6 +107,13 @@ terraformer import aci --help
     * `span_source_group`
         * `span_sourcedestination_group_match_label`
     * `end_point_retention_policy`
+    * `bfd_interface_policy`
+    * `route_control_profile`
+        * `route_control_context`
+    * `match_rule`
+        * `match_regex_community_terms`
+        * `match_route_destination_rule`
+        * `match_community_terms`
 * `vpc_explicit_protection_group`
 * `l3_domain_profile`
 * `vmm_domain`
@@ -112,6 +125,7 @@ terraformer import aci --help
     * `access_generic`
         * `epgs_using_function`
     * `vlan_encapsulationfor_vxlan_traffic`
+    * `aaep_to_domain`
 * `leaf_interface_profile`
     * `access_port_selector`
         * `access_group`
@@ -137,14 +151,19 @@ terraformer import aci --help
 * `spine_profile`
     * `spine_switch_association`
     * `spine_port_selector`
+    * `spine_interface_profile_selector`
 * `spine_interface_profile`
+    * `spine_access_port_selector`
 * `spine_port_policy_group`
 * `fabric_if_pol`
 * `node_mgmt_epg`
     * `static_node_mgmt_address`
 * `local_user`
     * `x509_certificate`
+    * `user_security_domain`
+        * `user_security_domain_role`
 * `trigger_scheduler`
+    *  `aci_recurring_window`
 * `spanning_tree_interface_policy`
 * `maintenance_policy`
 * `configuration_export_policy`
@@ -162,7 +181,50 @@ terraformer import aci --help
 * `fc_domain`
 * `pod_maintenance_group`
     * `maintenance_group_node`
-
+* `access_switch_policy_group`
+* `l3_interface_policy`
+* `mgmt_preference`
+* `fabric_node_control`
+* `fabric_wide_settings`
+* `encryption_key`
+* `port_tracking`
+* `coop_policy`
+* `error_disable_recovery`
+* `spine_switch_policy_group`
+* `duo_provider_group`
+    * `login_domain_provider`
+* `ldap_provider`
+* `tacacs_accounting`
+    * `tacacs_accounting_destination`
+* `rsa_provider`
+* `saml_provider_group`
+* `console_authentication`
+* `qos_instance_policy`
+* `mcp_instance_policy`
+* `ldap_group_map`
+    * `ldap_group_map_rule_to_group_map`
+* `file_remote_path`
+* `radius_provider_group`
+* `saml_provider`
+* `vpc_domain_policy`
+* `managed_node_connectivity_group`
+    * `aci_mgmt_zone`
+* `vpc_domain_policy`
+* `endpoint_loop_protection`
+* `endpoint_controls`
+* `endpoint_ip_aging_profile`
+* `annotation`
+* `interface_blacklist`
+* `radius_provider`
+* `default_authentication`
+* `tacacs_provider`
+* `tacacs_provider_group`
+* `tag`
+* `ldap_group_map_rule`
+* `authentication_properties`
+* `isis_domain_policy`
+* `global_security`
+* `login_domain`
 
 #### Attribute filters
 
